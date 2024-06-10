@@ -11,6 +11,7 @@
     "postbuild": "react-snap"
   },
   "dependencies": {
+    "@hookform/resolvers": "^3.6.0",
     "@remixicon/react": "^4.2.0",
     "axios": "^1.7.2",
     "lodash": "^4.17.21",
@@ -20,7 +21,8 @@
     "react-hook-form": "^7.51.5",
     "react-lazy-load-image-component": "^1.6.0",
     "react-router-dom": "^6.23.1",
-    "swiper": "^11.1.4"
+    "swiper": "^11.1.4",
+    "yup": "^1.4.0"
   },
   "devDependencies": {
     "@types/react": "^18.2.66",

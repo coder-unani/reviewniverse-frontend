@@ -1,0 +1,130 @@
+@import url(https://cdn.jsdelivr.net/gh/sun-typeface/SUIT/fonts/variable/woff2/SUIT-Variable.css);
+.wrapper {
+  width: 100%;
+  max-width: 1440px;
+  height: 100%;
+  min-height: calc(var(--vh, 1vh) * 100);
+  margin: 0 auto;
+  background-color: #ffffff;
+}
+
+.header {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 60px;
+  border-bottom: 1px solid rgba(12, 12, 12, 0.1);
+}
+.header .left {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 40px;
+  height: 100%;
+}
+.header .left .logo {
+  cursor: pointer;
+}
+.header .left ul {
+  display: flex;
+  font-size: 15px;
+  letter-spacing: -0.2px;
+}
+.header .left li {
+  position: relative;
+  opacity: 0.5;
+}
+.header .left li a {
+  display: block;
+  padding: 10px 15px;
+  cursor: pointer;
+}
+.header .left li:not(:last-child)::after {
+  position: absolute;
+  top: 50%;
+  right: -2.375px;
+  transform: translateY(-50%);
+  content: "|";
+  display: block;
+  opacity: 0.5;
+}
+.header .left li.active {
+  opacity: 1;
+}
+.header .right {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 20px;
+}
+.header .right input,
+.header .right button {
+  font-size: 15px;
+  color: #0c0c0c;
+  line-height: 1;
+  letter-spacing: -0.2px;
+}
+
+.main {
+  min-height: 100vh;
+  padding: 24px 60px;
+}
+
+.container {
+  padding: 12px 0 24px 0;
+}
+.container .title-wrapper {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+}
+.container .title-wrapper h2 {
+  font-size: 22px;
+  font-weight: 800;
+  color: #0c0c0c;
+  letter-spacing: -0.2px;
+}
+.container .title-wrapper button.more {
+  display: flex;
+  align-items: center;
+  font-size: 15px;
+  color: #0c0c0c;
+  line-height: 1;
+  letter-spacing: -0.2px;
+  opacity: 0.5;
+}
+.container .swiper .img {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 3/4;
+  background-color: rgba(12, 12, 12, 0.1);
+  border-radius: 4px;
+  margin-bottom: 35px;
+}
+.container .swiper .number {
+  position: absolute;
+  bottom: -35px;
+  left: -5px;
+}
+.container .swiper .info {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.container .swiper .info .title {
+  font-size: 16px;
+  font-weight: 500;
+  color: #0c0c0c;
+  letter-spacing: -0.2px;
+}
+.container .swiper .info .sub-title {
+  display: flex;
+  gap: 8px;
+  font-size: 14px;
+  font-weight: 500;
+  color: #0c0c0c;
+  letter-spacing: -0.2px;
+  opacity: 0.8;
+}
