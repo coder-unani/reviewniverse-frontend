@@ -116,6 +116,10 @@ $border-radius: 4px;
   }
 
   .swiper {
+    .swiper-slide {
+      cursor: pointer;
+    }
+
     .img {
       position: relative;
       width: 100%;

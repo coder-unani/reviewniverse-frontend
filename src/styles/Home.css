@@ -95,6 +95,9 @@
   letter-spacing: -0.2px;
   opacity: 0.5;
 }
+.container .swiper .swiper-slide {
+  cursor: pointer;
+}
 .container .swiper .img {
   position: relative;
   width: 100%;

@@ -8,6 +8,14 @@ $color-black: #0c0c0c;
 $border-radius: 4px;
 
 // common
+* {
+  box-sizing: border-box;
+}
+
+html {
+  font-size: 16px;
+}
+
 body {
   margin: 0;
   padding: 0;
@@ -50,4 +58,7 @@ h6,
 p,
 span {
   margin: 0;
+
+  color: $color-black;
+  letter-spacing: -0.2px;
 }

@@ -1,4 +1,12 @@
 @import url(https://cdn.jsdelivr.net/gh/sun-typeface/SUIT/fonts/variable/woff2/SUIT-Variable.css);
+* {
+  box-sizing: border-box;
+}
+
+html {
+  font-size: 16px;
+}
+
 body {
   margin: 0;
   padding: 0;
@@ -40,4 +48,6 @@ h6,
 p,
 span {
   margin: 0;
+  color: #0c0c0c;
+  letter-spacing: -0.2px;
 }
