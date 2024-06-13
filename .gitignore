@@ -12,6 +12,8 @@ dist
 dist-ssr
 *.local
 
+.env
+
 # yarn v2
 .yarn/cache
 .yarn/unplugged
