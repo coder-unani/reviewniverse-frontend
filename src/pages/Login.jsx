@@ -9,17 +9,10 @@ import "/src/styles/Login.css";
 
 /**
  * @todo
- * - 이메일, 비밀번호 유효성 검사
- * - 로그인 API 연동
- * - 로그인 성공 시 메인 페이지로 이동
- * - 로그인 실패 시 에러 메시지 출력
- * - 비밀번호 찾기, 회원가입 페이지로 이동
- * - input focus, blur 시 스타일 변경
- * - input validation error 시 스타일 변경
- * - input validation error 메시지 출력
- * - input validation error 시 버튼 비활성화
- * - input validation error 시 input focus
- * - input clear 버튼 추가
+ * 1. 로그인 API 연동 (카카오: 카카오디펠롭퍼스, 구글: 파이어베이스)
+ * 2. 로그인 성공 시 메인 페이지로 이동
+ * 3. 로그인 실패 시 에러 메시지 출력
+ * 4. 비밀번호 찾기, 회원가입 페이지로 이동
  */
 
 const Login = () => {
