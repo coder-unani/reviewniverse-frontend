@@ -64,6 +64,25 @@
   transition: background-color 0.3s;
 }
 
+.login-footer {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 14px;
+}
+.login-footer a {
+  position: relative;
+  font-size: 14px;
+  color: #888888;
+  padding: 10px 20px;
+}
+.login-footer a:not(:last-child)::after {
+  content: "|";
+  position: absolute;
+  right: -2.375px;
+  display: inline-block;
+  color: #dadada;
+}
+
 .login-sns {
   border-top: 1px solid rgba(12, 12, 12, 0.1);
   padding-top: 24px;

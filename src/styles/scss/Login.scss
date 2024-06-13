@@ -75,6 +75,27 @@
   }
 }
 
+.login-footer {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 14px;
+
+  a {
+    position: relative;
+    font-size: 14px;
+    color: #888888;
+    padding: 10px 20px;
+  }
+
+  a:not(:last-child)::after {
+    content: "|";
+    position: absolute;
+    right: calc(-4.75px / 2);
+    display: inline-block;
+    color: #dadada;
+  }
+}
+
 .login-sns {
   border-top: 1px solid rgba(#0c0c0c, 0.1);
   padding-top: 24px;

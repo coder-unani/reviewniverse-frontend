@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import * as Yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm } from "react-hook-form";
@@ -36,15 +37,16 @@ const Login = () => {
   };
 
   const methods = useForm({
+    mode: "onChange",
     resolver: yupResolver(LoginSchema),
     defaultValues,
   });
 
   const {
     register,
-    reset,
     handleSubmit,
     formState: { errors },
+    reset,
   } = methods;
 
   const onSubmit = handleSubmit(async (data) => {
@@ -61,7 +63,7 @@ const Login = () => {
           // 실패
           if (res.status !== 200) {
             if (res.status == 400 || res.status == 401) {
-              console.log("실패: ", res.message.detail);
+              console.log(res.message.detail);
             }
             return;
           }
@@ -117,17 +119,20 @@ const Login = () => {
             id="password"
             type="password"
             name="password"
-            placeholder="8자 이상 입력해주세요. (문자/숫자/기호 사용 가능)"
-            {...register("password", { required: true })}
+            placeholder="비밀번호를 입력해주세요."
+            {...register("password", {
+              required: true,
+            })}
           />
           {errors.password && <p>비밀번호를 입력해주세요.</p>}
         </div>
         <button type="submit">로그인</button>
       </form>
-      {/* <div className="login-footer">
-        <a href="/forgot-password">비밀번호 찾기</a>
-        <a href="/signup">회원가입</a>
-      </div> */}
+      <div className="login-footer">
+        <Link to="">비밀번호 찾기</Link>
+        <Link to="">아이디 찾기</Link>
+        <Link to="/user/join">회원가입</Link>
+      </div>
       <div className="login-sns">
         <button type="button" className="kakao" onClick={handleKakaoLogin}>
           <img src="/src/assets/kakao.png" alt="kakao" />
