@@ -24,6 +24,55 @@
   }
 }
 
+.join-agree {
+  .title {
+    font-size: 17px;
+    color: #0c0c0c;
+    margin-bottom: 20px;
+  }
+}
+
+.agree-form {
+  margin-bottom: 20px;
+
+  & > div {
+    display: flex;
+    align-items: center;
+    margin-bottom: 12px;
+  }
+
+  & > div:last-of-type {
+    margin-bottom: 20px;
+  }
+
+  .all {
+    border-bottom: 1px solid rgba(#0c0c0c, 0.1);
+    padding-bottom: 12px;
+  }
+
+  label {
+    font-size: 15px;
+    color: #0c0c0c;
+  }
+
+  button[type="submit"] {
+    width: 100%;
+    height: 48px;
+    color: #fff;
+    font-size: 15px;
+    font-weight: 500;
+    border-radius: 4px;
+    background-color: #0c0c0c;
+    cursor: pointer;
+    transition: background-color 0.3s;
+
+    &:disabled {
+      color: rgba(#fff, 0.8);
+      opacity: 0.4;
+    }
+  }
+}
+
 .join-form {
   width: 100%;
   margin: 0 auto 24px;
@@ -77,6 +126,11 @@
     background-color: #0c0c0c;
     cursor: pointer;
     transition: background-color 0.3s;
+
+    &:disabled {
+      color: rgba(#fff, 0.8);
+      opacity: 0.4;
+    }
   }
 }
 
