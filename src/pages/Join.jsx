@@ -1,8 +1,8 @@
 import React, { useState } from "react";
+import JoinAgree from "../components/JoinAgree";
 import JoinForm from "/src/components/JoinForm";
 import Logo from "/src/assets/logo.svg";
 import "/src/styles/Join.css";
-import JoinAgree from "../components/JoinAgree";
 
 /**
  * @TODO

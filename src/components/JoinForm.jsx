@@ -1,7 +1,8 @@
-import React from "react";
+import React, { useEffect } from "react";
 import * as Yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm } from "react-hook-form";
+import HttpClient from "/src/utils/HttpClient";
 
 const JoinForm = (props) => {
   // 회원가입 유효성 검사
@@ -46,8 +47,10 @@ const JoinForm = (props) => {
   const {
     register,
     handleSubmit,
+    watch,
     formState: { errors, isDirty, isValid },
     reset,
+    trigger,
   } = methods;
 
   const onSubmit = handleSubmit(async (data) => {
@@ -79,9 +82,41 @@ const JoinForm = (props) => {
     }
   });
 
+  useEffect(() => {
+    const subscription = watch((value, { name }) => {
+      if (name === "nickname") {
+        trigger("nickname").then((isValid) => {
+          if (isValid) {
+            try {
+              // 닉네임 중복 체크
+              const client = new HttpClient();
+              client
+                .get(`https://comet.orbitcode.kr/v1/finds/users/nickname`, {
+                  nickname: value.nickname,
+                })
+                .then((res) => {
+                  console.log(res);
+                  // 실패
+                  if (res.status !== 200) {
+                    console.log(res.message.detail);
+                    return;
+                  }
+                  // 성공
+                  console.log(res.data.message);
+                });
+            } catch (error) {
+              console.error(error);
+              reset();
+            }
+          }
+        });
+      }
+    });
+
+    return () => subscription.unsubscribe();
+  }, [watch, trigger]);
   return (
     <form method={methods} onSubmit={onSubmit} className="join-form">
-      <input hidden type="text" name="type" value="10" />
       <div>
         <label htmlFor="nickname">닉네임</label>
         <input
