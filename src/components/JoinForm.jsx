@@ -4,7 +4,21 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm } from "react-hook-form";
 import HttpClient from "/src/utils/HttpClient";
 
+/**
+ * @todo
+ * 1. 닉네임 중복 체크 (blur, keyup 이벤트)
+ * 2. 이메일 중복 체크 (blur, keyup 이벤트)
+ * 3. ? 이메일 인증 (인증번호 발송, 인증번호 입력)
+ * 3. 랜덤 닉네임 생성 (버튼 클릭 시)
+ * 4. 유효성 검사 추가
+ * 4-1. 닉네임: 한글, 영문, 숫자만 입력 가능, 2~20자
+ * 4-2. 이메일: 이메일 형식, 5~50자
+ * 4-3. 비밀번호: 영문 대/소문자, 숫자, 특수문자를 모두 포함, 8~22자
+ */
+
 const JoinForm = (props) => {
+  const { agreeValues } = props;
+
   // 회원가입 유효성 검사
   const JoinSchema = Yup.object().shape({
     nickname: Yup.string()
@@ -58,11 +72,15 @@ const JoinForm = (props) => {
       // 회원가입 처리
       const client = new HttpClient();
       client
-        .post("https://comet.orbitcode.kr/v1/users/create", {
+        .post("https://comet.orbitcode.kr/v1/users", {
           type: "10",
+          nickname: data.nickname,
           email: data.email,
           password: data.password,
-          nickname: data.nickname,
+          is_privacy_agree: agreeValues.privacy,
+          is_terms_agree: agreeValues.terms,
+          is_age_agree: agreeValues.age,
+          is_marketing_agree: agreeValues.marketing,
         })
         .then((res) => {
           // 실패
@@ -95,7 +113,34 @@ const JoinForm = (props) => {
                   nickname: value.nickname,
                 })
                 .then((res) => {
-                  console.log(res);
+                  // 실패
+                  if (res.status !== 200) {
+                    console.log(res.message.detail);
+                    return;
+                  }
+                  // 성공
+                  console.log(res.code, res.data.message);
+
+                  // 존재하지 않는 닉네임일 경우 통과
+                  // 존재하는 닉네임일 경우 에러 메시지 출력
+                });
+            } catch (error) {
+              console.error(error);
+              reset();
+            }
+          }
+        });
+      } else if (name === "email") {
+        trigger("email").then((isValid) => {
+          if (isValid) {
+            try {
+              // 이메일 중복 체크
+              const client = new HttpClient();
+              client
+                .get(`https://comet.orbitcode.kr/v1/finds/users/email`, {
+                  email: value.email,
+                })
+                .then((res) => {
                   // 실패
                   if (res.status !== 200) {
                     console.log(res.message.detail);
@@ -103,6 +148,10 @@ const JoinForm = (props) => {
                   }
                   // 성공
                   console.log(res.data.message);
+
+                  // 존재하지 않는 이메일일 경우 통과
+                  // 존재하는 이메일일 경우 에러 메시지 출력
+                  // 가입되어 있는 type 구분을 통해 sns로 가입되어 있는지, 이메일로 가입되어 있는지 구분하여 처리
                 });
             } catch (error) {
               console.error(error);
@@ -115,6 +164,7 @@ const JoinForm = (props) => {
 
     return () => subscription.unsubscribe();
   }, [watch, trigger]);
+
   return (
     <form method={methods} onSubmit={onSubmit} className="join-form">
       <div>
@@ -126,7 +176,7 @@ const JoinForm = (props) => {
           placeholder="한글/영문 20자 이내로 입력해주세요."
           {...register("nickname", { required: true })}
         />
-        <p className="error">{errors.nickname?.message}</p>
+        {errors.nickname && <p className="error">{errors.nickname?.message}</p>}
       </div>
       <div>
         <label htmlFor="email">이메일</label>
@@ -137,7 +187,7 @@ const JoinForm = (props) => {
           placeholder="이메일 주소를 입력해주세요."
           {...register("email", { required: true })}
         />
-        <p className="error">{errors.email?.message}</p>
+        {errors.email && <p className="error">{errors.email?.message}</p>}
       </div>
       <div>
         <label htmlFor="password">비밀번호</label>
@@ -148,7 +198,7 @@ const JoinForm = (props) => {
           placeholder="비밀번호를 입력해주세요."
           {...register("password", { required: true })}
         />
-        <p className="error">{errors.password?.message}</p>
+        {errors.password && <p className="error">{errors.password?.message}</p>}
       </div>
       <button type="submit" disabled={!isDirty || !isValid}>
         가입하기

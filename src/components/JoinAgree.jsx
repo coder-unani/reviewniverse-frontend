@@ -3,15 +3,16 @@ import React, { useEffect } from "react";
 import { useForm } from "react-hook-form";
 
 /**
- * @TODO
+ * @todo
  * 1. 모두 동의하기 기능 추가
  * 1-1. onChange로 했을 경우, 체크 해제시 버튼이 disabled 되지 않음
  * 1-2. onClick으로 변경함
+ * 2. 선택한 약관 동의 전달
  */
 
 const JoinAgree = (props) => {
-  const { setIsAgree } = props;
-  const agrees = ["agree1", "agree2", "agree3", "agree4"];
+  const { setIsAgree, setAgreeValues } = props;
+  const agrees = ["terms", "privacy", "age", "marketing"];
 
   const {
     register,
@@ -22,6 +23,13 @@ const JoinAgree = (props) => {
 
   const onSubmit = handleSubmit(() => {
     setIsAgree(isValid);
+
+    // 선택한 약관 동의 전달하기
+    const agreeValues = {};
+    agrees.forEach((agree) => {
+      set(agreeValues, agree, true);
+    });
+    setAgreeValues(agreeValues);
   });
 
   const handleSelectAll = (e) => {
@@ -54,45 +62,45 @@ const JoinAgree = (props) => {
         </div>
         <div>
           <input
-            id="agree1"
+            id="terms"
             type="checkbox"
-            name="agree1"
-            {...register("agree1", { required: true })}
+            name="terms"
+            {...register("terms", { required: true })}
           />
-          <label htmlFor="agree1">
+          <label htmlFor="terms">
             <span>[필수] 이용약관에 동의합니다.</span>
           </label>
         </div>
         <div>
           <input
-            id="agree2"
+            id="privacy"
             type="checkbox"
-            name="agree2"
-            {...register("agree2", { required: true })}
+            name="privacy"
+            {...register("privacy", { required: true })}
           />
-          <label htmlFor="agree2">
+          <label htmlFor="privacy">
             <span>[필수] 개인정보 수집 및 이용에 동의합니다.</span>
           </label>
         </div>
         <div>
           <input
-            id="agree3"
+            id="age"
             type="checkbox"
-            name="agree3"
-            {...register("agree3", { required: true })}
+            name="age"
+            {...register("age", { required: true })}
           />
-          <label htmlFor="agree3">
+          <label htmlFor="age">
             <span>[필수] 본인은 만 14세 이상입니다.</span>
           </label>
         </div>
         <div>
           <input
-            id="agree4"
+            id="marketing"
             type="checkbox"
-            name="agree4"
-            {...register("agree4")}
+            name="marketing"
+            {...register("marketing")}
           />
-          <label htmlFor="agree4">
+          <label htmlFor="marketing">
             <span>
               [선택] 이벤트 및 기타 혜택 등에 대한 알림 수신에 동의합니다.
             </span>
