@@ -53,7 +53,6 @@ class HttpClient {
           return this.responseHandler(response);
         })
         .catch((reason) => {
-          console.log(reason);
           return this.errorHandler(reason);
         });
     } catch (reason) {
