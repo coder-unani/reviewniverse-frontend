@@ -50,13 +50,14 @@ const Login = () => {
       const client = new HttpClient();
       client
         .post("https://comet.orbitcode.kr/v1/users/login", {
+          type: "10",
           email: data.email,
           password: data.password,
         })
         .then((res) => {
           // 실패
           if (res.status !== 200) {
-            if (res.status == 400 || res.status == 401) {
+            if (res.status === 400 || res.status === 401) {
               console.log(res.message.detail);
             }
             return;
@@ -105,7 +106,7 @@ const Login = () => {
             placeholder="이메일 주소를 입력해주세요."
             {...register("email", { required: true })}
           />
-          {errors.email && <p>이메일 주소를 입력해주세요.</p>}
+          {errors.email && <p className="error">이메일 주소를 입력해주세요.</p>}
         </div>
         <div>
           <label htmlFor="password">비밀번호</label>
@@ -118,7 +119,7 @@ const Login = () => {
               required: true,
             })}
           />
-          {errors.password && <p>비밀번호를 입력해주세요.</p>}
+          {errors.password && <p className="error">비밀번호를 입력해주세요.</p>}
         </div>
         <button type="submit">로그인</button>
       </form>
