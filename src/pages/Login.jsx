@@ -4,17 +4,11 @@ import * as Yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm } from "react-hook-form";
 import HttpClient from "/src/utils/HttpClient";
+import { cLog } from "/src/utils/test";
 import Logo from "/src/assets/logo.svg";
 import "/src/styles/Login.css";
 
-/**
- * TODO:
- * 1. 로그인 API 연동 (카카오: 카카오디펠롭퍼스, 구글: 파이어베이스)
- * 2. 로그인 성공 시 메인 페이지로 이동
- * 3. 로그인 실패 시 에러 메시지 출력
- * 4. 비밀번호 찾기, 회원가입 페이지로 이동
- * 5. 카카오, 구글 계정 연동 로그인
- */
+// TODO: authContext 사용하여 로그인 처리
 
 const Login = () => {
   // 로그인 유효성 검사
@@ -58,7 +52,8 @@ const Login = () => {
           // 실패
           if (res.status !== 200) {
             if (res.status === 400 || res.status === 401) {
-              console.log(res.message.detail);
+              // TODO: 에러 메시지 출력
+              cLog("로그인에 실패하였습니다.");
             }
             return;
           }
@@ -73,21 +68,21 @@ const Login = () => {
           }
         });
     } catch (error) {
-      console.log(error);
+      cLog(error);
       reset();
     }
   });
 
-  // 비밀번호 입력 후 엔터키 입력하면 로그인 처리 구현
+  // TODO: 비밀번호 입력 후 엔터키 입력하면 로그인 처리 구현
 
-  // 카카오 계정 연동 로그인 구현
+  // TODO: 카카오 계정 연동 로그인 구현 (카카오디펠롭퍼스 API 연동)
   const handleKakaoLogin = () => {
-    console.log("카카오 로그인");
+    cLog("카카오 로그인");
   };
 
-  // 구글 계정 연동 로그인 구현
+  // TODO: 구글 계정 연동 로그인 구현 (파이어베이스 API 연동)
   const handleGoogleLogin = () => {
-    console.log("구글 로그인");
+    cLog("구글 로그인");
   };
 
   return (
