@@ -20,7 +20,7 @@ const Home = () => {
           <h2 className="title">🎬 박스오피스 순위</h2>
           <button className="more">
             더보기
-            <RiArrowRightSLine width={20} height={20} />
+            <RiArrowRightSLine size={20} />
           </button>
         </div>
         <Swiper {...swiperConfig}>
