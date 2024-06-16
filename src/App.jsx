@@ -4,7 +4,7 @@ import router from "/src/routes";
 import "/src/styles/App.css";
 
 /**
- * @todo
+ * TODO:
  * 0. 페이지 라우팅
  * 4-1. 아이디, 비밀번호 입력
  * 4-2. 로그인 버튼 클릭 시 로그인 처리

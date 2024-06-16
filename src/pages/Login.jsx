@@ -8,7 +8,7 @@ import Logo from "/src/assets/logo.svg";
 import "/src/styles/Login.css";
 
 /**
- * @todo
+ * TODO:
  * 1. 로그인 API 연동 (카카오: 카카오디펠롭퍼스, 구글: 파이어베이스)
  * 2. 로그인 성공 시 메인 페이지로 이동
  * 3. 로그인 실패 시 에러 메시지 출력

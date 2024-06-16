@@ -5,7 +5,7 @@ import Logo from "/src/assets/logo.svg";
 import "/src/styles/Join.css";
 
 /**
- * @todo
+ * TODO:
  * 4-4. input focus, blur 시 스타일 변경
  * 4-5. input validation error 시 스타일 변경
  * 4-6. input validation error 메시지 출력
