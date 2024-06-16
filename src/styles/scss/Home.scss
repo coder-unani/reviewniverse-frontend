@@ -43,12 +43,12 @@ $border-radius: 4px;
 
     li {
       position: relative;
-      opacity: 0.5;
 
       a {
         display: block;
         padding: 10px 15px;
         cursor: pointer;
+        opacity: 0.5;
       }
 
       &:not(:last-child)::after {
@@ -61,7 +61,7 @@ $border-radius: 4px;
         opacity: 0.5;
       }
 
-      &.active {
+      &.active a {
         opacity: 1;
       }
     }

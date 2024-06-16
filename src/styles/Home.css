@@ -33,12 +33,12 @@
 }
 .header .left li {
   position: relative;
-  opacity: 0.5;
 }
 .header .left li a {
   display: block;
   padding: 10px 15px;
   cursor: pointer;
+  opacity: 0.5;
 }
 .header .left li:not(:last-child)::after {
   position: absolute;
@@ -49,7 +49,7 @@
   display: block;
   opacity: 0.5;
 }
-.header .left li.active {
+.header .left li.active a {
   opacity: 1;
 }
 .header .right {
