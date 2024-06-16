@@ -13,6 +13,7 @@ dist-ssr
 *.local
 
 .env
+.env.*
 
 # yarn v2
 .yarn/cache
