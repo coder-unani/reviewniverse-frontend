@@ -79,7 +79,7 @@ class HttpClient {
     return {
       status: response.status,
       code: response.headers.code,
-      message: response.data.message,
+      message: response.data?.message,
       data: response.data,
     };
   }
