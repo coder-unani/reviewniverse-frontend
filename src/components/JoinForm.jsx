@@ -3,17 +3,22 @@ import * as Yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm } from "react-hook-form";
 import HttpClient from "/src/utils/HttpClient";
+import { cLog, cError } from "/src/utils/test";
 
 /**
- * @todo
+ * TODO:
  * 1. 닉네임 중복 체크 (blur, keyup 이벤트)
  * 2. 이메일 중복 체크 (blur, keyup 이벤트)
+ * 2-1. 중복체크 실패시 가입 버튼 비활성화
  * 3. ? 이메일 인증 (인증번호 발송, 인증번호 입력)
  * 3. 랜덤 닉네임 생성 (버튼 클릭 시)
  * 4. 유효성 검사 추가
  * 4-1. 닉네임: 한글, 영문, 숫자만 입력 가능, 2~20자
  * 4-2. 이메일: 이메일 형식, 5~50자
  * 4-3. 비밀번호: 영문 대/소문자, 숫자, 특수문자를 모두 포함, 8~22자
+ * 4-4. 비밀번호 보기/숨기기 (아이콘 클릭 시)
+ * 4-5. ? 비밀번호 확인 (비밀번호와 동일한지 확인)
+ * 5. ? submit 시 중복체크 및 유효성 검사
  */
 
 const JoinForm = (props) => {
@@ -55,12 +60,13 @@ const JoinForm = (props) => {
   const methods = useForm({
     resolver: yupResolver(JoinSchema),
     defaultValues,
-    mode: "onChange",
+    mode: "onSubmit",
   });
 
   const {
     register,
     handleSubmit,
+    setError,
     watch,
     formState: { errors, isDirty, isValid },
     reset,
@@ -86,16 +92,16 @@ const JoinForm = (props) => {
           // 실패
           if (res.status !== 201) {
             if (res.status == 400 || res.status == 401) {
-              console.log(res.message.detail);
+              cLog(res.message.detail);
             }
             return;
           }
           // 성공
-          console.log(res.data.message);
+          cLog("회원가입을 축하합니다.");
           // 회원가입 성공 시 회원가입 성공 페이지로 이동
         });
     } catch (error) {
-      console.error(error);
+      cError(error);
       reset();
     }
   });
@@ -105,29 +111,32 @@ const JoinForm = (props) => {
       if (name === "nickname") {
         trigger("nickname").then((isValid) => {
           if (isValid) {
-            try {
-              // 닉네임 중복 체크
-              const client = new HttpClient();
-              client
-                .get(`https://comet.orbitcode.kr/v1/finds/users/nickname`, {
-                  nickname: value.nickname,
-                })
-                .then((res) => {
-                  // 실패
-                  if (res.status !== 200) {
-                    console.log(res.message.detail);
-                    return;
-                  }
+            // 닉네임 중복 체크
+            const client = new HttpClient();
+            client
+              .get(`https://comet.orbitcode.kr/v1/validation/users/nickname`, {
+                nickname: value.nickname,
+              })
+              .then((res) => {
+                if (res.status === 204 && res.code === "VALID_NICK_SUCC") {
                   // 성공
-                  console.log(res.code, res.data.message);
-
-                  // 존재하지 않는 닉네임일 경우 통과
+                  // 존재하지 않는 닉네임일 경우 input check 표시
+                  cLog("닉네임: ", watch("nickname"));
+                } else {
+                  // 실패
                   // 존재하는 닉네임일 경우 에러 메시지 출력
-                });
-            } catch (error) {
-              console.error(error);
-              reset();
-            }
+                  setError("nickname", {
+                    type: "manual",
+                    message: "이미 사용중인 닉네임입니다.",
+                  });
+                  cLog("닉네임: ", watch("nickname"));
+                }
+              })
+              .catch((error) => {
+                // cError(error);
+                cLog(error);
+                reset();
+              });
           }
         });
       } else if (name === "email") {
@@ -137,24 +146,31 @@ const JoinForm = (props) => {
               // 이메일 중복 체크
               const client = new HttpClient();
               client
-                .get(`https://comet.orbitcode.kr/v1/finds/users/email`, {
+                .get(`https://comet.orbitcode.kr/v1/validation/users/email`, {
                   email: value.email,
                 })
                 .then((res) => {
-                  // 실패
-                  if (res.status !== 200) {
-                    console.log(res.message.detail);
-                    return;
+                  if (res.status === 204 && res.code === "VALID_EMAIL_SUCC") {
+                    // 성공
+                    // 존재하지 않는 이메일일 경우 통과
+                    cLog("이메일: ", watch("email"));
+                  } else {
+                    // 존재하는 이메일일 경우 에러 메시지 출력
+                    // 가입되어 있는 type 구분을 통해 sns로 가입되어 있는지, 이메일로 가입되어 있는지 구분하여 처리
+                    setError("email", {
+                      type: "manual",
+                      message: "이미 사용중인 이메일입니다.",
+                    });
+                    cLog("이메일: ", watch("email"));
                   }
-                  // 성공
-                  console.log(res.data.message);
-
-                  // 존재하지 않는 이메일일 경우 통과
-                  // 존재하는 이메일일 경우 에러 메시지 출력
-                  // 가입되어 있는 type 구분을 통해 sns로 가입되어 있는지, 이메일로 가입되어 있는지 구분하여 처리
+                })
+                .catch((error) => {
+                  // cError(error);
+                  cLog(error);
+                  reset();
                 });
             } catch (error) {
-              console.error(error);
+              cError(error);
               reset();
             }
           }
@@ -163,7 +179,7 @@ const JoinForm = (props) => {
     });
 
     return () => subscription.unsubscribe();
-  }, [watch, trigger]);
+  }, [watch, trigger, setError]);
 
   return (
     <form method={methods} onSubmit={onSubmit} className="join-form">
