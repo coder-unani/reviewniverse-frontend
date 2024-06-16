@@ -8,12 +8,19 @@ $color-black: #0c0c0c;
 $border-radius: 4px;
 
 // common
-* {
-  box-sizing: border-box;
+*,
+*::before,
+*::after {
+  -webkit-box-sizing: inherit;
+  -moz-box-sizing: inherit;
+  box-sizing: inherit;
 }
 
 html {
   font-size: 16px;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
 }
 
 body {
@@ -61,4 +68,8 @@ span {
 
   color: $color-black;
   letter-spacing: -0.2px;
+}
+
+figure {
+  margin: 0;
 }
