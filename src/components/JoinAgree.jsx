@@ -1,12 +1,13 @@
-import { set } from "lodash";
 import React, { useEffect } from "react";
 import { useForm } from "react-hook-form";
+import { set } from "lodash";
 
 /**
- * @todo
+ * TODO:
  * 1. 모두 동의하기 기능 추가
  * 1-1. onChange로 했을 경우, 체크 해제시 버튼이 disabled 되지 않음
  * 1-2. onClick으로 변경함
+ * 1-3. 동의 항목 중 하나라도 체크 해제 시, 모두 동의하기 체크 해제
  * 2. 선택한 약관 동의 전달
  */
 
@@ -16,8 +17,10 @@ const JoinAgree = (props) => {
 
   const {
     register,
-    setValue,
     handleSubmit,
+    setValue,
+    getValues,
+    watch,
     formState: { errors, isValid },
   } = useForm();
 
@@ -25,9 +28,10 @@ const JoinAgree = (props) => {
     setIsAgree(isValid);
 
     // 선택한 약관 동의 전달하기
+    const values = getValues();
     const agreeValues = {};
     agrees.forEach((agree) => {
-      set(agreeValues, agree, true);
+      set(agreeValues, agree, values[agree]);
     });
     setAgreeValues(agreeValues);
   });
@@ -43,6 +47,13 @@ const JoinAgree = (props) => {
       });
     }
   };
+
+  // 동의 항목 중 하나라도 체크 해제 시, 모두 동의하기 체크 해제
+  const allAgrees = watch(agrees);
+  useEffect(() => {
+    const allChecked = allAgrees.every((agree) => agree === true);
+    setValue("all", allChecked, { shouldValidate: false });
+  }, [allAgrees, setValue]);
 
   return (
     <div className="join-agree">
