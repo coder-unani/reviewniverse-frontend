@@ -208,6 +208,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@fontsource/inter@npm:^5.0.18":
+  version: 5.0.18
+  resolution: "@fontsource/inter@npm:5.0.18"
+  checksum: 10c0/87863160b18a3a2b2cc0b2949b41b4072f422efb672f183a8fa2ae19bd803da18ec24a65344c42c1686c73e1b65bb4a7cd64ce5c0f015872c5f5dcba4e64bf92
+  languageName: node
+  linkType: hard
+
 "@hookform/resolvers@npm:^3.6.0":
   version: 3.6.0
   resolution: "@hookform/resolvers@npm:3.6.0"
@@ -2170,6 +2177,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "frontend@workspace:."
   dependencies:
+    "@fontsource/inter": "npm:^5.0.18"
     "@hookform/resolvers": "npm:^3.6.0"
     "@remixicon/react": "npm:^4.2.0"
     "@types/react": "npm:^18.2.66"
