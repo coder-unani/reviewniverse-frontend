@@ -1,5 +1,5 @@
 /**
- * @todo
+ * TODO:
  * 0. 메인 페이지
  * 1. 영화 페이지
  * 2. 시리즈 페이지
@@ -16,6 +16,7 @@ import DefaultLayout from "/src/layouts/default";
 import Home from "/src/pages/Home";
 import Movie from "/src/pages/Movie";
 import Series from "/src/pages/Series";
+import Content from "../pages/Content";
 
 const MainRoutes = {
   path: "/",
@@ -32,6 +33,10 @@ const MainRoutes = {
     {
       path: "/series",
       element: <Series />,
+    },
+    {
+      path: "/contents/:contentId",
+      element: <Content />,
     },
   ],
 };
