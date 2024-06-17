@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 import HttpClient from "/src/utils/HttpClient";
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import "react-lazy-load-image-component/src/effects/blur.css";
-import { RiArrowRightSLine } from "@remixicon/react";
+import { find } from "lodash";
 import { cLog, cError } from "/src/utils/test";
+import { RiArrowRightSLine } from "@remixicon/react";
 
 /**
  * TODO:
@@ -13,6 +15,7 @@ import { cLog, cError } from "/src/utils/test";
  * 4. 100순위까지 표시
  * 5. 캐싱 처리
  * 6. 정렬 기준 추가 (조회수, 좋아요, 최신, 일간, 주간, 월간 등)
+ * 7. no-image 이미지 추가
  */
 
 const MainRanking = () => {
@@ -35,6 +38,15 @@ const MainRanking = () => {
       cError(error);
     }
   }, []);
+
+  // 콘텐츠 썸네일 이미지 포맷
+  const formatThumbnail = (images) => {
+    // 썸네일 이미지 배열 중에서 type이 10인 이미지만 렌더링
+    // type이 10인 이미지가 없을 경우 type이 11인 이미지 렌더링
+    const thumbnail =
+      find(images, { type: "10" }) || find(images, { type: "11" });
+    return thumbnail.url;
+  };
 
   // 랭킹 숫자 포맷
   const formatNumber = (number) => {
@@ -59,24 +71,26 @@ const MainRanking = () => {
       <div className="content-wrapper">
         {movies.map((movie, index) => (
           <article className="content" key={index}>
-            <div className="img-wrapper">
-              <figure className="thumbnail">
-                <LazyLoadImage
-                  src={movie.thumbnail[0].url}
-                  alt="썸네일"
-                  effect="blur"
-                />
-              </figure>
-              <div className="number">{formatNumber(index + 1)}</div>
-            </div>
-            <div className="info">
-              <p className="title">{movie.title}</p>
-              <div className="sub-title">
-                <span>{movie.release}</span>
-                <span>|</span>
-                <span>국가</span>
+            <Link to={`/contents/${movie.id}`}>
+              <div className="img-wrapper">
+                <figure className="thumbnail">
+                  <LazyLoadImage
+                    src={formatThumbnail(movie.thumbnail)}
+                    alt="썸네일"
+                    effect="blur"
+                  />
+                </figure>
+                <div className="number">{formatNumber(index + 1)}</div>
               </div>
-            </div>
+              <div className="info">
+                <p className="title">{movie.title}</p>
+                <div className="sub-title">
+                  <span>{movie.release}</span>
+                  <span>|</span>
+                  <span>국가</span>
+                </div>
+              </div>
+            </Link>
           </article>
         ))}
       </div>
