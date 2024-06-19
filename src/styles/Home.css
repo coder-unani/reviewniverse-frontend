@@ -197,7 +197,7 @@
   height: 100%;
   border-radius: 4px;
   object-fit: cover;
-  object-position: top 50% right 15%;
+  object-position: top 50% right 20%;
 }
 .container .img-wrapper .number {
   position: absolute;
