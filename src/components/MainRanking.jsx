@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import HttpClient from "/src/utils/HttpClient";
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import "react-lazy-load-image-component/src/effects/blur.css";
-import { find } from "lodash";
+import { find, isEmpty } from "lodash";
 import { cLog, cError } from "/src/utils/test";
 import { RiArrowRightSLine } from "@remixicon/react";
 
@@ -41,10 +41,12 @@ const MainRanking = () => {
 
   // 콘텐츠 썸네일 이미지 포맷
   const formatThumbnail = (images) => {
+    // TODO: 이미지가 없을 경우 no-image 이미지 반환
+    if (isEmpty(images)) return null;
     // 썸네일 이미지 배열 중에서 type이 10인 이미지만 렌더링
     // type이 10인 이미지가 없을 경우 type이 11인 이미지 렌더링
     const thumbnail =
-      find(images, { type: "10" }) || find(images, { type: "11" });
+      find(images, { type: "10" }) ?? find(images, { type: "11" });
     return thumbnail.url;
   };
 
@@ -52,12 +54,14 @@ const MainRanking = () => {
   const formatNumber = (number) => {
     // 숫자 한자리씩 잘라서 배열에 저장
     const numbers = number.toString().split("");
-
     // 배열 반복해서 number-{}.svg 이미지 추가해서 반환
     return numbers.map((num, index) => (
       <img key={index} src={`/src/assets/number-${num}.svg`} alt={num} />
     ));
   };
+
+  // contents 값이 없을 경우 null 반환
+  if (isEmpty(movies)) return null;
 
   return (
     <section className="container">
