@@ -5,6 +5,7 @@
   -webkit-box-sizing: inherit;
   -moz-box-sizing: inherit;
   box-sizing: inherit;
+  -webkit-font-smoothing: antialiased;
 }
 
 html {
@@ -17,7 +18,6 @@ html {
 body {
   margin: 0;
   padding: 0;
-  background-color: #0c0c0c;
   font-family: "SUIT Variable", sans-serif;
   color: #0c0c0c;
 }

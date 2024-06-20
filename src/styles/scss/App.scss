@@ -14,6 +14,7 @@ $border-radius: 4px;
   -webkit-box-sizing: inherit;
   -moz-box-sizing: inherit;
   box-sizing: inherit;
+  -webkit-font-smoothing: antialiased;
 }
 
 html {
@@ -26,7 +27,6 @@ html {
 body {
   margin: 0;
   padding: 0;
-  background-color: $color-black;
 
   font-family: "SUIT Variable", sans-serif;
   color: $color-black;
