@@ -89,32 +89,34 @@ const Header = () => {
   };
 
   return (
-    <header className="header">
-      <div className="left">
-        <Link to="/">
-          <img src={Logo} className="logo" alt="logo" />
-        </Link>
-        <ul className="menu">
-          <li
-            className={activeMenu === "movie" ? "active" : ""}
-            onClick={() => handleMenuClick("movie")}
-          >
-            <Link to="/movie">영화</Link>
-          </li>
-          <li
-            className={activeMenu === "series" ? "active" : ""}
-            onClick={() => handleMenuClick("series")}
-          >
-            <Link to="/series">시리즈</Link>
-          </li>
-        </ul>
-      </div>
-      <div className="right">
-        <div className="search">
-          <RiSearchLine size={20} />
-          <input type="text" placeholder="검색어를 입력하세요." />
+    <header className="header-wrapper">
+      <div className="header">
+        <div className="left">
+          <Link to="/">
+            <img src={Logo} className="logo" alt="logo" />
+          </Link>
+          <ul className="menu">
+            <li
+              className={activeMenu === "movie" ? "active" : ""}
+              onClick={() => handleMenuClick("movie")}
+            >
+              <Link to="/movie">영화</Link>
+            </li>
+            <li
+              className={activeMenu === "series" ? "active" : ""}
+              onClick={() => handleMenuClick("series")}
+            >
+              <Link to="/series">시리즈</Link>
+            </li>
+          </ul>
         </div>
-        {user ? renderProfileButton() : renderLoginButton()}
+        <div className="right">
+          <div className="search">
+            <RiSearchLine size={20} />
+            <input type="text" placeholder="검색어를 입력하세요." />
+          </div>
+          {user ? renderProfileButton() : renderLoginButton()}
+        </div>
       </div>
     </header>
   );
