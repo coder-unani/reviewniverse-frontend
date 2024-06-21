@@ -6,6 +6,7 @@ import "react-lazy-load-image-component/src/effects/blur.css";
 import { find, isEmpty } from "lodash";
 import { cLog, cError } from "/src/utils/test";
 import { RiArrowRightSLine } from "@remixicon/react";
+import { formatDate, formatYear } from "/src/utils/format";
 
 /**
  * TODO:
@@ -16,6 +17,7 @@ import { RiArrowRightSLine } from "@remixicon/react";
  * 5. 캐싱 처리
  * 6. 정렬 기준 추가 (조회수, 좋아요, 최신, 일간, 주간, 월간 등)
  * 7. no-image 이미지 추가
+ * 8. 데이터 포맷 로직 추가
  */
 
 const MainRanking = () => {
@@ -89,7 +91,7 @@ const MainRanking = () => {
               <div className="info">
                 <p className="title">{movie.title}</p>
                 <div className="sub-title">
-                  <span>{movie.release}</span>
+                  <span>{formatYear(movie.release)}</span>
                   <span>|</span>
                   <span>국가</span>
                 </div>
