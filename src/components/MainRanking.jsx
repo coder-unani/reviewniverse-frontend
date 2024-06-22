@@ -10,7 +10,7 @@ import { formatDate, formatYear } from "/src/utils/format";
 
 /**
  * TODO:
- * 1. ? 페이지네이션 추가
+ * 1. ? 페이지네이션 추가 -> 무한 스크롤로 변경
  * 2. 비디오 API 연동
  * 3. 세로 썸네일만 표시
  * 4. 100순위까지 표시
@@ -23,6 +23,7 @@ import { formatDate, formatYear } from "/src/utils/format";
 const MainRanking = (props) => {
   const { type } = props;
   const [movies, setMovies] = useState([]);
+  const noImageImg = "/src/assets/no-image.png";
   const page = 1;
   const pageSize = 20;
 
@@ -88,7 +89,7 @@ const MainRanking = (props) => {
               <div className="img-wrapper">
                 <figure className="thumbnail">
                   <LazyLoadImage
-                    src={formatThumbnail(movie.thumbnail)}
+                    src={formatThumbnail(movie.thumbnail) || noImageImg}
                     alt="썸네일"
                     effect="blur"
                   />
