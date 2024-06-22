@@ -12,7 +12,7 @@
   left: 0;
   width: 100%;
   border-bottom: 1px solid rgba(12, 12, 12, 0.1);
-  background-color: rgba(255, 255, 255, 0.9);
+  background-color: rgba(255, 255, 255, 0.7);
   backdrop-filter: blur(25px);
   -webkit-backdrop-filter: blur(25px);
   transition: all 0.2s ease-in-out;
@@ -27,6 +27,12 @@
 }
 .header-wrapper.transparent .header {
   color: #ffffff;
+}
+.header-wrapper.transparent .header .left li a {
+  opacity: 0.7;
+}
+.header-wrapper.transparent .header .left li:not(:last-child)::after {
+  opacity: 0.7;
 }
 .header-wrapper.transparent .header .right input,
 .header-wrapper.transparent .header .right button {

@@ -9,11 +9,9 @@ $border-radius: 4px;
 
 .wrapper {
   width: 100%;
-  // max-width: 1440px;
   height: 100%;
   min-height: calc(var(--vh, 1vh) * 100);
   margin: 0 auto;
-  // background-color: $color-white;
 }
 
 .header-wrapper {
@@ -22,7 +20,7 @@ $border-radius: 4px;
   left: 0;
   width: 100%;
   border-bottom: 1px solid rgba($color-black, 0.1);
-  background-color: rgba($color-white, 0.9);
+  background-color: rgba($color-white, 0.7);
   backdrop-filter: blur(25px);
   -webkit-backdrop-filter: blur(25px);
   transition: all 0.2s ease-in-out;
@@ -37,6 +35,18 @@ $border-radius: 4px;
 
     .header {
       color: $color-white;
+
+      .left {
+        li {
+          a {
+            opacity: 0.7;
+          }
+
+          &:not(:last-child)::after {
+            opacity: 0.7;
+          }
+        }
+      }
 
       .right {
         input,
