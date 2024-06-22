@@ -64,6 +64,8 @@ const Login = () => {
             sessionStorage.setItem("user", user);
             sessionStorage.setItem("access_token", res.data.access_token);
             sessionStorage.setItem("refresh_token", res.data.refresh_token);
+
+            // TODO: 이전 페이지로 이동
             window.location.href = "/";
           }
         });
