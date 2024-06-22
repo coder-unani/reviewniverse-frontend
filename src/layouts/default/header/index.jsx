@@ -61,9 +61,7 @@ const Header = () => {
 
   // 로그인 여부에 따라 프로필 또는 로그인 버튼 렌더링
   const renderProfileButton = () => {
-    const profileImage = user.profile_image
-      ? user.profile_image
-      : "/src/assets/profile-default.png";
+    const profileImage = user.profile_image || "/src/assets/no-profile.png";
 
     return (
       <div className="profile">
