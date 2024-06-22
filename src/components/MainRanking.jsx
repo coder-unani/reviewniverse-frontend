@@ -20,14 +20,21 @@ import { formatDate, formatYear } from "/src/utils/format";
  * 8. 데이터 포맷 로직 추가
  */
 
-const MainRanking = () => {
+const MainRanking = (props) => {
+  const { type } = props;
   const [movies, setMovies] = useState([]);
+  const page = 1;
+  const pageSize = 20;
 
   useEffect(() => {
     try {
       const client = new HttpClient();
       client
-        .get("https://comet.orbitcode.kr/v1/contents/videos")
+        .get("https://comet.orbitcode.kr/v1/contents/videos", {
+          p: page,
+          ps: pageSize,
+          t: type,
+        })
         .then((res) => {
           if (res.status === 200 && res.code === "VIDEO_SEARCH_SUCC") {
             setMovies(res.data.data);
