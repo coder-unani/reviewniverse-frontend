@@ -1,0 +1,32 @@
+.profile {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.profile figure {
+  position: relative;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  overflow: hidden;
+  cursor: pointer;
+}
+.profile figure::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+}
+.profile img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+.profile .nickname {
+  padding: 4px 0;
+  cursor: pointer;
+}
