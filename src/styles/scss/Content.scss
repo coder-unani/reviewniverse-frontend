@@ -95,7 +95,7 @@
     flex: 0 0 auto;
     position: relative;
     width: 280px;
-    aspect-ratio: 142 / 199;
+    aspect-ratio: 2 / 3;
 
     .poster {
       position: absolute;
@@ -104,7 +104,6 @@
       border: 1px solid rgba(0, 0, 0, 0.1);
       border-radius: 4px;
       overflow: hidden;
-      cursor: pointer;
 
       .lazy-load-image-background {
         display: block;
@@ -161,11 +160,11 @@
       .like,
       .review {
         display: flex;
+        flex-direction: column;
         align-items: center;
         justify-content: center;
         gap: 8px;
-        height: 45px;
-        background-color: #eeeeee;
+        // height: 45px;
         border-radius: 5px;
         padding: 0 20px;
 
@@ -177,6 +176,18 @@
           font-size: 15px;
           font-weight: 500;
           color: #7e7e7e;
+        }
+      }
+
+      .like {
+        &.active {
+          svg {
+            color: magenta;
+          }
+
+          span {
+            color: magenta;
+          }
         }
       }
 
@@ -233,7 +244,7 @@
     margin-right: 10px;
   }
 
-  .profile {
+  .image {
     position: relative;
     width: 54px;
     height: 54px;
@@ -305,7 +316,7 @@
 
     span {
       font-size: 15px;
-      color: red;
+      color: magenta;
     }
   }
 
@@ -328,21 +339,6 @@
         display: flex;
         align-items: center;
         justify-content: space-between;
-      }
-
-      .profile {
-        display: flex;
-        align-items: center;
-        gap: 8px;
-        padding: 10px 0;
-        cursor: pointer;
-
-        img {
-          width: 28px;
-          height: 28px;
-          border-radius: 50%;
-          border: 1px solid rgba(0, 0, 0, 0.1);
-        }
       }
 
       .rating {
@@ -379,12 +375,12 @@
         padding: 10px 0;
 
         svg {
-          color: red;
+          color: magenta;
         }
 
         span {
           font-size: 14px;
-          color: red;
+          color: magenta;
         }
       }
     }

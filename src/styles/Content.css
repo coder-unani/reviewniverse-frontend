@@ -82,7 +82,7 @@
   flex: 0 0 auto;
   position: relative;
   width: 280px;
-  aspect-ratio: 142/199;
+  aspect-ratio: 2/3;
 }
 .info-wrapper .poster-wrapper .poster {
   position: absolute;
@@ -91,7 +91,6 @@
   border: 1px solid rgba(0, 0, 0, 0.1);
   border-radius: 4px;
   overflow: hidden;
-  cursor: pointer;
 }
 .info-wrapper .poster-wrapper .poster .lazy-load-image-background {
   display: block;
@@ -139,11 +138,10 @@
 .info-wrapper .top .button-wrapper .like,
 .info-wrapper .top .button-wrapper .review {
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
   gap: 8px;
-  height: 45px;
-  background-color: #eeeeee;
   border-radius: 5px;
   padding: 0 20px;
 }
@@ -156,6 +154,12 @@
   font-size: 15px;
   font-weight: 500;
   color: #7e7e7e;
+}
+.info-wrapper .top .button-wrapper .like.active svg {
+  color: magenta;
+}
+.info-wrapper .top .button-wrapper .like.active span {
+  color: magenta;
 }
 .info-wrapper .top .button-wrapper #likeText {
   font-size: 12px;
@@ -207,16 +211,16 @@
   padding: 10px 0;
   margin-right: 10px;
 }
-.actor-wrapper .profile,
-.staff-warpper .profile {
+.actor-wrapper .image,
+.staff-warpper .image {
   position: relative;
   width: 54px;
   height: 54px;
   border-radius: 5px;
   overflow: hidden;
 }
-.actor-wrapper .profile::after,
-.staff-warpper .profile::after {
+.actor-wrapper .image::after,
+.staff-warpper .image::after {
   content: "";
   position: absolute;
   top: 0;
@@ -228,14 +232,14 @@
   border: 1px solid rgba(0, 0, 0, 0.05);
   z-index: 10;
 }
-.actor-wrapper .profile .lazy-load-image-background,
-.staff-warpper .profile .lazy-load-image-background {
+.actor-wrapper .image .lazy-load-image-background,
+.staff-warpper .image .lazy-load-image-background {
   display: block;
   width: 100%;
   height: 100%;
 }
-.actor-wrapper .profile .lazy-load-image-background img,
-.staff-warpper .profile .lazy-load-image-background img {
+.actor-wrapper .image .lazy-load-image-background img,
+.staff-warpper .image .lazy-load-image-background img {
   display: flex;
   width: 100%;
   height: 100%;
@@ -278,7 +282,7 @@
 }
 .review-wrapper .title span {
   font-size: 15px;
-  color: red;
+  color: magenta;
 }
 .review-wrapper .reviews {
   display: grid;
@@ -298,19 +302,6 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-}
-.review-wrapper .reviews .review .profile {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  padding: 10px 0;
-  cursor: pointer;
-}
-.review-wrapper .reviews .review .profile img {
-  width: 28px;
-  height: 28px;
-  border-radius: 50%;
-  border: 1px solid rgba(0, 0, 0, 0.1);
 }
 .review-wrapper .reviews .review .rating {
   display: flex;
@@ -342,11 +333,11 @@
   padding: 10px 0;
 }
 .review-wrapper .reviews .review .like svg {
-  color: red;
+  color: magenta;
 }
 .review-wrapper .reviews .review .like span {
   font-size: 14px;
-  color: red;
+  color: magenta;
 }
 
 .gallery-wrapper {
