@@ -3,6 +3,7 @@ import { Link, useLocation } from "react-router-dom";
 import { cLog } from "/src/utils/test";
 import Logo from "/src/assets/logo.svg";
 import { RiSearchLine } from "@remixicon/react";
+import ProfileButton from "/src/components/Button/ProfileButton";
 
 /**
  * TODO:
@@ -16,11 +17,10 @@ const Header = () => {
   const [activeMenu, setActiveMenu] = useState("");
 
   // 로그인 여부
-  const [user, setUser] = useState(
-    sessionStorage.getItem("user")
-      ? JSON.parse(sessionStorage.getItem("user"))
-      : null
-  );
+  const [user, setUser] = useState(() => {
+    const storedUser = sessionStorage.getItem("user");
+    return storedUser ? JSON.parse(storedUser) : null;
+  });
 
   // 활성화된 메뉴 설정
   useEffect(() => {
@@ -61,16 +61,7 @@ const Header = () => {
 
   // 로그인 여부에 따라 프로필 또는 로그인 버튼 렌더링
   const renderProfileButton = () => {
-    const profileImage = user.profile_image || "/src/assets/no-profile.png";
-
-    return (
-      <div className="profile">
-        <figure>
-          <img src={profileImage} alt={user.profile_text} />
-        </figure>
-        <span className="nickname">{user.nickname}</span>
-      </div>
-    );
+    return <ProfileButton image={user.profile_image} nickname={user.nickname} />;
   };
 
   const renderLoginButton = () => {
@@ -94,16 +85,10 @@ const Header = () => {
             <img src={Logo} className="logo" alt="logo" />
           </Link>
           <ul className="menu">
-            <li
-              className={activeMenu === "movie" ? "active" : ""}
-              onClick={() => handleMenuClick("movie")}
-            >
+            <li className={activeMenu === "movie" ? "active" : ""} onClick={() => handleMenuClick("movie")}>
               <Link to="/movie">영화</Link>
             </li>
-            <li
-              className={activeMenu === "series" ? "active" : ""}
-              onClick={() => handleMenuClick("series")}
-            >
+            <li className={activeMenu === "series" ? "active" : ""} onClick={() => handleMenuClick("series")}>
               <Link to="/series">시리즈</Link>
             </li>
           </ul>
