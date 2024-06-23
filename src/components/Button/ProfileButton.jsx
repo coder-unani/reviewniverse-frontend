@@ -6,12 +6,12 @@ const ProfileButton = (props) => {
   const profileImage = image || "/src/assets/no-profile.png";
 
   return (
-    <div className="profile">
+    <button className="profile" type="button">
       <figure>
         <img src={profileImage} alt="프로필 이미지" />
       </figure>
       <span className="nickname">{nickname}</span>
-    </div>
+    </button>
   );
 };
 
