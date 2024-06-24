@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useParams } from "react-router-dom";
 import HttpClient from "/src/utils/HttpClient";
 import { find, filter, isEmpty, set } from "lodash";
@@ -21,6 +21,8 @@ import "/src/styles/Content.css";
 import { cLog, cError } from "/src/utils/test";
 import PhotoModal from "/src/components/Modal/PhotoModal";
 import EnjoyModal from "/src/components/Modal/EnjoyModal";
+import ReviewModal from "/src/components/Modal/ReviewModal";
+import { VIDEO_ACTOR_TYPE } from "/src/config/actorTypes";
 
 const IMAGES = {
   noActor: "/src/assets/no-actor.png",
@@ -33,43 +35,29 @@ const API_BASE_URL = "https://comet.orbitcode.kr/v1";
 
 /**
  * TODO:
- * 1. 비디오 API 연동
- * 2. 비디오 상세 정보 표시
- * 3. 로딩 화면 추가 (ex. Skeleton)
- * 4. 감독/출연진 정보 (개편예정)
- * 5. 좋아요 기능
- * 6. 리뷰 기능
- * 7. 포스터 클릭시 이미지 확대
- * 8. 갤러리 기능
- * 9. 컴포넌트 분리
+ * 1. 평가하기 기능
+ * 2. 감독/출연진 정보 (개편예정)
+ * 3. 리뷰 기능
+ * 4. 해당 사용자의 리뷰 작성 여부 확인
+ * 5. 리뷰 작성되어 있으면 내가 쓴 코멘트 표시
+ * 6. 리뷰 수정/삭제 기능
+ * 7. 컴포넌트 분리
  */
 
 const Content = () => {
   const { contentId } = useParams();
-
-  // 로그인 여부
   const [user, setUser] = useState(() => {
     const storedUser = sessionStorage.getItem("user");
     return storedUser ? JSON.parse(storedUser) : null;
   });
-
-  // 콘텐츠 상세 정보
   const [content, setContent] = useState({});
-
-  // 리뷰 정보
   const [reviews, setReviews] = useState([]);
-
-  // 사진 모달창
   const [photoModal, setPhotoModal] = useState({ isOpen: false, url: "" });
-
-  // 회원가입, 로그인 필요 모달창
   const [enjoyModal, setEnjoyModal] = useState(false);
-
-  // 좋아요 버튼 상태
+  const [reviewModal, setReviewModal] = useState(false);
   const [isLike, setIsLike] = useState(false);
-
-  // 토큰 유효성 상태
   const [isValidToken, setIsValidToken] = useState(false);
+  const ratingRef = useRef();
 
   // 토큰 검증
   const tokenValidation = async () => {
@@ -124,17 +112,32 @@ const Content = () => {
     return thumbnail.url;
   };
 
-  // 모달창 열기
-  const handleModalOpen = (url) => {
-    setPhotoModal({ isOpen: true, url });
+  // 평점 포맷
+  const formatRating = (rating) => {
+    return parseFloat(rating / 2);
   };
 
-  // 모달창 닫기
-  const handleModalClose = () => {
-    setPhotoModal({ isOpen: false, url: "" });
+  // 배우 타입 포맷
+  const formatActorType = (type) => {
+    const actorType = find(VIDEO_ACTOR_TYPE, (item) => item[0] === type);
+    return actorType ? actorType[1] : "출연진";
   };
 
-  // 로그인 되어 있을 경우 회원 access token으로 좋아요 api 호출
+  // 사진 모달창 토글
+  const togglePhotoModal = (url = "") => {
+    setPhotoModal({ isOpen: !photoModal.isOpen, url });
+  };
+
+  // 로그인 필요 모달창 토글
+  const toggleEnjoyModal = () => {
+    setEnjoyModal(!enjoyModal);
+  };
+
+  // 리뷰 모달창 토글
+  const toggleReviewModal = () => {
+    setReviewModal(!reviewModal);
+  };
+
   const handleLikeButton = async () => {
     // 로그인 여부 확인
     if (!user) {
@@ -148,7 +151,7 @@ const Content = () => {
       return;
     }
 
-    // 좋아요 api 호출
+    // 로그인 되어 있을 경우 회원 access token으로 좋아요 api 호출
     try {
       const access_token = sessionStorage.getItem("access_token");
       const client = new HttpClient(access_token);
@@ -163,7 +166,29 @@ const Content = () => {
     }
   };
 
-  const handleReviewButton = () => {};
+  const handleReviewButton = () => {
+    // 로그인 여부 확인
+    if (!user) {
+      setEnjoyModal(true);
+      return;
+    }
+
+    // 토큰 검증
+    if (!isValidToken) {
+      setEnjoyModal(true);
+      return;
+    }
+
+    setReviewModal(true);
+  };
+
+  // 평점 mouseover 이벤트
+  ratingRef.current?.addEventListener("mouseover", (e) => {
+    const rating = e.target;
+    const ratingText = document.getElementById("ratingText");
+
+    console.log("mouseover");
+  });
 
   useEffect(() => {
     // 헤더 스타일 변경
@@ -279,7 +304,7 @@ const Content = () => {
         <div className="info">
           <div className="top">
             <div className="rating-wrapper">
-              <div className="rating">
+              <div className="rating" ref={ratingRef}>
                 <RiStarFill size={45} />
                 <RiStarFill size={45} />
                 <RiStarFill size={45} />
@@ -317,7 +342,15 @@ const Content = () => {
               </figure>
               <div className="name-wrapper">
                 <span className="name">{actor.name}</span>
-                <span className="role">{actor.profile || "출연진"}</span>
+                <div className="role">
+                  <span>{formatActorType(actor.type)}</span>
+                  {actor.role && (
+                    <>
+                      <span>|</span>
+                      <span>{actor.role}</span>
+                    </>
+                  )}
+                </div>
               </div>
             </div>
           ))}
@@ -334,7 +367,9 @@ const Content = () => {
                 </figure>
                 <div className="name-wrapper">
                   <span className="name">{staff.name}</span>
-                  <span className="role">{staff.profile || "제작진"}</span>
+                  <div className="role">
+                    <span>{staff.profile || "제작진"}</span>
+                  </div>
                 </div>
               </div>
             ))}
@@ -351,10 +386,12 @@ const Content = () => {
             <li className="review" key={index}>
               <div className="top">
                 <ProfileButton image={review.user_profile_img} nickname={review.user_nickname} />
-                <div className="rating">
-                  <RiStarFill size={16} />
-                  <span>3.5</span>
-                </div>
+                {review.rating && (
+                  <div className="rating">
+                    <RiStarFill size={16} />
+                    <span>{formatRating(review.rating)}</span>
+                  </div>
+                )}
               </div>
               <div className="content">
                 <p>{review.title}</p>
@@ -376,7 +413,7 @@ const Content = () => {
         </div>
         <Swiper modules={[Navigation]} spaceBetween={10} slidesPerView={3} navigation>
           {content.thumbnail.map((image, index) => (
-            <SwiperSlide key={index} onClick={() => handleModalOpen(image.url)}>
+            <SwiperSlide key={index} onClick={() => togglePhotoModal(image.url)}>
               <figure className="photo">
                 <LazyLoadImage src={image.url} alt="갤러리 이미지" effect="blur" />
               </figure>
@@ -384,8 +421,9 @@ const Content = () => {
           ))}
         </Swiper>
       </section>
-      {photoModal.isOpen && <PhotoModal url={photoModal.url} onClose={handleModalClose} />}
-      {enjoyModal && <EnjoyModal />}
+      {photoModal.isOpen && <PhotoModal url={photoModal.url} onClose={togglePhotoModal} />}
+      {enjoyModal && <EnjoyModal onClose={toggleEnjoyModal} />}
+      {reviewModal && <ReviewModal onClose={toggleReviewModal} />}
     </main>
   );
 };
