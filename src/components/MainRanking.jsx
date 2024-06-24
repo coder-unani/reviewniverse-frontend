@@ -7,6 +7,7 @@ import { find, isEmpty } from "lodash";
 import { cLog, cError } from "/src/utils/test";
 import { RiArrowRightSLine } from "@remixicon/react";
 import { formatDate, formatYear } from "/src/utils/format";
+import { COUNTRY_CODE } from "/src/config/types";
 
 /**
  * TODO:
@@ -55,8 +56,7 @@ const MainRanking = (props) => {
     if (isEmpty(images)) return null;
     // 썸네일 이미지 배열 중에서 type이 10인 이미지만 렌더링
     // type이 10인 이미지가 없을 경우 type이 11인 이미지 렌더링
-    const thumbnail =
-      find(images, { type: "10" }) ?? find(images, { type: "11" });
+    const thumbnail = find(images, { type: "10" }) ?? find(images, { type: "11" });
     return thumbnail.url;
   };
 
@@ -65,9 +65,14 @@ const MainRanking = (props) => {
     // 숫자 한자리씩 잘라서 배열에 저장
     const numbers = number.toString().split("");
     // 배열 반복해서 number-{}.svg 이미지 추가해서 반환
-    return numbers.map((num, index) => (
-      <img key={index} src={`/src/assets/number-${num}.svg`} alt={num} />
-    ));
+    return numbers.map((num, index) => <img key={index} src={`/src/assets/number-${num}.svg`} alt={num} />);
+  };
+
+  // 국가 코드 포맷
+  const formatCountry = (code) => {
+    const lang = "ko";
+    const country = COUNTRY_CODE[code];
+    return country ? country[`name_${lang}`] : "국가";
   };
 
   // contents 값이 없을 경우 null 반환
@@ -88,11 +93,7 @@ const MainRanking = (props) => {
             <Link to={`/contents/${movie.id}`}>
               <div className="img-wrapper">
                 <figure className="thumbnail">
-                  <LazyLoadImage
-                    src={formatThumbnail(movie.thumbnail) || noImageImg}
-                    alt="썸네일"
-                    effect="blur"
-                  />
+                  <LazyLoadImage src={formatThumbnail(movie.thumbnail) || noImageImg} alt="썸네일" effect="blur" />
                 </figure>
                 <div className="number">{formatNumber(index + 1)}</div>
               </div>
@@ -101,7 +102,7 @@ const MainRanking = (props) => {
                 <div className="sub-title">
                   <span>{formatYear(movie.release)}</span>
                   <span>|</span>
-                  <span>국가</span>
+                  <span>{formatCountry(movie.country)}</span>
                 </div>
               </div>
             </Link>
