@@ -204,7 +204,7 @@
 .staff-warpper .actor,
 .staff-warpper .staff {
   min-width: 200px;
-  width: calc(20% - 10px);
+  width: calc(25% - 10px);
   display: flex;
   align-items: center;
   gap: 12px;
@@ -260,6 +260,12 @@
 }
 .actor-wrapper .name-wrapper .role,
 .staff-warpper .name-wrapper .role {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.actor-wrapper .name-wrapper .role span,
+.staff-warpper .name-wrapper .role span {
   font-size: 14px;
   color: #8c8c8c;
 }

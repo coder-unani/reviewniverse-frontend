@@ -236,7 +236,7 @@
   .actor,
   .staff {
     min-width: 200px;
-    width: calc(20% - 10px);
+    width: calc(25% - 10px);
     display: flex;
     align-items: center;
     gap: 12px;
@@ -291,8 +291,14 @@
     }
 
     .role {
-      font-size: 14px;
-      color: #8c8c8c;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+
+      span {
+        font-size: 14px;
+        color: #8c8c8c;
+      }
     }
   }
 }
