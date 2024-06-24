@@ -27,6 +27,7 @@ export const VIDEO_STAFF_TYPE = {
   23: "의상",
   24: "분장",
   25: "조명",
+  26: "극본",
 };
 
 export const VIDEO_PLATFORM_CHOICES = {
