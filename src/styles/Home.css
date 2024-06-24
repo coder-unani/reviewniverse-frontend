@@ -37,7 +37,6 @@
 .header-wrapper.transparent .header .right input,
 .header-wrapper.transparent .header .right button {
   color: #ffffff;
-  opacity: 0.7;
 }
 .header-wrapper.transparent .header .right input::placeholder {
   color: #ffffff;
