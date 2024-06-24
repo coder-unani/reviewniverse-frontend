@@ -30,10 +30,10 @@ class HttpClient {
     }
   }
 
-  async post(url, data = null) {
+  async post(url, data = null, params = null) {
     try {
       return await this.client
-        .post(url, data ? data : {})
+        .post(url, data ? data : {}, params ? { params } : {})
         .then((response) => {
           return this.responseHandler(response);
         })
