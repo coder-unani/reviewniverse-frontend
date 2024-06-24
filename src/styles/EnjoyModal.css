@@ -1,0 +1,61 @@
+.enjoy-modal {
+  position: fixed;
+  top: 0;
+  left: 50%;
+  bottom: 0;
+  transform: translateX(-50%);
+  width: 100%;
+  background-color: rgba(0, 0, 0, 0.56);
+  z-index: 999;
+}
+.enjoy-modal .enjoy {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  flex-direction: column;
+  width: 375px;
+  height: 540px;
+  background-color: #fff;
+  border-radius: 6px;
+  padding: 0 20px 50px;
+}
+.enjoy-modal .close {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  font-size: 20px;
+  cursor: pointer;
+}
+.enjoy-modal .content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.enjoy-modal .content img {
+  width: 100%;
+  padding: 0 20px;
+  margin-bottom: 40px;
+}
+.enjoy-modal .content p {
+  font-size: 18px;
+  font-weight: 700;
+  text-align: center;
+}
+.enjoy-modal .join,
+.enjoy-modal .login {
+  width: 100%;
+  height: 48px;
+  font-size: 15px;
+  font-weight: 500;
+  color: #fff;
+  background-color: #000;
+  border-radius: 4px;
+  cursor: pointer;
+}
+.enjoy-modal .join {
+  margin-bottom: 6px;
+}
