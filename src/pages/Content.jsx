@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useParams } from "react-router-dom";
 import HttpClient from "/src/utils/HttpClient";
-import { find, filter, isEmpty, set } from "lodash";
+import { fill, isEmpty } from "lodash";
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import "react-lazy-load-image-component/src/effects/blur.css";
 import {
@@ -12,7 +12,7 @@ import {
   RiThumbUpLine,
   RiThumbUpFill,
 } from "@remixicon/react";
-import { formatYear, formatNumber, diffDate, formatUpperCase } from "/src/utils/format";
+import { formatYear, diffDate, formatUpperCase } from "/src/utils/format";
 import ProfileButton from "/src/components/Button/ProfileButton";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation } from "swiper/modules";
@@ -22,7 +22,15 @@ import { cLog, cError } from "/src/utils/test";
 import PhotoModal from "/src/components/Modal/PhotoModal";
 import EnjoyModal from "/src/components/Modal/EnjoyModal";
 import ReviewModal from "/src/components/Modal/ReviewModal";
-import { VIDEO_ACTOR_TYPE } from "/src/config/actorTypes";
+import {
+  formatBackgroundImage,
+  formatPoster,
+  formatCountry,
+  formatGenre,
+  formatRating,
+  formatActorType,
+  formatStaffType,
+} from "/src/utils/contentFormat";
 
 const IMAGES = {
   noActor: "/src/assets/no-actor.png",
@@ -35,8 +43,7 @@ const API_BASE_URL = "https://comet.orbitcode.kr/v1";
 
 /**
  * TODO:
- * 1. 평가하기 기능
- * 2. 감독/출연진 정보 (개편예정)
+ * 2. 배우, 제작진 타입 정렬
  * 3. 리뷰 기능
  * 4. 해당 사용자의 리뷰 작성 여부 확인
  * 5. 리뷰 작성되어 있으면 내가 쓴 코멘트 표시
@@ -55,9 +62,10 @@ const Content = () => {
   const [photoModal, setPhotoModal] = useState({ isOpen: false, url: "" });
   const [enjoyModal, setEnjoyModal] = useState(false);
   const [reviewModal, setReviewModal] = useState(false);
-  const [isLike, setIsLike] = useState(false);
+  const [myInfo, setMyInfo] = useState({});
   const [isValidToken, setIsValidToken] = useState(false);
-  const ratingRef = useRef();
+  const emptyRatingRef = useRef(null);
+  const fillRatingRef = useRef(null);
 
   // 토큰 검증
   const tokenValidation = async () => {
@@ -82,45 +90,6 @@ const Content = () => {
       setUser(null);
       return false;
     }
-  };
-
-  // 장르 포맷
-  const formatGenre = (genre) => {
-    // 장르가 없을 경우 null 반환
-    if (isEmpty(genre)) return null;
-    // 장르 id가 92인 장르만 반환, 없으면 첫번째 장르 반환
-    // const selectedGenre = find(genre, { id: 92 }) ?? find(genre, { id: 95 }) ?? genre[0];
-    // 장르 (, ) join
-    const gerneAll = genre.map((item) => item.name).join(", ");
-    return gerneAll;
-  };
-
-  // 배경 이미지 포맷
-  const formatBackgroundImage = (images) => {
-    if (isEmpty(images)) return IMAGES.noImage;
-    // 썸네일 이미지 배열 중에서 type이 11인 이미지만 렌더링
-    const backgroundImage = find(images, { type: "11" });
-    return backgroundImage.url;
-  };
-
-  // 포스터 이미지 포맷
-  const formatPoster = (images) => {
-    if (isEmpty(images)) return IMAGES.noImage;
-    // 이미지 배열 중에서 type이 10인 이미지만 렌더링
-    // type이 10인 이미지가 없을 경우 type이 11인 이미지 렌더링
-    const thumbnail = find(images, { type: "10" }) ?? find(images, { type: "11" });
-    return thumbnail.url;
-  };
-
-  // 평점 포맷
-  const formatRating = (rating) => {
-    return parseFloat(rating / 2);
-  };
-
-  // 배우 타입 포맷
-  const formatActorType = (type) => {
-    const actorType = find(VIDEO_ACTOR_TYPE, (item) => item[0] === type);
-    return actorType ? actorType[1] : "출연진";
   };
 
   // 사진 모달창 토글
@@ -156,8 +125,9 @@ const Content = () => {
       const access_token = sessionStorage.getItem("access_token");
       const client = new HttpClient(access_token);
       const res = await client.post(`${API_BASE_URL}/contents/videos/${contentId}/like`);
-      if (res.status === 200 && res.code === "VIDEO_LIKE_UPDATE_SUCC") {
-        setIsLike(res.data.data.is_like);
+      if (res.status === 200) {
+        // res.code === "VIDEO_LIKE_UPDATE_SUCC"
+        setMyInfo({ ...myInfo, is_like: res.data.data.is_like });
       } else {
         cLog("좋아요를 누르는데 실패하였습니다.");
       }
@@ -181,14 +151,6 @@ const Content = () => {
 
     setReviewModal(true);
   };
-
-  // 평점 mouseover 이벤트
-  ratingRef.current?.addEventListener("mouseover", (e) => {
-    const rating = e.target;
-    const ratingText = document.getElementById("ratingText");
-
-    console.log("mouseover");
-  });
 
   useEffect(() => {
     // 헤더 스타일 변경
@@ -228,14 +190,16 @@ const Content = () => {
           client.get(`${API_BASE_URL}/contents/videos/${contentId}/reviews`),
         ]);
 
-        if (contentRes.status === 200 && contentRes.code === "VIDEO_READ_SUCC") {
+        if (contentRes.status === 200) {
+          // contentRes.code === "VIDEO_READ_SUCC"
           setContent(contentRes.data.data);
         } else {
           cLog("콘텐츠를 불러오는데 실패하였습니다.");
           return;
         }
 
-        if (reviewRes.status === 200 && reviewRes.code === "REVIEW_READ_SUCC") {
+        if (reviewRes.status === 200) {
+          // reviewRes.code === "REVIEW_READ_SUCC"
           setReviews(reviewRes.data.data);
         } else {
           cLog("리뷰를 불러오는데 실패하였습니다.");
@@ -249,8 +213,9 @@ const Content = () => {
           const access_token = sessionStorage.getItem("access_token");
           const client = new HttpClient(access_token);
           const myInfoRes = await client.post(`${API_BASE_URL}/contents/videos/${contentId}/myinfo`);
-          if (myInfoRes.status === 200 && myInfoRes.code === "VIDEO_MYINFO_READ_SUCC") {
-            setIsLike(myInfoRes.data.data.is_like);
+          if (myInfoRes.status === 200) {
+            // myInfoRes.code === "VIDEO_MYINFO_READ_SUCC"
+            setMyInfo(myInfoRes.data.data);
           } else {
             cLog("사용자 콘텐츠 관련 정보를 불러오는데 실패하였습니다.");
             return;
@@ -263,6 +228,73 @@ const Content = () => {
 
     fetchData();
   }, [contentId]);
+
+  useEffect(() => {
+    const emptyRating = emptyRatingRef.current;
+    const fillRating = fillRatingRef.current;
+    if (!emptyRating || !fillRating || isEmpty(myInfo)) return;
+
+    fillRating.style.width = `${myInfo.rating * 10}%`;
+
+    const width = emptyRating.getBoundingClientRect().width;
+
+    const handleMouseOver = (e) => {
+      const mouseX = e.clientX - emptyRating.getBoundingClientRect().left;
+      const ratio = Math.max(0, Math.min(mouseX / width, 1));
+      const rating = Math.ceil(ratio * 10);
+      fillRating.dataset.rating = rating;
+      fillRating.style.width = `${rating * 10}%`;
+    };
+
+    const handleMouseOut = () => {
+      if (myInfo.rating) return (fillRating.style.width = `${myInfo.rating * 10}%`);
+      fillRating.style.width = "0%";
+      fillRating.dataset.rating = "0";
+    };
+
+    const handleClick = async () => {
+      // 로그인 여부 확인
+      if (!user) {
+        setEnjoyModal(true);
+        return;
+      }
+
+      // 토큰 검증
+      if (!isValidToken) {
+        setEnjoyModal(true);
+        return;
+      }
+
+      // 로그인 되어 있을 경우 회원 access token으로 좋아요 api 호출
+      try {
+        const rating = fillRatingRef?.current.dataset.rating;
+        const access_token = sessionStorage.getItem("access_token");
+        const client = new HttpClient(access_token);
+        const res = await client.post(`${API_BASE_URL}/contents/videos/${contentId}/ratings`, {}, { rating });
+        if (res.status === 204) {
+          if (res.code === "RATING_CREATE_SUCC" || res.code === "RATING_UPDATE_SUCC") {
+            setMyInfo({ ...myInfo, rating });
+          } else if (res.code === "RATING_DELETE_SUCC") {
+            setMyInfo({ ...myInfo, rating: 0 });
+          }
+        } else {
+          cLog("평가하기 실패");
+        }
+      } catch (error) {
+        cError(error);
+      }
+    };
+
+    emptyRating.addEventListener("mouseover", handleMouseOver);
+    emptyRating.addEventListener("mouseout", handleMouseOut);
+    emptyRating.addEventListener("click", handleClick);
+
+    return () => {
+      emptyRating.removeEventListener("mouseover", handleMouseOver);
+      emptyRating.removeEventListener("mouseout", handleMouseOut);
+      emptyRating.removeEventListener("click", handleClick);
+    };
+  }, [content, isValidToken, user, myInfo]);
 
   if (isEmpty(content)) return null;
 
@@ -281,7 +313,7 @@ const Content = () => {
                 <div>
                   <span>{formatYear(content.release)}</span>
                   <span>|</span>
-                  <span>국가</span>
+                  <span>{formatCountry(content.country)}</span>
                   <span>|</span>
                   <span>{formatGenre(content.genre)}</span>
                 </div>
@@ -304,7 +336,14 @@ const Content = () => {
         <div className="info">
           <div className="top">
             <div className="rating-wrapper">
-              <div className="rating" ref={ratingRef}>
+              <div className="empty-rating" ref={emptyRatingRef}>
+                <RiStarFill size={45} />
+                <RiStarFill size={45} />
+                <RiStarFill size={45} />
+                <RiStarFill size={45} />
+                <RiStarFill size={45} />
+              </div>
+              <div className="fill-rating" ref={fillRatingRef}>
                 <RiStarFill size={45} />
                 <RiStarFill size={45} />
                 <RiStarFill size={45} />
@@ -314,8 +353,8 @@ const Content = () => {
               <span id="ratingText">평가하기</span>
             </div>
             <div className="button-wrapper">
-              <button className={`like ${isLike ? "active" : ""}`} type="button" onClick={handleLikeButton}>
-                {isLike ? <RiUserSmileFill size={32} /> : <RiUserSmileLine size={32} />}
+              <button className={`like ${myInfo.is_like ? "active" : ""}`} type="button" onClick={handleLikeButton}>
+                {myInfo.is_like ? <RiUserSmileFill size={32} /> : <RiUserSmileLine size={32} />}
                 <span>좋아요</span>
               </button>
               <button className="review" type="button" onClick={handleReviewButton}>
@@ -368,7 +407,7 @@ const Content = () => {
                 <div className="name-wrapper">
                   <span className="name">{staff.name}</span>
                   <div className="role">
-                    <span>{staff.profile || "제작진"}</span>
+                    <span>{formatStaffType(staff.type)}</span>
                   </div>
                 </div>
               </div>
