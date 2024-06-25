@@ -45,7 +45,7 @@ export const formatGenre = (genre) => {
 
 // 평점 포맷
 export const formatRating = (rating) => {
-  return parseFloat(rating / 2);
+  return parseFloat(rating / 2).toFixed(1);
 };
 
 // 출연진 타입 포맷
