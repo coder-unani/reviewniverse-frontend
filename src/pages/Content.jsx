@@ -1,19 +1,11 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useParams } from "react-router-dom";
 import HttpClient from "/src/utils/HttpClient";
-import { fill, isEmpty } from "lodash";
+import { isEmpty } from "lodash";
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import "react-lazy-load-image-component/src/effects/blur.css";
-import {
-  RiStarFill,
-  RiUserSmileLine,
-  RiUserSmileFill,
-  RiPencilFill,
-  RiThumbUpLine,
-  RiThumbUpFill,
-} from "@remixicon/react";
-import { formatYear, diffDate, formatUpperCase } from "/src/utils/format";
-import ProfileButton from "/src/components/Button/ProfileButton";
+import { RiStarFill, RiUserSmileLine, RiUserSmileFill, RiPencilFill } from "@remixicon/react";
+import { formatYear, formatUpperCase } from "/src/utils/format";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation } from "swiper/modules";
 import "swiper/css";
@@ -27,17 +19,13 @@ import {
   formatPoster,
   formatCountry,
   formatGenre,
-  formatRating,
   formatActorType,
   formatStaffType,
 } from "/src/utils/contentFormat";
-
-const IMAGES = {
-  noActor: "/src/assets/no-actor.png",
-  noImage: "/src/assets/no-image.png",
-  logo: "/src/assets/logo.svg",
-  logoWhite: "/src/assets/logo-w.svg",
-};
+import Review from "/src/components/Review";
+import Crew from "/src/components/Crew";
+import { DEFAULT_IMAGES } from "/src/config/images";
+import MyReview from "/src/components/MyReview";
 
 const API_BASE_URL = "https://comet.orbitcode.kr/v1";
 
@@ -49,6 +37,7 @@ const API_BASE_URL = "https://comet.orbitcode.kr/v1";
  * 5. 리뷰 작성되어 있으면 내가 쓴 코멘트 표시
  * 6. 리뷰 수정/삭제 기능
  * 7. 컴포넌트 분리
+ * 8. 리뷰 리스트는 좋아요 순으로 정렬
  */
 
 const Content = () => {
@@ -63,6 +52,7 @@ const Content = () => {
   const [enjoyModal, setEnjoyModal] = useState(false);
   const [reviewModal, setReviewModal] = useState(false);
   const [myInfo, setMyInfo] = useState({});
+  const [myReview, setMyReview] = useState({});
   const [isValidToken, setIsValidToken] = useState(false);
   const emptyRatingRef = useRef(null);
   const fillRatingRef = useRef(null);
@@ -161,41 +151,44 @@ const Content = () => {
     const handleScroll = () => {
       if (window.scrollY > 100 && header.classList.contains("transparent")) {
         header.classList.remove("transparent");
-        logo.src = IMAGES.logo;
+        logo.src = DEFAULT_IMAGES.logo;
       } else if (window.scrollY <= 100 && !header.classList.contains("transparent")) {
         header.classList.add("transparent");
-        logo.src = IMAGES.logoWhite;
+        logo.src = DEFAULT_IMAGES.logoWhite;
       }
     };
 
     window.addEventListener("scroll", handleScroll);
     header.classList.add("transparent");
-    logo.src = IMAGES.logoWhite;
+    logo.src = DEFAULT_IMAGES.logoWhite;
 
     // 컴포넌트 언마운트시 이벤트 제거
     return () => {
       window.removeEventListener("scroll", handleScroll);
       header.classList.remove("transparent");
-      logo.src = IMAGES.logo;
+      logo.src = DEFAULT_IMAGES.logo;
     };
   }, []);
 
-  // API 요청
   useEffect(() => {
-    const fetchData = async () => {
+    const fetchContent = async (client) => {
       try {
-        const client = new HttpClient();
         const [contentRes, reviewRes] = await Promise.all([
           client.get(`${API_BASE_URL}/contents/videos/${contentId}`),
-          client.get(`${API_BASE_URL}/contents/videos/${contentId}/reviews`),
+          client.get(`${API_BASE_URL}/contents/videos/${contentId}/reviews`, {
+            p: 1,
+            ps: 8,
+          }),
         ]);
+
+        let isSuccess = true;
 
         if (contentRes.status === 200) {
           // contentRes.code === "VIDEO_READ_SUCC"
           setContent(contentRes.data.data);
         } else {
           cLog("콘텐츠를 불러오는데 실패하였습니다.");
-          return;
+          isSuccess = false;
         }
 
         if (reviewRes.status === 200) {
@@ -203,26 +196,41 @@ const Content = () => {
           setReviews(reviewRes.data.data);
         } else {
           cLog("리뷰를 불러오는데 실패하였습니다.");
-          return;
+          isSuccess = false;
         }
 
-        const isValid = await tokenValidation();
-        setIsValidToken(isValid);
+        return isSuccess;
+      } catch (error) {
+        cError(error);
+        return false;
+      }
+    };
 
-        if (isValid) {
-          const access_token = sessionStorage.getItem("access_token");
-          const client = new HttpClient(access_token);
-          const myInfoRes = await client.post(`${API_BASE_URL}/contents/videos/${contentId}/myinfo`);
-          if (myInfoRes.status === 200) {
-            // myInfoRes.code === "VIDEO_MYINFO_READ_SUCC"
-            setMyInfo(myInfoRes.data.data);
-          } else {
-            cLog("사용자 콘텐츠 관련 정보를 불러오는데 실패하였습니다.");
-            return;
-          }
+    const fetchMyInfo = async (client) => {
+      try {
+        const myInfoRes = await client.post(`${API_BASE_URL}/contents/videos/${contentId}/myinfo`);
+        if (myInfoRes.status === 200) {
+          // myInfoRes.code === "VIDEO_MYINFO_READ_SUCC"
+          setMyInfo(myInfoRes.data.data);
+        } else {
+          cLog("사용자 콘텐츠 관련 정보를 불러오는데 실패하였습니다.");
         }
       } catch (error) {
         cError(error);
+      }
+    };
+
+    const fetchData = async () => {
+      const client = new HttpClient();
+      await fetchContent(client);
+
+      const isValid = await tokenValidation();
+      setIsValidToken(isValid);
+
+      if (isValid) {
+        const access_token = sessionStorage.getItem("access_token");
+        const clientWithToken = new HttpClient(access_token);
+        fetchMyInfo(clientWithToken);
       }
     };
 
@@ -230,11 +238,20 @@ const Content = () => {
   }, [contentId]);
 
   useEffect(() => {
+    if (isEmpty(myInfo) || isEmpty(reviews) || !myInfo.review) return;
+
+    const findMyReview = reviews.find((review) => review.id === myInfo.review);
+    setMyReview(findMyReview);
+  }, [reviews, myInfo]);
+
+  useEffect(() => {
     const emptyRating = emptyRatingRef.current;
     const fillRating = fillRatingRef.current;
-    if (!emptyRating || !fillRating || isEmpty(myInfo)) return;
+    if (!emptyRating || !fillRating) return;
 
-    fillRating.style.width = `${myInfo.rating * 10}%`;
+    if (myInfo.rating) {
+      fillRating.style.width = `${myInfo.rating * 10}%`;
+    }
 
     const width = emptyRating.getBoundingClientRect().width;
 
@@ -361,56 +378,28 @@ const Content = () => {
                 <RiPencilFill size={32} />
                 <span>리뷰쓰기</span>
               </button>
-              {/* <span id="likeText">
-                {formatNumber(content.like_count)}명이 좋아해요!
-              </span> */}
             </div>
           </div>
+          {!isEmpty(myReview) && <MyReview myReview={myReview} />}
           <div className="bottom">
             <p>{content.synopsis}</p>
           </div>
         </div>
       </section>
-      <section className="actor-wrapper">
+      <section className="crew-wrapper">
         <h3>출연진</h3>
-        <div className="actors">
-          {content.actor.map((actor) => (
-            <div className="actor" key={actor.id}>
-              <figure className="image">
-                <LazyLoadImage src={actor.picture || IMAGES.noActor} alt={actor.name} effect="blur" />
-              </figure>
-              <div className="name-wrapper">
-                <span className="name">{actor.name}</span>
-                <div className="role">
-                  <span>{formatActorType(actor.type)}</span>
-                  {actor.role && (
-                    <>
-                      <span>|</span>
-                      <span>{actor.role}</span>
-                    </>
-                  )}
-                </div>
-              </div>
-            </div>
+        <div className="crews">
+          {content.actor.map((actor, index) => (
+            <Crew crew={actor} type={formatActorType} key={index} />
           ))}
         </div>
       </section>
       {!isEmpty(content.staff) && (
-        <section className="staff-warpper">
+        <section className="crew-wrapper">
           <h3>제작진</h3>
-          <div className="staffs">
-            {content.staff.map((staff) => (
-              <div className="staff" key={staff.id}>
-                <figure className="image">
-                  <LazyLoadImage src={staff.picture || IMAGES.noActor} alt={staff.name} effect="blur" />
-                </figure>
-                <div className="name-wrapper">
-                  <span className="name">{staff.name}</span>
-                  <div className="role">
-                    <span>{formatStaffType(staff.type)}</span>
-                  </div>
-                </div>
-              </div>
+          <div className="crews">
+            {content.staff.map((staff, index) => (
+              <Crew crew={staff} type={formatStaffType} key={index} />
             ))}
           </div>
         </section>
@@ -418,33 +407,22 @@ const Content = () => {
       <section className="review-wrapper">
         <div className="title">
           <h3>리뷰</h3>
-          <span>{content.review_count}</span>
+          {content.review_count > 0 && <span>{content.review_count}</span>}
         </div>
-        <ul className="reviews">
-          {reviews.slice(0, 8).map((review, index) => (
-            <li className="review" key={index}>
-              <div className="top">
-                <ProfileButton image={review.user_profile_img} nickname={review.user_nickname} />
-                {review.rating && (
-                  <div className="rating">
-                    <RiStarFill size={16} />
-                    <span>{formatRating(review.rating)}</span>
-                  </div>
-                )}
-              </div>
-              <div className="content">
-                <p>{review.title}</p>
-              </div>
-              <div className="bottom">
-                <span>{diffDate(review.created_at)}</span>
-                <button className="like">
-                  <RiThumbUpLine size={16} />
-                  <span>{review.like_count}</span>
-                </button>
-              </div>
-            </li>
-          ))}
-        </ul>
+        {reviews.length === 0 && (
+          <div className="no-review">
+            <p>기록된 리뷰가 없습니다. 리뷰를 남겨보세요!</p>
+          </div>
+        )}
+        {reviews.length > 0 && (
+          <ul className="reviews">
+            {reviews.slice(0, 8).map((review, index) => (
+              <li key={index}>
+                <Review review={review} />
+              </li>
+            ))}
+          </ul>
+        )}
       </section>
       <section className="gallery-wrapper">
         <div className="title">
@@ -462,7 +440,7 @@ const Content = () => {
       </section>
       {photoModal.isOpen && <PhotoModal url={photoModal.url} onClose={togglePhotoModal} />}
       {enjoyModal && <EnjoyModal onClose={toggleEnjoyModal} />}
-      {reviewModal && <ReviewModal onClose={toggleReviewModal} />}
+      {reviewModal && <ReviewModal content={content} onClose={toggleReviewModal} />}
     </main>
   );
 };
