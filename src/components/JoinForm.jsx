@@ -28,18 +28,12 @@ const JoinForm = (props) => {
     nickname: Yup.string()
       .min(2, "닉네임은 최소 2글자 이상입니다.")
       .max(20, "닉네임은 최대 20글자입니다.")
-      .matches(
-        /^[a-zA-Z가-힣0-9]*$/,
-        "닉네임은 한글, 영문, 숫자만 입력 가능합니다."
-      )
+      .matches(/^[a-zA-Z가-힣0-9]*$/, "닉네임은 한글, 영문, 숫자만 입력 가능합니다.")
       .required("닉네임을 입력해주세요."),
     email: Yup.string()
       .min(5, "이메일은 최소 5자리 이상입니다.")
       .max(50, "이메일은 최대 50자리입니다.")
-      .matches(
-        /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
-        "이메일 형식이 아닙니다."
-      )
+      .matches(/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/, "이메일 형식이 아닙니다.")
       .required("이메일을 입력해주세요.")
       .email("이메일 형식이 아닙니다."),
     password: Yup.string()
@@ -73,7 +67,7 @@ const JoinForm = (props) => {
     trigger,
   } = methods;
 
-  const onSubmit = handleSubmit(async (data) => {
+  const onSubmit = handleSubmit((data) => {
     // TODO: 유효성 검사 실패시 API 호출 중단
     try {
       // 회원가입 처리
@@ -212,10 +206,7 @@ const JoinForm = (props) => {
         />
         {errors.password && <p className="error">{errors.password?.message}</p>}
       </div>
-      <button
-        type="submit"
-        disabled={!isDirty || !isValid || errors.nickname || errors.email}
-      >
+      <button type="submit" disabled={!isDirty || !isValid || errors.nickname || errors.email}>
         가입하기
       </button>
     </form>
