@@ -69,6 +69,7 @@
     &:disabled {
       color: rgba(#fff, 0.8);
       opacity: 0.4;
+      cursor: not-allowed;
     }
   }
 }
@@ -130,6 +131,7 @@
     &:disabled {
       color: rgba(#fff, 0.8);
       opacity: 0.4;
+      cursor: not-allowed;
     }
   }
 }

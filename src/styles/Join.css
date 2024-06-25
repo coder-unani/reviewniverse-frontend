@@ -60,6 +60,7 @@
 .agree-form button[type=submit]:disabled {
   color: rgba(255, 255, 255, 0.8);
   opacity: 0.4;
+  cursor: not-allowed;
 }
 
 .join-form {
@@ -112,6 +113,7 @@
 .join-form button[type=submit]:disabled {
   color: rgba(255, 255, 255, 0.8);
   opacity: 0.4;
+  cursor: not-allowed;
 }
 
 .join-sns {
