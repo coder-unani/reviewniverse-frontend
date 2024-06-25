@@ -1,19 +1,22 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useParams } from "react-router-dom";
 import HttpClient from "/src/utils/HttpClient";
-import { isEmpty } from "lodash";
+import { isEmpty, set } from "lodash";
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import "react-lazy-load-image-component/src/effects/blur.css";
-import { RiStarFill, RiUserSmileLine, RiUserSmileFill, RiPencilFill } from "@remixicon/react";
+import { RiStarFill, RiUserSmileLine, RiUserSmileFill, RiPencilFill, RiDeleteBinFill } from "@remixicon/react";
 import { formatYear, formatUpperCase } from "/src/utils/format";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation } from "swiper/modules";
 import "swiper/css";
 import "/src/styles/Content.css";
 import { cLog, cError } from "/src/utils/test";
+import Review from "/src/components/Review";
+import Crew from "/src/components/Crew";
 import PhotoModal from "/src/components/Modal/PhotoModal";
 import EnjoyModal from "/src/components/Modal/EnjoyModal";
 import ReviewModal from "/src/components/Modal/ReviewModal";
+import ConfirmModal from "/src/components/Modal/ConfirmModal";
 import {
   formatBackgroundImage,
   formatPoster,
@@ -22,10 +25,7 @@ import {
   formatActorType,
   formatStaffType,
 } from "/src/utils/contentFormat";
-import Review from "/src/components/Review";
-import Crew from "/src/components/Crew";
 import { DEFAULT_IMAGES } from "/src/config/images";
-import MyReview from "/src/components/MyReview";
 
 const API_BASE_URL = "https://comet.orbitcode.kr/v1";
 
@@ -51,6 +51,7 @@ const Content = () => {
   const [photoModal, setPhotoModal] = useState({ isOpen: false, url: "" });
   const [enjoyModal, setEnjoyModal] = useState(false);
   const [reviewModal, setReviewModal] = useState(false);
+  const [confirmModal, setConfirmModal] = useState(false);
   const [myInfo, setMyInfo] = useState({});
   const [myReview, setMyReview] = useState({});
   const [isValidToken, setIsValidToken] = useState(false);
@@ -97,6 +98,11 @@ const Content = () => {
     setReviewModal(!reviewModal);
   };
 
+  // 확인 모달창 토글
+  const toggleConfirmModal = () => {
+    setConfirmModal(!confirmModal);
+  };
+
   const handleLikeButton = async () => {
     // 로그인 여부 확인
     if (!user) {
@@ -140,6 +146,28 @@ const Content = () => {
     }
 
     setReviewModal(true);
+  };
+
+  const handleReviewModify = () => {
+    setReviewModal(true);
+  };
+
+  const handleReviewDelete = () => {
+    // setConfirmModal(true);
+
+    try {
+      const access_token = sessionStorage.getItem("access_token");
+      const client = new HttpClient(access_token);
+      client.delete(`${API_BASE_URL}/contents/videos/${contentId}/reviews/${myReview.id}`).then((res) => {
+        if (res.status === 204) {
+          // res.code === "REVIEW_DELETE_SUCC"
+          cLog("리뷰가 삭제되었습니다.");
+          setMyReview({});
+        }
+      });
+    } catch (error) {
+      cError(error);
+    }
   };
 
   useEffect(() => {
@@ -380,7 +408,28 @@ const Content = () => {
               </button>
             </div>
           </div>
-          {!isEmpty(myReview) && <MyReview myReview={myReview} />}
+          {!isEmpty(myReview) && (
+            <div className="my-review-wrapper">
+              <h4>내가 쓴 리뷰</h4>
+              <div className="my-review">
+                <img src={myReview.user_profile_image || DEFAULT_IMAGES.noProfile} alt="프로필 이미지" />
+                <div className="content">
+                  <p>{myReview.title}</p>
+                </div>
+                <div className="button-wrapper">
+                  <button type="button" className="delete" onClick={handleReviewDelete}>
+                    <RiDeleteBinFill size={18} />
+                    <span>삭제</span>
+                  </button>
+                  |
+                  <button type="button" className="modify" onClick={handleReviewModify}>
+                    <RiPencilFill size={18} />
+                    <span>수정</span>
+                  </button>
+                </div>
+              </div>
+            </div>
+          )}
           <div className="bottom">
             <p>{content.synopsis}</p>
           </div>
@@ -440,7 +489,8 @@ const Content = () => {
       </section>
       {photoModal.isOpen && <PhotoModal url={photoModal.url} onClose={togglePhotoModal} />}
       {enjoyModal && <EnjoyModal onClose={toggleEnjoyModal} />}
-      {reviewModal && <ReviewModal content={content} onClose={toggleReviewModal} />}
+      {reviewModal && <ReviewModal content={content} myReview={myReview} onClose={toggleReviewModal} />}
+      {confirmModal && <ConfirmModal onClose={toggleConfirmModal} />}
     </main>
   );
 };
