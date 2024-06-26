@@ -118,7 +118,6 @@ $border-radius: 4px;
       a {
         display: block;
         padding: 10px 15px;
-        cursor: pointer;
         opacity: 0.5;
       }
 
@@ -142,7 +141,10 @@ $border-radius: 4px;
     display: flex;
     justify-content: flex-end;
     align-items: center;
-    gap: 20px;
+
+    .search {
+      margin-right: 10px;
+    }
 
     input,
     a {
@@ -159,6 +161,10 @@ $border-radius: 4px;
         color: $color-black;
         opacity: 0.5;
       }
+    }
+
+    a {
+      padding: 10px;
     }
   }
 

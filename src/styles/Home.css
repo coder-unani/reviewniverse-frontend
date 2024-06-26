@@ -88,7 +88,6 @@
 .header .left li a {
   display: block;
   padding: 10px 15px;
-  cursor: pointer;
   opacity: 0.5;
 }
 .header .left li:not(:last-child)::after {
@@ -107,7 +106,9 @@
   display: flex;
   justify-content: flex-end;
   align-items: center;
-  gap: 20px;
+}
+.header .right .search {
+  margin-right: 10px;
 }
 .header .right input,
 .header .right a {
@@ -122,6 +123,9 @@
 .header .right input::placeholder {
   color: #0c0c0c;
   opacity: 0.5;
+}
+.header .right a {
+  padding: 10px;
 }
 .header .search {
   display: flex;
