@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import ProfileButton from "/src/components/Button/ProfileButton";
 import { RiStarFill, RiThumbUpLine, RiThumbUpFill } from "@remixicon/react";
 import { diffDate } from "/src/utils/format";
@@ -10,8 +10,12 @@ import { formatRating } from "/src/utils/contentFormat";
  * 2. 리뷰 클릭시 리뷰 모달 열기
  */
 
+const API_BASE_URL = "https://comet.orbitcode.kr/v1";
+
 const Review = (props) => {
-  const { review } = props;
+  const { review, isLike, onLikeClick } = props;
+
+  const handleReviewLike = (reviewId) => onLikeClick(reviewId);
 
   return (
     <div className="review">
@@ -29,8 +33,8 @@ const Review = (props) => {
       </div>
       <div className="bottom">
         <span>{diffDate(review.created_at)}</span>
-        <button className="like">
-          <RiThumbUpLine size={16} />
+        <button className="like" onClick={() => handleReviewLike(review.id)}>
+          {isLike ? <RiThumbUpFill size={16} /> : <RiThumbUpLine size={16} />}
           <span>{review.like_count}</span>
         </button>
       </div>
