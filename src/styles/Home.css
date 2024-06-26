@@ -35,7 +35,7 @@
   opacity: 0.7;
 }
 .header-wrapper.transparent .header .right input,
-.header-wrapper.transparent .header .right button {
+.header-wrapper.transparent .header .right a {
   color: #ffffff;
 }
 .header-wrapper.transparent .header .right input::placeholder {
@@ -110,7 +110,7 @@
   gap: 20px;
 }
 .header .right input,
-.header .right button {
+.header .right a {
   font-size: 15px;
   color: #0c0c0c;
   line-height: 1;

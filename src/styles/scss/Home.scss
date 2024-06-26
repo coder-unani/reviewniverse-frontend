@@ -50,7 +50,7 @@ $border-radius: 4px;
 
       .right {
         input,
-        button {
+        a {
           color: $color-white;
         }
 
@@ -145,7 +145,7 @@ $border-radius: 4px;
     gap: 20px;
 
     input,
-    button {
+    a {
       font-size: 15px;
       color: $color-black;
       line-height: 1;
