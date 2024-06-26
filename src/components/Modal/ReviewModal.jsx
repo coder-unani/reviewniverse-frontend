@@ -13,7 +13,7 @@ const API_BASE_URL = "https://comet.orbitcode.kr/v1";
 
 /**
  * TODO:
- * 1. 리뷰 등록/수정 성공시 myInfo 상태값에 리뷰 추가하기
+ * 1. 리뷰 등록/수정 성공 후 리뷰 업데이트는 어떻게 할 것인지
  */
 
 const ReviewModal = (props) => {
@@ -30,7 +30,7 @@ const ReviewModal = (props) => {
   };
 
   const reviewSchema = Yup.object().shape({
-    title: Yup.string().required("리뷰를 입력해주세요.").max(10000, "리뷰는 최대 10000자까지 작성 가능합니다."),
+    title: Yup.string().required("리뷰를 입력해주세요.").max(100, "리뷰는 최대 100자까지 작성 가능합니다."),
     spoiler: Yup.boolean(),
     private: Yup.boolean(),
   });
@@ -146,7 +146,7 @@ const ReviewModal = (props) => {
               </div>
               <div className="right">
                 <p>
-                  <span>{watchedTitle.length}</span> / 10000
+                  <span>{watchedTitle.length}</span> / 100
                 </p>
                 <button type="submit" className="save" disabled={!isDirty || !isValid}>
                   {myReview ? "수정" : "등록"}
