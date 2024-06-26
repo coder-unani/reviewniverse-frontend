@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useParams } from "react-router-dom";
 import HttpClient from "/src/utils/HttpClient";
-import { isEmpty, set } from "lodash";
+import { isEmpty, includes } from "lodash";
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import "react-lazy-load-image-component/src/effects/blur.css";
 import { RiStarFill, RiUserSmileLine, RiUserSmileFill, RiPencilFill, RiDeleteBinFill } from "@remixicon/react";
@@ -27,18 +27,20 @@ import {
 } from "/src/utils/contentFormat";
 import { DEFAULT_IMAGES } from "/src/config/images";
 
-const API_BASE_URL = "https://comet.orbitcode.kr/v1";
-
 /**
  * TODO:
  * 2. 배우, 제작진 타입 정렬
  * 3. 리뷰 기능
  * 4. 해당 사용자의 리뷰 작성 여부 확인
- * 5. 리뷰 작성되어 있으면 내가 쓴 코멘트 표시
- * 6. 리뷰 수정/삭제 기능
+ * 5. 리뷰 작성되어 있으면 내가 쓴 코멘트 표시 (리뷰 아이디로 조회 개편)
+ * 6. 리뷰 수정/삭제 기능 (삭제시 확인 모달 추가)
  * 7. 컴포넌트 분리
- * 8. 리뷰 리스트는 좋아요 순으로 정렬
+ * 8. 리뷰 페이지네이션 추가
+ * 9. 리뷰 리스트는 정렬 기본은 좋아요 순
+ * 10. 리뷰 좋아요 기능
  */
+
+const API_BASE_URL = "https://comet.orbitcode.kr/v1";
 
 const Content = () => {
   const { contentId } = useParams();
@@ -103,6 +105,7 @@ const Content = () => {
     setConfirmModal(!confirmModal);
   };
 
+  // 비디오 좋아요
   const handleLikeButton = async () => {
     // 로그인 여부 확인
     if (!user) {
@@ -132,7 +135,8 @@ const Content = () => {
     }
   };
 
-  const handleReviewButton = () => {
+  // 리뷰 작성
+  const handleReviewCreate = () => {
     // 로그인 여부 확인
     if (!user) {
       setEnjoyModal(true);
@@ -148,10 +152,12 @@ const Content = () => {
     setReviewModal(true);
   };
 
-  const handleReviewModify = () => {
+  // 리뷰 수정
+  const handleReviewUpdate = () => {
     setReviewModal(true);
   };
 
+  // 리뷰 삭제
   const handleReviewDelete = () => {
     // setConfirmModal(true);
 
@@ -169,6 +175,60 @@ const Content = () => {
       cError(error);
     }
   };
+
+  // TODO: 리뷰 좋아요
+  const handleReviewLike = (reviewId) => {
+    // 로그인 여부 확인
+    if (!user) {
+      setEnjoyModal(true);
+      return;
+    }
+
+    // 토큰 검증
+    if (!isValidToken) {
+      setEnjoyModal(true);
+      return;
+    }
+
+    // 로그인 되어 있을 경우 회원 access token으로 좋아요 api 호출
+    try {
+      const access_token = sessionStorage.getItem("access_token");
+      const client = new HttpClient(access_token);
+      client.post(`${API_BASE_URL}/contents/videos/${contentId}/reviews/${reviewId}/like`).then((res) => {
+        if (res.status === 200) {
+          // res.code === "REVIEW_LIKE_UPDATE_SUCC"
+          cLog("리뷰 좋아요를 누르거나 취소하였습니다.");
+
+          // 응답값: like_count, is_like
+          // 1. reviews: 해당 review id값의 like_count 업데이트
+          // 2. myInfo: review_like 배열에 해당 review id값 업데이트
+          setReviews((prevReviews) => {
+            const updatedReviews = prevReviews.map((review) => {
+              if (review.id === reviewId) {
+                return { ...review, like_count: res.data.data.like_count };
+              }
+              return review;
+            });
+            return updatedReviews;
+          });
+
+          setMyInfo((prevMyInfo) => {
+            const updatedMyInfo = { ...prevMyInfo };
+            if (res.data.data.is_like) {
+              updatedMyInfo.review_like.push(reviewId);
+            } else {
+              updatedMyInfo.review_like = updatedMyInfo.review_like.filter((id) => id !== reviewId);
+            }
+            return updatedMyInfo;
+          });
+        }
+      });
+    } catch (error) {
+      cError(error);
+    }
+  };
+
+  // TODO: 리뷰 자세히 보기
 
   useEffect(() => {
     // 헤더 스타일 변경
@@ -402,7 +462,7 @@ const Content = () => {
                 {myInfo.is_like ? <RiUserSmileFill size={32} /> : <RiUserSmileLine size={32} />}
                 <span>좋아요</span>
               </button>
-              <button className="review" type="button" onClick={handleReviewButton}>
+              <button className="review" type="button" onClick={handleReviewCreate}>
                 <RiPencilFill size={32} />
                 <span>리뷰쓰기</span>
               </button>
@@ -413,7 +473,7 @@ const Content = () => {
               <h4>내가 쓴 리뷰</h4>
               <div className="my-review">
                 <img src={myReview.user_profile_image || DEFAULT_IMAGES.noProfile} alt="프로필 이미지" />
-                <div className="content">
+                <div className="content" onClick={handleReviewCreate}>
                   <p>{myReview.title}</p>
                 </div>
                 <div className="button-wrapper">
@@ -422,7 +482,7 @@ const Content = () => {
                     <span>삭제</span>
                   </button>
                   |
-                  <button type="button" className="modify" onClick={handleReviewModify}>
+                  <button type="button" className="update" onClick={handleReviewUpdate}>
                     <RiPencilFill size={18} />
                     <span>수정</span>
                   </button>
@@ -467,7 +527,11 @@ const Content = () => {
           <ul className="reviews">
             {reviews.slice(0, 8).map((review, index) => (
               <li key={index}>
-                <Review review={review} />
+                <Review
+                  review={review}
+                  isLike={includes(myInfo.review_like, review.id)}
+                  onLikeClick={handleReviewLike}
+                />
               </li>
             ))}
           </ul>
