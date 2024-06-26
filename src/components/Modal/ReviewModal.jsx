@@ -72,7 +72,7 @@ const ReviewModal = (props) => {
             title: data.title,
             content: "",
             is_spoiler: data.spoiler,
-            // is_private: data.private,
+            is_private: data.private,
           })
           .then((res) => {
             if (res.status === 201) {
@@ -96,7 +96,7 @@ const ReviewModal = (props) => {
             title: data.title,
             content: "",
             is_spoiler: data.spoiler,
-            // is_private: data.private,
+            is_private: data.private,
           })
           .then((res) => {
             if (res.status === 204) {
@@ -112,6 +112,10 @@ const ReviewModal = (props) => {
   });
 
   useEffect(() => {
+    setFocus("title");
+  }, [setFocus]);
+
+  useEffect(() => {
     if (isEmpty(myReview)) return;
 
     setValue("title", myReview.title, { shouldDirty: true });
@@ -119,7 +123,7 @@ const ReviewModal = (props) => {
     setValue("private", myReview.is_private);
 
     trigger();
-  }, [myReview, setValue, trigger, setFocus]);
+  }, [myReview, setValue, trigger]);
 
   return (
     <Modal>
