@@ -1,12 +1,10 @@
 import React from "react";
-import MovieRanking from "../components/MovieRanking";
-import MainRanking from "/src/components/MainRanking";
+import AllRanking from "/src/components/AllRanking";
 
 const Movie = () => {
   return (
     <main className="main">
-      {/* <MovieRanking title={"🎬 박스오피스 순위"} /> */}
-      <MainRanking type={10} />
+      <AllRanking type={10} />
     </main>
   );
 };

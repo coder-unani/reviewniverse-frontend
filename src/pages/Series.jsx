@@ -1,12 +1,10 @@
 import React from "react";
-import MovieRanking from "../components/MovieRanking";
-import MainRanking from "/src/components/MainRanking";
+import AllRanking from "/src/components/AllRanking";
 
 const Series = () => {
   return (
     <main className="main">
-      {/* <MovieRanking title={"넷플릭스 순위"} /> */}
-      <MainRanking type={11} />
+      <AllRanking type={11} />
     </main>
   );
 };
