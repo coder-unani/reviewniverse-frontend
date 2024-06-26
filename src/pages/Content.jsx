@@ -26,6 +26,7 @@ import {
   formatStaffType,
 } from "/src/utils/contentFormat";
 import { DEFAULT_IMAGES } from "/src/config/images";
+import ProfileImage from "/src/components/Profile/ProfileImage";
 
 /**
  * TODO:
@@ -472,7 +473,7 @@ const Content = () => {
             <div className="my-review-wrapper">
               <h4>내가 쓴 리뷰</h4>
               <div className="my-review">
-                <img src={myReview.user_profile_image || DEFAULT_IMAGES.noProfile} alt="프로필 이미지" />
+                <ProfileImage image={user.profile_image} size={56} />
                 <div className="content" onClick={handleReviewCreate}>
                   <p>{myReview.title}</p>
                 </div>
