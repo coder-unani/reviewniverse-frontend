@@ -1,5 +1,6 @@
 import React, { useRef } from "react";
 import Modal from "/src/components/Modal/Modal";
+import { Link } from "react-router-dom";
 import { RiCloseLine } from "@remixicon/react";
 import "/src/styles/EnjoyModal.css";
 
@@ -16,14 +17,6 @@ const EnjoyModal = (props) => {
     onClose();
   };
 
-  const handleJoinButton = () => {
-    window.location.href = "/user/join";
-  };
-
-  const handleLoginButton = () => {
-    window.location.href = "/user/login";
-  };
-
   return (
     <Modal>
       <div className="enjoy-modal" ref={modalRef} onClick={handleModalClose}>
@@ -34,12 +27,12 @@ const EnjoyModal = (props) => {
             <p>로그인이 필요한 기능이에요!</p>
           </div>
           <div className="button-wrapper">
-            <button className="join" type="button" onClick={handleJoinButton}>
+            <Link to="/user/join" className="join">
               회원가입
-            </button>
-            <button className="login" type="button" onClick={handleLoginButton}>
+            </Link>
+            <Link to="/user/login" className="login">
               로그인
-            </button>
+            </Link>
           </div>
         </div>
       </div>
