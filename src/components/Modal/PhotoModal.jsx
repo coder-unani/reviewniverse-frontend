@@ -1,5 +1,5 @@
 import React, { useRef } from "react";
-import Modal from "/src/components/Modal/Modal";
+import Modal from "/src/components/Modal";
 import "/src/styles/PhotoModal.css";
 
 const PhotoModal = (props) => {

@@ -1,5 +1,5 @@
 import React, { useRef } from "react";
-import Modal from "/src/components/Modal/Modal";
+import Modal from "/src/components/Modal";
 import { Link } from "react-router-dom";
 import { RiCloseLine } from "@remixicon/react";
 import "/src/styles/EnjoyModal.css";

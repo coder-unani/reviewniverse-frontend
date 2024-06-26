@@ -1,5 +1,5 @@
 import React, { useRef } from "react";
-import Modal from "/src/components/Modal/Modal";
+import Modal from "/src/components/Modal";
 import "/src/styles/ConfirmModal.css";
 
 const ConfirmModal = (props) => {

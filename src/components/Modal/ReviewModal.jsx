@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from "react";
-import Modal from "/src/components/Modal/Modal";
+import Modal from "/src/components/Modal";
 import * as Yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm, Controller, useWatch } from "react-hook-form";
