@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import ProfileButton from "/src/components/Button/ProfileButton";
+import ProfileButton from "/src/components/Profile/ProfileButton";
 import { RiStarFill, RiThumbUpLine, RiThumbUpFill } from "@remixicon/react";
 import { diffDate } from "/src/utils/format";
 import { formatRating } from "/src/utils/contentFormat";
@@ -20,7 +20,7 @@ const Review = (props) => {
   return (
     <div className="review">
       <div className="top">
-        <ProfileButton image={review.user_profile_img} nickname={review.user_nickname} />
+        <ProfileButton image={review.user_profile_img} user={{ id: review.user_id, nickname: review.user_nickname }} />
         {review.rating && (
           <div className="rating">
             <RiStarFill size={16} />
