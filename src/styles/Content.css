@@ -217,18 +217,18 @@
   color: #8c8c8c;
 }
 .info-wrapper .my-review-wrapper .delete,
-.info-wrapper .my-review-wrapper .modify {
+.info-wrapper .my-review-wrapper .update {
   display: flex;
   align-items: center;
   gap: 3px;
   padding: 15px 12px;
 }
 .info-wrapper .my-review-wrapper .delete svg,
-.info-wrapper .my-review-wrapper .modify svg {
+.info-wrapper .my-review-wrapper .update svg {
   color: #8c8c8c;
 }
 .info-wrapper .my-review-wrapper .delete span,
-.info-wrapper .my-review-wrapper .modify span {
+.info-wrapper .my-review-wrapper .update span {
   color: #8c8c8c;
 }
 .info-wrapper .bottom {
@@ -379,6 +379,10 @@
   font-size: 15px;
   line-height: 24px;
   white-space: pre-wrap;
+  display: -webkit-box;
+  -webkit-line-clamp: 5;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }
 .review-wrapper .reviews .review .bottom {
   display: flex;

@@ -259,7 +259,7 @@
     }
 
     .delete,
-    .modify {
+    .update {
       display: flex;
       align-items: center;
       gap: 3px;
@@ -446,6 +446,12 @@
           font-size: 15px;
           line-height: 24px;
           white-space: pre-wrap;
+
+          // 5줄 이상일때 생략
+          display: -webkit-box;
+          -webkit-line-clamp: 5;
+          -webkit-box-orient: vertical;
+          overflow: hidden;
         }
       }
 
