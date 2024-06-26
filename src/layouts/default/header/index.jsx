@@ -1,9 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { cLog } from "/src/utils/test";
 import Logo from "/src/assets/logo.svg";
 import { RiSearchLine } from "@remixicon/react";
-import ProfileButton from "/src/components/Button/ProfileButton";
+import ProfileButton from "/src/components/Profile/ProfileButton";
 
 /**
  * TODO:
@@ -44,16 +43,6 @@ const Header = () => {
   }, []);
   */
 
-  // 로그인 페이지로 이동
-  const handleLoginButton = () => {
-    window.location.href = "/user/login";
-  };
-
-  // 회원가입 페이지로 이동
-  const handleJoinButton = () => {
-    window.location.href = "/user/join";
-  };
-
   // 메뉴 핸들러
   const handleMenuClick = (menu) => {
     setActiveMenu(menu);
@@ -61,18 +50,18 @@ const Header = () => {
 
   // 로그인 여부에 따라 프로필 또는 로그인 버튼 렌더링
   const renderProfileButton = () => {
-    return <ProfileButton image={user.profile_image} nickname={user.nickname} />;
+    return <ProfileButton image={user.profile_image} user={{ id: user.id, nickname: user.nickname }} />;
   };
 
   const renderLoginButton = () => {
     return (
       <>
-        <button className="login" onClick={handleLoginButton}>
+        <Link to="/user/login" className="login">
           로그인
-        </button>
-        <button className="join" onClick={handleJoinButton}>
+        </Link>
+        <Link to="/user/join" className="join">
           회원가입
-        </button>
+        </Link>
       </>
     );
   };
