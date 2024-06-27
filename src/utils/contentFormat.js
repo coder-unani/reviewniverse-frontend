@@ -5,17 +5,17 @@ import { DEFAULT_IMAGES } from "/src/config/images";
 // 배경 이미지 포맷
 export const formatBackgroundImage = (images) => {
   if (isEmpty(images)) return DEFAULT_IMAGES.noImage;
-  // 썸네일 이미지 배열 중에서 type이 11인 이미지만 렌더링
-  const backgroundImage = find(images, { type: "11" });
+  // 썸네일 이미지 배열 중에서 code가 11인 이미지만 렌더링
+  const backgroundImage = find(images, { code: "11" });
   return backgroundImage.url;
 };
 
 // 포스터 이미지 포맷
 export const formatPoster = (images) => {
   if (isEmpty(images)) return DEFAULT_IMAGES.noImage;
-  // 이미지 배열 중에서 type이 10인 이미지만 렌더링
-  // type이 10인 이미지가 없을 경우 type이 11인 이미지 렌더링
-  const thumbnail = find(images, { type: "10" }) ?? find(images, { type: "11" });
+  // 이미지 배열 중에서 code가 10인 이미지만 렌더링
+  // code가 10인 이미지가 없을 경우 code가 11인 이미지 렌더링
+  const thumbnail = find(images, { code: "10" }) ?? find(images, { code: "11" });
   return thumbnail.url;
 };
 
@@ -43,13 +43,13 @@ export const formatRating = (rating) => {
 };
 
 // 출연진 타입 포맷
-export const formatActorType = (type) => {
-  const actorType = VIDEO_ACTOR_TYPE[type];
+export const formatActorType = (code) => {
+  const actorType = VIDEO_ACTOR_TYPE[code];
   return actorType || "출연진";
 };
 
 // 제작진 타입 포맷
-export const formatStaffType = (type) => {
-  const staffType = VIDEO_STAFF_TYPE[type];
+export const formatStaffType = (code) => {
+  const staffType = VIDEO_STAFF_TYPE[code];
   return staffType || "제작진";
 };
