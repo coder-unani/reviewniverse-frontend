@@ -14,7 +14,7 @@ const Crew = (props) => {
       <div className="name-wrapper">
         <span className="name">{crew.name}</span>
         <div className="role">
-          <span>{type(crew.type)}</span>
+          <span>{type(crew.code)}</span>
           {crew.role && (
             <>
               <span>|</span>

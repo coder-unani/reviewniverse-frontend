@@ -13,9 +13,7 @@ import "/src/styles/Login.css";
 const Login = () => {
   // 로그인 유효성 검사
   const LoginSchema = Yup.object().shape({
-    email: Yup.string()
-      .required("이메일을 입력해주세요.")
-      .email("이메일 형식이 아닙니다."),
+    email: Yup.string().required("이메일을 입력해주세요.").email("이메일 형식이 아닙니다."),
     password: Yup.string().required("비밀번호를 입력해주세요."),
   });
 
@@ -44,7 +42,7 @@ const Login = () => {
       const client = new HttpClient();
       client
         .post("https://comet.orbitcode.kr/v1/users/login", {
-          type: "10",
+          code: "10",
           email: data.email,
           password: data.password,
         })

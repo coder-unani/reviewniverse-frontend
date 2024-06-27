@@ -74,7 +74,7 @@ const JoinForm = (props) => {
       const client = new HttpClient();
       client
         .post("https://comet.orbitcode.kr/v1/users", {
-          type: "10",
+          code: "10",
           nickname: data.nickname,
           email: data.email,
           password: data.password,
