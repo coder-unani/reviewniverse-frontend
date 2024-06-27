@@ -61,7 +61,7 @@
   align-items: center;
   width: 100%;
   max-width: 1440px;
-  padding: 7px 60px;
+  padding: 10px 60px;
   margin: 0 auto;
 }
 .header .left {
@@ -125,7 +125,8 @@
   opacity: 0.5;
 }
 .header .right a {
-  padding: 10px;
+  line-height: 40px;
+  padding: 0 10px;
 }
 .header .search {
   display: flex;
@@ -145,7 +146,7 @@
   min-height: 100vh;
   padding: 24px 60px;
   margin: 0 auto;
-  margin-top: 66px;
+  margin-top: 62px;
 }
 
 .footer-wrapper {
