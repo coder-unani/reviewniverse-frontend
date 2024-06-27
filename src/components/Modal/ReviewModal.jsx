@@ -70,7 +70,6 @@ const ReviewModal = (props) => {
         client
           .post(`${API_BASE_URL}/contents/videos/${content.id}/reviews`, {
             title: data.title,
-            content: "",
             is_spoiler: data.spoiler,
             is_private: data.private,
           })
@@ -94,7 +93,6 @@ const ReviewModal = (props) => {
         client
           .put(`${API_BASE_URL}/contents/videos/${content.id}/reviews/${myReview.id}`, {
             title: data.title,
-            content: "",
             is_spoiler: data.spoiler,
             is_private: data.private,
           })
