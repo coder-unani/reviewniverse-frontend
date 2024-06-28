@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 import Logo from "/src/assets/logo.svg";
 import { RiSearchLine } from "@remixicon/react";
-import ProfileButton from "/src/components/Profile/ProfileButton";
+import ProfileButton from "/src/components/Button/Profile";
 
 /**
  * TODO:

@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import ProfileButton from "/src/components/Profile/ProfileButton";
+import ProfileButton from "/src/components/Button/Profile";
 import { RiStarFill, RiThumbUpLine, RiThumbUpFill } from "@remixicon/react";
 import { diffDate } from "/src/utils/format";
 import { formatRating } from "/src/utils/contentFormat";
