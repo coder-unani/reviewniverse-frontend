@@ -9,7 +9,6 @@ import { formatYear, formatUpperCase } from "/src/utils/format";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation } from "swiper/modules";
 import "swiper/css";
-import "/src/styles/Content.css";
 import { cLog, cError } from "/src/utils/test";
 import Review from "/src/components/Review";
 import Crew from "/src/components/Crew";
@@ -17,6 +16,7 @@ import PhotoModal from "/src/components/Modal/PhotoModal";
 import EnjoyModal from "/src/components/Modal/EnjoyModal";
 import ReviewModal from "/src/components/Modal/ReviewModal";
 import ConfirmModal from "/src/components/Modal/ConfirmModal";
+import ProfileImage from "/src/components/Button/Profile/ProfileImage";
 import {
   formatBackgroundImage,
   formatPoster,
@@ -26,7 +26,7 @@ import {
   formatStaffType,
 } from "/src/utils/contentFormat";
 import { DEFAULT_IMAGES } from "/src/config/images";
-import ProfileImage from "/src/components/Profile/ProfileImage";
+import "/src/styles/Content.css";
 
 /**
  * TODO:
@@ -177,7 +177,7 @@ const Content = () => {
     }
   };
 
-  // TODO: 리뷰 좋아요
+  // 리뷰 좋아요
   const handleReviewLike = (reviewId) => {
     // 로그인 여부 확인
     if (!user) {
@@ -327,13 +327,6 @@ const Content = () => {
   }, [contentId]);
 
   useEffect(() => {
-    if (isEmpty(myInfo) || isEmpty(reviews) || !myInfo.review) return;
-
-    const findMyReview = reviews.find((review) => review.id === myInfo.review);
-    setMyReview(findMyReview);
-  }, [reviews, myInfo]);
-
-  useEffect(() => {
     const emptyRating = emptyRatingRef.current;
     const fillRating = fillRatingRef.current;
     if (!emptyRating || !fillRating) return;
@@ -469,13 +462,13 @@ const Content = () => {
               </button>
             </div>
           </div>
-          {!isEmpty(myReview) && (
+          {!isEmpty(myInfo.review) && (
             <div className="my-review-wrapper">
               <h4>내가 쓴 리뷰</h4>
               <div className="my-review">
                 <ProfileImage image={user.profile_image} size={56} />
                 <div className="content" onClick={handleReviewCreate}>
-                  <p>{myReview.title}</p>
+                  <p>{myInfo.review.title}</p>
                 </div>
                 <div className="button-wrapper">
                   <button type="button" className="delete" onClick={handleReviewDelete}>
@@ -554,7 +547,7 @@ const Content = () => {
       </section>
       {photoModal.isOpen && <PhotoModal url={photoModal.url} onClose={togglePhotoModal} />}
       {enjoyModal && <EnjoyModal onClose={toggleEnjoyModal} />}
-      {reviewModal && <ReviewModal content={content} myReview={myReview} onClose={toggleReviewModal} />}
+      {reviewModal && <ReviewModal content={content} myReview={myInfo.review} onClose={toggleReviewModal} />}
       {confirmModal && <ConfirmModal onClose={toggleConfirmModal} />}
     </main>
   );
