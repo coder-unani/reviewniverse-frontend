@@ -7,7 +7,7 @@ import { RiCloseLine } from "@remixicon/react";
 import HttpClient from "/src/utils/HttpClient";
 import "/src/styles/ReviewModal.css";
 import { cLog, cError } from "/src/utils/test";
-import { isEmpty, set } from "lodash";
+import { isEmpty } from "lodash";
 
 const API_BASE_URL = "https://comet.orbitcode.kr/v1";
 
