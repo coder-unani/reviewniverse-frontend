@@ -16,7 +16,8 @@ import DefaultLayout from "/src/layouts/default";
 import Home from "/src/pages/Home";
 import Movie from "/src/pages/Movie";
 import Series from "/src/pages/Series";
-import Content from "../pages/Content";
+import Content from "/src/pages/Content";
+import User from "/src/pages/User";
 
 const MainRoutes = {
   path: "/",
@@ -37,6 +38,10 @@ const MainRoutes = {
     {
       path: "/contents/:contentId",
       element: <Content />,
+    },
+    {
+      path: "/user/:userId",
+      element: <User />,
     },
   ],
 };
