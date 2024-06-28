@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import ProfileImage from "/src/components/Profile/ProfileImage";
+import ProfileImage from "/src/components/Button/Profile/ProfileImage";
 import "/src/styles/ProfileButton.css";
 
 const ProfileButton = (props) => {
