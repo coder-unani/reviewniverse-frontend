@@ -15,6 +15,10 @@ class HttpClient {
     }
   }
 
+  setHeader(headers) {
+    Object.assign(this.client.defaults.headers.common, headers);
+  }
+
   async get(url, data = null) {
     try {
       return await this.client
@@ -45,9 +49,9 @@ class HttpClient {
     }
   }
 
-  async put(url, data = null) {
+  async put(url, data = null, headers = null) {
     try {
-      this.client.defaults.headers.common["Content-Type"] = "multipart/form-data";
+      if (headers) this.setHeader(headers);
 
       return await this.client
         .put(url, data ? data : {})
