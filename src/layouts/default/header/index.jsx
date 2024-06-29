@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from "react";
-import { Link, useLocation } from "react-router-dom";
+import React, { useState, useEffect, useRef } from "react";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import Logo from "/src/assets/logo.svg";
 import { RiSearchLine } from "@remixicon/react";
 import ProfileButton from "/src/components/Button/Profile";
@@ -11,6 +11,7 @@ import ProfileButton from "/src/components/Button/Profile";
 
 const Header = () => {
   const location = useLocation();
+  const navigate = useNavigate();
 
   // 메뉴 활성화
   const [activeMenu, setActiveMenu] = useState("");
@@ -21,31 +22,20 @@ const Header = () => {
     return storedUser ? JSON.parse(storedUser) : null;
   });
 
-  // 활성화된 메뉴 설정
-  useEffect(() => {
-    const path = location.pathname;
-    if (path === "/movie") {
-      setActiveMenu("movie");
-    } else if (path === "/series") {
-      setActiveMenu("series");
-    } else {
-      setActiveMenu("");
-    }
-  }, [location, activeMenu]);
-
-  // TODO: 토큰 검증
-  /*
-  useEffect(() => {
-    const token = sessionStorage.getItem("access_token");
-
-    cLog(user);
-    cLog(token);
-  }, []);
-  */
+  // 검색어
+  const searchInputRef = useRef(null);
 
   // 메뉴 핸들러
   const handleMenuClick = (menu) => {
     setActiveMenu(menu);
+  };
+
+  // 검색 핸들러
+  const handleSearchSubmit = (e) => {
+    e.preventDefault();
+    const searchQuery = searchInputRef.current.value;
+    if (!searchQuery || !searchQuery.trim()) return;
+    navigate(`/search?query=${searchQuery}`);
   };
 
   // 로그인 여부에 따라 프로필 또는 로그인 버튼 렌더링
@@ -66,6 +56,23 @@ const Header = () => {
     );
   };
 
+  useEffect(() => {
+    if (location.pathname === "/search") return;
+    searchInputRef.current.value = "";
+  }, [location]);
+
+  // 활성화된 메뉴 설정
+  useEffect(() => {
+    const path = location.pathname;
+    if (path === "/movie") {
+      setActiveMenu("movie");
+    } else if (path === "/series") {
+      setActiveMenu("series");
+    } else {
+      setActiveMenu("");
+    }
+  }, [location, activeMenu]);
+
   return (
     <header className="header-wrapper">
       <div className="header">
@@ -83,10 +90,10 @@ const Header = () => {
           </ul>
         </div>
         <div className="right">
-          <div className="search">
+          <form className="search" onSubmit={handleSearchSubmit}>
             <RiSearchLine size={20} />
-            <input type="text" placeholder="검색어를 입력하세요." />
-          </div>
+            <input type="text" placeholder="검색어를 입력하세요." ref={searchInputRef} />
+          </form>
           {user ? renderProfileButton() : renderLoginButton()}
         </div>
       </div>
