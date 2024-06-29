@@ -4,7 +4,8 @@ import * as Yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm, useWatch } from "react-hook-form";
 import HttpClient from "/src/utils/HttpClient";
-import { head, isEmpty } from "lodash";
+import { isEmpty, set } from "lodash";
+import { formatUser } from "/src/utils/userFormat";
 import { RiImageEditFill } from "@remixicon/react";
 import { DEFAULT_IMAGES } from "/src/config/images";
 import "/src/styles/Profile.css";
@@ -16,9 +17,6 @@ const API_BASE_URL = "https://comet.orbitcode.kr/v1";
  * TODO:
  * 이메일 인증 여부 표시
  * 이메일 인증 기능 추가
- * 4. 유저 비밀번호 수정
- * 5. 유저 소개 표시/수정
- * 6. 유저 마케팅 수신 동의 표시/수정
  */
 
 const Profile = () => {
@@ -85,12 +83,12 @@ const Profile = () => {
       });
 
   const defaultValues = {
-    profile_image: user?.profile_image || DEFAULT_IMAGES.noProfile,
-    nickname: user?.nickname || "",
+    profile_image: DEFAULT_IMAGES.noProfile,
+    nickname: "",
     password_origin: "",
     password_new: "",
-    profile_text: user?.profile_text || "",
-    is_marketing_agree: user?.is_marketing_agree || false,
+    profile_text: "",
+    is_marketing_agree: false,
   };
 
   const methods = useForm({
@@ -170,25 +168,20 @@ const Profile = () => {
       delete updateData.password_new;
     }
 
-    // FormData 객체 생성
-    const formData = new FormData();
-    Object.keys(updateData).forEach((key) => {
-      if (key === "profile_image" && data.profile_image instanceof File) {
-        formData.append(key, data.profile_image);
-      } else {
-        formData.append(key, updateData[key]);
-      }
-    });
-
     // 프로필 수정 API 호출
     try {
       const profileClient = new HttpClient();
-      const res = await profileClient.put(`${API_BASE_URL}/users/${user.id}`, formData);
-      if (res.status !== 200) {
+      const headers = {
+        "Content-Type": "multipart/form-data",
+      };
+      const res = await profileClient.put(`${API_BASE_URL}/users/${user.id}`, updateData, headers);
+      if (res.status === 200) {
+        cLog("프로필이 수정되었습니다.");
+        sessionStorage.setItem("user", JSON.stringify(formatUser(res.data.user)));
+      } else {
         cLog("프로필 수정에 실패하였습니다.");
         return;
       }
-      cLog("프로필이 수정되었습니다.");
     } catch (error) {
       cError(error);
       return;
@@ -223,14 +216,21 @@ const Profile = () => {
     clearErrors("profile_image");
   };
 
-  // 로그인한 유저가 없을 경우 로그인 페이지로 이동
   useEffect(() => {
+    // 로그인한 유저가 없을 경우 로그인 페이지로 이동
     tokenValidation().then((isValid) => {
       if (!isValid) {
         window.location.href = "/user/login";
         return;
       }
     });
+
+    setValue("profile_image", user.profile_image);
+    setValue("nickname", user.nickname);
+    setValue("profile_text", user.profile_text);
+    setValue("is_marketing_agree", user.is_marketing_agree);
+
+    trigger();
   }, []);
 
   // TODO: URL 변수화 필요
@@ -308,7 +308,7 @@ const Profile = () => {
             </div>
             <div className="input-wrapper">
               <label htmlFor="nickname">닉네임</label>
-              <input type="text" id="nickname" {...register("nickname")} />
+              <input type="text" id="nickname" spellCheck="false" {...register("nickname")} />
               {errors.nickname && <p className="error">{errors.nickname.message}</p>}
             </div>
             <div className="input-wrapper">
@@ -326,7 +326,12 @@ const Profile = () => {
                 <span>소개</span>
                 <span>{watchIntroduction.length} / 100</span>
               </label>
-              <textarea id="profile_text" placeholder="소개글을 입력하세요." {...register("profile_text")} />
+              <textarea
+                id="profile_text"
+                placeholder="소개글을 입력하세요."
+                spellCheck="false"
+                {...register("profile_text")}
+              />
               {errors.profile_text && <p className="error">{errors.profile_text.message}</p>}
             </div>
             <div className="input-wrapper marketing">
