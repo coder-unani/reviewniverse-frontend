@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import CheckForm from "/src/components/CheckForm";
 import * as Yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm, useWatch } from "react-hook-form";
@@ -8,7 +9,6 @@ import { RiImageEditFill } from "@remixicon/react";
 import { DEFAULT_IMAGES } from "/src/config/images";
 import "/src/styles/Profile.css";
 import { cLog, cError } from "/src/utils/test";
-import axios from "axios";
 
 const API_BASE_URL = "https://comet.orbitcode.kr/v1";
 
@@ -22,12 +22,13 @@ const API_BASE_URL = "https://comet.orbitcode.kr/v1";
  */
 
 const Profile = () => {
+  // 비밀번호 확인 상태
+  const [isPasswordConfirmed, setIsPasswordConfirmed] = useState(false);
   const [user, setUser] = useState(() => {
     const storedUser = sessionStorage.getItem("user");
     return storedUser ? JSON.parse(storedUser) : null;
   });
   const [previewImage, setPreviewImage] = useState(user?.profile_image || DEFAULT_IMAGES.noProfile);
-  const [imageFile, setImageFile] = useState(null);
 
   // 토큰 검증
   const tokenValidation = async () => {
@@ -217,8 +218,6 @@ const Profile = () => {
       setPreviewImage(reader.result);
     };
     reader.readAsDataURL(file);
-    setImageFile(file);
-
     // useForm의 setValue를 사용하여 profileImage 필드를 업데이트
     setValue("profile_image", file, { shouldValidate: true, shouldDirty: true });
     clearErrors("profile_image");
@@ -282,59 +281,63 @@ const Profile = () => {
   return (
     <main className="edit-main">
       <div className="edit-wrapper">
-        <form method={methods} onSubmit={onSubmit} className="edit-form" encType="multipart/form-data">
-          <div className="input-wrapper image">
-            <figure className="profile-image edit">
-              <img src={previewImage} alt="프로필 이미지" />
-              <input
-                type="file"
-                id="profile_image"
-                name="profile_image"
-                accept="image/*"
-                onChange={handleImageChange}
-                style={{ display: "none" }}
-              />
-              <label htmlFor="profile_image">
-                <RiImageEditFill size={24} />
+        {!isPasswordConfirmed ? (
+          <CheckForm setIsPasswordConfirmed={setIsPasswordConfirmed} />
+        ) : (
+          <form method={methods} onSubmit={onSubmit} className="edit-form" encType="multipart/form-data">
+            <div className="input-wrapper image">
+              <figure className="profile-image edit">
+                <img src={previewImage} alt="프로필 이미지" />
+                <input
+                  type="file"
+                  id="profile_image"
+                  name="profile_image"
+                  accept="image/*"
+                  onChange={handleImageChange}
+                  style={{ display: "none" }}
+                />
+                <label htmlFor="profile_image">
+                  <RiImageEditFill size={24} />
+                </label>
+              </figure>
+              {errors.profile_image && <p className="error">{errors.profile_image.message}</p>}
+            </div>
+            <div className="input-wrapper">
+              <label htmlFor="email">이메일</label>
+              <input type="email" id="email" value={user.email} readOnly />
+            </div>
+            <div className="input-wrapper">
+              <label htmlFor="nickname">닉네임</label>
+              <input type="text" id="nickname" {...register("nickname")} />
+              {errors.nickname && <p className="error">{errors.nickname.message}</p>}
+            </div>
+            <div className="input-wrapper">
+              <label htmlFor="password_origin">현재 비밀번호</label>
+              <input type="password" id="password_origin" {...register("password_origin")} />
+              {errors.password_origin && <p className="error">{errors.password_origin.message}</p>}
+            </div>
+            <div className="input-wrapper">
+              <label htmlFor="password_new">새 비밀번호</label>
+              <input type="password" id="password_new" {...register("password_new")} />
+              {errors.password_new && <p className="error">{errors.password_new.message}</p>}
+            </div>
+            <div className="input-wrapper introduction">
+              <label htmlFor="profile_text">
+                <span>소개</span>
+                <span>{watchIntroduction.length} / 100</span>
               </label>
-            </figure>
-            {errors.profile_image && <p className="error">{errors.profile_image.message}</p>}
-          </div>
-          <div className="input-wrapper">
-            <label htmlFor="email">이메일</label>
-            <input type="email" id="email" value={user.email} readOnly />
-          </div>
-          <div className="input-wrapper">
-            <label htmlFor="nickname">닉네임</label>
-            <input type="text" id="nickname" {...register("nickname")} />
-            {errors.nickname && <p className="error">{errors.nickname.message}</p>}
-          </div>
-          <div className="input-wrapper">
-            <label htmlFor="password_origin">현재 비밀번호</label>
-            <input type="password" id="password_origin" {...register("password_origin")} />
-            {errors.password_origin && <p className="error">{errors.password_origin.message}</p>}
-          </div>
-          <div className="input-wrapper">
-            <label htmlFor="password_new">새 비밀번호</label>
-            <input type="password" id="password_new" {...register("password_new")} />
-            {errors.password_new && <p className="error">{errors.password_new.message}</p>}
-          </div>
-          <div className="input-wrapper introduction">
-            <label htmlFor="profile_text">
-              <span>소개</span>
-              <span>{watchIntroduction.length} / 100</span>
-            </label>
-            <textarea id="profile_text" placeholder="소개글을 입력하세요." {...register("profile_text")} />
-            {errors.profile_text && <p className="error">{errors.profile_text.message}</p>}
-          </div>
-          <div className="input-wrapper marketing">
-            <input type="checkbox" id="is_marketing_agree" {...register("is_marketing_agree")} />
-            <label htmlFor="is_marketing_agree">마케팅 정보 수신 동의</label>
-          </div>
-          <button type="submit" disabled={!isDirty}>
-            수정하기
-          </button>
-        </form>
+              <textarea id="profile_text" placeholder="소개글을 입력하세요." {...register("profile_text")} />
+              {errors.profile_text && <p className="error">{errors.profile_text.message}</p>}
+            </div>
+            <div className="input-wrapper marketing">
+              <input type="checkbox" id="is_marketing_agree" {...register("is_marketing_agree")} />
+              <label htmlFor="is_marketing_agree">마케팅 정보 수신 동의</label>
+            </div>
+            <button type="submit" disabled={!isDirty}>
+              수정하기
+            </button>
+          </form>
+        )}
       </div>
     </main>
   );
