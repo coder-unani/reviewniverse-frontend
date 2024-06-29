@@ -83,7 +83,7 @@ const User = () => {
       // 로그인한 유저 정보가 없으면 API 요청
       fetchData();
     }
-  }, []);
+  }, [userId]);
 
   if (isEmpty(user)) return null;
 
