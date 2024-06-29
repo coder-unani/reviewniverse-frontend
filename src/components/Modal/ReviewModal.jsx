@@ -63,10 +63,7 @@ const ReviewModal = (props) => {
     if (isEmpty(myReview)) {
       // 리뷰 등록하기
       try {
-        const access_token = sessionStorage.getItem("access_token");
-        // 디벨롭 필요
-        if (!access_token) throw new Error("로그인이 필요한 서비스입니다.");
-        const client = new HttpClient(access_token);
+        const client = new HttpClient();
         client
           .post(`${API_BASE_URL}/contents/videos/${content.id}/reviews`, {
             title: data.title,
@@ -86,10 +83,7 @@ const ReviewModal = (props) => {
     } else {
       // 리뷰 수정하기
       try {
-        const access_token = sessionStorage.getItem("access_token");
-        // 디벨롭 필요
-        if (!access_token) throw new Error("로그인이 필요한 서비스입니다.");
-        const client = new HttpClient(access_token);
+        const client = new HttpClient();
         client
           .put(`${API_BASE_URL}/contents/videos/${content.id}/reviews/${myReview.id}`, {
             title: data.title,
@@ -133,7 +127,9 @@ const ReviewModal = (props) => {
             <Controller
               name="title"
               control={control}
-              render={({ field }) => <textarea {...field} id="title" placeholder="이 작품에 대한 리뷰를 남겨보세요." />}
+              render={({ field }) => (
+                <textarea {...field} id="title" placeholder="이 작품에 대한 리뷰를 남겨보세요." spellCheck="false" />
+              )}
             />
             <div className="button-wrapper">
               <div className="left">
