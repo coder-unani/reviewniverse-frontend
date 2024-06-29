@@ -4,4 +4,5 @@ export const DEFAULT_IMAGES = {
   noProfile: "/src/assets/no-profile.png",
   noActor: "/src/assets/no-actor.png",
   noImage: "/src/assets/no-image.png",
+  noSearch: "/src/assets/no-search.png",
 };
