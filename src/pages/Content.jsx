@@ -4,7 +4,15 @@ import HttpClient from "/src/utils/HttpClient";
 import { isEmpty, includes } from "lodash";
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import "react-lazy-load-image-component/src/effects/blur.css";
-import { RiStarFill, RiUserSmileLine, RiUserSmileFill, RiPencilFill, RiDeleteBinFill } from "@remixicon/react";
+import {
+  RiStarFill,
+  RiUserSmileLine,
+  RiUserSmileFill,
+  RiPencilFill,
+  RiDeleteBinFill,
+  RiArrowRightSLine,
+  RiArrowLeftSLine,
+} from "@remixicon/react";
 import { formatYear, formatUpperCase } from "/src/utils/format";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation } from "swiper/modules";
@@ -56,7 +64,6 @@ const Content = () => {
   const [reviewModal, setReviewModal] = useState(false);
   const [confirmModal, setConfirmModal] = useState(false);
   const [myInfo, setMyInfo] = useState({});
-  const [myReview, setMyReview] = useState({});
   const [isValidToken, setIsValidToken] = useState(false);
   const emptyRatingRef = useRef(null);
   const fillRatingRef = useRef(null);
@@ -122,8 +129,7 @@ const Content = () => {
 
     // 로그인 되어 있을 경우 회원 access token으로 좋아요 api 호출
     try {
-      const access_token = sessionStorage.getItem("access_token");
-      const client = new HttpClient(access_token);
+      const client = new HttpClient();
       const res = await client.post(`${API_BASE_URL}/contents/videos/${contentId}/like`);
       if (res.status === 200) {
         // res.code === "VIDEO_LIKE_UPDATE_SUCC"
@@ -163,13 +169,12 @@ const Content = () => {
     // setConfirmModal(true);
 
     try {
-      const access_token = sessionStorage.getItem("access_token");
-      const client = new HttpClient(access_token);
-      client.delete(`${API_BASE_URL}/contents/videos/${contentId}/reviews/${myReview.id}`).then((res) => {
+      const client = new HttpClient();
+      client.delete(`${API_BASE_URL}/contents/videos/${contentId}/reviews/${myInfo.review.id}`).then((res) => {
         if (res.status === 204) {
           // res.code === "REVIEW_DELETE_SUCC"
           cLog("리뷰가 삭제되었습니다.");
-          setMyReview({});
+          setMyInfo({ ...myInfo, review: {} });
         }
       });
     } catch (error) {
@@ -193,8 +198,7 @@ const Content = () => {
 
     // 로그인 되어 있을 경우 회원 access token으로 좋아요 api 호출
     try {
-      const access_token = sessionStorage.getItem("access_token");
-      const client = new HttpClient(access_token);
+      const client = new HttpClient();
       client.post(`${API_BASE_URL}/contents/videos/${contentId}/reviews/${reviewId}/like`).then((res) => {
         if (res.status === 200) {
           // res.code === "REVIEW_LIKE_UPDATE_SUCC"
@@ -316,11 +320,7 @@ const Content = () => {
       const isValid = await tokenValidation();
       setIsValidToken(isValid);
 
-      if (isValid) {
-        const access_token = sessionStorage.getItem("access_token");
-        const clientWithToken = new HttpClient(access_token);
-        fetchMyInfo(clientWithToken);
-      }
+      if (isValid) fetchMyInfo(client);
     };
 
     fetchData();
@@ -367,8 +367,7 @@ const Content = () => {
       // 로그인 되어 있을 경우 회원 access token으로 좋아요 api 호출
       try {
         const rating = fillRatingRef?.current.dataset.rating;
-        const access_token = sessionStorage.getItem("access_token");
-        const client = new HttpClient(access_token);
+        const client = new HttpClient();
         const res = await client.post(`${API_BASE_URL}/contents/videos/${contentId}/ratings`, {}, { rating });
         if (res.status === 204) {
           if (res.code === "RATING_CREATE_SUCC" || res.code === "RATING_UPDATE_SUCC") {
@@ -535,15 +534,31 @@ const Content = () => {
         <div className="title">
           <h3>갤러리</h3>
         </div>
-        <Swiper modules={[Navigation]} spaceBetween={10} slidesPerView={3} navigation>
-          {content.thumbnail.map((image, index) => (
-            <SwiperSlide key={index} onClick={() => togglePhotoModal(image.url)}>
-              <figure className="photo">
-                <LazyLoadImage src={image.url} alt="갤러리 이미지" effect="blur" />
-              </figure>
-            </SwiperSlide>
-          ))}
-        </Swiper>
+        <div className="swiper-container">
+          <Swiper
+            modules={[Navigation]}
+            spaceBetween={10}
+            slidesPerView={3}
+            slidesPerGroup={3}
+            speed={1000}
+            navigation={{ prevEl: ".swiper-button-prev", nextEl: ".swiper-button-next" }}
+            allowTouchMove={false}
+          >
+            {content.thumbnail.map((image, index) => (
+              <SwiperSlide key={index} onClick={() => togglePhotoModal(image.url)}>
+                <figure className="photo">
+                  <LazyLoadImage src={image.url} alt="갤러리 이미지" effect="blur" />
+                </figure>
+              </SwiperSlide>
+            ))}
+          </Swiper>
+          <div className="swiper-button-prev">
+            <RiArrowLeftSLine size={24} />
+          </div>
+          <div className="swiper-button-next">
+            <RiArrowRightSLine size={24} />
+          </div>
+        </div>
       </section>
       {photoModal.isOpen && <PhotoModal url={photoModal.url} onClose={togglePhotoModal} />}
       {enjoyModal && <EnjoyModal onClose={toggleEnjoyModal} />}
