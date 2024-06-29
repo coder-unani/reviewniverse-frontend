@@ -1,0 +1,143 @@
+.search-main {
+  min-height: calc(100vh - 80px);
+  padding-top: 62px;
+}
+
+.search-result {
+  width: 100%;
+  background-color: rgb(247, 247, 247);
+  padding: 8px 0;
+  margin-bottom: 20px;
+
+  p {
+    width: 100%;
+    max-width: 1440px;
+    padding: 0 60px;
+    margin: 0 auto;
+    color: rgb(116, 116, 123);
+    font-size: 15px;
+    font-weight: 700;
+    letter-spacing: -0.3px;
+    line-height: 26px;
+  }
+}
+
+.search-contents {
+  max-width: 1440px;
+  padding: 0 60px;
+  margin: 0 auto;
+
+  .empty {
+    width: 100%;
+    height: 100%;
+    text-align: center;
+    margin-top: 120px;
+
+    img {
+      width: 300px;
+      height: auto;
+      opacity: 0.7;
+    }
+
+    .title {
+      font-size: 17px;
+      color: #a0a0a0;
+      line-height: 20px;
+      white-space: pre-wrap;
+      margin-top: 20px;
+
+      em {
+        color: #8c8c8c;
+        font-weight: 700;
+        font-style: normal;
+      }
+    }
+
+    .sub-title {
+      font-size: 15px;
+      color: #a0a0a0;
+      line-height: 20px;
+      white-space: pre-wrap;
+      margin-top: 6px;
+    }
+  }
+}
+
+.search-list-wrapper {
+  padding: 12px 0 24px 0;
+
+  .list-wrapper {
+    position: relative;
+    display: grid;
+    grid-template-columns: repeat(5, minmax(0px, 1fr));
+    gap: 60px 12px;
+    width: 100%;
+  }
+
+  .img-wrapper {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 2 / 3;
+    margin-bottom: 10px;
+
+    .thumbnail {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      border-radius: 4px;
+      background-image: url("/src/assets/no-image.png");
+      background-size: cover;
+
+      &::after {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        border-radius: 4px;
+        border: 1px solid rgba(#0c0c0c, 0.05);
+      }
+
+      .lazy-load-image-background {
+        display: block;
+        width: 100%;
+        height: 100%;
+      }
+
+      img {
+        width: 100%;
+        height: 100%;
+        border-radius: 4px;
+        object-fit: cover;
+      }
+    }
+  }
+
+  .info {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+
+    .title {
+      font-size: 16px;
+      font-weight: 500;
+      color: #0c0c0c;
+      letter-spacing: -0.2px;
+      line-height: 22px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .sub-title {
+      display: flex;
+      gap: 8px;
+      font-size: 14px;
+      font-weight: 500;
+      color: #0c0c0c;
+      letter-spacing: -0.2px;
+      opacity: 0.8;
+    }
+  }
+}
