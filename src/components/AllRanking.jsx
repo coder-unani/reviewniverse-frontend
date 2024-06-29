@@ -10,8 +10,8 @@ import { Navigation } from "swiper/modules";
 import "swiper/css";
 import { formatYear } from "/src/utils/format";
 import { formatPoster, formatCountry } from "/src/utils/contentFormat";
-import "/src/styles/AllRanking.css";
 import { cLog, cError } from "/src/utils/test";
+import "/src/styles/AllRanking.css";
 
 /**
  * TODO:
@@ -22,6 +22,8 @@ import { cLog, cError } from "/src/utils/test";
  * 6. 정렬 기준 추가 (조회수, 좋아요, 최신, 일간, 주간, 월간 등)
  * 8. 데이터 포맷 로직 추가
  */
+
+const API_BASE_URL = "https://comet.orbitcode.kr/v1";
 
 const AllRanking = (props) => {
   const { type } = props;
@@ -38,26 +40,28 @@ const AllRanking = (props) => {
   };
 
   useEffect(() => {
-    try {
-      const client = new HttpClient();
-      client
-        .get("https://comet.orbitcode.kr/v1/contents/videos", {
+    const fetchData = async () => {
+      try {
+        const client = new HttpClient();
+        const res = await client.get(`${API_BASE_URL}/contents/videos`, {
           p: page,
           ps: pageSize,
           t: type,
           ob: "rating_desc",
-        })
-        .then((res) => {
-          if (res.status === 200 && res.code === "VIDEO_SEARCH_SUCC") {
-            setMovies(res.data.data);
-          } else {
-            cLog("영화 목록을 불러오는데 실패하였습니다.");
-            return;
-          }
         });
-    } catch (error) {
-      cError(error);
-    }
+        if (res.status === 200) {
+          // res.code === "VIDEO_SEARCH_SUCC"
+          setMovies(res.data.data);
+        } else {
+          cLog("영화 목록을 불러오는데 실패하였습니다.");
+          return;
+        }
+      } catch (error) {
+        cError(error);
+      }
+    };
+
+    fetchData();
   }, []);
 
   if (isEmpty(movies)) return null;
@@ -80,6 +84,7 @@ const AllRanking = (props) => {
             slidesPerGroup={5}
             speed={1000}
             navigation={{ prevEl: ".swiper-button-prev", nextEl: ".swiper-button-next" }}
+            allowTouchMove={false}
           >
             {movies.map((movie, index) => (
               <SwiperSlide className="content" key={index}>
