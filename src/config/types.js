@@ -37,6 +37,7 @@ export const VIDEO_PLATFORM_CHOICES = {
   13: "웨이브",
   14: "쿠팡플레이",
   15: "왓챠",
+  16: "시리즈온",
   50: "극장",
 };
 
