@@ -10,8 +10,6 @@ import { formatRating } from "/src/utils/contentFormat";
  * 2. 리뷰 클릭시 리뷰 모달 열기
  */
 
-const API_BASE_URL = "https://comet.orbitcode.kr/v1";
-
 const Review = (props) => {
   const { review, isLike, onLikeClick } = props;
 
