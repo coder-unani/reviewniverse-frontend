@@ -75,6 +75,9 @@ const User = () => {
           setIsLogin(true);
           return;
         });
+      } else {
+        // 다르다면 API 요청
+        fetchData();
       }
     } else {
       // 로그인한 유저 정보가 없으면 API 요청
