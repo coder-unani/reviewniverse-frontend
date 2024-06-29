@@ -18,6 +18,13 @@ const SettingButton = () => {
     window.location.href = "/user/profile";
   };
 
+  const handleLogoutClick = () => {
+    // 로그아웃
+    sessionStorage.removeItem("user");
+    sessionStorage.removeItem("access_token");
+    window.location.href = "/";
+  };
+
   useEffect(() => {
     // 메뉴 바깥 영역 클릭시 메뉴 닫기
     const button = document.querySelector(".settings");
@@ -39,7 +46,7 @@ const SettingButton = () => {
         <div className="user-menu" ref={menuRef}>
           <ul>
             <li onClick={handleEditClick}>회원정보 수정</li>
-            <li>로그아웃</li>
+            <li onClick={handleLogoutClick}>로그아웃</li>
             <li className="withdraw">회원탈퇴</li>
           </ul>
         </div>
