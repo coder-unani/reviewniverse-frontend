@@ -47,6 +47,8 @@ class HttpClient {
 
   async put(url, data = null) {
     try {
+      this.client.defaults.headers.common["Content-Type"] = "multipart/form-data";
+
       return await this.client
         .put(url, data ? data : {})
         .then((response) => {
@@ -64,6 +66,21 @@ class HttpClient {
     try {
       return await this.client
         .delete(url, data ? data : {})
+        .then((response) => {
+          return this.responseHandler(response);
+        })
+        .catch((reason) => {
+          return this.errorHandler(reason);
+        });
+    } catch (reason) {
+      return this.errorHandler(reason);
+    }
+  }
+
+  async patch(url, data = null) {
+    try {
+      return await this.client
+        .patch(url, data ? data : {})
         .then((response) => {
           return this.responseHandler(response);
         })
