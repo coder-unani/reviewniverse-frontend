@@ -4,6 +4,7 @@ import * as Yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm } from "react-hook-form";
 import HttpClient from "/src/utils/HttpClient";
+import { formatUser } from "/src/utils/userFormat";
 import { cLog } from "/src/utils/test";
 import Logo from "/src/assets/logo.svg";
 import "/src/styles/Login.css";
@@ -57,7 +58,7 @@ const Login = () => {
           }
 
           // 성공
-          const user = JSON.stringify(res.data.user);
+          const user = JSON.stringify(formatUser(res.data.user));
           if (user && res.data.access_token && res.data.refresh_token) {
             sessionStorage.setItem("user", user);
             sessionStorage.setItem("access_token", res.data.access_token);
