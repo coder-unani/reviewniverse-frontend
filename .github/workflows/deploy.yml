@@ -11,12 +11,12 @@ jobs:
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: "16"
+          node-version: "20"
 
       - name: Enable Corepack
         run: corepack enable
@@ -30,12 +30,12 @@ jobs:
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: "16"
+          node-version: "20"
 
       - name: Enable Corepack
         run: corepack enable
@@ -49,6 +49,9 @@ jobs:
       - name: Build project
         run: yarn build
 
+      - name: List build directory contents
+        run: ls -alh ./dist
+
       - name: Upload build artifacts
         uses: actions/upload-artifact@v3
         with:
@@ -61,13 +64,16 @@ jobs:
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: Download build artifacts
         uses: actions/download-artifact@v3
         with:
           name: build-artifacts
           path: ./dist
+
+      - name: List downloaded artifacts
+        run: ls -alh ./dist
 
       - name: Upload to S3
         env:
