@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import Logo from "/src/assets/logo.svg";
+import Logo from "/assets/logo.svg";
 import { RiSearchLine } from "@remixicon/react";
 import ProfileButton from "/src/components/Button/Profile";
 

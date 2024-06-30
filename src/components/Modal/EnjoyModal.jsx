@@ -2,6 +2,7 @@ import React, { useRef } from "react";
 import Modal from "/src/components/Modal";
 import { Link } from "react-router-dom";
 import { RiCloseLine } from "@remixicon/react";
+import Enjoy from "/assets/enjoy.png";
 import "/src/styles/EnjoyModal.css";
 
 const EnjoyModal = (props) => {
@@ -23,7 +24,7 @@ const EnjoyModal = (props) => {
         <div className="enjoy">
           <RiCloseLine size={28} className="close" onClick={handleCloseButton} />
           <div className="content">
-            <img src="/src/assets/enjoy.png" alt="enjoy" />
+            <img src={Enjoy} alt="enjoy" />
             <p>로그인이 필요한 기능이에요!</p>
           </div>
           <div className="button-wrapper">

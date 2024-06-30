@@ -6,7 +6,9 @@ import { useForm } from "react-hook-form";
 import HttpClient from "/src/utils/HttpClient";
 import { formatUser } from "/src/utils/userFormat";
 import { cLog } from "/src/utils/test";
-import Logo from "/src/assets/logo.svg";
+import Logo from "/assets/logo.svg";
+import KaKao from "/assets/kakao.png";
+import Google from "/assets/google.png";
 import "/src/styles/Login.css";
 
 // TODO: authContext 사용하여 로그인 처리
@@ -126,11 +128,11 @@ const Login = () => {
       </div>
       <div className="login-sns">
         <button type="button" className="kakao" onClick={handleKakaoLogin}>
-          <img src="/src/assets/kakao.png" alt="kakao" />
+          <img src={KaKao} alt="kakao" />
           카카오로 시작하기
         </button>
         <button type="button" className="google" onClick={handleGoogleLogin}>
-          <img src="/src/assets/google.png" alt="google" />
+          <img src={Google} alt="google" />
           구글로 시작하기
         </button>
       </div>

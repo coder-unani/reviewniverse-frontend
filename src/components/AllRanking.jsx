@@ -36,7 +36,7 @@ const AllRanking = (props) => {
     // 숫자 한자리씩 잘라서 배열에 저장
     const numbers = number.toString().split("");
     // 배열 반복해서 number-{}.svg 이미지 추가해서 반환
-    return numbers.map((num, index) => <img key={index} src={`/src/assets/number-${num}.svg`} alt={num} />);
+    return numbers.map((num, index) => <img key={index} src={`/assets/number-${num}.svg`} alt={num} />);
   };
 
   useEffect(() => {
