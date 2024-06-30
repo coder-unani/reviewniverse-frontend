@@ -6,8 +6,11 @@ on:
       - release
 
 jobs:
-  setup:
+  setup-corepack:
     runs-on: ubuntu-latest
+
+    outputs:
+      setup-script: ${{ steps.setup-script.outputs.setup-script }}
 
     steps:
       - name: Checkout code
@@ -18,31 +21,28 @@ jobs:
         with:
           node-version: "16"
 
-      - name: Enable Corepack
-        run: corepack enable
-
-      - name: Set up Yarn
-        run: corepack prepare yarn@4.1.1 --activate
-
-      - name: Upload corepack state
-        uses: actions/upload-artifact@v3
-        with:
-          name: corepack-state
-          path: ~/.node/corepack/global
+      - name: Enable Corepack and set up Yarn
+        id: setup-script
+        run: |
+          corepack enable
+          corepack prepare yarn@4.1.1 --activate
+          echo "::set-output name=setup-script::corepack enable && corepack prepare yarn@4.1.1 --activate"
 
   build:
     runs-on: ubuntu-latest
-    needs: setup
+    needs: setup-corepack
 
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Download corepack state
-        uses: actions/download-artifact@v3
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
         with:
-          name: corepack-state
-          path: ~/.node/corepack/global
+          node-version: "16"
+
+      - name: Enable Corepack and set up Yarn
+        run: ${{ needs.setup-corepack.outputs.setup-script }}
 
       - name: Install dependencies
         run: yarn install
