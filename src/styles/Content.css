@@ -1,5 +1,6 @@
 .content-main {
   min-height: 100vh;
+  overflow: hidden;
 }
 
 .banner-wrapper {
@@ -423,6 +424,7 @@
   width: 100%;
 }
 .gallery-wrapper .swiper-container .swiper-slide {
+  aspect-ratio: 16/9;
   cursor: pointer;
 }
 .gallery-wrapper .swiper-container .swiper-button-prev,
