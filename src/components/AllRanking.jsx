@@ -34,8 +34,8 @@ const AllRanking = (props) => {
   // 스와이퍼 설정
   const swiperConfig = {
     modules: [Navigation],
-    spaceBetween: 12,
-    slidesPerView: 3.2,
+    spaceBetween: 8,
+    slidesPerView: 3.1,
     slidesPerGroup: 3,
     speed: 1000,
     navigation: {
@@ -45,11 +45,13 @@ const AllRanking = (props) => {
     allowTouchMove: true,
     breakpoints: {
       769: {
+        spaceBetween: 10,
         slidesPerView: 4,
         slidesPerGroup: 4,
         allowTouchMove: false,
       },
       1025: {
+        spaceBetween: 12,
         slidesPerView: 5,
         slidesPerGroup: 5,
         allowTouchMove: false,
@@ -95,7 +97,7 @@ const AllRanking = (props) => {
   return (
     <section className="all-ranking-wrapper">
       <div className="title-wrapper">
-        <h2 className="title">👥👤👥👤뭐야...👤👤👥👥👥웅👥성👥👥👤재밌잖아...👤👥👤👤...(웅성웅성)👤👥👥👤</h2>
+        <h2 className="title">뭐야...재밌잖아...😮</h2>
         {/* <button className="more">
           더보기
           <RiArrowRightSLine size={20} />
