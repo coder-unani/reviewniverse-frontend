@@ -68,6 +68,28 @@ const Content = () => {
   const emptyRatingRef = useRef(null);
   const fillRatingRef = useRef(null);
 
+  // 갤러리 스와이퍼 설정
+  const swiperConfig = {
+    modules: [Navigation],
+    spaceBetween: 8,
+    slidesPerView: 2.1,
+    slidesPerGroup: 2,
+    speed: 1000,
+    navigation: {
+      prevEl: ".swiper-button-prev",
+      nextEl: ".swiper-button-next",
+    },
+    allowTouchMove: true,
+    breakpoints: {
+      769: {
+        spaceBetween: 10,
+        slidesPerView: 3,
+        slidesPerGroup: 3,
+        allowTouchMove: false,
+      },
+    },
+  };
+
   // 토큰 검증
   const tokenValidation = async () => {
     const access_token = sessionStorage.getItem("access_token");
@@ -535,15 +557,7 @@ const Content = () => {
           <h3>갤러리</h3>
         </div>
         <div className="swiper-container">
-          <Swiper
-            modules={[Navigation]}
-            spaceBetween={10}
-            slidesPerView={3}
-            slidesPerGroup={3}
-            speed={1000}
-            navigation={{ prevEl: ".swiper-button-prev", nextEl: ".swiper-button-next" }}
-            allowTouchMove={false}
-          >
+          <Swiper {...swiperConfig}>
             {content.thumbnail.map((image, index) => (
               <SwiperSlide key={index} onClick={() => togglePhotoModal(image.url)}>
                 <figure className="photo">
