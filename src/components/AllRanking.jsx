@@ -35,22 +35,24 @@ const AllRanking = (props) => {
   const swiperConfig = {
     modules: [Navigation],
     spaceBetween: 12,
-    slidesPerView: 3,
+    slidesPerView: 3.2,
     slidesPerGroup: 3,
     speed: 1000,
     navigation: {
       prevEl: ".swiper-button-prev",
       nextEl: ".swiper-button-next",
     },
-    allowTouchMove: false,
+    allowTouchMove: true,
     breakpoints: {
       769: {
         slidesPerView: 4,
         slidesPerGroup: 4,
+        allowTouchMove: false,
       },
       1025: {
         slidesPerView: 5,
         slidesPerGroup: 5,
+        allowTouchMove: false,
       },
     },
   };
