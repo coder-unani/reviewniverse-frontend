@@ -66,10 +66,12 @@
 }
 .banner-wrapper .main-info-wrapper .sub-info > div {
   display: flex;
+  flex-wrap: wrap;
   gap: 8px;
 }
 .banner-wrapper .main-info-wrapper .sub-info span {
   font-size: 14px;
+  line-height: 20px;
   color: #fff;
 }
 
@@ -112,6 +114,7 @@
   flex: 1 1 auto;
   display: flex;
   flex-direction: column;
+  width: 100%;
 }
 .info-wrapper .top {
   display: flex;
@@ -534,13 +537,42 @@
     align-items: center;
     gap: unset;
   }
+  .review-wrapper .reviews {
+    grid-template-columns: repeat(2, minmax(0px, 1fr));
+  }
   .gallery-wrapper .swiper-container .swiper-button-prev,
   .gallery-wrapper .swiper-container .swiper-button-next {
     display: none;
   }
 }
 @media (max-width: 576px) {
+  .banner-wrapper .main-info-wrapper .main-info {
+    flex-direction: column;
+    padding: 0 15px;
+  }
+  .info-wrapper {
+    padding: 30px 15px;
+  }
+  .info-wrapper .top {
+    align-items: center;
+  }
+  .info-wrapper .top .rating-wrapper span {
+    text-align: center;
+    margin: 10px 0 0 0;
+  }
+  .crew-wrapper {
+    padding: 30px 15px;
+  }
+  .crew-wrapper .crews {
+    grid-template-columns: repeat(1, minmax(0px, 1fr));
+  }
+  .review-wrapper {
+    padding: 30px 15px;
+  }
   .review-wrapper .reviews {
-    grid-template-columns: repeat(2, minmax(0px, 1fr));
+    grid-template-columns: repeat(1, minmax(0px, 1fr));
+  }
+  .gallery-wrapper {
+    padding: 30px 15px 60px;
   }
 }

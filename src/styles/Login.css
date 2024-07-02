@@ -127,3 +127,8 @@
     padding: 32px 30px 16px;
   }
 }
+@media (max-width: 576px) {
+  .login-wrapper {
+    padding: 32px 15px 16px;
+  }
+}

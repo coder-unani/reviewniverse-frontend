@@ -75,11 +75,13 @@
 
       & > div {
         display: flex;
+        flex-wrap: wrap;
         gap: 8px;
       }
 
       span {
         font-size: 14px;
+        line-height: 20px;
         color: #fff;
       }
     }
@@ -129,6 +131,7 @@
     flex: 1 1 auto;
     display: flex;
     flex-direction: column;
+    width: 100%;
   }
 
   .top {
@@ -642,6 +645,12 @@
     gap: unset;
   }
 
+  .review-wrapper {
+    .reviews {
+      grid-template-columns: repeat(2, minmax(0px, 1fr));
+    }
+  }
+
   .gallery-wrapper {
     .swiper-container {
       .swiper-button-prev,
@@ -653,9 +662,47 @@
 }
 
 @media (max-width: 576px) {
-  .review-wrapper {
-    .reviews {
-      grid-template-columns: repeat(2, minmax(0px, 1fr));
+  .banner-wrapper {
+    .main-info-wrapper {
+      .main-info {
+        flex-direction: column;
+        padding: 0 15px;
+      }
     }
+  }
+
+  .info-wrapper {
+    padding: 30px 15px;
+
+    .top {
+      align-items: center;
+
+      .rating-wrapper {
+        span {
+          text-align: center;
+          margin: 10px 0 0 0;
+        }
+      }
+    }
+  }
+
+  .crew-wrapper {
+    padding: 30px 15px;
+
+    .crews {
+      grid-template-columns: repeat(1, minmax(0px, 1fr));
+    }
+  }
+
+  .review-wrapper {
+    padding: 30px 15px;
+
+    .reviews {
+      grid-template-columns: repeat(1, minmax(0px, 1fr));
+    }
+  }
+
+  .gallery-wrapper {
+    padding: 30px 15px 60px;
   }
 }

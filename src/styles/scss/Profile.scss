@@ -14,7 +14,7 @@
   border-radius: 6px;
   border: 1px solid rgba(0, 0, 0, 0.1);
   background-color: #fff;
-  padding: 20px 20px;
+  padding: 20px;
   overflow: hidden;
 
   & > h3 {
@@ -71,7 +71,7 @@
   border-radius: 6px;
   border: 1px solid rgba(0, 0, 0, 0.1);
   background-color: #fff;
-  padding: 20px 20px;
+  padding: 20px;
   overflow: hidden;
 
   .profile-image {
@@ -188,5 +188,34 @@
       opacity: 0.4;
       cursor: not-allowed;
     }
+  }
+}
+
+@media (max-width: 768px) {
+  .edit-main {
+    background-color: #fff;
+  }
+
+  .edit-wrapper {
+    width: 100%;
+    padding: 0;
+    margin: 0;
+  }
+
+  .check-form {
+    border-radius: unset;
+    border: none;
+  }
+}
+
+@media (max-width: 576px) {
+  .check-form {
+    padding: 20px 15px;
+  }
+
+  .edit-form {
+    border-radius: unset;
+    border: none;
+    padding: 20px 15px;
   }
 }

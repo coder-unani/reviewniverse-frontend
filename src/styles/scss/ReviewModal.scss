@@ -127,3 +127,11 @@
     }
   }
 }
+
+@media (max-width: 576px) {
+  .review-modal {
+    .review {
+      padding: 20px 15px;
+    }
+  }
+}

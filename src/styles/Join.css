@@ -166,3 +166,8 @@
     font-size: 14px;
   }
 }
+@media (max-width: 576px) {
+  .join-wrapper {
+    padding: 32px 15px 16px;
+  }
+}
