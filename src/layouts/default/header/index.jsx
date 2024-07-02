@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import Logo from "/assets/logo.svg";
-import { RiSearchLine } from "@remixicon/react";
+import { RiSearchLine, RiMenu3Line } from "@remixicon/react";
 import ProfileButton from "/src/components/Button/Profile";
 
 /**
@@ -57,7 +57,7 @@ const Header = () => {
   };
 
   useEffect(() => {
-    if (location.pathname === "/search") return;
+    if (location.pathname === "/search" || !searchInputRef.current) return;
     searchInputRef.current.value = "";
   }, [location]);
 
@@ -75,28 +75,42 @@ const Header = () => {
 
   return (
     <header className="header-wrapper">
-      <div className="header">
-        <div className="left">
-          <Link to="/">
-            <img src={Logo} className="logo" alt="logo" />
-          </Link>
-          <ul className="menu">
-            <li className={activeMenu === "movie" ? "active" : ""} onClick={() => handleMenuClick("movie")}>
-              <Link to="/movie">영화</Link>
-            </li>
-            <li className={activeMenu === "series" ? "active" : ""} onClick={() => handleMenuClick("series")}>
-              <Link to="/series">시리즈</Link>
-            </li>
-          </ul>
+      {window.innerWidth < 768 ? (
+        <div className="header mobile">
+          <div className="left">
+            <Link to="/">
+              <img src={Logo} className="logo" alt="logo" />
+            </Link>
+          </div>
+          <div className="right">
+            <RiSearchLine size={24} />
+            <RiMenu3Line size={24} />
+          </div>
         </div>
-        <div className="right">
-          <form className="search" onSubmit={handleSearchSubmit}>
-            <RiSearchLine size={20} />
-            <input type="text" placeholder="검색어를 입력하세요." ref={searchInputRef} />
-          </form>
-          {user ? renderProfileButton() : renderLoginButton()}
+      ) : (
+        <div className="header">
+          <div className="left">
+            <Link to="/">
+              <img src={Logo} className="logo" alt="logo" />
+            </Link>
+            <ul className="menu">
+              <li className={activeMenu === "movie" ? "active" : ""} onClick={() => handleMenuClick("movie")}>
+                <Link to="/movie">영화</Link>
+              </li>
+              <li className={activeMenu === "series" ? "active" : ""} onClick={() => handleMenuClick("series")}>
+                <Link to="/series">시리즈</Link>
+              </li>
+            </ul>
+          </div>
+          <div className="right">
+            <form className="search" onSubmit={handleSearchSubmit}>
+              <RiSearchLine size={20} />
+              <input type="text" placeholder="검색어를 입력하세요." ref={searchInputRef} />
+            </form>
+            {user ? renderProfileButton() : renderLoginButton()}
+          </div>
         </div>
-      </div>
+      )}
     </header>
   );
 };
