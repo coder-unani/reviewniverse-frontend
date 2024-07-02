@@ -60,3 +60,11 @@
 .enjoy-modal .join {
   margin-bottom: 6px;
 }
+
+@media (max-width: 768px) {
+  .enjoy-modal .enjoy {
+    width: 100%;
+    height: 100%;
+    border-radius: unset;
+  }
+}
