@@ -44,11 +44,11 @@ const AllRanking = (props) => {
     },
     allowTouchMove: false,
     breakpoints: {
-      768: {
+      769: {
         slidesPerView: 4,
         slidesPerGroup: 4,
       },
-      1024: {
+      1025: {
         slidesPerView: 5,
         slidesPerGroup: 5,
       },
