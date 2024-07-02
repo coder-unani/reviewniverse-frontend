@@ -1,13 +1,14 @@
 .search-main {
   min-height: calc(100vh - 80px);
   padding-top: 62px;
+  padding-bottom: 60px;
 }
 
 .search-result {
   width: 100%;
   background-color: rgb(247, 247, 247);
   padding: 8px 0;
-  margin-bottom: 20px;
+  margin-bottom: 24px;
 
   p {
     width: 100%;
@@ -162,6 +163,14 @@
 }
 
 @media (max-width: 768px) {
+  .search-result {
+    display: none;
+  }
+
+  .search-contents {
+    padding: 24px 30px;
+  }
+
   .search-list-wrapper {
     .info {
       gap: 2px;
@@ -181,7 +190,7 @@
 
 @media (max-width: 576px) {
   .search-contents {
-    padding: 0 15px;
+    padding: 30px 15px;
   }
 
   .search-list-wrapper {
