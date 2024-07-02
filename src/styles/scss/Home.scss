@@ -208,3 +208,39 @@ $border-radius: 4px;
     opacity: 0.7;
   }
 }
+
+@media (max-width: 1440px) {
+  .header-wrapper {
+    .header {
+      padding: 10px 30px;
+    }
+  }
+
+  .main {
+    padding: 24px 30px;
+  }
+
+  .footer-wrapper {
+    .footer {
+      padding: 20px 30px 40px;
+    }
+  }
+}
+
+@media (max-width: 576px) {
+  .header-wrapper {
+    .header {
+      padding: 10px 15px;
+    }
+  }
+
+  .main {
+    padding: 24px 15px;
+  }
+
+  .footer-wrapper {
+    .footer {
+      padding: 20px 15px 40px;
+    }
+  }
+}
