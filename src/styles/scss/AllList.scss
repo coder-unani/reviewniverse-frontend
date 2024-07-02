@@ -133,6 +133,7 @@
   .all-list-wrapper {
     .list-wrapper {
       grid-template-columns: repeat(3, minmax(0px, 1fr));
+      gap: 40px 10px;
     }
 
     .info {
@@ -142,6 +143,14 @@
         font-size: 15px;
         line-height: 20px;
       }
+    }
+  }
+}
+
+@media (max-width: 576px) {
+  .all-list-wrapper {
+    .list-wrapper {
+      gap: 40px 8px;
     }
   }
 }
