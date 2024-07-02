@@ -126,3 +126,37 @@
   letter-spacing: -0.2px;
   opacity: 0.8;
 }
+
+@media (max-width: 1024px) {
+  .search-result p {
+    padding: 0 30px;
+  }
+  .search-contents {
+    padding: 0 30px;
+  }
+  .search-list-wrapper .list-wrapper {
+    grid-template-columns: repeat(4, minmax(0px, 1fr));
+    gap: 40px 12px;
+  }
+}
+@media (max-width: 768px) {
+  .search-list-wrapper .info {
+    gap: 2px;
+  }
+  .search-list-wrapper .info .title {
+    font-size: 15px;
+    line-height: 20px;
+  }
+  .search-list-wrapper .list-wrapper {
+    grid-template-columns: repeat(3, minmax(0px, 1fr));
+    gap: 40px 10px;
+  }
+}
+@media (max-width: 576px) {
+  .search-contents {
+    padding: 0 15px;
+  }
+  .search-list-wrapper .list-wrapper {
+    gap: 40px 8px;
+  }
+}
