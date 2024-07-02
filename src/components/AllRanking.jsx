@@ -31,6 +31,30 @@ const AllRanking = (props) => {
   const page = 1;
   const pageSize = 20;
 
+  // 스와이퍼 설정
+  const swiperConfig = {
+    modules: [Navigation],
+    spaceBetween: 12,
+    slidesPerView: 3,
+    slidesPerGroup: 3,
+    speed: 1000,
+    navigation: {
+      prevEl: ".swiper-button-prev",
+      nextEl: ".swiper-button-next",
+    },
+    allowTouchMove: false,
+    breakpoints: {
+      768: {
+        slidesPerView: 4,
+        slidesPerGroup: 4,
+      },
+      1024: {
+        slidesPerView: 5,
+        slidesPerGroup: 5,
+      },
+    },
+  };
+
   // 랭킹 숫자 포맷
   const formatRankingNumber = (number) => {
     // 숫자 한자리씩 잘라서 배열에 저장
@@ -77,15 +101,7 @@ const AllRanking = (props) => {
       </div>
       <div className="ranking-wrapper">
         <div className="swiper-container">
-          <Swiper
-            modules={[Navigation]}
-            spaceBetween={12}
-            slidesPerView={5}
-            slidesPerGroup={5}
-            speed={1000}
-            navigation={{ prevEl: ".swiper-button-prev", nextEl: ".swiper-button-next" }}
-            allowTouchMove={false}
-          >
+          <Swiper {...swiperConfig}>
             {movies.map((movie, index) => (
               <SwiperSlide className="content" key={index}>
                 <Link to={`/contents/${movie.id}`}>
@@ -114,26 +130,6 @@ const AllRanking = (props) => {
             <RiArrowRightSLine size={24} />
           </div>
         </div>
-        {/* {movies.map((movie, index) => (
-          <article className="content" key={index}>
-            <Link to={`/contents/${movie.id}`}>
-              <div className="img-wrapper">
-                <figure className="thumbnail">
-                  <LazyLoadImage src={formatPoster(movie.thumbnail)} alt="썸네일" effect="blur" />
-                </figure>
-                <div className="number">{formatRankingNumber(index + 1)}</div>
-              </div>
-              <div className="info">
-                <p className="title">{movie.title}</p>
-                <div className="sub-title">
-                  <span>{formatYear(movie.release)}</span>
-                  <span>|</span>
-                  <span>{formatCountry(movie.country)}</span>
-                </div>
-              </div>
-            </Link>
-          </article>
-        ))} */}
       </div>
     </section>
   );
