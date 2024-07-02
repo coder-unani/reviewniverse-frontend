@@ -265,7 +265,6 @@
   margin: 10px 0;
 }
 .crew-wrapper .crew {
-  min-width: 200px;
   display: flex;
   align-items: center;
   gap: 12px;
@@ -522,8 +521,11 @@
   .review-wrapper {
     padding: 30px;
   }
+  .review-wrapper .reviews {
+    grid-template-columns: repeat(3, minmax(0px, 1fr));
+  }
   .gallery-wrapper {
-    padding: 30px;
+    padding: 30px 30px 60px;
   }
 }
 @media (max-width: 768px) {
@@ -531,5 +533,14 @@
     flex-direction: column-reverse;
     align-items: center;
     gap: unset;
+  }
+  .gallery-wrapper .swiper-container .swiper-button-prev,
+  .gallery-wrapper .swiper-container .swiper-button-next {
+    display: none;
+  }
+}
+@media (max-width: 576px) {
+  .review-wrapper .reviews {
+    grid-template-columns: repeat(2, minmax(0px, 1fr));
   }
 }
