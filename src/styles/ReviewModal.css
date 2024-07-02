@@ -99,3 +99,13 @@
   opacity: 0.4;
   cursor: not-allowed;
 }
+
+@media (max-width: 768px) {
+  .review-modal .review {
+    width: 100%;
+    max-width: unset;
+    height: 100%;
+    max-height: unset;
+    border-radius: unset;
+  }
+}
