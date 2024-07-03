@@ -315,14 +315,13 @@
 .crew-wrapper .name-wrapper .name {
   font-size: 16px;
 }
-.crew-wrapper .name-wrapper .role {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
 .crew-wrapper .name-wrapper .role span {
+  overflow: hidden;
   font-size: 14px;
   color: #8c8c8c;
+}
+.crew-wrapper .name-wrapper .role span:not(:last-child) {
+  margin-right: 8px;
 }
 
 .review-wrapper {
