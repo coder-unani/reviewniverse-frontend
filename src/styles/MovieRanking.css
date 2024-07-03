@@ -107,7 +107,7 @@
 .all-ranking-wrapper .swiper-container .swiper-button-prev,
 .all-ranking-wrapper .swiper-container .swiper-button-next {
   position: absolute;
-  top: 33.333%;
+  top: 37%;
   display: flex;
   align-items: center;
   justify-content: center;

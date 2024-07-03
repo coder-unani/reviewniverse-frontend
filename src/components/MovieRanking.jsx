@@ -11,7 +11,7 @@ import "swiper/css";
 import { formatYear } from "/src/utils/format";
 import { formatPoster, formatCountry } from "/src/utils/contentFormat";
 import { cLog, cError } from "/src/utils/test";
-import "/src/styles/AllRanking.css";
+import "/src/styles/MovieRanking.css";
 
 /**
  * TODO:
@@ -25,7 +25,7 @@ import "/src/styles/AllRanking.css";
 
 const API_BASE_URL = "https://comet.orbitcode.kr/v1";
 
-const AllRanking = (props) => {
+const MovieRanking = (props) => {
   const { type } = props;
   const [movies, setMovies] = useState([]);
   const page = 1;
@@ -139,4 +139,4 @@ const AllRanking = (props) => {
   );
 };
 
-export default AllRanking;
+export default MovieRanking;

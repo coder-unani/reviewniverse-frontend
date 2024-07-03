@@ -7,10 +7,10 @@ import { isEmpty } from "lodash";
 import "swiper/css";
 import { formatYear } from "/src/utils/format";
 import { formatPoster, formatCountry } from "/src/utils/contentFormat";
-import "/src/styles/AllList.css";
+import "/src/styles/MovieList.css";
 import { cLog, cError } from "/src/utils/test";
 
-const AllList = (props) => {
+const MovieList = (props) => {
   const { type } = props;
   // 렌더링할 데이터
   const [movies, setMovies] = useState([]);
@@ -103,4 +103,4 @@ const AllList = (props) => {
   );
 };
 
-export default AllList;
+export default MovieList;
