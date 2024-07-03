@@ -1,12 +1,12 @@
 import React from "react";
-import AllRanking from "/src/components/AllRanking";
-import AllList from "/src/components/AllList";
+import MovieRanking from "/src/components/MovieRanking";
+import MovieList from "/src/components/MovieList";
 
 const Movie = () => {
   return (
     <main className="main">
-      <AllRanking type={10} />
-      <AllList type={10} />
+      <MovieRanking type={10} />
+      <MovieList type={10} />
     </main>
   );
 };

@@ -1,6 +1,6 @@
 import React from "react";
-import AllRanking from "/src/components/AllRanking";
-import AllList from "/src/components/AllList";
+import MovieRanking from "/src/components/MovieRanking";
+import MovieList from "/src/components/MovieList";
 import "/src/styles/Home.css";
 
 /**
@@ -11,8 +11,8 @@ import "/src/styles/Home.css";
 const Home = () => {
   return (
     <main className="main">
-      <AllRanking />
-      <AllList />
+      <MovieRanking />
+      <MovieList />
     </main>
   );
 };

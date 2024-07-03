@@ -1,12 +1,12 @@
 import React from "react";
-import AllRanking from "/src/components/AllRanking";
-import AllList from "/src/components/AllList";
+import MovieRanking from "/src/components/MovieRanking";
+import MovieList from "/src/components/MovieList";
 
 const Series = () => {
   return (
     <main className="main">
-      <AllRanking type={11} />
-      <AllList type={11} />
+      <MovieRanking type={11} />
+      <MovieList type={11} />
     </main>
   );
 };
