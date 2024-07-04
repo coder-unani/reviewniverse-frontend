@@ -27,21 +27,21 @@ const AuthContextProvider = ({ children }) => {
     });
   }, []);
 
-  return (
-    <AuthContext.Provider value={{ user, setUser }}>
-      {children}
-    </AuthContext.Provider>
-  );
+  return <AuthContext.Provider value={{ user, setUser }}>{children}</AuthContext.Provider>;
 };
 
 // TODO: logout 구현
+const handleLogout = () => {
+  sessionStorage.removeItem("user");
+  sessionStorage.removeItem("access_token");
+  setUser(null);
+  window.location.href = "/";
+};
 
 const useAuthContext = () => {
   const context = useContext(AuthContext);
   if (!context) {
-    throw new Error(
-      "useAuthContext must be used within an AuthContextProvider"
-    );
+    throw new Error("useAuthContext must be used within an AuthContextProvider");
   }
   return context;
 };
