@@ -1,23 +1,27 @@
 import React, { useState, useEffect, useRef } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import Logo from "/assets/logo.svg";
+import { DEFAULT_IMAGES } from "/src/config/images";
 import { RiSearchLine, RiMenu3Line } from "@remixicon/react";
 import ProfileButton from "/src/components/Button/Profile";
+import MenuModal from "/src/components/Modal/MenuModal";
 
 /**
  * TODO:
- * 1. 검색어 입력 후 검색 버튼 클릭 시 검색 결과 페이지로 이동
+ * 1. 모바일 검색 버튼 클릭시 검색 페이지로 이동
  */
 
 const Header = () => {
   const location = useLocation();
   const navigate = useNavigate();
 
+  // 메뉴 활성화
+  const [activeMenu, setActiveMenu] = useState("");
+
   // 모바일 메뉴 활성화
   const [mobileMenu, setMobileMenu] = useState(false);
 
-  // 메뉴 활성화
-  const [activeMenu, setActiveMenu] = useState("");
+  // 모바일 메뉴 모달
+  const [menuModal, setMenuModal] = useState(false);
 
   // 로그인 여부
   const [user, setUser] = useState(() => {
@@ -31,6 +35,11 @@ const Header = () => {
   // 메뉴 핸들러
   const handleMenuClick = (menu) => {
     setActiveMenu(menu);
+  };
+
+  // 모바일 메뉴 핸들러
+  const toggleMobileMenu = () => {
+    setMenuModal(!menuModal);
   };
 
   // 검색 핸들러
@@ -60,13 +69,14 @@ const Header = () => {
   };
 
   useEffect(() => {
-    // 윈도우 리사이즈 이벤트
+    window.innerWidth < 768 ? setMobileMenu(true) : setMobileMenu(false);
+  }, []);
+
+  useEffect(() => {
     const handleResize = () => {
       if (window.innerWidth < 768 && !mobileMenu) {
-        console.log("mobile");
         setMobileMenu(true);
       } else if (window.innerWidth >= 768 && mobileMenu) {
-        console.log("desktop");
         setMobileMenu(false);
       }
     };
@@ -77,13 +87,11 @@ const Header = () => {
   }, [mobileMenu]);
 
   useEffect(() => {
-    if (location.pathname === "/search" || !searchInputRef.current) return;
-    searchInputRef.current.value = "";
-  }, [location]);
-
-  // 활성화된 메뉴 설정
-  useEffect(() => {
     const path = location.pathname;
+
+    if (path === "/search" || !searchInputRef.current) return;
+    searchInputRef.current.value = "";
+
     if (path === "/movie") {
       setActiveMenu("movie");
     } else if (path === "/series") {
@@ -91,27 +99,27 @@ const Header = () => {
     } else {
       setActiveMenu("");
     }
-  }, [location, activeMenu]);
+  }, [location]);
 
   return (
     <header className="header-wrapper">
       {mobileMenu ? (
-        <div className="header mobile">
+        <div className="header-mobile">
           <div className="left">
             <Link to="/">
-              <img src={Logo} className="logo" alt="logo" />
+              <img src={DEFAULT_IMAGES.logo} className="logo" alt="logo" />
             </Link>
           </div>
           <div className="right">
             <RiSearchLine size={24} />
-            <RiMenu3Line size={24} />
+            <RiMenu3Line size={24} className="mobile-menu" onClick={toggleMobileMenu} />
           </div>
         </div>
       ) : (
         <div className="header">
           <div className="left">
             <Link to="/">
-              <img src={Logo} className="logo" alt="logo" />
+              <img src={DEFAULT_IMAGES.logo} className="logo" alt="logo" />
             </Link>
             <ul className="menu">
               <li className={activeMenu === "movie" ? "active" : ""} onClick={() => handleMenuClick("movie")}>
@@ -131,6 +139,7 @@ const Header = () => {
           </div>
         </div>
       )}
+      {menuModal && <MenuModal onClose={toggleMobileMenu} />}
     </header>
   );
 };
