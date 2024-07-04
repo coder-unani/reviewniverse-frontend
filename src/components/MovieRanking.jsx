@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 import HttpClient from "/src/utils/HttpClient";
 import { LazyLoadImage } from "react-lazy-load-image-component";
@@ -44,6 +44,10 @@ const MovieRanking = (props) => {
     },
     allowTouchMove: true,
     breakpoints: {
+      577: {
+        slidesPerView: 3,
+        allowTouchMove: false,
+      },
       769: {
         spaceBetween: 10,
         slidesPerView: 4,
