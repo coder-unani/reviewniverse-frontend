@@ -29,7 +29,7 @@ const MobileContextProvider = ({ children }) => {
 const useMobileContext = () => {
   const context = useContext(MobileContext);
   if (!context) {
-    throw new Error("useAuthContext must be used within an MobileContextProvider");
+    throw new Error("useMobileContext must be used within an MobileContextProvider");
   }
   return context;
 };
