@@ -42,16 +42,19 @@
   color: #ffffff;
   opacity: 0.7;
 }
-.header-wrapper.transparent .header .search {
+.header-wrapper.transparent .header .right .search {
   background-color: rgba(12, 12, 12, 0.2);
   border: 1px solid rgba(255, 255, 255, 0.25);
 }
-.header-wrapper.transparent .header .search svg {
+.header-wrapper.transparent .header .right .search svg {
   opacity: 0.5;
 }
 .header-wrapper.transparent .header .profile .nickname {
   color: #ffffff;
   opacity: 0.7;
+}
+.header-wrapper.transparent .header-mobile .right svg {
+  fill: #ffffff;
 }
 .header-wrapper .header {
   display: flex;

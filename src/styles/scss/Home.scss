@@ -60,14 +60,14 @@ $border-radius: 4px;
             opacity: 0.7;
           }
         }
-      }
 
-      .search {
-        background-color: rgba($color-black, 0.2);
-        border: 1px solid rgba($color-white, 0.25);
+        .search {
+          background-color: rgba($color-black, 0.2);
+          border: 1px solid rgba($color-white, 0.25);
 
-        svg {
-          opacity: 0.5;
+          svg {
+            opacity: 0.5;
+          }
         }
       }
 
@@ -75,6 +75,14 @@ $border-radius: 4px;
         .nickname {
           color: $color-white;
           opacity: 0.7;
+        }
+      }
+    }
+
+    .header-mobile {
+      .right {
+        svg {
+          fill: $color-white;
         }
       }
     }
