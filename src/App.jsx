@@ -2,6 +2,7 @@ import React from "react";
 import { RouterProvider } from "react-router-dom";
 import router from "/src/routes";
 import "/src/styles/App.css";
+import { MobileContextProvider } from "/src/context/MobileContext";
 
 /**
  * TODO:
@@ -14,7 +15,11 @@ import "/src/styles/App.css";
  */
 
 function App() {
-  return <RouterProvider router={router}></RouterProvider>;
+  return (
+    <MobileContextProvider>
+      <RouterProvider router={router} />
+    </MobileContextProvider>
+  );
 }
 
 export default App;
