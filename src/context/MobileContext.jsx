@@ -6,15 +6,15 @@ const MobileContextProvider = ({ children }) => {
   const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
-    window.innerWidth < 768 ? setMobileMenu(true) : setMobileMenu(false);
+    window.innerWidth < 768 ? setIsMobile(true) : setIsMobile(false);
   }, []);
 
   useEffect(() => {
     const handleResize = () => {
       if (window.innerWidth < 768 && !isMobile) {
-        setMobileMenu(true);
+        setIsMobile(true);
       } else if (window.innerWidth >= 768 && isMobile) {
-        setMobileMenu(false);
+        setIsMobile(false);
       }
     };
 
@@ -27,9 +27,9 @@ const MobileContextProvider = ({ children }) => {
 };
 
 const useMobileContext = () => {
-  const context = useContext(AuthContext);
+  const context = useContext(MobileContext);
   if (!context) {
-    throw new Error("useAuthContext must be used within an AuthContextProvider");
+    throw new Error("useAuthContext must be used within an MobileContextProvider");
   }
   return context;
 };
