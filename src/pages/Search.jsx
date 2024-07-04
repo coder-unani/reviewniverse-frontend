@@ -12,11 +12,17 @@ import "/src/styles/Search.css";
 
 const API_BASE_URL = "https://comet.orbitcode.kr/v1";
 
+/**
+ * TODO:
+ * - loding 상태 추가
+ * - skeleton ui 추가
+ */
+
 const Search = () => {
   const location = useLocation();
   const params = new URLSearchParams(location.search);
   const query = params.get("query");
-  const [searchMovies, setSearchMovies] = useState([]);
+  const [searchMovies, setSearchMovies] = useState(null);
 
   const renderEmpty = () => {
     return (
@@ -66,7 +72,7 @@ const Search = () => {
       });
       if (res.status === 200) {
         setSearchMovies(res.data.data);
-      } else if (res.status === 404) {
+      } else if (res.status === 204) {
         cLog("검색 결과가 없습니다.");
         setSearchMovies([]);
       }
@@ -80,7 +86,13 @@ const Search = () => {
     if (!query) return;
 
     fetchData(query);
+
+    return () => {
+      setSearchMovies([]);
+    };
   }, [query, location]);
+
+  if (!searchMovies) return null;
 
   return (
     <main className="search-main">
