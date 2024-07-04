@@ -6,6 +6,13 @@
   background-color: #fff;
   padding: 32px 60px 16px;
   margin: 0 auto;
+
+  .back {
+    position: fixed;
+    top: 16px;
+    left: 12px;
+    cursor: pointer;
+  }
 }
 
 .login-header {
@@ -146,6 +153,6 @@
 
 @media (max-width: 576px) {
   .login-wrapper {
-    padding: 32px 15px 16px;
+    padding: 62px 15px 16px;
   }
 }
