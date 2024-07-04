@@ -73,7 +73,7 @@ const MovieList = (props) => {
   if (isEmpty(movies)) return null;
 
   return (
-    <section className="all-list-wrapper">
+    <section className="movie-list-wrapper">
       <div className="title-wrapper">
         <h2 className="title">주인님 내 새끼 구경 좀 해봐요 🦦</h2>
       </div>
