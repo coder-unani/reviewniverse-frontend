@@ -4,10 +4,14 @@ import ProfileImage from "/src/components/Button/Profile/ProfileImage";
 import "/src/styles/ProfileButton.css";
 
 const ProfileButton = (props) => {
-  const { image, user } = props;
+  const { image, user, onClose } = props;
+
+  const handleMobileMenuClose = () => {
+    onClose?.();
+  };
 
   return (
-    <Link className="profile" to={`/user/${user.id}`}>
+    <Link className="profile" to={`/user/${user.id}`} onClick={handleMobileMenuClose}>
       <ProfileImage image={image} size={28} />
       <span className="nickname">{user.nickname}</span>
     </Link>
