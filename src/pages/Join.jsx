@@ -1,6 +1,8 @@
 import React, { useState } from "react";
+import { useMobileContext } from "/src/context/MobileContext";
 import JoinAgree from "../components/JoinAgree";
 import JoinForm from "/src/components/JoinForm";
+import BackButton from "/src/components/Button/Back";
 import Logo from "/assets/logo.svg";
 import "/src/styles/Join.css";
 
@@ -19,6 +21,8 @@ import "/src/styles/Join.css";
  */
 
 const Join = () => {
+  const { isMobile } = useMobileContext();
+
   // 약관 동의 상태
   const [isAgree, setIsAgree] = useState(false);
   // 선택한 약관 동의 값
@@ -26,6 +30,7 @@ const Join = () => {
 
   return (
     <div className="join-wrapper">
+      {isMobile && <BackButton />}
       <div className="join-header">
         <img src={Logo} className="logo" alt="logo" />
         <h2>회원가입</h2>

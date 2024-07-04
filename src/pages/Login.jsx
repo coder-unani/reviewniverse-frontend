@@ -1,19 +1,23 @@
 import React from "react";
+import { useMobileContext } from "/src/context/MobileContext";
 import { Link } from "react-router-dom";
 import * as Yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm } from "react-hook-form";
 import HttpClient from "/src/utils/HttpClient";
 import { formatUser } from "/src/utils/userFormat";
-import { cLog } from "/src/utils/test";
+import BackButton from "/src/components/Button/Back";
 import Logo from "/assets/logo.svg";
 import KaKao from "/assets/kakao.png";
 import Google from "/assets/google.png";
 import "/src/styles/Login.css";
+import { cLog } from "/src/utils/test";
 
 // TODO: authContext 사용하여 로그인 처리
 
 const Login = () => {
+  const { isMobile } = useMobileContext();
+
   // 로그인 유효성 검사
   const LoginSchema = Yup.object().shape({
     email: Yup.string().required("이메일을 입력해주세요.").email("이메일 형식이 아닙니다."),
@@ -90,6 +94,7 @@ const Login = () => {
 
   return (
     <div className="login-wrapper">
+      {isMobile && <BackButton />}
       <div className="login-header">
         <img src={Logo} className="logo" alt="logo" />
         <h2>로그인</h2>
