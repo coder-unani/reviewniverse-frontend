@@ -13,6 +13,9 @@ const Header = () => {
   const location = useLocation();
   const navigate = useNavigate();
 
+  // 모바일 메뉴 활성화
+  const [mobileMenu, setMobileMenu] = useState(false);
+
   // 메뉴 활성화
   const [activeMenu, setActiveMenu] = useState("");
 
@@ -57,6 +60,23 @@ const Header = () => {
   };
 
   useEffect(() => {
+    // 윈도우 리사이즈 이벤트
+    const handleResize = () => {
+      if (window.innerWidth < 768 && !mobileMenu) {
+        console.log("mobile");
+        setMobileMenu(true);
+      } else if (window.innerWidth >= 768 && mobileMenu) {
+        console.log("desktop");
+        setMobileMenu(false);
+      }
+    };
+
+    window.addEventListener("resize", handleResize);
+
+    return () => window.removeEventListener("resize", handleResize);
+  }, [mobileMenu]);
+
+  useEffect(() => {
     if (location.pathname === "/search" || !searchInputRef.current) return;
     searchInputRef.current.value = "";
   }, [location]);
@@ -75,7 +95,7 @@ const Header = () => {
 
   return (
     <header className="header-wrapper">
-      {window.innerWidth < 768 ? (
+      {mobileMenu ? (
         <div className="header mobile">
           <div className="left">
             <Link to="/">
