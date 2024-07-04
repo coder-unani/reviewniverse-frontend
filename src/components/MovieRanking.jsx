@@ -35,7 +35,7 @@ const MovieRanking = (props) => {
   const swiperConfig = {
     modules: [Navigation],
     spaceBetween: 8,
-    slidesPerView: 3.1,
+    slidesPerView: 3.01,
     slidesPerGroup: 3,
     speed: 1000,
     navigation: {
@@ -95,7 +95,7 @@ const MovieRanking = (props) => {
   if (isEmpty(movies)) return null;
 
   return (
-    <section className="all-ranking-wrapper">
+    <section className="movie-ranking-wrapper">
       <div className="title-wrapper">
         <h2 className="title">뭐야...재밌잖아...😮</h2>
         {/* <button className="more">

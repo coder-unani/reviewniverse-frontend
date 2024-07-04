@@ -1,4 +1,4 @@
-.all-ranking-wrapper {
+.movie-ranking-wrapper {
   padding: 12px 0 24px 0;
   margin-bottom: 42px;
 
@@ -166,7 +166,7 @@
 }
 
 @media (max-width: 1024px) {
-  .all-ranking-wrapper {
+  .movie-ranking-wrapper {
     margin-bottom: 36px;
 
     .img-wrapper {
@@ -196,7 +196,7 @@
 }
 
 @media (max-width: 576px) {
-  .all-ranking-wrapper {
+  .movie-ranking-wrapper {
     .img-wrapper {
       margin-bottom: 25px;
 
@@ -214,6 +214,10 @@
       }
     }
 
+    .title-wrapper {
+      padding-left: 15px;
+    }
+
     .info {
       gap: 2px;
 
@@ -224,6 +228,10 @@
     }
 
     .swiper-container {
+      .swiper {
+        padding: 0 15px;
+      }
+
       .swiper-button-prev,
       .swiper-button-next {
         display: none;
