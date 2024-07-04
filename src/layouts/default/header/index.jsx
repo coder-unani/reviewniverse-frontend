@@ -4,6 +4,7 @@ import { DEFAULT_IMAGES } from "/src/config/images";
 import { RiSearchLine, RiMenu3Line } from "@remixicon/react";
 import ProfileButton from "/src/components/Button/Profile";
 import MenuModal from "/src/components/Modal/MenuModal";
+import { useMobileContext } from "/src/context/MobileContext";
 
 /**
  * TODO:
@@ -18,7 +19,7 @@ const Header = () => {
   const [activeMenu, setActiveMenu] = useState("");
 
   // 모바일 메뉴 활성화
-  const [mobileMenu, setMobileMenu] = useState(false);
+  const { isMobile } = useMobileContext();
 
   // 모바일 메뉴 모달
   const [menuModal, setMenuModal] = useState(false);
@@ -69,24 +70,6 @@ const Header = () => {
   };
 
   useEffect(() => {
-    window.innerWidth < 768 ? setMobileMenu(true) : setMobileMenu(false);
-  }, []);
-
-  useEffect(() => {
-    const handleResize = () => {
-      if (window.innerWidth < 768 && !mobileMenu) {
-        setMobileMenu(true);
-      } else if (window.innerWidth >= 768 && mobileMenu) {
-        setMobileMenu(false);
-      }
-    };
-
-    window.addEventListener("resize", handleResize);
-
-    return () => window.removeEventListener("resize", handleResize);
-  }, [mobileMenu]);
-
-  useEffect(() => {
     const path = location.pathname;
 
     if (path === "/search" || !searchInputRef.current) return;
@@ -103,7 +86,7 @@ const Header = () => {
 
   return (
     <header className="header-wrapper">
-      {mobileMenu ? (
+      {isMobile ? (
         <div className="header-mobile">
           <div className="left">
             <Link to="/">
