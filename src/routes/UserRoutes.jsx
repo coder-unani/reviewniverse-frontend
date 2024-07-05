@@ -2,7 +2,7 @@ import Login from "/src/pages/Login";
 import Join from "/src/pages/Join";
 
 const UserRoutes = {
-  path: "/user",
+  path: "user",
   children: [
     {
       path: "login",
