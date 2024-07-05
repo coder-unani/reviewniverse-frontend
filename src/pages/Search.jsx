@@ -1,14 +1,16 @@
 import React, { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 import HttpClient from "/src/utils/HttpClient";
+import { useMobileContext } from "/src/context/MobileContext";
+import SearchModal from "/src/components/Modal/SearchModal";
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import "react-lazy-load-image-component/src/effects/blur.css";
 import { formatYear } from "/src/utils/format";
 import { formatPoster, formatCountry } from "/src/utils/contentFormat";
-import { isEmpty, set } from "lodash";
+import { isEmpty } from "lodash";
 import { DEFAULT_IMAGES } from "/src/config/images";
-import { cLog, cError } from "/src/utils/test";
 import "/src/styles/Search.css";
+import { cLog, cError } from "/src/utils/test";
 
 const API_BASE_URL = "https://comet.orbitcode.kr/v1";
 
@@ -23,6 +25,7 @@ const Search = () => {
   const params = new URLSearchParams(location.search);
   const query = params.get("query");
   const [searchMovies, setSearchMovies] = useState(null);
+  const { isMobile } = useMobileContext();
 
   const renderEmpty = () => {
     return (
@@ -64,7 +67,7 @@ const Search = () => {
     );
   };
 
-  const fetchData = async () => {
+  const fetchData = async (query) => {
     try {
       const client = new HttpClient();
       const res = await client.get(`${API_BASE_URL}/contents/videos`, {
@@ -92,14 +95,13 @@ const Search = () => {
     };
   }, [query, location]);
 
-  if (!searchMovies) return null;
-
   return (
     <main className="search-main">
       <section className="search-result">
         <p>"{query}"의 검색결과</p>
       </section>
       <section className="search-contents">{isEmpty(searchMovies) ? renderEmpty() : renderMovies()}</section>
+      {isMobile && isEmpty(query) && <SearchModal />}
     </main>
   );
 };
