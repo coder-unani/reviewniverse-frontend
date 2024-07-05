@@ -1,15 +1,11 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
+import { useMobileContext } from "/src/context/MobileContext";
+import MenuModal from "/src/components/Modal/MenuModal";
+import SearchForm from "/src/components/SearchForm";
+import ProfileButton from "/src/components/Button/Profile";
 import { DEFAULT_IMAGES } from "/src/config/images";
 import { RiSearchLine, RiMenu3Line } from "@remixicon/react";
-import ProfileButton from "/src/components/Button/Profile";
-import MenuModal from "/src/components/Modal/MenuModal";
-import { useMobileContext } from "/src/context/MobileContext";
-
-/**
- * TODO:
- * 1. 모바일 검색 버튼 클릭시 검색 페이지로 이동
- */
 
 const Header = () => {
   const location = useLocation();
@@ -30,25 +26,21 @@ const Header = () => {
     return storedUser ? JSON.parse(storedUser) : null;
   });
 
-  // 검색어
-  const searchInputRef = useRef(null);
-
+  /* 데스크탑 */
   // 메뉴 핸들러
   const handleMenuClick = (menu) => {
     setActiveMenu(menu);
   };
 
+  /* 모바일 */
   // 모바일 메뉴 핸들러
   const toggleMobileMenu = () => {
     setMenuModal(!menuModal);
   };
 
-  // 검색 핸들러
-  const handleSearchSubmit = (e) => {
-    e.preventDefault();
-    const searchQuery = searchInputRef.current.value;
-    if (!searchQuery || !searchQuery.trim()) return;
-    navigate(`/search?query=${searchQuery}`);
+  // 모바일 검색 메뉴 핸들러
+  const handleMobileSearch = () => {
+    navigate("/search");
   };
 
   // 로그인 여부에 따라 프로필 또는 로그인 버튼 렌더링
@@ -72,9 +64,6 @@ const Header = () => {
   useEffect(() => {
     const path = location.pathname;
 
-    if (path === "/search" || !searchInputRef.current) return;
-    searchInputRef.current.value = "";
-
     if (path === "/movie") {
       setActiveMenu("movie");
     } else if (path === "/series") {
@@ -94,8 +83,8 @@ const Header = () => {
             </Link>
           </div>
           <div className="right">
-            <RiSearchLine size={24} />
-            <RiMenu3Line size={24} className="mobile-menu" onClick={toggleMobileMenu} />
+            <RiSearchLine size={32} onClick={handleMobileSearch} />
+            <RiMenu3Line size={32} className="mobile-menu" onClick={toggleMobileMenu} />
           </div>
         </div>
       ) : (
@@ -114,10 +103,7 @@ const Header = () => {
             </ul>
           </div>
           <div className="right">
-            <form className="search" onSubmit={handleSearchSubmit}>
-              <RiSearchLine size={20} />
-              <input type="text" placeholder="검색어를 입력하세요." ref={searchInputRef} />
-            </form>
+            <SearchForm />
             {user ? renderProfileButton() : renderLoginButton()}
           </div>
         </div>
