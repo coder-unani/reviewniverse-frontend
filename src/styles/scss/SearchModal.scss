@@ -1,0 +1,53 @@
+.search-modal {
+  position: fixed;
+  top: 60px;
+  left: 50%;
+  bottom: 0;
+  transform: translateX(-50%);
+  width: 100%;
+  z-index: 99;
+
+  .search {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-color: #fff;
+    padding: 15px;
+
+    .recent {
+      .top {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 5px 0;
+
+        p {
+          font-size: 16px;
+          font-weight: 700;
+        }
+
+        button {
+          font-size: 14px;
+          color: hotpink;
+          line-height: 1;
+          padding: 5px;
+        }
+      }
+
+      .bottom {
+        li {
+          border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+
+          a {
+            display: block;
+            font-size: 16px;
+            color: #000;
+            line-height: 20px;
+            white-space: pre-wrap;
+            padding: 10px 0;
+          }
+        }
+      }
+    }
+  }
+}
