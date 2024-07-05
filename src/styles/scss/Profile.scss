@@ -1,7 +1,7 @@
 .edit-main {
   min-height: calc(100vh - 80px);
   background: rgb(248, 248, 248);
-  padding-top: 62px;
+  padding-top: 60px;
 }
 
 .edit-wrapper {
@@ -29,7 +29,6 @@
   .input-wrapper {
     display: flex;
     flex-direction: column;
-    gap: 8px;
     padding-top: 20px;
     margin: 20px 0;
     border-top: 1px solid rgba(0, 0, 0, 0.1);
@@ -37,6 +36,7 @@
 
   label {
     font-size: 13px;
+    margin-bottom: 8px;
   }
 
   input {
@@ -106,7 +106,6 @@
   .input-wrapper {
     display: flex;
     flex-direction: column;
-    gap: 8px;
     margin-bottom: 20px;
 
     &.image {
@@ -130,12 +129,15 @@
 
       label {
         font-size: 15px;
+        margin-left: 4px;
+        margin-bottom: 0;
       }
     }
   }
 
   label {
     font-size: 13px;
+    margin-bottom: 8px;
   }
 
   input {
@@ -170,6 +172,7 @@
   .error {
     font-size: 12px;
     color: red;
+    margin-top: 8px;
   }
 
   button[type="submit"] {
