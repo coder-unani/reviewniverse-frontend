@@ -16,8 +16,8 @@ const API_BASE_URL = "https://comet.orbitcode.kr/v1";
 
 /**
  * TODO:
- * - loding 상태 추가
- * - skeleton ui 추가
+ * 1. loding 상태 추가
+ * 2. skeleton ui 추가
  */
 
 const Search = () => {
