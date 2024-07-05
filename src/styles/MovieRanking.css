@@ -72,11 +72,6 @@
   margin-left: -18px;
   z-index: 0;
 }
-.movie-ranking-wrapper .info {
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-}
 .movie-ranking-wrapper .info .title {
   font-size: 16px;
   font-weight: 500;
@@ -86,15 +81,17 @@
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  margin-bottom: 6px;
 }
 .movie-ranking-wrapper .info .sub-title {
-  display: flex;
-  gap: 8px;
   font-size: 14px;
   font-weight: 500;
   color: #0c0c0c;
   letter-spacing: -0.2px;
   opacity: 0.8;
+}
+.movie-ranking-wrapper .info .sub-title > span:not(:last-child) {
+  margin-right: 8px;
 }
 .movie-ranking-wrapper .swiper-container {
   position: relative;
@@ -181,12 +178,10 @@
   .movie-ranking-wrapper .title-wrapper {
     padding-left: 15px;
   }
-  .movie-ranking-wrapper .info {
-    gap: 2px;
-  }
   .movie-ranking-wrapper .info .title {
     font-size: 15px;
     line-height: 20px;
+    margin-bottom: 2px;
   }
   .movie-ranking-wrapper .swiper-container .swiper {
     padding: 0 15px;
