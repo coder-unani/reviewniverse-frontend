@@ -131,7 +131,7 @@ const Login = () => {
         <Link to="">아이디 찾기</Link>
         <Link to="/user/join">회원가입</Link>
       </div>
-      <div className="login-sns">
+      {/* <div className="login-sns">
         <button type="button" className="kakao" onClick={handleKakaoLogin}>
           <img src={KaKao} alt="kakao" />
           카카오로 시작하기
@@ -140,7 +140,7 @@ const Login = () => {
           <img src={Google} alt="google" />
           구글로 시작하기
         </button>
-      </div>
+      </div> */}
     </div>
   );
 };
