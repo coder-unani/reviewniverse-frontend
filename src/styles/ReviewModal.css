@@ -69,11 +69,11 @@
 }
 .review-modal .review .input-wrapper {
   display: flex;
-  gap: 2px;
 }
 .review-modal .review .input-wrapper label {
   font-size: 14px;
   color: #0c0c0c;
+  margin-left: 2px;
 }
 .review-modal .review .right {
   display: flex;
