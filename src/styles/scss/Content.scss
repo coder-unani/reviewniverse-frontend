@@ -76,13 +76,16 @@
       & > div {
         display: flex;
         flex-wrap: wrap;
-        gap: 8px;
       }
 
       span {
         font-size: 14px;
         line-height: 20px;
         color: #fff;
+
+        &:not(:last-child) {
+          margin-right: 8px;
+        }
       }
     }
   }
@@ -269,7 +272,6 @@
     .update {
       display: flex;
       align-items: center;
-      gap: 3px;
       padding: 15px 12px;
 
       svg {
@@ -278,6 +280,7 @@
 
       span {
         color: #8c8c8c;
+        margin-left: 3px;
       }
     }
   }
@@ -317,7 +320,6 @@
   .crew {
     display: flex;
     align-items: center;
-    gap: 12px;
     padding: 10px 0;
     margin-right: 10px;
   }
@@ -328,6 +330,7 @@
     height: 54px;
     border-radius: 5px;
     overflow: hidden;
+    margin-right: 12px;
 
     &::after {
       content: "";

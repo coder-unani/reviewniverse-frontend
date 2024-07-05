@@ -67,12 +67,14 @@
 .banner-wrapper .main-info-wrapper .sub-info > div {
   display: flex;
   flex-wrap: wrap;
-  gap: 8px;
 }
 .banner-wrapper .main-info-wrapper .sub-info span {
   font-size: 14px;
   line-height: 20px;
   color: #fff;
+}
+.banner-wrapper .main-info-wrapper .sub-info span:not(:last-child) {
+  margin-right: 8px;
 }
 
 .info-wrapper {
@@ -227,7 +229,6 @@
 .info-wrapper .my-review-wrapper .update {
   display: flex;
   align-items: center;
-  gap: 3px;
   padding: 15px 12px;
 }
 .info-wrapper .my-review-wrapper .delete svg,
@@ -237,6 +238,7 @@
 .info-wrapper .my-review-wrapper .delete span,
 .info-wrapper .my-review-wrapper .update span {
   color: #8c8c8c;
+  margin-left: 3px;
 }
 .info-wrapper .bottom {
   margin: 20px 0 30px;
@@ -269,7 +271,6 @@
 .crew-wrapper .crew {
   display: flex;
   align-items: center;
-  gap: 12px;
   padding: 10px 0;
   margin-right: 10px;
 }
@@ -279,6 +280,7 @@
   height: 54px;
   border-radius: 5px;
   overflow: hidden;
+  margin-right: 12px;
 }
 .crew-wrapper .image::after {
   content: "";
