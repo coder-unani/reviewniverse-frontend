@@ -1,6 +1,6 @@
 .search-main {
   min-height: calc(100vh - 80px);
-  padding-top: 62px;
+  padding-top: 60px;
   padding-bottom: 60px;
 }
 
@@ -115,10 +115,6 @@
   }
 
   .info {
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
-
     .title {
       font-size: 16px;
       font-weight: 500;
@@ -128,16 +124,19 @@
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
+      margin-bottom: 6px;
     }
 
     .sub-title {
-      display: flex;
-      gap: 8px;
       font-size: 14px;
       font-weight: 500;
       color: #0c0c0c;
       letter-spacing: -0.2px;
       opacity: 0.8;
+
+      & > span:not(:last-child) {
+        margin-right: 8px;
+      }
     }
   }
 }
@@ -172,11 +171,10 @@
 
   .search-list-wrapper {
     .info {
-      gap: 2px;
-
       .title {
         font-size: 15px;
         line-height: 20px;
+        margin-bottom: 2px;
       }
     }
 

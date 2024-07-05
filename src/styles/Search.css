@@ -1,6 +1,6 @@
 .search-main {
   min-height: calc(100vh - 80px);
-  padding-top: 62px;
+  padding-top: 60px;
   padding-bottom: 60px;
 }
 
@@ -102,11 +102,6 @@
   border-radius: 4px;
   object-fit: cover;
 }
-.search-list-wrapper .info {
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-}
 .search-list-wrapper .info .title {
   font-size: 16px;
   font-weight: 500;
@@ -116,15 +111,17 @@
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  margin-bottom: 6px;
 }
 .search-list-wrapper .info .sub-title {
-  display: flex;
-  gap: 8px;
   font-size: 14px;
   font-weight: 500;
   color: #0c0c0c;
   letter-spacing: -0.2px;
   opacity: 0.8;
+}
+.search-list-wrapper .info .sub-title > span:not(:last-child) {
+  margin-right: 8px;
 }
 
 @media (max-width: 1024px) {
@@ -146,12 +143,10 @@
   .search-contents {
     padding: 24px 30px;
   }
-  .search-list-wrapper .info {
-    gap: 2px;
-  }
   .search-list-wrapper .info .title {
     font-size: 15px;
     line-height: 20px;
+    margin-bottom: 2px;
   }
   .search-list-wrapper .list-wrapper {
     grid-template-columns: repeat(3, minmax(0px, 1fr));
