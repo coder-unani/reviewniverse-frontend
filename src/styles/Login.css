@@ -34,11 +34,11 @@
 .login-form > div {
   display: flex;
   flex-direction: column;
-  gap: 8px;
   margin-bottom: 20px;
 }
 .login-form label {
   font-size: 13px;
+  margin-bottom: 8px;
 }
 .login-form input {
   height: 48px;
@@ -62,6 +62,7 @@
 .login-form .error {
   font-size: 12px;
   color: red;
+  margin-top: 8px;
 }
 .login-form button[type=submit] {
   width: 100%;
@@ -135,6 +136,6 @@
 }
 @media (max-width: 576px) {
   .login-wrapper {
-    padding: 62px 15px 16px;
+    padding: 60px 15px 16px;
   }
 }

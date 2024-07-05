@@ -81,11 +81,11 @@
 .join-form > div {
   display: flex;
   flex-direction: column;
-  gap: 8px;
   margin-bottom: 20px;
 }
 .join-form label {
   font-size: 13px;
+  margin-bottom: 8px;
 }
 .join-form input {
   height: 48px;
@@ -109,6 +109,7 @@
 .join-form .error {
   font-size: 12px;
   color: red;
+  margin-top: 8px;
 }
 .join-form button[type=submit] {
   width: 100%;
@@ -174,6 +175,6 @@
 }
 @media (max-width: 576px) {
   .join-wrapper {
-    padding: 62px 15px 16px;
+    padding: 60px 15px 16px;
   }
 }
