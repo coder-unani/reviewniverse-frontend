@@ -147,7 +147,7 @@ const ReviewModal = (props) => {
                   <span>{watchedTitle.length}</span> / 100
                 </p>
                 <button type="submit" className="save" disabled={!isDirty || !isValid}>
-                  {myReview ? "수정" : "등록"}
+                  {isEmpty(myReview) ? "등록" : "수정"}
                 </button>
               </div>
             </div>
