@@ -1,19 +1,18 @@
 import React, { useEffect, useRef, useState } from "react";
 import Modal from "/src/components/Modal";
 import ProfileButton from "/src/components/Button/Profile";
-import { Link, useLocation } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { RiCloseLine, RiArrowRightSLine } from "@remixicon/react";
 import { DEFAULT_IMAGES } from "/src/config/images";
 import "/src/styles/MenuModal.css";
 
 /**
  * TODO:
- * 1.
+ * 1. 메뉴 애니메이션 추가
  */
 
 const MenuModal = (props) => {
   const { onClose } = props;
-  const location = useLocation();
   const modalRef = useRef();
 
   // 로그인 여부
@@ -22,6 +21,7 @@ const MenuModal = (props) => {
     return storedUser ? JSON.parse(storedUser) : null;
   });
 
+  // 메뉴 모달 닫기
   const handleCloseButton = () => {
     onClose();
   };
@@ -63,6 +63,11 @@ const MenuModal = (props) => {
           <div className="bottom">
             <p>메뉴</p>
             <ul className="menu-list">
+              <li>
+                <Link to="/" onClick={handleCloseButton}>
+                  홈
+                </Link>
+              </li>
               <li>
                 <Link to="/movie" onClick={handleCloseButton}>
                   영화
