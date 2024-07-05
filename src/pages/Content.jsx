@@ -72,7 +72,7 @@ const Content = () => {
   const swiperConfig = {
     modules: [Navigation],
     spaceBetween: 8,
-    slidesPerView: 2.1,
+    slidesPerView: 2.01,
     slidesPerGroup: 2,
     speed: 1000,
     navigation: {
@@ -81,7 +81,7 @@ const Content = () => {
     },
     allowTouchMove: true,
     breakpoints: {
-      769: {
+      577: {
         spaceBetween: 10,
         slidesPerView: 3,
         slidesPerGroup: 3,
