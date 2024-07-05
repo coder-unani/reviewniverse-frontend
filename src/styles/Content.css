@@ -96,8 +96,7 @@
   height: 100%;
   border: 1px solid rgba(0, 0, 0, 0.1);
   border-radius: 4px;
-  background-image: url("/assets/no-image.png");
-  background-size: cover;
+  background-color: #f5f5f7;
   overflow: hidden;
 }
 .info-wrapper .poster-wrapper .poster .lazy-load-image-background {
@@ -478,8 +477,7 @@
   height: 100%;
   border-radius: 4px;
   border: 1px solid rgba(0, 0, 0, 0.1);
-  background-image: url("/assets/no-image.png");
-  background-size: cover;
+  background-color: #f5f5f7;
   overflow: hidden;
 }
 .gallery-wrapper .lazy-load-image-background {
