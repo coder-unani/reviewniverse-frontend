@@ -1,5 +1,5 @@
 import { find, isEmpty } from "lodash";
-import { VIDEO_ACTOR_TYPE, VIDEO_STAFF_TYPE, COUNTRY_CODE } from "/src/config/types";
+import { VIDEO_ACTOR_CODE, VIDEO_STAFF_CODE, COUNTRY_CODE } from "/src/config/types";
 import { DEFAULT_IMAGES } from "/src/config/images";
 
 // 배경 이미지 포맷
@@ -44,12 +44,12 @@ export const formatRating = (rating) => {
 
 // 출연진 타입 포맷
 export const formatActorType = (code) => {
-  const actorType = VIDEO_ACTOR_TYPE[code];
+  const actorType = VIDEO_ACTOR_CODE[code];
   return actorType || "출연진";
 };
 
 // 제작진 타입 포맷
 export const formatStaffType = (code) => {
-  const staffType = VIDEO_STAFF_TYPE[code];
+  const staffType = VIDEO_STAFF_CODE[code];
   return staffType || "제작진";
 };
