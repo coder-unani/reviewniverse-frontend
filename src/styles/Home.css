@@ -156,6 +156,10 @@
 .header-wrapper .header-mobile .left a {
   display: flex;
 }
+.header-wrapper .header-mobile .left .logo {
+  height: 40px;
+  cursor: pointer;
+}
 .header-wrapper .header-mobile .right {
   display: flex;
   justify-content: flex-end;
@@ -188,7 +192,7 @@
   opacity: 0.25;
 }
 .header-wrapper .header-search .search input {
-  width: 100%;
+  flex: 1;
   font-size: 15px;
   color: #0c0c0c;
   line-height: 1;
