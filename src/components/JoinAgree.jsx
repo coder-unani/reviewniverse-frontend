@@ -60,61 +60,33 @@ const JoinAgree = (props) => {
       <h3 className="title">약관 동의</h3>
       <form onSubmit={onSubmit} className="agree-form">
         <div className="all">
-          <input
-            type="checkbox"
-            name="all"
-            id="all"
-            {...register("all")}
-            onClick={handleSelectAll}
-          />
+          <input type="checkbox" name="all" id="all" {...register("all")} onClick={handleSelectAll} />
           <label htmlFor="all">
             <span>모두 동의합니다.</span>
           </label>
         </div>
         <div>
-          <input
-            id="terms"
-            type="checkbox"
-            name="terms"
-            {...register("terms", { required: true })}
-          />
+          <input id="terms" type="checkbox" name="terms" {...register("terms", { required: true })} />
           <label htmlFor="terms">
             <span>[필수] 이용약관에 동의합니다.</span>
           </label>
         </div>
         <div>
-          <input
-            id="privacy"
-            type="checkbox"
-            name="privacy"
-            {...register("privacy", { required: true })}
-          />
+          <input id="privacy" type="checkbox" name="privacy" {...register("privacy", { required: true })} />
           <label htmlFor="privacy">
             <span>[필수] 개인정보 수집 및 이용에 동의합니다.</span>
           </label>
         </div>
         <div>
-          <input
-            id="age"
-            type="checkbox"
-            name="age"
-            {...register("age", { required: true })}
-          />
+          <input id="age" type="checkbox" name="age" {...register("age", { required: true })} />
           <label htmlFor="age">
             <span>[필수] 본인은 만 14세 이상입니다.</span>
           </label>
         </div>
         <div>
-          <input
-            id="marketing"
-            type="checkbox"
-            name="marketing"
-            {...register("marketing")}
-          />
+          <input id="marketing" type="checkbox" name="marketing" {...register("marketing")} />
           <label htmlFor="marketing">
-            <span>
-              [선택] 이벤트 및 기타 혜택 등에 대한 알림 수신에 동의합니다.
-            </span>
+            <span>[선택] 이벤트 및 기타 혜택 등에 대한 알림 수신에 동의합니다.</span>
           </label>
         </div>
         <button type="submit" disabled={!isValid}>
