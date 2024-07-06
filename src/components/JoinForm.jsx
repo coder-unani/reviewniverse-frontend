@@ -5,6 +5,8 @@ import { useForm } from "react-hook-form";
 import HttpClient from "/src/utils/HttpClient";
 import { cLog, cError } from "/src/utils/test";
 
+const API_BASE_URL = "https://comet.orbitcode.kr/v1";
+
 /**
  * TODO:
  * 1. 닉네임 중복 체크 (blur, keyup 이벤트)
@@ -73,7 +75,7 @@ const JoinForm = (props) => {
       // 회원가입 처리
       const client = new HttpClient();
       client
-        .post("https://comet.orbitcode.kr/v1/users", {
+        .post(`${API_BASE_URL}/users`, {
           code: "10",
           nickname: data.nickname,
           email: data.email,
@@ -111,7 +113,7 @@ const JoinForm = (props) => {
             // TODO: 한글 입력시 글자가 완성되면 두번 호출되는 이슈 해결 필요
             const client = new HttpClient();
             client
-              .get(`https://comet.orbitcode.kr/v1/validation/users/nickname`, {
+              .get(`${API_BASE_URL}/validation/users/nickname`, {
                 nickname: value.nickname,
               })
               .then((res) => {
@@ -140,7 +142,7 @@ const JoinForm = (props) => {
             // 이메일 중복 체크
             const client = new HttpClient();
             client
-              .get(`https://comet.orbitcode.kr/v1/validation/users/email`, {
+              .get(`${API_BASE_URL}/validation/users/email`, {
                 email: value.email,
               })
               .then((res) => {

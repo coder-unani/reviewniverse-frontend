@@ -13,6 +13,8 @@ import Google from "/assets/google.png";
 import "/src/styles/Login.css";
 import { cLog } from "/src/utils/test";
 
+const API_BASE_URL = "https://comet.orbitcode.kr/v1";
+
 // TODO: authContext 사용하여 로그인 처리
 
 const Login = () => {
@@ -47,33 +49,31 @@ const Login = () => {
       // 로그인 처리
       // TODO: URL 변수화 필요
       const client = new HttpClient();
-      client
-        .post("https://comet.orbitcode.kr/v1/users/login", {
-          code: "10",
-          email: data.email,
-          password: data.password,
-        })
-        .then((res) => {
-          // 실패
-          if (res.status !== 200) {
-            if (res.status === 400 || res.status === 401) {
-              // TODO: 에러 메시지 출력
-              cLog("로그인에 실패하였습니다.");
-            }
-            return;
-          }
+      const res = await client.post(`${API_BASE_URL}/users/login`, {
+        code: "10",
+        email: data.email,
+        password: data.password,
+      });
 
-          // 성공
-          const user = JSON.stringify(formatUser(res.data.user));
-          if (user && res.data.access_token && res.data.refresh_token) {
-            sessionStorage.setItem("user", user);
-            sessionStorage.setItem("access_token", res.data.access_token);
-            sessionStorage.setItem("refresh_token", res.data.refresh_token);
+      if (res.status === 200) {
+        // 성공
+        const user = JSON.stringify(formatUser(res.data.user));
+        if (user && res.data.access_token && res.data.refresh_token) {
+          sessionStorage.setItem("user", user);
+          sessionStorage.setItem("access_token", res.data.access_token);
+          sessionStorage.setItem("refresh_token", res.data.refresh_token);
 
-            // TODO: 이전 페이지로 이동
-            window.location.href = "/";
-          }
-        });
+          // TODO: 이전 페이지로 이동
+          window.location.href = "/";
+        }
+      } else if (res.status !== 200) {
+        // 실패
+        if (res.status === 400 || res.status === 401) {
+          // TODO: 에러 메시지 출력
+          cLog("로그인에 실패하였습니다.");
+        }
+        return;
+      }
     } catch (error) {
       cLog(error);
       reset();
