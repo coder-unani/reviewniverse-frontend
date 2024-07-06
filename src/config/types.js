@@ -1,4 +1,35 @@
-export const VIDEO_ACTOR_TYPE = {
+export const SCREEN_MAIN_ID = "MA01,MA02,MA03,MA04,MA05";
+export const SCREEN_MOVIE_ID = "MA01,MA02,MA03,MA04,MA05";
+export const SCREEN_SERIES_ID = "MA01,MA02,MA03,MA04,MA05";
+
+export const USER_CODE = {
+  10: "이메일",
+  11: "구글",
+  12: "페이스북",
+  13: "애플",
+  14: "카카오",
+  15: "네이버",
+};
+
+export const VIDEO_PLATFORM_CODE = {
+  10: "넷플릭스",
+  11: "디즈니플러스",
+  12: "티빙",
+  13: "웨이브",
+  14: "쿠팡플레이",
+  15: "왓챠",
+  16: "시리즈온",
+  17: "애플TV",
+  31: "라프텔",
+  50: "극장",
+};
+
+export const VIDEO_THUMBNAIL_CODE = {
+  10: "포스터",
+  11: "스틸컷",
+};
+
+export const VIDEO_ACTOR_CODE = {
   10: "주연",
   11: "조연",
   12: "단역",
@@ -10,7 +41,7 @@ export const VIDEO_ACTOR_TYPE = {
   18: "성우",
 };
 
-export const VIDEO_STAFF_TYPE = {
+export const VIDEO_STAFF_CODE = {
   10: "감독",
   11: "작가",
   12: "제작",
@@ -28,17 +59,10 @@ export const VIDEO_STAFF_TYPE = {
   24: "분장",
   25: "조명",
   26: "극본",
-};
-
-export const VIDEO_PLATFORM_CHOICES = {
-  10: "넷플릭스",
-  11: "디즈니플러스",
-  12: "티빙",
-  13: "웨이브",
-  14: "쿠팡플레이",
-  15: "왓챠",
-  16: "시리즈온",
-  50: "극장",
+  27: "각색",
+  28: "시리즈 구성",
+  29: "동시녹음",
+  30: "조감독",
 };
 
 export const COUNTRY_CODE = {
