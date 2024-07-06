@@ -1,14 +1,9 @@
 import React from "react";
-import MovieRanking from "/src/components/MovieRanking";
-import MovieList from "/src/components/MovieList";
+import { SCREEN_SERIES_ID } from "/src/config/types";
+import VideoPage from "/src/components/VideoPage";
 
-const Series = () => {
-  return (
-    <main className="main">
-      <MovieRanking type={11} />
-      <MovieList type={11} />
-    </main>
-  );
+const Movie = () => {
+  return <VideoPage id={SCREEN_SERIES_ID} type={11} />;
 };
 
-export default Series;
+export default Movie;

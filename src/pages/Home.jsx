@@ -1,20 +1,10 @@
 import React from "react";
-import MovieRanking from "/src/components/MovieRanking";
-import MovieList from "/src/components/MovieList";
+import { SCREEN_MAIN_ID } from "/src/config/types";
+import VideoPage from "/src/components/VideoPage";
 import "/src/styles/Home.css";
 
-/**
- * TODO:
- * 1. 페이지네이션 추가
- */
-
 const Home = () => {
-  return (
-    <main className="main">
-      <MovieRanking />
-      <MovieList />
-    </main>
-  );
+  return <VideoPage id={SCREEN_MAIN_ID} />;
 };
 
 export default Home;
