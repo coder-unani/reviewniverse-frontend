@@ -677,6 +677,22 @@
         }
       }
     }
+
+    .my-review-wrapper {
+      .my-review {
+        flex-direction: column;
+        gap: 10px;
+      }
+
+      .button-wrapper {
+        justify-self: flex-start;
+      }
+
+      .delete,
+      .update {
+        padding: 5px 15px;
+      }
+    }
   }
 
   .crew-wrapper {

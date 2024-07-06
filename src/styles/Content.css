@@ -555,6 +555,17 @@
     text-align: center;
     margin: 10px 0 0 0;
   }
+  .info-wrapper .my-review-wrapper .my-review {
+    flex-direction: column;
+    gap: 10px;
+  }
+  .info-wrapper .my-review-wrapper .button-wrapper {
+    justify-self: flex-start;
+  }
+  .info-wrapper .my-review-wrapper .delete,
+  .info-wrapper .my-review-wrapper .update {
+    padding: 5px 15px;
+  }
   .crew-wrapper {
     padding: 30px 15px;
   }
