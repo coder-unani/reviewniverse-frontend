@@ -155,7 +155,7 @@
 }
 @media (max-width: 576px) {
   .search-contents {
-    padding: 18px 15px;
+    padding: 24px 15px;
   }
   .search-list-wrapper .list-wrapper {
     gap: 40px 8px;
