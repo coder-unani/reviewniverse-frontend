@@ -1,4 +1,4 @@
-.movie-ranking-wrapper {
+.horizontal-videos-wrapper {
   padding: 12px 0 24px 0;
   margin-bottom: 42px;
 
@@ -26,11 +26,22 @@
     }
   }
 
+  .rank-content {
+    .img-wrapper {
+      margin-bottom: 35px;
+    }
+  }
+
+  .default-content {
+    .img-wrapper {
+      margin-bottom: 10px;
+    }
+  }
+
   .img-wrapper {
     position: relative;
     width: 100%;
     aspect-ratio: 2 / 3;
-    margin-bottom: 35px;
 
     .thumbnail {
       position: absolute;
@@ -164,12 +175,16 @@
 }
 
 @media (max-width: 1024px) {
-  .movie-ranking-wrapper {
+  .horizontal-videos-wrapper {
     margin-bottom: 36px;
 
-    .img-wrapper {
-      margin-bottom: 30px;
+    .rank-content {
+      .img-wrapper {
+        margin-bottom: 30px;
+      }
+    }
 
+    .img-wrapper {
       .number {
         bottom: -31px;
 
@@ -194,10 +209,14 @@
 }
 
 @media (max-width: 576px) {
-  .movie-ranking-wrapper {
-    .img-wrapper {
-      margin-bottom: 25px;
+  .horizontal-videos-wrapper {
+    .rank-content {
+      .img-wrapper {
+        margin-bottom: 25px;
+      }
+    }
 
+    .img-wrapper {
       .number {
         bottom: -25px;
 

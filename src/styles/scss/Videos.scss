@@ -1,4 +1,4 @@
-.movie-list-wrapper {
+.videos-wrapper {
   padding: 12px 0 24px 0;
 
   .title-wrapper {
@@ -119,7 +119,7 @@
 }
 
 @media (max-width: 1024px) {
-  .movie-list-wrapper {
+  .videos-wrapper {
     .list-wrapper {
       grid-template-columns: repeat(4, minmax(0px, 1fr));
       gap: 40px 12px;
@@ -128,7 +128,7 @@
 }
 
 @media (max-width: 768px) {
-  .movie-list-wrapper {
+  .videos-wrapper {
     .list-wrapper {
       grid-template-columns: repeat(3, minmax(0px, 1fr));
       gap: 40px 10px;
@@ -145,8 +145,8 @@
 }
 
 @media (max-width: 576px) {
-  .movie-list-wrapper {
-    padding: 0 15px;
+  .videos-wrapper {
+    padding: 12px 15px 24px;
 
     .list-wrapper {
       gap: 40px 8px;

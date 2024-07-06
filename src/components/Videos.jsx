@@ -1,19 +1,16 @@
 import React, { useState, useEffect, useRef, useCallback } from "react";
-import { Link } from "react-router-dom";
 import HttpClient from "/src/utils/HttpClient";
-import { LazyLoadImage } from "react-lazy-load-image-component";
-import "react-lazy-load-image-component/src/effects/blur.css";
+import VideoItem from "./VideoItem";
 import { isEmpty } from "lodash";
-import "swiper/css";
-import { formatYear } from "/src/utils/format";
-import { formatPoster, formatCountry } from "/src/utils/contentFormat";
-import "/src/styles/MovieList.css";
+import "/src/styles/Videos.css";
 import { cLog, cError } from "/src/utils/test";
 
-const MovieList = (props) => {
+const API_BASE_URL = "https://comet.orbitcode.kr/v1";
+
+const Videos = (props) => {
   const { type } = props;
   // 렌더링할 데이터
-  const [movies, setMovies] = useState([]);
+  const [videos, setVideos] = useState([]);
   // 현재 페이지
   const [page, setPage] = useState(1);
   // 더 불러올 데이터가 있는지
@@ -43,7 +40,7 @@ const MovieList = (props) => {
   const fetchData = async () => {
     try {
       const client = new HttpClient();
-      const res = await client.get("https://comet.orbitcode.kr/v1/contents/videos", {
+      const res = await client.get(`${API_BASE_URL}/contents/videos`, {
         p: page,
         ps: pageSize,
         t: type,
@@ -55,7 +52,7 @@ const MovieList = (props) => {
           setHasMore(false);
           return;
         }
-        setMovies((prevMovies) => [...prevMovies, ...res.data.data]);
+        setVideos((prevMovies) => [...prevMovies, ...res.data.data]);
       } else {
         cLog("영화 목록을 불러오는데 실패하였습니다.");
         return;
@@ -70,32 +67,16 @@ const MovieList = (props) => {
     fetchData();
   }, [page]);
 
-  if (isEmpty(movies)) return null;
+  if (isEmpty(videos)) return null;
 
   return (
-    <section className="movie-list-wrapper">
+    <section className="videos-wrapper">
       <div className="title-wrapper">
         <h2 className="title">주인님 내 새끼 구경 좀 해봐요 🦦</h2>
       </div>
       <div className="list-wrapper">
-        {movies.map((movie, index) => (
-          <article className="content" key={index}>
-            <Link to={`/contents/${movie.id}`}>
-              <div className="img-wrapper">
-                <figure className="thumbnail">
-                  <LazyLoadImage src={formatPoster(movie.thumbnail)} alt="썸네일" effect="blur" />
-                </figure>
-              </div>
-              <div className="info">
-                <p className="title">{movie.title}</p>
-                <div className="sub-title">
-                  <span>{formatYear(movie.release)}</span>
-                  <span>|</span>
-                  <span>{formatCountry(movie.country)}</span>
-                </div>
-              </div>
-            </Link>
-          </article>
+        {videos.map((video, index) => (
+          <VideoItem key={index} video={video} />
         ))}
         {hasMore && <article ref={lastItemRef}></article>}
       </div>
@@ -103,4 +84,4 @@ const MovieList = (props) => {
   );
 };
 
-export default MovieList;
+export default Videos;
