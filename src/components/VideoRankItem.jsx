@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import "react-lazy-load-image-component/src/effects/blur.css";
 import { formatYear } from "/src/utils/format";
-import { formatPoster, formatCountry } from "/src/utils/contentFormat";
+import { formatCountry } from "/src/utils/contentFormat";
 
 const VideoRankItem = (props) => {
   const { video, index } = props;
@@ -21,7 +21,7 @@ const VideoRankItem = (props) => {
       <Link to={`/contents/${video.id}`}>
         <div className="img-wrapper">
           <figure className="thumbnail">
-            <LazyLoadImage src={formatPoster(video.thumbnail)} alt="썸네일" effect="blur" />
+            <LazyLoadImage src={video.thumbnail.url} alt="썸네일" effect="blur" />
           </figure>
           <div className="number">{formatRankingNumber(index + 1)}</div>
         </div>
