@@ -42,7 +42,9 @@ export const formatGenre = (genre) => {
 
 // 제작사 포맷
 export const formatProduction = (production) => {
-  return isEmpty(production) ? "제작사" : production[0].name;
+  if (isEmpty(production)) return "제작사";
+  const productionAll = production.map((item) => item.name).join(", ");
+  return productionAll;
 };
 
 // 플랫폼 포맷
