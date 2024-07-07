@@ -1,5 +1,5 @@
 import { find, isEmpty } from "lodash";
-import { VIDEO_ACTOR_CODE, VIDEO_STAFF_CODE, COUNTRY_CODE } from "/src/config/types";
+import { VIDEO_ACTOR_CODE, VIDEO_STAFF_CODE, COUNTRY_CODE, VIDEO_PLATFORM_CODE } from "/src/config/types";
 import { DEFAULT_IMAGES } from "/src/config/images";
 
 // 배경 이미지 포맷
@@ -19,22 +19,36 @@ export const formatPoster = (images) => {
   return thumbnail.url;
 };
 
+/*
 // 국가 코드 포맷
 export const formatCountry = (code) => {
   const lang = "ko";
   const country = COUNTRY_CODE[code];
   return country ? country[`name_${lang}`] : "국가";
 };
+*/
+
+// 국가 포맷
+export const formatCountry = (country) => {
+  return isEmpty(country) ? "국가" : country[0].name_ko;
+};
 
 // 장르 포맷
 export const formatGenre = (genre) => {
-  // 장르가 없을 경우 null 반환
   if (isEmpty(genre)) return null;
-  // 장르 id가 92인 장르만 반환, 없으면 첫번째 장르 반환
-  // const selectedGenre = find(genre, { id: 92 }) ?? find(genre, { id: 95 }) ?? genre[0];
-  // 장르 (, ) join
   const gerneAll = genre.map((item) => item.name).join(", ");
   return gerneAll;
+};
+
+// 제작사 포맷
+export const formatProduction = (production) => {
+  return isEmpty(production) ? "제작사" : production[0].name;
+};
+
+// 플랫폼 포맷
+export const formatPlatform = (code) => {
+  const platformType = VIDEO_PLATFORM_CODE[code];
+  return platformType || "플랫폼";
 };
 
 // 평점 포맷
