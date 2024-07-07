@@ -48,7 +48,7 @@ const Search = () => {
               <Link to={`/contents/${movie.id}`}>
                 <div className="img-wrapper">
                   <figure className="thumbnail">
-                    <LazyLoadImage src={formatPoster(movie.thumbnail)} alt="썸네일" effect="blur" />
+                    <LazyLoadImage src={movie.thumbnail.url} alt="썸네일" effect="blur" />
                   </figure>
                 </div>
                 <div className="info">
