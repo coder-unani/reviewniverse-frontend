@@ -30,6 +30,7 @@ import {
   formatPoster,
   formatCountry,
   formatGenre,
+  formatProduction,
   formatActorType,
   formatStaffType,
 } from "/src/utils/contentFormat";
@@ -428,20 +429,25 @@ const Content = () => {
           <div className="main-info">
             <div>
               <h2 className="title-kr">{content.title}</h2>
-              <p className="title-en">{content.title}</p>
+              <p className="title-og">{content.title_og || content.title}</p>
               <div className="sub-info">
                 <div>
                   <span>{formatYear(content.release)}</span>
                   <span>|</span>
                   <span>{formatCountry(content.country)}</span>
                   <span>|</span>
-                  <span>{formatGenre(content.genre)}</span>
+                  <span>{formatUpperCase(content.notice_age)}</span>
+                  <span>|</span>
+                  <span>{content.runtime}</span>
                 </div>
                 <div>
-                  <span>{content.runtime}</span>
-                  <span>|</span>
-                  <span>{formatUpperCase(content.notice_age)}</span>
+                  <span>{formatGenre(content.genre)}</span>
                 </div>
+                {!isEmpty(content.production) && (
+                  <div>
+                    <span>{formatProduction(content.production)}</span>
+                  </div>
+                )}
               </div>
             </div>
           </div>
