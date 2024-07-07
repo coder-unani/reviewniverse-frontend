@@ -30,7 +30,9 @@ export const formatCountry = (code) => {
 
 // 국가 포맷
 export const formatCountry = (country) => {
-  return isEmpty(country) ? "국가" : country[0].name_ko;
+  if (isEmpty(country)) return "국가";
+  const countryAll = country.map((item) => item.name_ko).join(", ");
+  return countryAll;
 };
 
 // 장르 포맷
@@ -42,7 +44,7 @@ export const formatGenre = (genre) => {
 
 // 제작사 포맷
 export const formatProduction = (production) => {
-  if (isEmpty(production)) return "제작사";
+  if (isEmpty(production)) return null;
   const productionAll = production.map((item) => item.name).join(", ");
   return productionAll;
 };
