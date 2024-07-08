@@ -4,19 +4,16 @@ import { DEFAULT_IMAGES } from "/src/config/images";
 
 // 배경 이미지 포맷
 export const formatBackgroundImage = (images) => {
-  if (isEmpty(images)) return DEFAULT_IMAGES.noImage;
   // 썸네일 이미지 배열 중에서 code가 11인 이미지만 렌더링
-  const backgroundImage = find(images, { code: "11" });
-  return backgroundImage.url;
+  const backgroundImage = images?.find((image) => image.code === "11");
+  return backgroundImage?.url || DEFAULT_IMAGES.noImage;
 };
 
 // 포스터 이미지 포맷
 export const formatPoster = (images) => {
-  if (isEmpty(images)) return DEFAULT_IMAGES.noImage;
   // 이미지 배열 중에서 code가 10인 이미지만 렌더링
-  // code가 10인 이미지가 없을 경우 code가 11인 이미지 렌더링
-  const thumbnail = find(images, { code: "10" }) ?? find(images, { code: "11" });
-  return thumbnail.url;
+  const thumbnail = images?.find((image) => image.code === "10") ?? images?.find((image) => image.code === "11");
+  return thumbnail?.url || DEFAULT_IMAGES.noImage;
 };
 
 /*
