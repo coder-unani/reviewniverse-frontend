@@ -15,8 +15,9 @@ import {
 } from "@remixicon/react";
 import { formatYear, formatUpperCase } from "/src/utils/format";
 import { Swiper, SwiperSlide } from "swiper/react";
-import { Navigation } from "swiper/modules";
+import { Navigation, Grid } from "swiper/modules";
 import "swiper/css";
+import "swiper/css/grid";
 import { cLog, cError } from "/src/utils/test";
 import Review from "/src/components/Review";
 import Crew from "/src/components/Crew";
@@ -69,17 +70,39 @@ const Content = () => {
   const emptyRatingRef = useRef(null);
   const fillRatingRef = useRef(null);
 
+  // 출연진 스와이퍼 설정
+  const crewSwiperConfig = (prevEl, nextEl) => ({
+    modules: [Grid, Navigation],
+    slidesPerView: 1,
+    slidesPerGroup: 1,
+    speed: 1000,
+    grid: { rows: 3, fill: "row" },
+    navigation: { prevEl, nextEl },
+    allowTouchMove: true,
+    breakpoints: {
+      577: {
+        slidesPerView: 2,
+        slidesPerGroup: 2,
+        grid: { rows: 3, fill: "row" },
+        allowTouchMove: false,
+      },
+      1025: {
+        slidesPerView: 4,
+        slidesPerGroup: 4,
+        grid: { rows: 3, fill: "row" },
+        allowTouchMove: false,
+      },
+    },
+  });
+
   // 갤러리 스와이퍼 설정
-  const swiperConfig = {
+  const gallerySwiperConfig = (prevEl, nextEl) => ({
     modules: [Navigation],
     spaceBetween: 8,
     slidesPerView: 2.01,
     slidesPerGroup: 2,
     speed: 1000,
-    navigation: {
-      prevEl: ".swiper-button-prev",
-      nextEl: ".swiper-button-next",
-    },
+    navigation: { prevEl, nextEl },
     allowTouchMove: true,
     breakpoints: {
       577: {
@@ -89,7 +112,7 @@ const Content = () => {
         allowTouchMove: false,
       },
     },
-  };
+  });
 
   // 토큰 검증
   const tokenValidation = async () => {
@@ -453,6 +476,7 @@ const Content = () => {
           </div>
         </div>
       </section>
+
       <section className="info-wrapper">
         <div className="poster-wrapper">
           <figure className="poster">
@@ -516,24 +540,51 @@ const Content = () => {
           </div>
         </div>
       </section>
+
       <section className="crew-wrapper">
-        <h3>출연진</h3>
-        <div className="crews">
-          {content.actor.map((actor, index) => (
-            <Crew crew={actor} type={formatActorType} key={index} />
-          ))}
+        <div className="title">
+          <h3>출연진</h3>
+        </div>
+        <div className="swiper-container">
+          <Swiper {...crewSwiperConfig(".prev-actor", ".next-actor")}>
+            {content.actor.map((actor, index) => (
+              <SwiperSlide key={index}>
+                <Crew crew={actor} type={formatActorType} key={index} />
+              </SwiperSlide>
+            ))}
+          </Swiper>
+          <div className={`swiper-button-prev prev-actor`}>
+            <RiArrowLeftSLine size={24} />
+          </div>
+          <div className={`swiper-button-next next-actor`}>
+            <RiArrowRightSLine size={24} />
+          </div>
         </div>
       </section>
+
       {!isEmpty(content.staff) && (
         <section className="crew-wrapper">
-          <h3>제작진</h3>
-          <div className="crews">
-            {content.staff.map((staff, index) => (
-              <Crew crew={staff} type={formatStaffType} key={index} />
-            ))}
+          <div className="title">
+            <h3>제작진</h3>
+          </div>
+          <div className="swiper-container">
+            <Swiper {...crewSwiperConfig(".prev-staff", ".next-staff")}>
+              {content.staff.map((staff, index) => (
+                <SwiperSlide key={index}>
+                  <Crew crew={staff} type={formatStaffType} key={index} />
+                </SwiperSlide>
+              ))}
+            </Swiper>
+            <div className={`swiper-button-prev prev-staff`}>
+              <RiArrowLeftSLine size={24} />
+            </div>
+            <div className={`swiper-button-next next-staff`}>
+              <RiArrowRightSLine size={24} />
+            </div>
           </div>
         </section>
       )}
+
       <section className="review-wrapper">
         <div className="title">
           <h3>리뷰</h3>
@@ -558,12 +609,13 @@ const Content = () => {
           </ul>
         )}
       </section>
+
       <section className="gallery-wrapper">
         <div className="title">
           <h3>갤러리</h3>
         </div>
         <div className="swiper-container">
-          <Swiper {...swiperConfig}>
+          <Swiper {...gallerySwiperConfig(".prev-gallery", ".next-gallery")}>
             {content.thumbnail.map((image, index) => (
               <SwiperSlide key={index} onClick={() => togglePhotoModal(image.url)}>
                 <figure className="photo">
@@ -572,14 +624,15 @@ const Content = () => {
               </SwiperSlide>
             ))}
           </Swiper>
-          <div className="swiper-button-prev">
+          <div className="swiper-button-prev prev-gallery">
             <RiArrowLeftSLine size={24} />
           </div>
-          <div className="swiper-button-next">
+          <div className="swiper-button-next next-gallery">
             <RiArrowRightSLine size={24} />
           </div>
         </div>
       </section>
+
       {photoModal.isOpen && <PhotoModal url={photoModal.url} onClose={togglePhotoModal} />}
       {enjoyModal && <EnjoyModal onClose={toggleEnjoyModal} />}
       {reviewModal && <ReviewModal content={content} myReview={myInfo.review} onClose={toggleReviewModal} />}
