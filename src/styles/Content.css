@@ -266,6 +266,11 @@
 .crew-wrapper .swiper-container {
   position: relative;
 }
+.crew-wrapper .swiper-container .swiper-wrapper {
+  display: grid;
+  grid-template-rows: 1fr 1fr 1fr;
+  grid-auto-flow: column;
+}
 .crew-wrapper .swiper-container .swiper {
   margin: 10px 0;
 }

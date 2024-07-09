@@ -76,20 +76,20 @@ const Content = () => {
     slidesPerView: 1,
     slidesPerGroup: 1,
     speed: 1000,
-    grid: { rows: 3, fill: "row" },
+    grid: { rows: 3, fill: "column" },
     navigation: { prevEl, nextEl },
     allowTouchMove: true,
     breakpoints: {
       577: {
         slidesPerView: 2,
         slidesPerGroup: 2,
-        grid: { rows: 3, fill: "row" },
+        grid: { rows: 3, fill: "column" },
         allowTouchMove: false,
       },
       1025: {
         slidesPerView: 4,
         slidesPerGroup: 4,
-        grid: { rows: 3, fill: "row" },
+        grid: { rows: 3, fill: "column" },
         allowTouchMove: false,
       },
     },

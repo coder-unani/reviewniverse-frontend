@@ -314,6 +314,12 @@
   .swiper-container {
     position: relative;
 
+    .swiper-wrapper {
+      display: grid;
+      grid-template-rows: 1fr 1fr 1fr;
+      grid-auto-flow: column;
+    }
+
     .swiper {
       margin: 10px 0;
     }
