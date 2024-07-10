@@ -48,13 +48,12 @@ const Videos = (props) => {
       });
 
       if (res.status === 200 && res.code === "VIDEO_SEARCH_SUCC") {
-        if (isEmpty(res.data.data)) {
+        if (isEmpty(res.data.data) || res.data.data.length < pageSize) {
           setHasMore(false);
-          return;
         }
-        setVideos((prevMovies) => [...prevMovies, ...res.data.data]);
+        setVideos((preVideos) => [...preVideos, ...res.data.data]);
       } else {
-        cLog("영화 목록을 불러오는데 실패하였습니다.");
+        cLog("비디오 목록을 불러오는데 실패하였습니다.");
         return;
       }
     } catch (error) {
