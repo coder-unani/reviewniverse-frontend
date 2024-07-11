@@ -6,12 +6,15 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm } from "react-hook-form";
 import HttpClient from "/src/utils/HttpClient";
 import { formatUser } from "/src/utils/userFormat";
+import { getAuth, signInWithPopup } from "firebase/auth";
+import { auth, provider } from "/src/auth/firebase";
 import BackButton from "/src/components/Button/Back";
 import Logo from "/assets/logo.svg";
 import KaKao from "/assets/kakao.png";
+import Naver from "/assets/naver.png";
 import Google from "/assets/google.png";
 import "/src/styles/Login.css";
-import { cLog } from "/src/utils/test";
+import { cLog, cError } from "/src/utils/test";
 
 const API_BASE_URL = "https://comet.orbitcode.kr/v1";
 
@@ -89,7 +92,19 @@ const Login = () => {
 
   // TODO: 구글 계정 연동 로그인 구현 (파이어베이스 API 연동)
   const handleGoogleLogin = () => {
-    cLog("구글 로그인");
+    signInWithPopup(auth, provider)
+      .then((result) => {
+        const user = result.user;
+        cLog(user);
+      })
+      .catch((error) => {
+        cError(error);
+      });
+  };
+
+  // TODO: 네이버 계정 연동 로그인 구현 (네이버 API 연동)
+  const handleNaverLogin = () => {
+    cLog("네이버 로그인");
   };
 
   return (
@@ -131,16 +146,20 @@ const Login = () => {
         <Link to="">아이디 찾기</Link>
         <Link to="/user/join">회원가입</Link>
       </div>
-      {/* <div className="login-sns">
+      <div className="login-sns">
         <button type="button" className="kakao" onClick={handleKakaoLogin}>
           <img src={KaKao} alt="kakao" />
           카카오로 시작하기
+        </button>
+        <button type="button" className="naver" onClick={handleNaverLogin}>
+          <img src={Naver} alt="naver" />
+          네이버로 시작하기
         </button>
         <button type="button" className="google" onClick={handleGoogleLogin}>
           <img src={Google} alt="google" />
           구글로 시작하기
         </button>
-      </div> */}
+      </div>
     </div>
   );
 };
