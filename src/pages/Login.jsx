@@ -25,7 +25,9 @@ const Login = () => {
 
   // 로그인 유효성 검사
   const LoginSchema = Yup.object().shape({
-    email: Yup.string().required("이메일을 입력해주세요.").email("이메일 형식이 아닙니다."),
+    email: Yup.string()
+      .required("이메일을 입력해주세요.")
+      .email("이메일 형식이 아닙니다."),
     password: Yup.string().required("비밀번호를 입력해주세요."),
   });
 
@@ -104,7 +106,31 @@ const Login = () => {
 
   // TODO: 네이버 계정 연동 로그인 구현 (네이버 API 연동)
   const handleNaverLogin = () => {
-    cLog("네이버 로그인");
+    window.location.href = "http://0.0.0.0:8000/v1/users/naver/login";
+    // try {
+    //   const client = new HttpClient();
+    //   const res = client.get("http://0.0.0.0:8000/v1/users/naver/login");
+    //   if (res.status === 200) {
+    //     // 성공
+    //     const user = JSON.stringify(formatUser(res.data.user));
+    //     if (user && res.data.access_token && res.data.refresh_token) {
+    //       sessionStorage.setItem("user", user);
+    //       sessionStorage.setItem("access_token", res.data.access_token);
+    //       sessionStorage.setItem("refresh_token", res.data.refresh_token);
+    //       // TODO: 이전 페이지로 이동
+    //       window.location.href = "/";
+    //     }
+    //   } else if (res.status !== 200) {
+    //     // 실패
+    //     if (res.status === 400 || res.status === 401) {
+    //       // TODO: 에러 메시지 출력
+    //       cLog("로그인에 실패하였습니다.");
+    //     }
+    //     return;
+    //   }
+    // } catch (error) {
+    //   cError(error);
+    // }
   };
 
   return (
