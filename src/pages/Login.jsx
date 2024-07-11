@@ -106,7 +106,7 @@ const Login = () => {
 
   // TODO: 네이버 계정 연동 로그인 구현 (네이버 API 연동)
   const handleNaverLogin = () => {
-    window.location.href = "http://0.0.0.0:8000/v1/users/naver/login";
+    window.location.href = "https://comet.orbitcode.kr/v1/users/naver/login";
     // try {
     //   const client = new HttpClient();
     //   const res = client.get("http://0.0.0.0:8000/v1/users/naver/login");
