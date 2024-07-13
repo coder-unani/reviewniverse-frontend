@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { RiSettings2Fill } from "@remixicon/react";
 
 /**
@@ -11,11 +12,14 @@ import { RiSettings2Fill } from "@remixicon/react";
 const SettingButton = () => {
   const [menuModal, isMenuModal] = useState(false);
   const menuRef = useRef();
+  const navigate = useNavigate();
 
-  const toggleMenuModal = () => isMenuModal(!menuModal);
+  const toggleMenuModal = () => {
+    isMenuModal(!menuModal);
+  };
 
   const handleEditClick = () => {
-    window.location.href = "/user/profile";
+    navigate("/user/profile");
   };
 
   const handleLogoutClick = () => {
