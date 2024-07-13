@@ -193,8 +193,8 @@ const Login = () => {
         <button type="submit">로그인</button>
       </form>
       <div className="login-footer">
-        <Link to="">아이디 찾기</Link>
-        <Link to="">비밀번호 찾기</Link>
+        <Link to="/user/find/id">아이디 찾기</Link>
+        <Link to="/user/find/password">비밀번호 찾기</Link>
         <Link to="/user/join">회원가입</Link>
       </div>
       <div className="login-sns">
