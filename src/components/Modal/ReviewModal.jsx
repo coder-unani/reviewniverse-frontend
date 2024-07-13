@@ -59,24 +59,22 @@ const ReviewModal = (props) => {
 
   const watchedTitle = useWatch({ control, name: "title", defaultValue: "" });
 
-  const onSubmit = handleSubmit((data) => {
+  const onSubmit = handleSubmit(async (data) => {
     if (isEmpty(myReview)) {
       // 리뷰 등록하기
       try {
         const client = new HttpClient();
-        client
-          .post(`${API_BASE_URL}/contents/videos/${content.id}/reviews`, {
-            title: data.title,
-            is_spoiler: data.spoiler,
-            is_private: data.private,
-          })
-          .then((res) => {
-            if (res.status === 201) {
-              // res.code === "REVIEW_CREATE_SUCC"
-              cLog("리뷰가 등록되었습니다.");
-              onClose();
-            }
-          });
+        const res = await client.post(`${API_BASE_URL}/contents/videos/${content.id}/reviews`, {
+          title: data.title,
+          is_spoiler: data.spoiler,
+          is_private: data.private,
+        });
+
+        if (res.status === 201) {
+          // res.code === "REVIEW_CREATE_SUCC"
+          cLog("리뷰가 등록되었습니다.");
+          onClose();
+        }
       } catch (error) {
         cError(error);
       }
@@ -84,19 +82,17 @@ const ReviewModal = (props) => {
       // 리뷰 수정하기
       try {
         const client = new HttpClient();
-        client
-          .put(`${API_BASE_URL}/contents/videos/${content.id}/reviews/${myReview.id}`, {
-            title: data.title,
-            is_spoiler: data.spoiler,
-            is_private: data.private,
-          })
-          .then((res) => {
-            if (res.status === 204) {
-              // res.code === "REVIEW_UPDATE_SUCC"
-              cLog("리뷰가 수정되었습니다.");
-              onClose();
-            }
-          });
+        const res = await client.put(`${API_BASE_URL}/contents/videos/${content.id}/reviews/${myReview.id}`, {
+          title: data.title,
+          is_spoiler: data.spoiler,
+          is_private: data.private,
+        });
+
+        if (res.status === 204) {
+          // res.code === "REVIEW_UPDATE_SUCC"
+          cLog("리뷰가 수정되었습니다.");
+          onClose();
+        }
       } catch (error) {
         cError(error);
       }
