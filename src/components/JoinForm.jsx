@@ -1,4 +1,5 @@
 import React, { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import * as Yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm } from "react-hook-form";
@@ -24,6 +25,7 @@ const API_BASE_URL = "https://comet.orbitcode.kr/v1";
 
 const JoinForm = (props) => {
   const { agreeValues } = props;
+  const navigate = useNavigate();
 
   // 회원가입 유효성 검사
   const JoinSchema = Yup.object().shape({
@@ -69,34 +71,34 @@ const JoinForm = (props) => {
     trigger,
   } = methods;
 
-  const onSubmit = handleSubmit((data) => {
+  const onSubmit = handleSubmit(async (data) => {
     // TODO: 유효성 검사 실패시 API 호출 중단
     try {
       // 회원가입 처리
       const client = new HttpClient();
-      client
-        .post(`${API_BASE_URL}/users`, {
-          code: "10",
-          nickname: data.nickname,
-          email: data.email,
-          password: data.password,
-          is_privacy_agree: agreeValues.privacy,
-          is_terms_agree: agreeValues.terms,
-          is_age_agree: agreeValues.age,
-          is_marketing_agree: agreeValues.marketing,
-        })
-        .then((res) => {
-          if (res.status === 201 && res.code === "USER_CREATE_SUCC") {
-            // 성공
-            // TODO: 회원가입 성공 시 회원가입 성공 페이지로 이동
-            cLog("회원가입을 축하합니다.");
-            return;
-          } else {
-            // 실패
-            cLog("회원가입에 실패했습니다.");
-            return;
-          }
-        });
+      const res = await client.post(`${API_BASE_URL}/users`, {
+        code: "10",
+        nickname: data.nickname,
+        email: data.email,
+        password: data.password,
+        is_privacy_agree: agreeValues.privacy,
+        is_terms_agree: agreeValues.terms,
+        is_age_agree: agreeValues.age,
+        is_marketing_agree: agreeValues.marketing,
+      });
+
+      if (res.status === 201) {
+        // res.code === "USER_CREATE_SUCC"
+        // 성공
+        // TODO: 회원가입 성공 시 회원가입 성공 페이지로 이동
+        cLog("회원가입을 축하합니다.");
+        navigate("/user/login");
+        return;
+      } else {
+        // 실패
+        cLog("회원가입에 실패했습니다.");
+        return;
+      }
     } catch (error) {
       cError(error);
       reset();
