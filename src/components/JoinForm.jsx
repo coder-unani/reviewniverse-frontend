@@ -55,9 +55,9 @@ const JoinForm = (props) => {
   };
 
   const methods = useForm({
+    mode: "onSubmit",
     resolver: yupResolver(JoinSchema),
     defaultValues,
-    mode: "onSubmit",
   });
 
   const {
