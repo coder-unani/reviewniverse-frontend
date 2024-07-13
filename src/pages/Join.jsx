@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useMobileContext } from "/src/context/MobileContext";
-import JoinAgree from "../components/JoinAgree";
+import JoinAgree from "/src/components/JoinAgree";
 import JoinForm from "/src/components/JoinForm";
 import BackButton from "/src/components/Button/Back";
 import Logo from "/assets/logo.svg";
