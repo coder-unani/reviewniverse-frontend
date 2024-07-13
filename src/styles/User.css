@@ -117,7 +117,7 @@
 .user-menu ul li:not(:last-child) {
   border-bottom: 1px solid rgba(0, 0, 0, 0.1);
 }
-.user-menu ul .withdraw {
+.user-menu ul .delete {
   color: red;
   opacity: 0.5;
 }
