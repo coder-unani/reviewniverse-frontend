@@ -1,5 +1,6 @@
 import React, { createContext, useContext, useEffect, useState } from "react";
 import HttpClient from "/src/utils/HttpClient";
+import { cLog, cError } from "/src/utils/test";
 
 const API_BASE_URL = "https://comet.orbitcode.kr/v1";
 
@@ -18,7 +19,7 @@ const AuthContextProvider = ({ children }) => {
     client.get(`${API_BASE_URL}/token`).then((res) => {
       if (res.status === 200) {
         // 토큰이 유효하면 pass
-        console.log("Token is valid.");
+        cLog("Token is valid.");
       } else {
         // 토큰이 유효하지 않으면 user, access_token 지우고 login 페이지로 이동
         sessionStorage.removeItem("user");
