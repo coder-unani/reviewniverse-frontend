@@ -47,15 +47,15 @@ const User = () => {
   const fetchData = async () => {
     try {
       const client = new HttpClient();
-      client.get(`${API_BASE_URL}/users`, { uid: parseInt(userId) }).then((res) => {
-        if (res.status === 200) {
-          // res.code === "SEARCH_SUCC"
-          setUser(res.data.data[0]);
-        } else {
-          cLog("사용자 정보를 불러오는데 실패하였습니다.");
-          return;
-        }
-      });
+      const res = await client.get(`${API_BASE_URL}/users`, { uid: parseInt(userId) });
+
+      if (res.status === 200) {
+        // res.code === "SEARCH_SUCC"
+        setUser(res.data.data[0]);
+      } else {
+        cLog("사용자 정보를 불러오는데 실패하였습니다.");
+        return;
+      }
     } catch (error) {
       cError(error);
     }
