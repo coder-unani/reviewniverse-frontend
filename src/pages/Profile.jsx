@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import CheckForm from "/src/components/CheckForm";
 import * as Yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -20,6 +21,7 @@ const API_BASE_URL = "https://comet.orbitcode.kr/v1";
  */
 
 const Profile = () => {
+  const navigate = useNavigate();
   // 비밀번호 확인 상태
   const [isPasswordConfirmed, setIsPasswordConfirmed] = useState(false);
   const [user, setUser] = useState(() => {
@@ -220,7 +222,7 @@ const Profile = () => {
     // 로그인한 유저가 없을 경우 로그인 페이지로 이동
     tokenValidation().then((isValid) => {
       if (!isValid) {
-        window.location.href = "/user/login";
+        navigate("/user/login");
         return;
       }
     });
