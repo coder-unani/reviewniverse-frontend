@@ -1,4 +1,5 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import { useMobileContext } from "/src/context/MobileContext";
 import { Link } from "react-router-dom";
 import * as Yup from "yup";
@@ -22,12 +23,11 @@ const API_BASE_URL = "https://comet.orbitcode.kr/v1";
 
 const Login = () => {
   const { isMobile } = useMobileContext();
+  const navigate = useNavigate();
 
   // 로그인 유효성 검사
   const LoginSchema = Yup.object().shape({
-    email: Yup.string()
-      .required("이메일을 입력해주세요.")
-      .email("이메일 형식이 아닙니다."),
+    email: Yup.string().required("이메일을 입력해주세요.").email("이메일 형식이 아닙니다."),
     password: Yup.string().required("비밀번호를 입력해주세요."),
   });
 
@@ -49,9 +49,9 @@ const Login = () => {
     reset,
   } = methods;
 
+  // 로그인 처리
   const onSubmit = handleSubmit(async (data) => {
     try {
-      // 로그인 처리
       // TODO: URL 변수화 필요
       const client = new HttpClient();
       const res = await client.post(`${API_BASE_URL}/users/login`, {
@@ -93,15 +93,40 @@ const Login = () => {
   };
 
   // TODO: 구글 계정 연동 로그인 구현 (파이어베이스 API 연동)
-  const handleGoogleLogin = () => {
-    signInWithPopup(auth, provider)
-      .then((result) => {
-        const user = result.user;
-        cLog(user);
-      })
-      .catch((error) => {
-        cError(error);
+  const handleGoogleLogin = async () => {
+    try {
+      const googleRes = await signInWithPopup(auth, provider);
+      const googleUser = googleRes.user;
+
+      // 응답받은 유저 정보로 가입되어 있는지 확인
+      const client = new HttpClient();
+      const res = client.post(`${API_BASE_URL}/users/sns/signin`, {
+        code: "11",
+        email: googleUser.email,
+        sns_id: googleUser.uid,
       });
+
+      cLog(res.status);
+      // 가입되어 있다면 로그인 처리
+      if (res.status === 200) {
+        const user = JSON.stringify(formatUser(res.data.user));
+        if (user && res.data.access_token && res.data.refresh_token) {
+          sessionStorage.setItem("user", user);
+          sessionStorage.setItem("access_token", res.data.access_token);
+          sessionStorage.setItem("refresh_token", res.data.refresh_token);
+
+          window.location.href = "/";
+        }
+      } else {
+        // else if (res.status === 400 || res.status === 401) {
+        // 가입되어 있지 않다면 유저 정보를 가지고 회원가입 페이지로 이동
+        sessionStorage.setItem("sns_user", JSON.stringify(googleUser));
+        // 세션스토리지에 저장해서 전달해도 되나?
+        navigate("/user/auth/google");
+      }
+    } catch (error) {
+      cError(error);
+    }
   };
 
   // TODO: 네이버 계정 연동 로그인 구현 (네이버 API 연동)
@@ -168,8 +193,8 @@ const Login = () => {
         <button type="submit">로그인</button>
       </form>
       <div className="login-footer">
-        <Link to="">비밀번호 찾기</Link>
         <Link to="">아이디 찾기</Link>
+        <Link to="">비밀번호 찾기</Link>
         <Link to="/user/join">회원가입</Link>
       </div>
       <div className="login-sns">
