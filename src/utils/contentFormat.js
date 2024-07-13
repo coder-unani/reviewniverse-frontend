@@ -1,6 +1,25 @@
-import { find, isEmpty } from "lodash";
-import { VIDEO_ACTOR_CODE, VIDEO_STAFF_CODE, COUNTRY_CODE, VIDEO_PLATFORM_CODE } from "/src/config/types";
+import { isEmpty } from "lodash";
+import { USER_CODE, VIDEO_ACTOR_CODE, VIDEO_STAFF_CODE, COUNTRY_CODE, VIDEO_PLATFORM_CODE } from "/src/config/types";
 import { DEFAULT_IMAGES } from "/src/config/images";
+
+// 유저 코드 포맷
+export const formatUserCode = (code) => {
+  const userCode = USER_CODE[code];
+  return userCode || "10";
+};
+
+// provider 포맷
+export const formatProvider = (provider) => {
+  const providerCode = {
+    email: "10",
+    google: "11",
+    facebook: "12",
+    apple: "13",
+    kakao: "14",
+    naver: "15",
+  };
+  return providerCode[provider] || "10";
+};
 
 // 배경 이미지 포맷
 export const formatBackgroundImage = (images) => {
