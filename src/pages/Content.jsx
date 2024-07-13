@@ -211,25 +211,25 @@ const Content = () => {
   };
 
   // 리뷰 삭제
-  const handleReviewDelete = () => {
+  const handleReviewDelete = async () => {
     // setConfirmModal(true);
 
     try {
       const client = new HttpClient();
-      client.delete(`${API_BASE_URL}/contents/videos/${contentId}/reviews/${myInfo.review.id}`).then((res) => {
-        if (res.status === 204) {
-          // res.code === "REVIEW_DELETE_SUCC"
-          cLog("리뷰가 삭제되었습니다.");
-          setMyInfo({ ...myInfo, review: {} });
-        }
-      });
+      const res = await client.delete(`${API_BASE_URL}/contents/videos/${contentId}/reviews/${myInfo.review.id}`);
+
+      if (res.status === 204) {
+        // res.code === "REVIEW_DELETE_SUCC"
+        cLog("리뷰가 삭제되었습니다.");
+        setMyInfo({ ...myInfo, review: {} });
+      }
     } catch (error) {
       cError(error);
     }
   };
 
   // 리뷰 좋아요
-  const handleReviewLike = (reviewId) => {
+  const handleReviewLike = async (reviewId) => {
     // 로그인 여부 확인
     if (!user) {
       setEnjoyModal(true);
@@ -245,35 +245,35 @@ const Content = () => {
     // 로그인 되어 있을 경우 회원 access token으로 좋아요 api 호출
     try {
       const client = new HttpClient();
-      client.post(`${API_BASE_URL}/contents/videos/${contentId}/reviews/${reviewId}/like`).then((res) => {
-        if (res.status === 200) {
-          // res.code === "REVIEW_LIKE_UPDATE_SUCC"
-          cLog("리뷰 좋아요를 누르거나 취소하였습니다.");
+      const res = await client.post(`${API_BASE_URL}/contents/videos/${contentId}/reviews/${reviewId}/like`);
 
-          // 응답값: like_count, is_like
-          // 1. reviews: 해당 review id값의 like_count 업데이트
-          // 2. myInfo: review_like 배열에 해당 review id값 업데이트
-          setReviews((prevReviews) => {
-            const updatedReviews = prevReviews.map((review) => {
-              if (review.id === reviewId) {
-                return { ...review, like_count: res.data.data.like_count };
-              }
-              return review;
-            });
-            return updatedReviews;
-          });
+      if (res.status === 200) {
+        // res.code === "REVIEW_LIKE_UPDATE_SUCC"
+        cLog("리뷰 좋아요를 누르거나 취소하였습니다.");
 
-          setMyInfo((prevMyInfo) => {
-            const updatedMyInfo = { ...prevMyInfo };
-            if (res.data.data.is_like) {
-              updatedMyInfo.review_like.push(reviewId);
-            } else {
-              updatedMyInfo.review_like = updatedMyInfo.review_like.filter((id) => id !== reviewId);
+        // 응답값: like_count, is_like
+        // 1. reviews: 해당 review id값의 like_count 업데이트
+        // 2. myInfo: review_like 배열에 해당 review id값 업데이트
+        setReviews((prevReviews) => {
+          const updatedReviews = prevReviews.map((review) => {
+            if (review.id === reviewId) {
+              return { ...review, like_count: res.data.data.like_count };
             }
-            return updatedMyInfo;
+            return review;
           });
-        }
-      });
+          return updatedReviews;
+        });
+
+        setMyInfo((prevMyInfo) => {
+          const updatedMyInfo = { ...prevMyInfo };
+          if (res.data.data.is_like) {
+            updatedMyInfo.review_like.push(reviewId);
+          } else {
+            updatedMyInfo.review_like = updatedMyInfo.review_like.filter((id) => id !== reviewId);
+          }
+          return updatedMyInfo;
+        });
+      }
     } catch (error) {
       cError(error);
     }
