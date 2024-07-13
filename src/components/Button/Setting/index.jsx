@@ -6,7 +6,7 @@ import { RiSettings2Fill } from "@remixicon/react";
  * TODO:
  * 1. 회원정보 수정: 회원정보 수정 페이지로 이동
  * 2. 로그아웃: 확인 모달, 메인페이지로 이동
- * 3. 회원탈퇴: 확인 모달, 탈퇴페이지로 이동
+ * 3. 회원탈퇴: 탈퇴페이지로 이동
  */
 
 const SettingButton = () => {
@@ -18,15 +18,21 @@ const SettingButton = () => {
     isMenuModal(!menuModal);
   };
 
+  // 회원정보 수정
   const handleEditClick = () => {
     navigate("/user/profile");
   };
 
+  // 로그아웃
   const handleLogoutClick = () => {
-    // 로그아웃
     sessionStorage.removeItem("user");
     sessionStorage.removeItem("access_token");
     window.location.href = "/";
+  };
+
+  // 회원탈퇴
+  const handleDeleteClick = () => {
+    navigate("/user/delete");
   };
 
   useEffect(() => {
@@ -51,7 +57,9 @@ const SettingButton = () => {
           <ul>
             <li onClick={handleEditClick}>회원정보 수정</li>
             <li onClick={handleLogoutClick}>로그아웃</li>
-            <li className="withdraw">회원탈퇴</li>
+            <li className="delete" onClick={handleDeleteClick}>
+              회원탈퇴
+            </li>
           </ul>
         </div>
       )}
