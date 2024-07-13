@@ -46,6 +46,20 @@
     border: 1px solid rgba(255, 255, 255, 0.1);
     border-radius: 4px;
     padding: 0 16px;
+
+    &[type="password"] {
+      letter-spacing: 3px;
+    }
+
+    &::placeholder {
+      color: #0c0c0c;
+      letter-spacing: -0.2px;
+      opacity: 0.3;
+    }
+
+    &:focus {
+      border-color: rgba(#0c0c0c, 0.1);
+    }
   }
 
   button {
@@ -151,6 +165,20 @@
     &:read-only {
       color: rgba(0, 0, 0, 0.2);
     }
+
+    &[type="password"] {
+      letter-spacing: 3px;
+    }
+
+    &::placeholder {
+      color: #0c0c0c;
+      letter-spacing: -0.2px;
+      opacity: 0.3;
+    }
+
+    &:focus:not(:read-only) {
+      border-color: rgba(#0c0c0c, 0.1);
+    }
   }
 
   textarea {
@@ -166,6 +194,10 @@
 
     &::placeholder {
       color: rgba(0, 0, 0, 0.2);
+    }
+
+    &:focus {
+      border-color: rgba(#0c0c0c, 0.1);
     }
   }
 

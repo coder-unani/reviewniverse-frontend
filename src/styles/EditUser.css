@@ -43,6 +43,17 @@
   border-radius: 4px;
   padding: 0 16px;
 }
+.check-form input[type=password] {
+  letter-spacing: 3px;
+}
+.check-form input::placeholder {
+  color: #0c0c0c;
+  letter-spacing: -0.2px;
+  opacity: 0.3;
+}
+.check-form input:focus {
+  border-color: rgba(12, 12, 12, 0.1);
+}
 .check-form button {
   width: 100%;
   height: 48px;
@@ -130,6 +141,17 @@
 .edit-form input:read-only {
   color: rgba(0, 0, 0, 0.2);
 }
+.edit-form input[type=password] {
+  letter-spacing: 3px;
+}
+.edit-form input::placeholder {
+  color: #0c0c0c;
+  letter-spacing: -0.2px;
+  opacity: 0.3;
+}
+.edit-form input:focus:not(:read-only) {
+  border-color: rgba(12, 12, 12, 0.1);
+}
 .edit-form textarea {
   height: 100px;
   font-family: inherit;
@@ -143,6 +165,9 @@
 }
 .edit-form textarea::placeholder {
   color: rgba(0, 0, 0, 0.2);
+}
+.edit-form textarea:focus {
+  border-color: rgba(12, 12, 12, 0.1);
 }
 .edit-form .error {
   font-size: 12px;
