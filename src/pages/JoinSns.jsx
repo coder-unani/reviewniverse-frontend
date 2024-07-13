@@ -50,8 +50,7 @@ const JoinSns = () => {
         })
         .then((res) => {
           if (res.status === 201) {
-            // && res.code === "USER_CREATE_SUCC"
-            // 성공
+            // res.code === "USER_CREATE_SUCC"
             // TODO: 회원가입 성공 시 회원가입 성공 페이지로 이동
             cLog("회원가입을 축하합니다.");
             window.location.href = "/";
