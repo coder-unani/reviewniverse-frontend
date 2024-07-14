@@ -13,13 +13,16 @@ const Videos = (props) => {
   const [videos, setVideos] = useState([]);
   // 정렬 순서
   const orderByOptions = ["new_desc", "view_desc", "like_desc", "updated_desc", "rating_desc"];
-  const [orderBy, setOrderBy] = useState(orderByOptions[0]);
+  const [orderBy, setOrderBy] = useState(null);
   // 현재 페이지
   const [page, setPage] = useState(1);
   // 더 불러올 데이터가 있는지
   const [hasMore, setHasMore] = useState(true);
   // 한 번에 불러올 데이터 개수
   const pageSize = 20;
+
+  // 랜덤 정렬 순서
+  const randomOrder = () => Math.floor(Math.random() * orderByOptions.length) + 1;
 
   // 무한 스크롤 기능
   const observer = useRef();
@@ -65,17 +68,25 @@ const Videos = (props) => {
   };
 
   useEffect(() => {
-    fetchData(orderBy, 1);
+    const ob = orderByOptions[randomOrder()];
+    setOrderBy(ob);
   }, []);
+
+  useEffect(() => {
+    if (!orderBy) return;
+    fetchData(orderBy, 1);
+  }, [orderBy]);
 
   // 페이지가 변경될 때마다 데이터 요청
   useEffect(() => {
-    if (page === 1) return;
-    // 정렬 순서 변경
-    const newOrderBy = orderByOptions[(page - 1) % orderByOptions.length];
-    setOrderBy(newOrderBy);
-    fetchData(newOrderBy, page);
-  }, [page]);
+    if (page === 1 || !orderBy) return;
+    // 5페이지까지만 요청
+    if (page > 5) {
+      setHasMore(false);
+      return;
+    }
+    fetchData(orderBy, page);
+  }, [page, orderBy]);
 
   if (isEmpty(videos)) return null;
 
