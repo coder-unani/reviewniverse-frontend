@@ -50,14 +50,9 @@ const Header = () => {
 
   const renderLoginButton = () => {
     return (
-      <>
-        <Link to="/user/login" className="login">
-          로그인
-        </Link>
-        <Link to="/user/join" className="join">
-          회원가입
-        </Link>
-      </>
+      <Link to="/user/login" className="login">
+        로그인
+      </Link>
     );
   };
 
