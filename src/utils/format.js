@@ -41,3 +41,13 @@ export const formatNumber = (number) => {
 export const formatUpperCase = (text) => {
   return text.toUpperCase();
 };
+
+// 문자 포맷: 주어진 자릿수만큼 문자열 자르기
+export const formatSlice = (text, length) => {
+  return text.length > length ? text.slice(0, length) + "..." : text;
+};
+
+// 클릭한 input의 입력값 삭제
+export const clearInput = (e) => {
+  e.target.value = "";
+};
