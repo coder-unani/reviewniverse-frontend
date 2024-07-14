@@ -28,9 +28,6 @@ const EnjoyModal = (props) => {
             <p>로그인이 필요한 기능이에요!</p>
           </div>
           <div className="button-wrapper">
-            <Link to="/user/join" className="join">
-              회원가입
-            </Link>
             <Link to="/user/login" className="login">
               로그인
             </Link>
