@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import CheckForm from "/src/components/CheckForm";
 import * as Yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm, useWatch } from "react-hook-form";
@@ -22,8 +21,6 @@ const API_BASE_URL = "https://comet.orbitcode.kr/v1";
 
 const EditUser = () => {
   const navigate = useNavigate();
-  // 비밀번호 확인 상태
-  const [isPasswordConfirmed, setIsPasswordConfirmed] = useState(false);
   const [user, setUser] = useState(() => {
     const storedUser = sessionStorage.getItem("user");
     return storedUser ? JSON.parse(storedUser) : null;
@@ -57,38 +54,23 @@ const EditUser = () => {
 
   // 개인정보 수정 유효성 검사
   const EditSchema = (previousNickname) =>
-    Yup.object()
-      .shape({
-        nickname: Yup.string()
-          .test("nickname", "닉네임은 최소 2글자 이상입니다.", (val) => !val || val.length >= 2)
-          .test("nickname", "닉네임은 최대 20글자입니다.", (val) => !val || val.length <= 20)
-          .test(
-            "nickname",
-            "닉네임은 한글, 영문, 숫자만 입력 가능합니다.",
-            (val) => !val || /^[a-zA-Z가-힣0-9]*$/.test(val)
-          )
-          .nullable(),
-        profile_text: Yup.string().max(100, "소개는 최대 100자까지 입력 가능합니다.").nullable(),
-        password_origin: Yup.string().nullable(),
-        password_new: Yup.string().nullable(),
-        is_marketing_agree: Yup.boolean().nullable(),
-      })
-      .test("passwords", "현재 비밀번호와 새 비밀번호를 모두 입력해주세요.", function (value) {
-        const { currentPassword, newPassword } = value;
-        if ((currentPassword && !newPassword) || (!currentPassword && newPassword)) {
-          return this.createError({
-            path: "newPassword",
-            message: "현재 비밀번호와 새 비밀번호를 모두 입력해주세요.",
-          });
-        }
-        return true;
-      });
+    Yup.object().shape({
+      nickname: Yup.string()
+        .test("nickname", "닉네임은 최소 2글자 이상입니다.", (val) => !val || val.length >= 2)
+        .test("nickname", "닉네임은 최대 20글자입니다.", (val) => !val || val.length <= 20)
+        .test(
+          "nickname",
+          "닉네임은 한글, 영문, 숫자만 입력 가능합니다.",
+          (val) => !val || /^[a-zA-Z가-힣0-9]*$/.test(val)
+        )
+        .nullable(),
+      profile_text: Yup.string().max(100, "소개는 최대 100자까지 입력 가능합니다.").nullable(),
+      is_marketing_agree: Yup.boolean().nullable(),
+    });
 
   const defaultValues = {
     profile_image: DEFAULT_IMAGES.noProfile,
     nickname: "",
-    password_origin: "",
-    password_new: "",
     profile_text: "",
     is_marketing_agree: false,
   };
@@ -118,14 +100,7 @@ const EditUser = () => {
     const updateData = { ...data };
 
     // 중복되지 않은 데이터만 추출
-    const fieldsToCheck = [
-      "profile_image",
-      "nickname",
-      "password_origin",
-      "password_new",
-      "profile_text",
-      "is_marketing_agree",
-    ];
+    const fieldsToCheck = ["profile_image", "nickname", "profile_text", "is_marketing_agree"];
 
     fieldsToCheck.forEach((field) => {
       if (
@@ -136,39 +111,6 @@ const EditUser = () => {
         delete updateData[field];
       }
     });
-
-    // 비밀번호 필드 확인 및 API 호출
-    const verifyCurrentPassword = async () => {
-      // 현재 비밀번호와 새 비밀번호가 모두 입력되었을 경우
-      // 현재 비밀번호가 맞는지 확인
-      try {
-        const client = new HttpClient();
-        const res = await client.patch(`${API_BASE_URL}/users/${user.id}/password`, {
-          password_origin: data.password_origin,
-          password_new: data.password_new,
-        });
-        if (res.status !== 204) {
-          setError("currentPassword", {
-            type: "manual",
-            message: "현재 비밀번호가 일치하지 않습니다.",
-          });
-          return false;
-        }
-        return true;
-      } catch (error) {
-        cError(error);
-        return false;
-      }
-    };
-
-    if (updateData.password_origin && updateData.password_new) {
-      const isPasswordVerified = await verifyCurrentPassword();
-      if (!isPasswordVerified) return;
-
-      // password_origin 및 password_new를 updateData에서 제거
-      delete updateData.password_origin;
-      delete updateData.password_new;
-    }
 
     // 프로필 수정 API 호출
     try {
@@ -209,9 +151,11 @@ const EditUser = () => {
     }
 
     const reader = new FileReader();
+
     reader.onload = () => {
       setPreviewImage(reader.result);
     };
+
     reader.readAsDataURL(file);
     // useForm의 setValue를 사용하여 profileImage 필드를 업데이트
     setValue("profile_image", file, { shouldValidate: true, shouldDirty: true });
@@ -229,7 +173,7 @@ const EditUser = () => {
 
     setValue("profile_image", user.profile_image);
     setValue("nickname", user.nickname);
-    setValue("profile_text", user.profile_text);
+    setValue("profile_text", user.profile_text || "");
     setValue("is_marketing_agree", user.is_marketing_agree);
 
     trigger();
@@ -270,8 +214,6 @@ const EditUser = () => {
               });
           }
         });
-      } else if (name === "password_origin" || name === "password_new") {
-        trigger(name);
       }
     });
 
@@ -283,68 +225,54 @@ const EditUser = () => {
   return (
     <main className="edit-main">
       <div className="edit-wrapper">
-        {!isPasswordConfirmed ? (
-          <CheckForm setIsPasswordConfirmed={setIsPasswordConfirmed} />
-        ) : (
-          <form method={methods} onSubmit={onSubmit} className="edit-form" encType="multipart/form-data">
-            <div className="input-wrapper image">
-              <figure className="profile-image edit">
-                <img src={previewImage} alt="프로필 이미지" />
-                <input
-                  type="file"
-                  id="profile_image"
-                  name="profile_image"
-                  accept="image/*"
-                  onChange={handleImageChange}
-                  style={{ display: "none" }}
-                />
-                <label htmlFor="profile_image">
-                  <RiImageEditFill size={24} />
-                </label>
-              </figure>
-              {errors.profile_image && <p className="error">{errors.profile_image.message}</p>}
-            </div>
-            <div className="input-wrapper">
-              <label htmlFor="email">이메일</label>
-              <input type="email" id="email" value={user.email} readOnly />
-            </div>
-            <div className="input-wrapper">
-              <label htmlFor="nickname">닉네임</label>
-              <input type="text" id="nickname" spellCheck="false" {...register("nickname")} />
-              {errors.nickname && <p className="error">{errors.nickname.message}</p>}
-            </div>
-            <div className="input-wrapper">
-              <label htmlFor="password_origin">현재 비밀번호</label>
-              <input type="password" id="password_origin" {...register("password_origin")} />
-              {errors.password_origin && <p className="error">{errors.password_origin.message}</p>}
-            </div>
-            <div className="input-wrapper">
-              <label htmlFor="password_new">새 비밀번호</label>
-              <input type="password" id="password_new" {...register("password_new")} />
-              {errors.password_new && <p className="error">{errors.password_new.message}</p>}
-            </div>
-            <div className="input-wrapper introduction">
-              <label htmlFor="profile_text">
-                <span>소개</span>
-                <span>{watchIntroduction.length} / 100</span>
-              </label>
-              <textarea
-                id="profile_text"
-                placeholder="소개글을 입력하세요."
-                spellCheck="false"
-                {...register("profile_text")}
+        <form method={methods} onSubmit={onSubmit} className="edit-form" encType="multipart/form-data">
+          <div className="input-wrapper image">
+            <figure className="profile-image edit">
+              <img src={previewImage} alt="프로필 이미지" />
+              <input
+                type="file"
+                id="profile_image"
+                name="profile_image"
+                accept="image/*"
+                onChange={handleImageChange}
+                style={{ display: "none" }}
               />
-              {errors.profile_text && <p className="error">{errors.profile_text.message}</p>}
-            </div>
-            <div className="input-wrapper marketing">
-              <input type="checkbox" id="is_marketing_agree" {...register("is_marketing_agree")} />
-              <label htmlFor="is_marketing_agree">마케팅 정보 수신 동의</label>
-            </div>
-            <button type="submit" disabled={!isDirty}>
-              수정하기
-            </button>
-          </form>
-        )}
+              <label htmlFor="profile_image">
+                <RiImageEditFill size={24} />
+              </label>
+            </figure>
+            {errors.profile_image && <p className="error">{errors.profile_image.message}</p>}
+          </div>
+          <div className="input-wrapper">
+            <label htmlFor="email">이메일</label>
+            <input type="email" id="email" value={user.email} readOnly />
+          </div>
+          <div className="input-wrapper">
+            <label htmlFor="nickname">닉네임</label>
+            <input type="text" id="nickname" spellCheck="false" {...register("nickname")} />
+            {errors.nickname && <p className="error">{errors.nickname.message}</p>}
+          </div>
+          <div className="input-wrapper introduction">
+            <label htmlFor="profile_text">
+              <span>소개</span>
+              <span>{watchIntroduction.length} / 100</span>
+            </label>
+            <textarea
+              id="profile_text"
+              placeholder="소개글을 입력하세요."
+              spellCheck="false"
+              {...register("profile_text")}
+            />
+            {errors.profile_text && <p className="error">{errors.profile_text.message}</p>}
+          </div>
+          <div className="input-wrapper marketing">
+            <input type="checkbox" id="is_marketing_agree" {...register("is_marketing_agree")} />
+            <label htmlFor="is_marketing_agree">마케팅 정보 수신 동의</label>
+          </div>
+          <button type="submit" disabled={!isDirty}>
+            수정하기
+          </button>
+        </form>
       </div>
     </main>
   );
