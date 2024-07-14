@@ -13,16 +13,15 @@ const Videos = (props) => {
   const [videos, setVideos] = useState([]);
   // 정렬 순서
   const orderByOptions = ["new_desc", "view_desc", "like_desc", "updated_desc", "rating_desc"];
-  const [orderBy, setOrderBy] = useState(null);
+  // 랜덤 정렬 순서
+  const randomOrder = () => Math.floor(Math.random() * orderByOptions.length);
+  const [orderBy, setOrderBy] = useState(orderByOptions[randomOrder()]);
   // 현재 페이지
   const [page, setPage] = useState(1);
   // 더 불러올 데이터가 있는지
   const [hasMore, setHasMore] = useState(true);
   // 한 번에 불러올 데이터 개수
   const pageSize = 20;
-
-  // 랜덤 정렬 순서
-  const randomOrder = () => Math.floor(Math.random() * orderByOptions.length) + 1;
 
   // 무한 스크롤 기능
   const observer = useRef();
@@ -68,8 +67,11 @@ const Videos = (props) => {
   };
 
   useEffect(() => {
-    const ob = orderByOptions[randomOrder()];
-    setOrderBy(ob);
+    return () => {
+      setVideos([]);
+      setHasMore(true);
+      setPage(1);
+    };
   }, []);
 
   useEffect(() => {
