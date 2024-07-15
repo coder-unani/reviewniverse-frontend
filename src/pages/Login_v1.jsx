@@ -1,6 +1,6 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import { useMobileContext } from "/src/context/MobileContext";
+import { useThemeContext } from "/src/context/ThemeContext";
 import { Link } from "react-router-dom";
 import * as Yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -22,7 +22,7 @@ const API_BASE_URL = "https://comet.orbitcode.kr/v1";
 // TODO: authContext 사용하여 로그인 처리
 
 const Login = () => {
-  const { isMobile } = useMobileContext();
+  const { isMobile } = useThemeContext();
   const navigate = useNavigate();
 
   // 로그인 유효성 검사

@@ -4,10 +4,10 @@ import DefaultHeader from "/src/layouts/default/header";
 import SearchHeader from "/src/layouts/search/header";
 import Footer from "/src/layouts/default/footer";
 import ScrollToTop from "/src/components/ScrollToTop";
-import { useMobileContext } from "/src/context/MobileContext";
+import { useThemeContext } from "/src/context/ThemeContext";
 
 const searchLayout = () => {
-  const { isMobile } = useMobileContext();
+  const { isMobile } = useThemeContext();
   const Header = isMobile ? SearchHeader : DefaultHeader;
 
   return (

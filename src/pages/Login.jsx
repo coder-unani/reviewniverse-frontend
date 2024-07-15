@@ -1,6 +1,6 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import { useMobileContext } from "/src/context/MobileContext";
+import { useThemeContext } from "/src/context/ThemeContext";
 import HttpClient from "/src/utils/HttpClient";
 import { formatUser } from "/src/utils/userFormat";
 import { getAuth, signInWithPopup } from "firebase/auth";
@@ -18,7 +18,7 @@ const API_BASE_URL = "https://comet.orbitcode.kr/v1";
 // TODO: authContext 사용하여 로그인 처리
 
 const Login = () => {
-  const { isMobile } = useMobileContext();
+  const { isMobile } = useThemeContext();
   const navigate = useNavigate();
 
   // TODO: 카카오 계정 연동 로그인 구현 (카카오디펠롭퍼스 API 연동)

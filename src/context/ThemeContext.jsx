@@ -1,8 +1,8 @@
 import React, { createContext, useContext, useEffect, useState } from "react";
 
-const MobileContext = createContext();
+const ThemeContext = createContext();
 
-const MobileContextProvider = ({ children }) => {
+const ThemeContextProvider = ({ children }) => {
   const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
@@ -23,15 +23,15 @@ const MobileContextProvider = ({ children }) => {
     return () => window.removeEventListener("resize", handleResize);
   }, [isMobile]);
 
-  return <MobileContext.Provider value={{ isMobile, setIsMobile }}>{children}</MobileContext.Provider>;
+  return <ThemeContext.Provider value={{ isMobile, setIsMobile }}>{children}</ThemeContext.Provider>;
 };
 
-const useMobileContext = () => {
-  const context = useContext(MobileContext);
+const useThemeContext = () => {
+  const context = useContext(ThemeContext);
   if (!context) {
-    throw new Error("useMobileContext must be used within an MobileContextProvider");
+    throw new Error("useThemeContext must be used within an ThemeContextProvider");
   }
   return context;
 };
 
-export { MobileContextProvider, useMobileContext };
+export { ThemeContextProvider, useThemeContext };

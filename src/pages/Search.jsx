@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef, useCallback } from "react";
 import { useLocation } from "react-router-dom";
 import HttpClient from "/src/utils/HttpClient";
-import { useMobileContext } from "/src/context/MobileContext";
+import { useThemeContext } from "/src/context/ThemeContext";
 import SearchModal from "/src/components/Modal/SearchModal";
 import { isEmpty } from "lodash";
 import { DEFAULT_IMAGES } from "/src/config/constants";
@@ -23,7 +23,7 @@ const Search = () => {
   const query = params.get("query");
   const [searchVideos, setSearchVideos] = useState([]);
   const [searchTotal, setSearchTotal] = useState(0);
-  const { isMobile } = useMobileContext();
+  const { isMobile } = useThemeContext();
   // 현재 페이지
   const [page, setPage] = useState(1);
   // 더 불러올 데이터가 있는지

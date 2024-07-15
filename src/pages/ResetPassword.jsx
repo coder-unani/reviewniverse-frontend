@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { useMobileContext } from "/src/context/MobileContext";
+import { useThemeContext } from "/src/context/ThemeContext";
 import * as Yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm } from "react-hook-form";
@@ -13,7 +13,7 @@ import { cLog, cError } from "/src/utils/test";
 const API_BASE_URL = "https://comet.orbitcode.kr/v1";
 
 const ResetPassword = () => {
-  const { isMobile } = useMobileContext();
+  const { isMobile } = useThemeContext();
 
   // 비밀번호 유효성 검사
   const ResetSchema = Yup.object().shape({

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { useMobileContext } from "/src/context/MobileContext";
+import { useThemeContext } from "/src/context/ThemeContext";
 import HttpClient from "/src/utils/HttpClient";
 import { formatProvider } from "/src/utils/contentFormat";
 import { isEmpty } from "lodash";
@@ -20,7 +20,7 @@ const API_BASE_URL = "https://comet.orbitcode.kr/v1";
  */
 
 const JoinSns = () => {
-  const { isMobile } = useMobileContext();
+  const { isMobile } = useThemeContext();
   const { provider } = useParams();
 
   // 약관 동의 상태

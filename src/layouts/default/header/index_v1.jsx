@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import { useMobileContext } from "/src/context/MobileContext";
+import { useThemeContext } from "/src/context/ThemeContext";
 import MenuModal from "/src/components/Modal/MenuModal";
 import SearchForm from "/src/components/SearchForm";
 import ProfileButton from "/src/components/Button/Profile";
@@ -15,7 +15,7 @@ const Header = () => {
   const [activeMenu, setActiveMenu] = useState("");
 
   // 모바일 메뉴 활성화
-  const { isMobile } = useMobileContext();
+  const { isMobile } = useThemeContext();
 
   // 모바일 메뉴 모달
   const [menuModal, setMenuModal] = useState(false);

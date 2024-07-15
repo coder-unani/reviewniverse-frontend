@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { useMobileContext } from "/src/context/MobileContext";
+import { useThemeContext } from "/src/context/ThemeContext";
 import * as Yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm } from "react-hook-form";
@@ -15,7 +15,7 @@ const API_BASE_URL = "https://comet.orbitcode.kr/v1";
 const FindUser = () => {
   const navigate = useNavigate();
   const { type } = useParams();
-  const { isMobile } = useMobileContext();
+  const { isMobile } = useThemeContext();
   const titleType = type === "id" ? "아이디" : "비밀번호";
   const mailType = type === "id" ? "확인" : "비밀번호 변경";
 

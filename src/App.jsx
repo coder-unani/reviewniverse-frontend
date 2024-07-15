@@ -2,7 +2,7 @@ import React from "react";
 import { RouterProvider } from "react-router-dom";
 import router from "/src/routes";
 import "/src/styles/App.css";
-import { MobileContextProvider } from "/src/context/MobileContext";
+import { ThemeContextProvider } from "/src/context/ThemeContext";
 
 /**
  * TODO:
@@ -21,9 +21,9 @@ const queryClient = new QueryClient();
 function App() {
   return (
     <QueryClientProvider client={queryClient}>
-      <MobileContextProvider>
+      <ThemeContextProvider>
         <RouterProvider router={router} />
-      </MobileContextProvider>
+      </ThemeContextProvider>
     </QueryClientProvider>
   );
 }

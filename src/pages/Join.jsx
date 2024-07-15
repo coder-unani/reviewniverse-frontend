@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useMobileContext } from "/src/context/MobileContext";
+import { useThemeContext } from "/src/context/ThemeContext";
 import JoinAgree from "/src/components/JoinAgree";
 import JoinForm from "/src/components/JoinForm";
 import BackButton from "/src/components/Button/Back";
@@ -21,7 +21,7 @@ import "/src/styles/Join.css";
  */
 
 const Join = () => {
-  const { isMobile } = useMobileContext();
+  const { isMobile } = useThemeContext();
 
   // 약관 동의 상태
   const [isAgree, setIsAgree] = useState(false);
