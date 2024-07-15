@@ -1,13 +1,12 @@
-import React from "react";
+import React, { useState } from "react";
 import { SCREEN_MAIN_ID } from "/src/config/types";
 import VideoPage from "/src/components/VideoPage";
 import "/src/styles/Home.css";
 import { useVideos } from "/src/hooks/useVideos";
 import { useScreenContents } from "/src/hooks/useScreenContents";
-import { orderBy } from "lodash";
 
 const Home = () => {
-  const [page, setPage] = React.useState(1);
+  const [page, setPage] = useState(1);
   // 스크린 데이터
   const {
     data: screens,
@@ -17,11 +16,7 @@ const Home = () => {
 
   // 비디오 리스트
   const orderBy = "view_desc";
-  const {
-    data: videos,
-    error: videosError,
-    isLoading: videosIsLoading,
-  } = useVideos({ page, orderBy });
+  const { data: videos, error: videosError, isLoading: videosIsLoading } = useVideos({ page, orderBy });
 
   // 로딩중일때 표시할 화면
   if (videosIsLoading || screensIsLoading) {
@@ -38,9 +33,7 @@ const Home = () => {
   };
 
   // 데이터 props로 하위 컴포넌트에 전달
-  return (
-    <VideoPage screens={screens} videos={videos} handlePage={handlePage} />
-  );
+  return <VideoPage screens={screens} videos={videos} handlePage={handlePage} />;
 };
 
 export default Home;

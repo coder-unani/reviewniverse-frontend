@@ -5,13 +5,10 @@ import { cLog, cError } from "/src/utils/test";
 
 const API_BASE_URL = "https://comet.orbitcode.kr/v1";
 
-const VideoPage = ({ screens, videos, handelPage }) => {
+const VideoPage = ({ screens, videos, handlePage }) => {
   return (
     <main className="main">
-      {screens &&
-        screens.map((content, index) => (
-          <HVideos key={index} content={content} />
-        ))}
+      {screens && screens.map((content, index) => <HVideos key={index} content={content} />)}
       {/* <Videos {...(type && { type })} /> */}
     </main>
   );
