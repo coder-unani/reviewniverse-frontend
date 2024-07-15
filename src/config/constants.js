@@ -6,3 +6,5 @@ export const DEFAULT_IMAGES = {
   noImage: "/assets/no-image.png",
   noSearch: "/assets/no-search.png",
 };
+
+export const VIDEO_ORDER_OPTIONS = ["new_desc", "view_desc", "like_desc", "updated_desc", "rating_desc"];

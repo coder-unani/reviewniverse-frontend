@@ -35,7 +35,7 @@ import {
   formatActorType,
   formatStaffType,
 } from "/src/utils/contentFormat";
-import { DEFAULT_IMAGES } from "/src/config/images";
+import { DEFAULT_IMAGES } from "/src/config/constants";
 import "/src/styles/Content.css";
 
 /**

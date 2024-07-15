@@ -1,6 +1,6 @@
 import { isEmpty } from "lodash";
 import { USER_CODE, VIDEO_ACTOR_CODE, VIDEO_STAFF_CODE, COUNTRY_CODE, VIDEO_PLATFORM_CODE } from "/src/config/types";
-import { DEFAULT_IMAGES } from "/src/config/images";
+import { DEFAULT_IMAGES } from "/src/config/constants";
 
 // 유저 코드 포맷
 export const formatUserCode = (code) => {

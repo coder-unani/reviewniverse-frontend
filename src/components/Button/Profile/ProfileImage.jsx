@@ -1,5 +1,5 @@
 import React from "react";
-import { DEFAULT_IMAGES } from "/src/config/images";
+import { DEFAULT_IMAGES } from "/src/config/constants";
 import "/src/styles/ProfileImage.css";
 
 const ProfileImage = (props) => {

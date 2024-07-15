@@ -4,7 +4,7 @@ import { useMobileContext } from "/src/context/MobileContext";
 import MenuModal from "/src/components/Modal/MenuModal";
 import SearchForm from "/src/components/SearchForm";
 import ProfileButton from "/src/components/Button/Profile";
-import { DEFAULT_IMAGES } from "/src/config/images";
+import { DEFAULT_IMAGES } from "/src/config/constants";
 import { RiSearchLine, RiMenu3Line } from "@remixicon/react";
 
 const Header = () => {

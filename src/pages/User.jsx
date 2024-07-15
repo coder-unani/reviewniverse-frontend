@@ -7,7 +7,7 @@ import { LazyLoadImage } from "react-lazy-load-image-component";
 import "react-lazy-load-image-component/src/effects/blur.css";
 import { formatNumber } from "/src/utils/format";
 import { isEmpty } from "lodash";
-import { DEFAULT_IMAGES } from "/src/config/images";
+import { DEFAULT_IMAGES } from "/src/config/constants";
 import "/src/styles/User.css";
 import { cLog, cError } from "/src/utils/test";
 

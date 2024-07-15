@@ -3,7 +3,7 @@ import Modal from "/src/components/Modal";
 import ProfileButton from "/src/components/Button/Profile";
 import { Link } from "react-router-dom";
 import { RiCloseLine, RiArrowRightSLine } from "@remixicon/react";
-import { DEFAULT_IMAGES } from "/src/config/images";
+import { DEFAULT_IMAGES } from "/src/config/constants";
 import "/src/styles/MenuModal.css";
 
 /**

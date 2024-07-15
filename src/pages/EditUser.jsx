@@ -7,7 +7,7 @@ import HttpClient from "/src/utils/HttpClient";
 import { isEmpty, set } from "lodash";
 import { formatUser } from "/src/utils/userFormat";
 import { RiImageEditFill } from "@remixicon/react";
-import { DEFAULT_IMAGES } from "/src/config/images";
+import { DEFAULT_IMAGES } from "/src/config/constants";
 import "/src/styles/EditUser.css";
 import { cLog, cError } from "/src/utils/test";
 

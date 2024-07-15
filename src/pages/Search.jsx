@@ -4,7 +4,7 @@ import HttpClient from "/src/utils/HttpClient";
 import { useMobileContext } from "/src/context/MobileContext";
 import SearchModal from "/src/components/Modal/SearchModal";
 import { isEmpty } from "lodash";
-import { DEFAULT_IMAGES } from "/src/config/images";
+import { DEFAULT_IMAGES } from "/src/config/constants";
 import "/src/styles/Search.css";
 import { cLog, cError } from "/src/utils/test";
 import VideoItem from "../components/VideoItem";
