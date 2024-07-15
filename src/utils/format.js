@@ -1,3 +1,5 @@
+import { isEmpty } from "lodash";
+
 // 날짜 포맷: 어떤 날짜 형식이 들어와도 년도만 반환
 export const formatYear = (date) => {
   return date.split("-")[0];
@@ -50,4 +52,11 @@ export const formatSlice = (text, length) => {
 // 클릭한 input의 입력값 삭제
 export const clearInput = (e) => {
   e.target.value = "";
+};
+
+// 배열의 랜덤 요소 가져오기
+export const arrayRandomValue = (array) => {
+  if (isEmpty(array)) return false;
+  const randomNum = Math.floor(Math.random() * array.length);
+  return array[randomNum];
 };
