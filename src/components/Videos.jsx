@@ -1,30 +1,12 @@
-import React, { useState, useEffect, useRef, useCallback } from "react";
-import HttpClient from "/src/utils/HttpClient";
+import React, { useState, useRef, useCallback } from "react";
 import VideoItem from "./VideoItem";
 import { isEmpty } from "lodash";
 import "/src/styles/Videos.css";
-import { cLog, cError } from "/src/utils/test";
 
-const API_BASE_URL = "https://comet.orbitcode.kr/v1";
-
-const Videos = (props) => {
-  const { type } = props;
-  // 렌더링할 데이터
-  const [videos, setVideos] = useState([]);
-  // 정렬 순서
-  const orderByOptions = ["new_desc", "view_desc", "like_desc", "updated_desc", "rating_desc"];
-  // 랜덤 정렬 순서
-  const randomOrder = () => Math.floor(Math.random() * orderByOptions.length);
-  const [orderBy, setOrderBy] = useState(orderByOptions[randomOrder()]);
-  // 현재 페이지
-  const [page, setPage] = useState(1);
-  // 더 불러올 데이터가 있는지
+const Videos = ({ videos, handlePage, code }) => {
   const [hasMore, setHasMore] = useState(true);
-  // 한 번에 불러올 데이터 개수
-  const pageSize = 20;
-
-  // 무한 스크롤 기능
   const observer = useRef();
+
   const lastItemRef = useCallback(
     (node) => {
       if (!hasMore) return;
@@ -32,7 +14,12 @@ const Videos = (props) => {
 
       observer.current = new IntersectionObserver((entries) => {
         if (entries[0].isIntersecting && hasMore) {
-          setPage((prevPage) => prevPage + 1);
+          handlePage((prevPage) => {
+            const nextPage = prevPage + 1;
+            // 5페이지까지만 불러오기
+            if (nextPage === 5) setHasMore(false);
+            return nextPage;
+          });
         }
       });
 
@@ -40,55 +27,6 @@ const Videos = (props) => {
     },
     [hasMore]
   );
-
-  // 데이터 요청
-  const fetchData = async (orderBy, page) => {
-    try {
-      const client = new HttpClient();
-      const res = await client.get(`${API_BASE_URL}/contents/videos`, {
-        p: page,
-        ps: pageSize,
-        t: type,
-        ob: orderBy,
-      });
-
-      if (res.status === 200 && res.code === "VIDEO_SEARCH_SUCC") {
-        if (isEmpty(res.data.data) || res.data.data.length < pageSize) {
-          setHasMore(false);
-        }
-        setVideos((preVideos) => [...preVideos, ...res.data.data]);
-      } else {
-        cLog("비디오 목록을 불러오는데 실패하였습니다.");
-        return;
-      }
-    } catch (error) {
-      cError(error);
-    }
-  };
-
-  useEffect(() => {
-    return () => {
-      setVideos([]);
-      setHasMore(true);
-      setPage(1);
-    };
-  }, []);
-
-  useEffect(() => {
-    if (!orderBy) return;
-    fetchData(orderBy, 1);
-  }, [orderBy]);
-
-  // 페이지가 변경될 때마다 데이터 요청
-  useEffect(() => {
-    if (page === 1 || !orderBy) return;
-    // 5페이지까지만 요청
-    if (page > 5) {
-      setHasMore(false);
-      return;
-    }
-    fetchData(orderBy, page);
-  }, [page, orderBy]);
 
   if (isEmpty(videos)) return null;
 
@@ -98,7 +36,7 @@ const Videos = (props) => {
         <h2 className="title">주인님 내 새끼 구경 좀 해봐요 🦦</h2>
       </div>
       <div className="list-wrapper">
-        {videos.map((video, index) => (
+        {videos.data.map((video, index) => (
           <VideoItem key={index} video={video} />
         ))}
         {hasMore && <article ref={lastItemRef}></article>}
