@@ -1,7 +1,6 @@
 import HttpClient from "/src/utils/HttpClient";
+import { settings } from "/src/config/settings";
 import { cLog, cError } from "/src/utils/test";
-
-const API_BASE_URL = "https://comet.orbitcode.kr/v1";
 
 // Video List API
 /**
@@ -29,7 +28,7 @@ export const fetchVideos = async ({
 }) => {
   try {
     const client = new HttpClient();
-    const res = await client.get(`${API_BASE_URL}/contents/videos`, {
+    const res = await client.get(`${settings.API_BASE_URL}/v1/contents/videos`, {
       ...(page && { p: page }),
       ...(pageSize && { ps: pageSize }),
       ...(code && { t: code }),
