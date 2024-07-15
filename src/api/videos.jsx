@@ -31,7 +31,7 @@ export const fetchVideos = async ({
     const res = await client.get(`${settings.API_BASE_URL}/v1/contents/videos`, {
       ...(page && { p: page }),
       ...(pageSize && { ps: pageSize }),
-      ...(code && { t: code }),
+      ...(code && { cd: code }),
       ...(query && { q: query }),
       ...(videoId && { vid: videoId }),
       ...(actorId && { aid: actorId }),
