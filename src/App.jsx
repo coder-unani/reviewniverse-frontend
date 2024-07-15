@@ -14,11 +14,17 @@ import { MobileContextProvider } from "/src/context/MobileContext";
  * 5-1. 아이디, 비밀번호, 비밀번호 확인, 이름, 이메일 입력
  */
 
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+
+const queryClient = new QueryClient();
+
 function App() {
   return (
-    <MobileContextProvider>
-      <RouterProvider router={router} />
-    </MobileContextProvider>
+    <QueryClientProvider client={queryClient}>
+      <MobileContextProvider>
+        <RouterProvider router={router} />
+      </MobileContextProvider>
+    </QueryClientProvider>
   );
 }
 
