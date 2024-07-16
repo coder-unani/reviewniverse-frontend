@@ -1,27 +1,22 @@
 import HttpClient from "/src/utils/HttpClient";
-import { USER_CODE } from "/src/config/types";
+import { settings } from "/src/config/settings";
 import { cLog, cError } from "/src/utils/test";
 
-const API_BASE_URL = "https://comet.orbitcode.kr/v1";
-
-// User Token
-export const fetchToken = async (token) => {
-  try {
-    const client = new HttpClient(token);
-    const res = await client.post(`${API_BASE_URL}/token`);
-    return res.status === 200;
-  } catch (error) {
-    cError(error);
-  }
+const baseURL = settings.API_BASE_URL;
+const endpoints = {
+  signin: baseURL + "/v1/users/signin",
+  snsSignin: baseURL + "/v1/users/sns/signin",
+  signup: baseURL + "/v1/users",
+  snsSignup: baseURL + "/v1/users/sns/signup",
 };
 
 // 회원 로그인
-export const fetchSnsUserSignIn = async ({ code, email, sns_id }) => {
+export const fetchSignIn = async ({ email, password }) => {
   try {
-    const response = await client.post(`${API_BASE_URL}/users/sns/signin`, {
-      code,
+    const response = await client.post(endpoints.signin, {
+      code: "10",
       email,
-      sns_id,
+      password,
     });
     return response;
   } catch (error) {
@@ -29,12 +24,12 @@ export const fetchSnsUserSignIn = async ({ code, email, sns_id }) => {
   }
 };
 
-export const fetchUserSignIn = async ({ email, password }) => {
+export const fetchSnsSignIn = async ({ code, email, sns_id }) => {
   try {
-    const response = await client.post(`${API_BASE_URL}/users/signin`, {
-      code: "10",
+    const response = await client.post(endpoints.snsSignin, {
+      code,
       email,
-      password,
+      sns_id,
     });
     return response;
   } catch (error) {
@@ -54,7 +49,7 @@ export const fetchSignUp = async ({
 }) => {
   try {
     const client = new HttpClient();
-    const response = await client.post(`${API_BASE_URL}/users`, {
+    const response = await client.post(endpoints.signup, {
       code,
       nickname,
       email,
@@ -82,7 +77,7 @@ export const fetchSnsSignUp = async ({
 }) => {
   try {
     const client = new HttpClient();
-    const response = await client.post(`${API_BASE_URL}/users/sns/signup`, {
+    const response = await client.post(endpoints.snsSignup, {
       code,
       nickname,
       email,
