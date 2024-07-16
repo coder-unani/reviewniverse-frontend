@@ -1,14 +1,8 @@
 import React, { createContext, useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import {
-  fetchToken,
-  fetchSignUp,
-  fetchSnsSignUp,
-  fetchSignIn,
-  fetchSnsSignIn,
-} from "/src/api/users";
+import { fetchSignUp, fetchSnsSignUp, fetchSignIn, fetchSnsSignIn } from "/src/api/users";
+import { fetchToken } from "/src/api/token";
 import { cLog, cError } from "/src/utils/test";
-import { fetchSnsSignUp } from "../api/users";
 
 const AuthContext = createContext(null);
 
@@ -18,13 +12,15 @@ export const AuthContextProvider = ({ children }) => {
     const user = sessionStorage.getItem("user");
     return user ? JSON.parse(user) : null;
   });
+  const access_token = sessionStorage.getItem("access_token");
   const navigate = useNavigate();
 
   useEffect(() => {
+    if (!user || !access_token) return;
+
     // 토큰 검증
     const verifyToken = async () => {
       let isVerified = false;
-      const access_token = sessionStorage.getItem("access_token");
       if (access_token) {
         isVerified = await fetchToken(access_token);
       }
@@ -89,7 +85,6 @@ export const AuthContextProvider = ({ children }) => {
       cError(error);
       return false;
     }
-    return false;
   };
 
   const handleRemoveUser = () => {
@@ -102,11 +97,11 @@ export const AuthContextProvider = ({ children }) => {
       cError(error);
       return false;
     }
-    return false;
   };
 
   const values = {
     user,
+    access_token,
     signUp,
     signIn,
     signOut,
@@ -115,14 +110,10 @@ export const AuthContextProvider = ({ children }) => {
   return <AuthContext.Provider value={values}>{children}</AuthContext.Provider>;
 };
 
-const useAuthContext = () => {
+export const useAuthContext = () => {
   const context = useContext(AuthContext);
   if (!context) {
-    throw new Error(
-      "useAuthContext must be used within an AuthContextProvider"
-    );
+    throw new Error("useAuthContext must be used within an AuthContextProvider");
   }
   return context;
 };
-
-export { AuthContextProvider, useAuthContext };
