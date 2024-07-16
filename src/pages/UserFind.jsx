@@ -5,14 +5,11 @@ import * as Yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm } from "react-hook-form";
 import BackButton from "/src/components/Button/Back";
-import HttpClient from "/src/utils/HttpClient";
 import Logo from "/assets/logo.svg";
-import "/src/styles/FindUser.css";
+import "/src/styles/UserFind.css";
 import { cLog, cError } from "/src/utils/test";
 
-const API_BASE_URL = "https://comet.orbitcode.kr/v1";
-
-const FindUser = () => {
+const UserFind = () => {
   const navigate = useNavigate();
   const { type } = useParams();
   const { isMobile } = useThemeContext();
@@ -88,4 +85,4 @@ const FindUser = () => {
   );
 };
 
-export default FindUser;
+export default UserFind;
