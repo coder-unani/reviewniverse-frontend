@@ -6,12 +6,8 @@ import * as Yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm, Controller, useWatch } from "react-hook-form";
 import { RiCloseLine } from "@remixicon/react";
-import HttpClient from "/src/utils/HttpClient";
 import { isEmpty } from "lodash";
 import "/src/styles/ReviewModal.css";
-import { cLog, cError } from "/src/utils/test";
-
-const API_BASE_URL = "https://comet.orbitcode.kr/v1";
 
 /**
  * TODO:
