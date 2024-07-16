@@ -1,9 +1,26 @@
 import React, { useState, useEffect, useRef } from "react";
+import Review from "/src/components/Review";
+import Crew from "/src/components/Crew";
+import PhotoModal from "/src/components/Modal/PhotoModal";
+import EnjoyModal from "/src/components/Modal/EnjoyModal";
+import ReviewModal from "/src/components/Modal/ReviewModal";
+import ConfirmModal from "/src/components/Modal/ConfirmModal";
+import ProfileImage from "/src/components/Button/Profile/ProfileImage";
 import { useParams } from "react-router-dom";
-import HttpClient from "/src/utils/HttpClient";
-import { isEmpty, includes } from "lodash";
+import { useToken } from "/src/hooks/useToken";
+import { useVideoDetail } from "/src/hooks/useVideoDetail";
+import { useVideoReviews } from "/src/hooks/useVideoReviews";
+import { useVideoMyInfo } from "/src/hooks/useVideoMyInfo";
+import { useVideoRating } from "/src/hooks/useVideoRating";
+import { useVideoLike } from "/src/hooks/useVideoLike";
+import { useReviewDelete } from "/src/hooks/useReviewDelete";
+import { useReviewLike } from "/src/hooks/useReviewLike";
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import "react-lazy-load-image-component/src/effects/blur.css";
+import { Swiper, SwiperSlide } from "swiper/react";
+import { Navigation, Grid } from "swiper/modules";
+import "swiper/css";
+import "swiper/css/grid";
 import {
   RiStarFill,
   RiUserSmileLine,
@@ -13,19 +30,9 @@ import {
   RiArrowRightSLine,
   RiArrowLeftSLine,
 } from "@remixicon/react";
+import { isEmpty, includes } from "lodash";
+import { DEFAULT_IMAGES } from "/src/config/constants";
 import { formatYear, formatUpperCase } from "/src/utils/format";
-import { Swiper, SwiperSlide } from "swiper/react";
-import { Navigation, Grid } from "swiper/modules";
-import "swiper/css";
-import "swiper/css/grid";
-import { cLog, cError } from "/src/utils/test";
-import Review from "/src/components/Review";
-import Crew from "/src/components/Crew";
-import PhotoModal from "/src/components/Modal/PhotoModal";
-import EnjoyModal from "/src/components/Modal/EnjoyModal";
-import ReviewModal from "/src/components/Modal/ReviewModal";
-import ConfirmModal from "/src/components/Modal/ConfirmModal";
-import ProfileImage from "/src/components/Button/Profile/ProfileImage";
 import {
   formatBackgroundImage,
   formatPoster,
@@ -35,38 +42,54 @@ import {
   formatActorType,
   formatStaffType,
 } from "/src/utils/contentFormat";
-import { DEFAULT_IMAGES } from "/src/config/constants";
 import "/src/styles/Content.css";
 
 /**
  * TODO:
- * 2. 배우, 제작진 타입 정렬
- * 3. 리뷰 기능
- * 4. 해당 사용자의 리뷰 작성 여부 확인
- * 5. 리뷰 작성되어 있으면 내가 쓴 코멘트 표시 (리뷰 아이디로 조회 개편)
  * 6. 리뷰 수정/삭제 기능 (삭제시 확인 모달 추가)
  * 7. 컴포넌트 분리
  * 8. 리뷰 페이지네이션 추가
  * 9. 리뷰 리스트는 정렬 기본은 좋아요 순
- * 10. 리뷰 좋아요 기능
  */
-
-const API_BASE_URL = "https://comet.orbitcode.kr/v1";
 
 const Content = () => {
   const { contentId } = useParams();
+  const videoId = parseInt(contentId);
+  // 사용자 정보
   const [user, setUser] = useState(() => {
     const storedUser = sessionStorage.getItem("user");
     return storedUser ? JSON.parse(storedUser) : null;
   });
-  const [content, setContent] = useState({});
-  const [reviews, setReviews] = useState([]);
+  // 토큰 검증
+  const { data: isValidToken } = useToken();
+  // 비디오 상세 정보
+  const { data: content, error: contentError, isLoading: contentIsLoading } = useVideoDetail({ videoId });
+  // 비디오 리뷰 목록
+  const {
+    data: reviews,
+    error: reviewsError,
+    isLoading: reviewsIsLoading,
+  } = useVideoReviews({ videoId, page: 1, pageSize: 8 });
+  // 비디오 내 정보
+  const {
+    data: myInfo,
+    error: myInfoError,
+    isLoading: myInfoIsLoading,
+  } = useVideoMyInfo({ videoId, enabled: isValidToken });
+  // 비디오 평가하기
+  const { mutate: videoRating } = useVideoRating();
+  // 비디오 좋아요
+  const { mutate: videoLike } = useVideoLike();
+  // 리뷰 좋아요
+  const { mutate: reviewLike } = useReviewLike();
+  // 리뷰 삭제
+  const { mutate: reviewDelete } = useReviewDelete();
+
   const [photoModal, setPhotoModal] = useState({ isOpen: false, url: "" });
   const [enjoyModal, setEnjoyModal] = useState(false);
   const [reviewModal, setReviewModal] = useState(false);
   const [confirmModal, setConfirmModal] = useState(false);
-  const [myInfo, setMyInfo] = useState({});
-  const [isValidToken, setIsValidToken] = useState(false);
+
   const emptyRatingRef = useRef(null);
   const fillRatingRef = useRef(null);
 
@@ -114,31 +137,6 @@ const Content = () => {
     },
   });
 
-  // 토큰 검증
-  const tokenValidation = async () => {
-    const access_token = sessionStorage.getItem("access_token");
-    if (!access_token) return false;
-
-    const client = new HttpClient(access_token);
-
-    try {
-      const res = await client.get(`${API_BASE_URL}/token`);
-      if (res.status === 200) {
-        return true;
-      } else {
-        sessionStorage.removeItem("user");
-        sessionStorage.removeItem("access_token");
-        setUser(null);
-        return false;
-      }
-    } catch (error) {
-      sessionStorage.removeItem("user");
-      sessionStorage.removeItem("access_token");
-      setUser(null);
-      return false;
-    }
-  };
-
   // 사진 모달창 토글
   const togglePhotoModal = (url = "") => {
     setPhotoModal({ isOpen: !photoModal.isOpen, url });
@@ -173,19 +171,7 @@ const Content = () => {
       return;
     }
 
-    // 로그인 되어 있을 경우 회원 access token으로 좋아요 api 호출
-    try {
-      const client = new HttpClient();
-      const res = await client.post(`${API_BASE_URL}/contents/videos/${contentId}/like`);
-      if (res.status === 200) {
-        // res.code === "VIDEO_LIKE_UPDATE_SUCC"
-        setMyInfo({ ...myInfo, is_like: res.data.data.is_like });
-      } else {
-        cLog("좋아요를 누르는데 실패하였습니다.");
-      }
-    } catch (error) {
-      cError(error);
-    }
+    videoLike({ videoId });
   };
 
   // 리뷰 작성
@@ -212,20 +198,9 @@ const Content = () => {
 
   // 리뷰 삭제
   const handleReviewDelete = async () => {
+    // TODO: 삭제 확인 모달 추가
     // setConfirmModal(true);
-
-    try {
-      const client = new HttpClient();
-      const res = await client.delete(`${API_BASE_URL}/contents/videos/${contentId}/reviews/${myInfo.review.id}`);
-
-      if (res.status === 204) {
-        // res.code === "REVIEW_DELETE_SUCC"
-        cLog("리뷰가 삭제되었습니다.");
-        setMyInfo({ ...myInfo, review: {} });
-      }
-    } catch (error) {
-      cError(error);
-    }
+    reviewDelete({ videoId, reviewId: myInfo.review.id });
   };
 
   // 리뷰 좋아요
@@ -242,47 +217,13 @@ const Content = () => {
       return;
     }
 
-    // 로그인 되어 있을 경우 회원 access token으로 좋아요 api 호출
-    try {
-      const client = new HttpClient();
-      const res = await client.post(`${API_BASE_URL}/contents/videos/${contentId}/reviews/${reviewId}/like`);
-
-      if (res.status === 200) {
-        // res.code === "REVIEW_LIKE_UPDATE_SUCC"
-        cLog("리뷰 좋아요를 누르거나 취소하였습니다.");
-
-        // 응답값: like_count, is_like
-        // 1. reviews: 해당 review id값의 like_count 업데이트
-        // 2. myInfo: review_like 배열에 해당 review id값 업데이트
-        setReviews((prevReviews) => {
-          const updatedReviews = prevReviews.map((review) => {
-            if (review.id === reviewId) {
-              return { ...review, like_count: res.data.data.like_count };
-            }
-            return review;
-          });
-          return updatedReviews;
-        });
-
-        setMyInfo((prevMyInfo) => {
-          const updatedMyInfo = { ...prevMyInfo };
-          if (res.data.data.is_like) {
-            updatedMyInfo.review_like.push(reviewId);
-          } else {
-            updatedMyInfo.review_like = updatedMyInfo.review_like.filter((id) => id !== reviewId);
-          }
-          return updatedMyInfo;
-        });
-      }
-    } catch (error) {
-      cError(error);
-    }
+    reviewLike({ videoId, reviewId });
   };
 
   // TODO: 리뷰 자세히 보기
 
+  // 헤더 스타일 변경
   useEffect(() => {
-    // 헤더 스타일 변경
     const header = document.querySelector("header");
     const logo = document.querySelector(".logo");
 
@@ -301,76 +242,12 @@ const Content = () => {
     header.classList.add("transparent");
     logo.src = DEFAULT_IMAGES.logoWhite;
 
-    // 컴포넌트 언마운트시 이벤트 제거
     return () => {
       window.removeEventListener("scroll", handleScroll);
       header.classList.remove("transparent");
       logo.src = DEFAULT_IMAGES.logo;
     };
   }, []);
-
-  useEffect(() => {
-    const fetchContent = async (client) => {
-      try {
-        const [contentRes, reviewRes] = await Promise.all([
-          client.get(`${API_BASE_URL}/contents/videos/${contentId}`),
-          client.get(`${API_BASE_URL}/contents/videos/${contentId}/reviews`, {
-            p: 1,
-            ps: 8,
-          }),
-        ]);
-
-        let isSuccess = true;
-
-        if (contentRes.status === 200) {
-          // contentRes.code === "VIDEO_READ_SUCC"
-          setContent(contentRes.data.data);
-        } else {
-          cLog("콘텐츠를 불러오는데 실패하였습니다.");
-          isSuccess = false;
-        }
-
-        if (reviewRes.status === 200) {
-          // reviewRes.code === "REVIEW_READ_SUCC"
-          setReviews(reviewRes.data.data);
-        } else {
-          cLog("리뷰를 불러오는데 실패하였습니다.");
-          isSuccess = false;
-        }
-
-        return isSuccess;
-      } catch (error) {
-        cError(error);
-        return false;
-      }
-    };
-
-    const fetchMyInfo = async (client) => {
-      try {
-        const myInfoRes = await client.post(`${API_BASE_URL}/contents/videos/${contentId}/myinfo`);
-        if (myInfoRes.status === 200) {
-          // myInfoRes.code === "VIDEO_MYINFO_READ_SUCC"
-          setMyInfo(myInfoRes.data.data);
-        } else {
-          cLog("사용자 콘텐츠 관련 정보를 불러오는데 실패하였습니다.");
-        }
-      } catch (error) {
-        cError(error);
-      }
-    };
-
-    const fetchData = async () => {
-      const client = new HttpClient();
-      await fetchContent(client);
-
-      const isValid = await tokenValidation();
-      setIsValidToken(isValid);
-
-      if (isValid) fetchMyInfo(client);
-    };
-
-    fetchData();
-  }, [contentId]);
 
   useEffect(() => {
     const emptyRating = emptyRatingRef.current;
@@ -410,23 +287,7 @@ const Content = () => {
         return;
       }
 
-      // 로그인 되어 있을 경우 회원 access token으로 좋아요 api 호출
-      try {
-        const rating = fillRatingRef?.current.dataset.rating;
-        const client = new HttpClient();
-        const res = await client.post(`${API_BASE_URL}/contents/videos/${contentId}/ratings`, {}, { rating });
-        if (res.status === 204) {
-          if (res.code === "RATING_CREATE_SUCC" || res.code === "RATING_UPDATE_SUCC") {
-            setMyInfo({ ...myInfo, rating });
-          } else if (res.code === "RATING_DELETE_SUCC") {
-            setMyInfo({ ...myInfo, rating: 0 });
-          }
-        } else {
-          cLog("평가하기 실패");
-        }
-      } catch (error) {
-        cError(error);
-      }
+      videoRating({ videoId, rating: fillRatingRef?.current.dataset.rating });
     };
 
     emptyRating.addEventListener("mouseover", handleMouseOver);
@@ -440,7 +301,7 @@ const Content = () => {
     };
   }, [content, isValidToken, user, myInfo]);
 
-  if (isEmpty(content)) return null;
+  if (contentIsLoading || reviewsIsLoading || myInfoIsLoading) return null;
 
   return (
     <main className="content-main">
