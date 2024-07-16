@@ -1,13 +1,15 @@
 import React, { useEffect, useRef } from "react";
 import Modal from "/src/components/Modal";
+import { useReviewCreate } from "/src/hooks/useReviewCreate";
+import { useReviewUpdate } from "/src/hooks/useReviewUpdate";
 import * as Yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm, Controller, useWatch } from "react-hook-form";
 import { RiCloseLine } from "@remixicon/react";
 import HttpClient from "/src/utils/HttpClient";
+import { isEmpty } from "lodash";
 import "/src/styles/ReviewModal.css";
 import { cLog, cError } from "/src/utils/test";
-import { isEmpty } from "lodash";
 
 const API_BASE_URL = "https://comet.orbitcode.kr/v1";
 
@@ -19,6 +21,10 @@ const API_BASE_URL = "https://comet.orbitcode.kr/v1";
 const ReviewModal = (props) => {
   const { content, myReview, onClose } = props;
   const modalRef = useRef();
+  // 리뷰 등록
+  const { mutate: reviewCreate } = useReviewCreate();
+  // 리뷰 수정
+  const { mutate: reviewUpdate } = useReviewUpdate();
 
   // 리뷰 모달 바깥 영역 클릭시 모달 닫기
   const handleModalClose = (e) => {
@@ -62,40 +68,25 @@ const ReviewModal = (props) => {
   const onSubmit = handleSubmit(async (data) => {
     if (isEmpty(myReview)) {
       // 리뷰 등록하기
-      try {
-        const client = new HttpClient();
-        const res = await client.post(`${API_BASE_URL}/contents/videos/${content.id}/reviews`, {
-          title: data.title,
-          is_spoiler: data.spoiler,
-          is_private: data.private,
-        });
-
-        if (res.status === 201) {
-          // res.code === "REVIEW_CREATE_SUCC"
-          cLog("리뷰가 등록되었습니다.");
-          onClose();
-        }
-      } catch (error) {
-        cError(error);
-      }
+      reviewCreate({
+        videoId: content.id,
+        title: data.title,
+        is_spoiler: data.spoiler,
+        is_private: data.private,
+      });
+      // TODO: 리뷰가 등록되었습니다. 확인 버튼 클릭시 모달 닫기
+      onClose();
     } else {
       // 리뷰 수정하기
-      try {
-        const client = new HttpClient();
-        const res = await client.put(`${API_BASE_URL}/contents/videos/${content.id}/reviews/${myReview.id}`, {
-          title: data.title,
-          is_spoiler: data.spoiler,
-          is_private: data.private,
-        });
-
-        if (res.status === 204) {
-          // res.code === "REVIEW_UPDATE_SUCC"
-          cLog("리뷰가 수정되었습니다.");
-          onClose();
-        }
-      } catch (error) {
-        cError(error);
-      }
+      reviewUpdate({
+        videoId: content.id,
+        reviewId: myReview.id,
+        title: data.title,
+        is_spoiler: data.spoiler,
+        is_private: data.private,
+      });
+      // TODO: 리뷰가 수정되었습니다. 확인 버튼 클릭시 모달 닫기
+      onClose();
     }
   });
 
