@@ -5,11 +5,11 @@ import * as Yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm, useWatch } from "react-hook-form";
 import HttpClient from "/src/utils/HttpClient";
-import { isEmpty, set } from "lodash";
+import { isEmpty } from "lodash";
 import { formatUser } from "/src/utils/userFormat";
 import { RiImageEditFill } from "@remixicon/react";
 import { DEFAULT_IMAGES } from "/src/config/constants";
-import "/src/styles/EditUser.css";
+import "/src/styles/UserProfile.css";
 import { cLog, cError } from "/src/utils/test";
 
 const API_BASE_URL = "https://comet.orbitcode.kr/v1";
@@ -20,7 +20,7 @@ const API_BASE_URL = "https://comet.orbitcode.kr/v1";
  * 이메일 인증 기능 추가
  */
 
-const EditUser = () => {
+const UserProfile = () => {
   const navigate = useNavigate();
   // 비밀번호 확인 상태
   const [isPasswordConfirmed, setIsPasswordConfirmed] = useState(false);
@@ -350,4 +350,4 @@ const EditUser = () => {
   );
 };
 
-export default EditUser;
+export default UserProfile;
