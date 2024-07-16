@@ -7,7 +7,7 @@ import { useScreenContents } from "/src/hooks/useScreenContents";
 import { arrayRandomValue } from "/src/utils/format";
 import { isEmpty } from "lodash";
 
-const Movie = () => {
+const Series = () => {
   const code = 11;
   const [page, setPage] = useState(1);
   const [orderBy, setOrderBy] = useState(arrayRandomValue(VIDEO_ORDER_OPTIONS));
@@ -50,4 +50,4 @@ const Movie = () => {
   return <VideoPage screens={screens} videos={videos} handlePage={handlePage} />;
 };
 
-export default Movie;
+export default Series;
