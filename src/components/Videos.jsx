@@ -1,9 +1,9 @@
 import React, { useState, useRef, useCallback } from "react";
-import VideoItem from "./VideoItem";
+import VideoItem from "/src/components/VideoItem";
 import { isEmpty } from "lodash";
 import "/src/styles/Videos.css";
 
-const Videos = ({ videos, handlePage, code }) => {
+const Videos = ({ videos, handlePage }) => {
   const [hasMore, setHasMore] = useState(true);
   const observer = useRef();
 
