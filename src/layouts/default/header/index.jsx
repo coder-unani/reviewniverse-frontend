@@ -43,19 +43,6 @@ const Header = () => {
     navigate("/search");
   };
 
-  // 로그인 여부에 따라 프로필 또는 로그인 버튼 렌더링
-  const renderProfileButton = () => {
-    return <ProfileButton image={user.profile_image} user={{ id: user.id, nickname: user.nickname }} />;
-  };
-
-  const renderLoginButton = () => {
-    return (
-      <Link to="/user/login" className="login">
-        로그인
-      </Link>
-    );
-  };
-
   useEffect(() => {
     const path = location.pathname;
 
@@ -99,7 +86,13 @@ const Header = () => {
           </div>
           <div className="right">
             <SearchForm />
-            {user ? renderProfileButton() : renderLoginButton()}
+            {user ? (
+              <ProfileButton image={user.profile_image} user={{ id: user.id, nickname: user.nickname }} />
+            ) : (
+              <Link to="/user/login" className="login">
+                로그인
+              </Link>
+            )}
           </div>
         </div>
       )}
