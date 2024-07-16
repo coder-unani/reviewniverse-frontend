@@ -19,7 +19,7 @@ const API_BASE_URL = "https://comet.orbitcode.kr/v1";
  * 3. 회원가입 성공 시 모달창 띄우기
  */
 
-const JoinSns = () => {
+const SocialJoin = () => {
   const { isMobile } = useThemeContext();
   const { provider } = useParams();
 
@@ -78,4 +78,4 @@ const JoinSns = () => {
   );
 };
 
-export default JoinSns;
+export default SocialJoin;
