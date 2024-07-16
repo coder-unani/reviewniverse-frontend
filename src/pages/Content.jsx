@@ -254,7 +254,7 @@ const Content = () => {
     const fillRating = fillRatingRef.current;
     if (!emptyRating || !fillRating) return;
 
-    if (myInfo.rating) {
+    if (myInfo && myInfo.rating) {
       fillRating.style.width = `${myInfo.rating * 10}%`;
     }
 
@@ -269,7 +269,7 @@ const Content = () => {
     };
 
     const handleMouseOut = () => {
-      if (myInfo.rating) return (fillRating.style.width = `${myInfo.rating * 10}%`);
+      if (myInfo && myInfo.rating) return (fillRating.style.width = `${myInfo.rating * 10}%`);
       fillRating.style.width = "0%";
       fillRating.dataset.rating = "0";
     };
@@ -364,8 +364,12 @@ const Content = () => {
               <span id="ratingText">평가하기</span>
             </div>
             <div className="button-wrapper">
-              <button className={`like ${myInfo.is_like ? "active" : ""}`} type="button" onClick={handleLikeButton}>
-                {myInfo.is_like ? <RiUserSmileFill size={32} /> : <RiUserSmileLine size={32} />}
+              <button
+                className={`like ${myInfo && myInfo.is_like ? "active" : ""}`}
+                type="button"
+                onClick={handleLikeButton}
+              >
+                {myInfo && myInfo.is_like ? <RiUserSmileFill size={32} /> : <RiUserSmileLine size={32} />}
                 <span>좋아요</span>
               </button>
               <button className="review" type="button" onClick={handleReviewCreate}>
@@ -374,7 +378,7 @@ const Content = () => {
               </button>
             </div>
           </div>
-          {!isEmpty(myInfo.review) && (
+          {myInfo && !isEmpty(myInfo.review) && (
             <div className="my-review-wrapper">
               <h4>내가 쓴 리뷰</h4>
               <div className="my-review">
@@ -462,7 +466,7 @@ const Content = () => {
               <li key={index}>
                 <Review
                   review={review}
-                  isLike={includes(myInfo.review_like, review.id)}
+                  isLike={myInfo && includes(myInfo.review_like, review.id)}
                   onLikeClick={handleReviewLike}
                 />
               </li>
