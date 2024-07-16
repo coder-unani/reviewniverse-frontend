@@ -1,8 +1,10 @@
 import React from "react";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { RouterProvider } from "react-router-dom";
+import { ThemeContextProvider } from "/src/context/ThemeContext";
+import { AuthContextProvider } from "/src/context/AuthContext";
 import router from "/src/routes";
 import "/src/styles/App.css";
-import { ThemeContextProvider } from "/src/context/ThemeContext";
 
 /**
  * TODO:
@@ -14,16 +16,16 @@ import { ThemeContextProvider } from "/src/context/ThemeContext";
  * 5-1. 아이디, 비밀번호, 비밀번호 확인, 이름, 이메일 입력
  */
 
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-
 const queryClient = new QueryClient();
 
 function App() {
   return (
     <QueryClientProvider client={queryClient}>
+      {/* <AuthContextProvider> */}
       <ThemeContextProvider>
         <RouterProvider router={router} />
       </ThemeContextProvider>
+      {/* </AuthContextProvider> */}
     </QueryClientProvider>
   );
 }
