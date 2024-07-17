@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import { fetchSignUp, fetchSnsSignUp, fetchSignIn, fetchSnsSignIn } from "/src/api/users";
 import { fetchToken } from "/src/api/token";
 import { cLog, cError } from "/src/utils/test";
@@ -13,7 +13,7 @@ export const AuthContextProvider = ({ children }) => {
     return user ? JSON.parse(user) : null;
   });
   const access_token = sessionStorage.getItem("access_token");
-  const navigate = useNavigate();
+  const location = useLocation();
 
   useEffect(() => {
     if (!user || !access_token) return;
@@ -29,19 +29,24 @@ export const AuthContextProvider = ({ children }) => {
       }
     };
     verifyToken();
-  }, [navigate]);
+  }, [location]);
 
   // 회원가입
   const signUp = async (user) => {
     try {
+      let response;
       if (user.code === "10") {
-        return await fetchSignUp(user);
+        response = await fetchSignUp(user);
       } else {
-        return await fetchSnsSignUp(user);
+        response = await fetchSnsSignUp(user);
       }
+      if (response.status !== 201) {
+        throw new Error("로그인에 실패하였습니다.");
+      }
+      return true;
     } catch (error) {
       cError(error);
-      throw new Error("회원가입에 실패하였습니다.");
+      throw new Error(error.message);
     }
   };
 
@@ -61,6 +66,9 @@ export const AuthContextProvider = ({ children }) => {
         if (response.status === 200) {
           get_user = response.data.user;
           access_token = response.data.access_token;
+        } else if (response.status === 400 && response.message.detail === "USER_NOT_FOUND") {
+          // TODO: 리턴값 확인
+          return false;
         }
       }
       return handleSetUser(get_user, access_token);
