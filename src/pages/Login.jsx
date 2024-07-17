@@ -1,8 +1,7 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { useAuthContext } from "/src/context/AuthContext";
 import { useThemeContext } from "/src/context/ThemeContext";
-import HttpClient from "/src/utils/HttpClient";
-import { formatUser } from "/src/utils/userFormat";
 import { getAuth, signInWithPopup } from "firebase/auth";
 import { auth, provider } from "/src/auth/firebase";
 import BackButton from "/src/components/Button/Back";
@@ -13,11 +12,10 @@ import Google from "/assets/google.png";
 import "/src/styles/Login.css";
 import { cLog, cError } from "/src/utils/test";
 
-const API_BASE_URL = "https://comet.orbitcode.kr/v1";
-
 // TODO: authContext 사용하여 로그인 처리
 
 const Login = () => {
+  const { user, signIn } = useAuthContext();
   const { isMobile } = useThemeContext();
   const navigate = useNavigate();
 
@@ -28,36 +26,22 @@ const Login = () => {
 
   // TODO: 구글 계정 연동 로그인 구현 (파이어베이스 API 연동)
   const handleGoogleLogin = async () => {
-    try {
-      const googleRes = await signInWithPopup(auth, provider);
-      const googleUser = googleRes.user;
+    const googleRes = await signInWithPopup(auth, provider);
+    const googleUser = googleRes.user;
 
-      // 응답받은 유저 정보로 가입되어 있는지 확인
-      const client = new HttpClient();
-      const res = await client.post(`${API_BASE_URL}/users/sns/signin`, {
-        code: "11",
-        email: googleUser.email,
-        sns_id: googleUser.uid,
-      });
+    const snsUser = {
+      code: "11",
+      email: googleUser.email,
+      sns_id: googleUser.uid,
+    };
 
-      // 가입되어 있다면 로그인 처리
-      if (res.status === 200) {
-        const user = JSON.stringify(formatUser(res.data.user));
-        if (user && res.data.access_token && res.data.refresh_token) {
-          sessionStorage.setItem("user", user);
-          sessionStorage.setItem("access_token", res.data.access_token);
-          sessionStorage.setItem("refresh_token", res.data.refresh_token);
-
-          window.location.href = "/";
-        }
-      } else if (res.status === 400 && res.code === "USER_NOT_FOUND") {
-        // 가입되어 있지 않다면 유저 정보를 가지고 회원가입 페이지로 이동
-        sessionStorage.setItem("sns_user", JSON.stringify(googleUser));
-        // 세션스토리지에 저장해서 전달해도 되나?
-        navigate("/user/auth/google");
-      }
-    } catch (error) {
-      cError(error);
+    const res = await signIn(snsUser);
+    if (res) {
+      window.location.href = "/";
+    } else {
+      // 가입되어 있지 않다면 유저 정보를 가지고 회원가입 페이지로 이동
+      sessionStorage.setItem("sns_user", JSON.stringify(googleUser));
+      navigate("/user/auth/google");
     }
   };
 
@@ -89,6 +73,10 @@ const Login = () => {
     //   cError(error);
     // }
   };
+
+  useEffect(() => {
+    if (user) navigate("/");
+  }, []);
 
   return (
     <div className="login-wrapper">
