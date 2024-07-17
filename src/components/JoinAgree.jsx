@@ -90,7 +90,8 @@ const JoinAgree = (props) => {
           </label>
         </div>
         <button type="submit" disabled={!isValid}>
-          다음
+          {/* 다음 */}
+          완료
         </button>
       </form>
     </div>
