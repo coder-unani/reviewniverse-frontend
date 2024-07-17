@@ -1,17 +1,14 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useAuthContext } from "/src/context/AuthContext";
+import { fetchValidationNickname } from "/src/api/users";
+import { useUserUpdate } from "/src/hooks/useUserUpdate";
 import * as Yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm, useWatch } from "react-hook-form";
-import HttpClient from "/src/utils/HttpClient";
-import { isEmpty } from "lodash";
-import { formatUser } from "/src/utils/userFormat";
 import { RiImageEditFill } from "@remixicon/react";
 import { DEFAULT_IMAGES } from "/src/config/constants";
+import { isEmpty } from "lodash";
 import "/src/styles/UserProfile.css";
-import { cLog, cError } from "/src/utils/test";
-
-const API_BASE_URL = "https://comet.orbitcode.kr/v1";
 
 /**
  * TODO:
@@ -20,53 +17,20 @@ const API_BASE_URL = "https://comet.orbitcode.kr/v1";
  */
 
 const UserProfile = () => {
-  const navigate = useNavigate();
-  const [user, setUser] = useState(() => {
-    const storedUser = sessionStorage.getItem("user");
-    return storedUser ? JSON.parse(storedUser) : null;
-  });
+  const { user } = useAuthContext();
   const [previewImage, setPreviewImage] = useState(user?.profile_image || DEFAULT_IMAGES.noProfile);
-
-  // 토큰 검증
-  const tokenValidation = async () => {
-    const access_token = sessionStorage.getItem("access_token");
-    if (!access_token) return false;
-
-    const client = new HttpClient(access_token);
-
-    try {
-      const res = await client.get(`${API_BASE_URL}/token`);
-      if (res.status === 200) {
-        return true;
-      } else {
-        sessionStorage.removeItem("user");
-        sessionStorage.removeItem("access_token");
-        setUser(null);
-        return false;
-      }
-    } catch (error) {
-      sessionStorage.removeItem("user");
-      sessionStorage.removeItem("access_token");
-      setUser(null);
-      return false;
-    }
-  };
+  const { mutate: userUpdate } = useUserUpdate();
 
   // 개인정보 수정 유효성 검사
-  const EditSchema = (previousNickname) =>
-    Yup.object().shape({
-      nickname: Yup.string()
-        .test("nickname", "닉네임은 최소 2글자 이상입니다.", (val) => !val || val.length >= 2)
-        .test("nickname", "닉네임은 최대 20글자입니다.", (val) => !val || val.length <= 20)
-        .test(
-          "nickname",
-          "닉네임은 한글, 영문, 숫자만 입력 가능합니다.",
-          (val) => !val || /^[a-zA-Z가-힣0-9]*$/.test(val)
-        )
-        .nullable(),
-      profile_text: Yup.string().max(100, "소개는 최대 100자까지 입력 가능합니다.").nullable(),
-      is_marketing_agree: Yup.boolean().nullable(),
-    });
+  const EditSchema = Yup.object().shape({
+    nickname: Yup.string()
+      .min(2, "닉네임은 최소 2글자 이상입니다.")
+      .max(20, "닉네임은 최대 20글자입니다.")
+      .matches(/^[a-zA-Z가-힣0-9]*$/, "닉네임은 한글, 영문, 숫자만 입력 가능합니다.")
+      .required("닉네임을 입력해주세요."),
+    profile_text: Yup.string().max(100, "소개는 최대 100자까지 입력 가능합니다.").nullable(),
+    is_marketing_agree: Yup.boolean().nullable(),
+  });
 
   const defaultValues = {
     profile_image: DEFAULT_IMAGES.noProfile,
@@ -76,7 +40,7 @@ const UserProfile = () => {
   };
 
   const methods = useForm({
-    resolver: yupResolver(EditSchema(user?.nickname)),
+    resolver: yupResolver(EditSchema),
     defaultValues,
     mode: "onSubmit",
   });
@@ -112,24 +76,9 @@ const UserProfile = () => {
       }
     });
 
-    // 프로필 수정 API 호출
-    try {
-      const profileClient = new HttpClient();
-      const headers = {
-        "Content-Type": "multipart/form-data",
-      };
-      const res = await profileClient.put(`${API_BASE_URL}/users/${user.id}`, updateData, headers);
-      if (res.status === 200) {
-        cLog("프로필이 수정되었습니다.");
-        sessionStorage.setItem("user", JSON.stringify(formatUser(res.data.user)));
-      } else {
-        cLog("프로필 수정에 실패하였습니다.");
-        return;
-      }
-    } catch (error) {
-      cError(error);
-      return;
-    }
+    if (isEmpty(updateData)) return;
+
+    userUpdate({ userId: user.id, updateData });
   });
 
   // 프로필 이미지 교체
@@ -140,7 +89,6 @@ const UserProfile = () => {
     // 파일 크기와 형식 유효성 검사
     const validFileSize = file.size <= 31457280; // 30MB
     const validFileType = ["image/jpeg", "image/png", "image/gif", "image/webp"].includes(file.type);
-
     if (!validFileSize) {
       setError("profile_image", { type: "manual", message: "이미지 파일은 30MB 이하만 가능합니다." });
       return;
@@ -151,11 +99,9 @@ const UserProfile = () => {
     }
 
     const reader = new FileReader();
-
     reader.onload = () => {
       setPreviewImage(reader.result);
     };
-
     reader.readAsDataURL(file);
     // useForm의 setValue를 사용하여 profileImage 필드를 업데이트
     setValue("profile_image", file, { shouldValidate: true, shouldDirty: true });
@@ -164,12 +110,10 @@ const UserProfile = () => {
 
   useEffect(() => {
     // 로그인한 유저가 없을 경우 로그인 페이지로 이동
-    tokenValidation().then((isValid) => {
-      if (!isValid) {
-        navigate("/user/login");
-        return;
-      }
-    });
+    if (!user) {
+      window.location.href = "/user/login";
+      return;
+    }
 
     setValue("profile_image", user.profile_image);
     setValue("nickname", user.nickname);
@@ -184,34 +128,21 @@ const UserProfile = () => {
   useEffect(() => {
     const subscription = watch((value, { name }) => {
       if (name === "nickname") {
-        trigger("nickname").then((isValid) => {
-          if (value.nickname === user.nickname) return;
+        if (value.nickname === user.nickname) return;
+        trigger("nickname").then(async (isValid) => {
           if (isValid) {
             // 닉네임 중복 체크
             // TODO: 한글 입력시 글자가 완성되면 두번 호출되는 이슈 해결 필요
-            const client = new HttpClient();
-            client
-              .get(`${API_BASE_URL}/validation/users/nickname`, {
-                nickname: value.nickname,
-              })
-              .then((res) => {
-                if (res.status === 204 && res.code === "VALID_NICK_SUCC") {
-                  // 성공
-                  // TODO: 존재하지 않는 닉네임일 경우 input check 표시
-                  clearErrors("nickname");
-                } else {
-                  // 실패
-                  // 존재하는 닉네임일 경우 에러 메시지 출력
-                  setError("nickname", {
-                    type: "manual",
-                    message: "이미 사용중인 닉네임입니다.",
-                  });
-                }
-              })
-              .catch((error) => {
-                cError(error);
-                reset();
+            const res = await fetchValidationNickname({ nickname: value.nickname });
+            if (res === "VALID_NICK_SUCC") {
+              clearErrors("nickname");
+            } else if (res === "VALID_NICK_EXIST") {
+              // 실패: 존재하는 닉네임일 경우 에러 메시지 출력
+              setError("nickname", {
+                type: "manual",
+                message: "이미 사용중인 닉네임입니다.",
               });
+            }
           }
         });
       }
