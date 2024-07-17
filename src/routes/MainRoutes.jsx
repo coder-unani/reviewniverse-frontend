@@ -1,3 +1,4 @@
+import { AuthContextProvider } from "/src/context/AuthContext";
 import DefaultLayout from "/src/layouts/default";
 import Home from "/src/pages/Home";
 import Movie from "/src/pages/Movie";
@@ -20,7 +21,11 @@ import User from "/src/pages/User";
 
 const MainRoutes = {
   path: "/",
-  element: <DefaultLayout />,
+  element: (
+    <AuthContextProvider>
+      <DefaultLayout />
+    </AuthContextProvider>
+  ),
   children: [
     {
       index: true,
