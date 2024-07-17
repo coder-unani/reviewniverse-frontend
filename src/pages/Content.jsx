@@ -7,7 +7,7 @@ import ReviewModal from "/src/components/Modal/ReviewModal";
 import ConfirmModal from "/src/components/Modal/ConfirmModal";
 import ProfileImage from "/src/components/Button/Profile/ProfileImage";
 import { useParams } from "react-router-dom";
-import { useToken } from "/src/hooks/useToken";
+import { useAuthContext } from "/src/context/AuthContext";
 import { useVideoDetail } from "/src/hooks/useVideoDetail";
 import { useVideoReviews } from "/src/hooks/useVideoReviews";
 import { useVideoMyInfo } from "/src/hooks/useVideoMyInfo";
@@ -53,15 +53,11 @@ import "/src/styles/Content.css";
  */
 
 const Content = () => {
+  // 비디오 아이디
   const { contentId } = useParams();
   const videoId = parseInt(contentId);
   // 사용자 정보
-  const [user, setUser] = useState(() => {
-    const storedUser = sessionStorage.getItem("user");
-    return storedUser ? JSON.parse(storedUser) : null;
-  });
-  // 토큰 검증
-  const { data: isValidToken } = useToken();
+  const { user } = useAuthContext();
   // 비디오 상세 정보
   const { data: content, error: contentError, isLoading: contentIsLoading } = useVideoDetail({ videoId });
   // 비디오 리뷰 목록
@@ -71,11 +67,7 @@ const Content = () => {
     isLoading: reviewsIsLoading,
   } = useVideoReviews({ videoId, page: 1, pageSize: 8 });
   // 비디오 내 정보
-  const {
-    data: myInfo,
-    error: myInfoError,
-    isLoading: myInfoIsLoading,
-  } = useVideoMyInfo({ videoId, enabled: isValidToken });
+  const { data: myInfo, error: myInfoError, isLoading: myInfoIsLoading } = useVideoMyInfo({ videoId, enabled: user });
   // 비디오 평가하기
   const { mutate: videoRating } = useVideoRating();
   // 비디오 좋아요
@@ -159,14 +151,7 @@ const Content = () => {
 
   // 비디오 좋아요
   const handleLikeButton = async () => {
-    // 로그인 여부 확인
     if (!user) {
-      setEnjoyModal(true);
-      return;
-    }
-
-    // 토큰 검증
-    if (!isValidToken) {
       setEnjoyModal(true);
       return;
     }
@@ -176,14 +161,7 @@ const Content = () => {
 
   // 리뷰 작성
   const handleReviewCreate = () => {
-    // 로그인 여부 확인
     if (!user) {
-      setEnjoyModal(true);
-      return;
-    }
-
-    // 토큰 검증
-    if (!isValidToken) {
       setEnjoyModal(true);
       return;
     }
@@ -205,14 +183,7 @@ const Content = () => {
 
   // 리뷰 좋아요
   const handleReviewLike = async (reviewId) => {
-    // 로그인 여부 확인
     if (!user) {
-      setEnjoyModal(true);
-      return;
-    }
-
-    // 토큰 검증
-    if (!isValidToken) {
       setEnjoyModal(true);
       return;
     }
@@ -269,20 +240,15 @@ const Content = () => {
     };
 
     const handleMouseOut = () => {
-      if (myInfo && myInfo.rating) return (fillRating.style.width = `${myInfo.rating * 10}%`);
+      if (myInfo && myInfo.rating) {
+        return (fillRating.style.width = `${myInfo.rating * 10}%`);
+      }
       fillRating.style.width = "0%";
       fillRating.dataset.rating = "0";
     };
 
     const handleClick = async () => {
-      // 로그인 여부 확인
       if (!user) {
-        setEnjoyModal(true);
-        return;
-      }
-
-      // 토큰 검증
-      if (!isValidToken) {
         setEnjoyModal(true);
         return;
       }
@@ -299,7 +265,7 @@ const Content = () => {
       emptyRating.removeEventListener("mouseout", handleMouseOut);
       emptyRating.removeEventListener("click", handleClick);
     };
-  }, [content, isValidToken, user, myInfo]);
+  }, [content, user, myInfo]);
 
   if (contentIsLoading || reviewsIsLoading || myInfoIsLoading) return null;
 
