@@ -18,7 +18,10 @@ const Review = (props) => {
   return (
     <div className="review">
       <div className="top">
-        <ProfileButton image={review.user_profile_img} user={{ id: review.user_id, nickname: review.user_nickname }} />
+        <ProfileButton
+          image={review.user_profile_image}
+          user={{ id: review.user_id, nickname: review.user_nickname }}
+        />
         {review.rating && (
           <div className="rating">
             <RiStarFill size={16} />
