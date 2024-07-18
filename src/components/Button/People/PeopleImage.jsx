@@ -1,5 +1,7 @@
 import React from "react";
 import { DEFAULT_IMAGES } from "/src/config/constants";
+import { LazyLoadImage } from "react-lazy-load-image-component";
+import "react-lazy-load-image-component/src/effects/blur.css";
 import "/src/styles/PeopleImage.css";
 
 const PeopleImage = (props) => {
@@ -9,7 +11,7 @@ const PeopleImage = (props) => {
 
   return (
     <figure className="people-image" style={style}>
-      <img src={peopleImage} alt="프로필 이미지" />
+      <LazyLoadImage src={peopleImage} alt="프로필 이미지" effect="blur" />
     </figure>
   );
 };
