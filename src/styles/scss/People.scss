@@ -10,20 +10,28 @@
 .people-wrapper {
   width: 100%;
   margin-bottom: 8px;
-}
 
-.people {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
-  padding-bottom: 20px;
+  .people {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+    padding-bottom: 20px;
 
-  .name {
-    font-size: 30px;
-    font-weight: 700;
-    margin-top: 10px;
+    .name {
+      font-size: 30px;
+      font-weight: 700;
+      margin-top: 10px;
+    }
+
+    .people-image {
+      border-radius: 8px;
+
+      &::after {
+        border-radius: 8px;
+      }
+    }
   }
 }
 
@@ -40,11 +48,11 @@
 
   .people-wrapper {
     padding: 0 15px;
-  }
 
-  .people {
-    .name {
-      font-size: 20px;
+    .people {
+      .name {
+        font-size: 20px;
+      }
     }
   }
 }

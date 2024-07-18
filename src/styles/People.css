@@ -9,8 +9,7 @@
   width: 100%;
   margin-bottom: 8px;
 }
-
-.people {
+.people-wrapper .people {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -18,10 +17,16 @@
   border-bottom: 1px solid rgba(0, 0, 0, 0.1);
   padding-bottom: 20px;
 }
-.people .name {
+.people-wrapper .people .name {
   font-size: 30px;
   font-weight: 700;
   margin-top: 10px;
+}
+.people-wrapper .people .people-image {
+  border-radius: 8px;
+}
+.people-wrapper .people .people-image::after {
+  border-radius: 8px;
 }
 
 @media (max-width: 1024px) {
@@ -36,7 +41,7 @@
   .people-wrapper {
     padding: 0 15px;
   }
-  .people .name {
+  .people-wrapper .people .name {
     font-size: 20px;
   }
 }

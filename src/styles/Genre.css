@@ -9,8 +9,7 @@
   width: 100%;
   margin-bottom: 8px;
 }
-
-.genre {
+.genre-wrapper .genre {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -18,7 +17,7 @@
   border-bottom: 1px solid rgba(0, 0, 0, 0.1);
   padding-bottom: 20px;
 }
-.genre .title {
+.genre-wrapper .genre .title {
   font-size: 30px;
   font-weight: 700;
 }
@@ -35,7 +34,7 @@
   .genre-wrapper {
     padding: 0 15px;
   }
-  .genre .title {
+  .genre-wrapper .genre .title {
     font-size: 20px;
   }
 }
