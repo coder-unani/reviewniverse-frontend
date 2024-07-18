@@ -1,17 +1,18 @@
 import React, { useEffect, useState } from "react";
 import VideoPage from "/src/components/VideoPage";
-import { SCREEN_MAIN_ID } from "/src/config/types";
-import { VIDEO_ORDER_OPTIONS } from "/src/config/constants";
-import { useVideos } from "/src/hooks/useVideos";
 import { useScreenContents } from "/src/hooks/useScreenContents";
+import { useVideos } from "/src/hooks/useVideos";
+import { SCREEN_MAIN_ID } from "/src/config/codes";
+import { VIDEO_ORDER_OPTIONS } from "/src/config/constants";
 import { arrayRandomValue } from "/src/utils/format";
 import { isEmpty } from "lodash";
 import "/src/styles/Home.css";
 
 const Home = () => {
   const [page, setPage] = useState(1);
+  const [hasMore, setHasMore] = useState(true);
   const [orderBy, setOrderBy] = useState(arrayRandomValue(VIDEO_ORDER_OPTIONS));
-  const [videos, setVideos] = useState([]);
+  const [videos, setVideos] = useState({});
 
   // 스크린 데이터
   const {
@@ -21,7 +22,11 @@ const Home = () => {
   } = useScreenContents({ code: SCREEN_MAIN_ID });
 
   // 비디오 리스트
-  const { data: videosData, error: videosError, isLoading: videosIsLoading } = useVideos({ page, orderBy });
+  const {
+    data: videosData,
+    error: videosError,
+    isLoading: videosIsLoading,
+  } = useVideos({ page, orderBy, enabled: hasMore });
 
   // 페이지 변경
   const handlePage = (page) => {
@@ -29,12 +34,25 @@ const Home = () => {
   };
 
   useEffect(() => {
-    if (isEmpty(videosData)) return;
-    setVideos((prev) => {
-      if (isEmpty(prev)) return videosData;
-      return { ...prev, data: [...prev.data, ...videosData.data] };
-    });
-  }, [page, videosData]);
+    if (isEmpty(videosData) || !hasMore) return;
+    if (videosData.status === 200) {
+      if (page === 1) {
+        setVideos(videosData.data);
+      } else {
+        if (page === 5) setHasMore(false);
+        setVideos((prev) => {
+          return {
+            ...prev,
+            count: videosData.data.count,
+            page: videosData.data.page,
+            data: [...prev.data, ...videosData.data.data],
+          };
+        });
+      }
+    } else {
+      setVideos({ data: [] });
+    }
+  }, [page, videosData, hasMore]);
 
   // 로딩중일때 표시할 화면 (스켈레톤 UI)
   if (videosIsLoading || screensIsLoading) {
