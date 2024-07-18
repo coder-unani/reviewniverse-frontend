@@ -22,7 +22,7 @@ const Production = () => {
     page,
     mode: "id",
     target: "production",
-    orderBy: "view_desc",
+    orderBy: "release_desc",
   });
 
   const handlePage = (page) => {
