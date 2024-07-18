@@ -9,6 +9,7 @@
 
 .genre-wrapper {
   width: 100%;
+  margin-bottom: 8px;
 }
 
 .genre {
@@ -22,10 +23,27 @@
   .title {
     font-size: 30px;
     font-weight: 700;
-    margin-top: 10px;
   }
 }
 
-.genre-contents {
-  padding: 20px 0;
+@media (max-width: 1024px) {
+  .genre-main {
+    padding: 84px 30px;
+  }
+}
+
+@media (max-width: 576px) {
+  .genre-main {
+    padding: 84px 0;
+  }
+
+  .genre-wrapper {
+    padding: 0 15px;
+  }
+
+  .genre {
+    .title {
+      font-size: 20px;
+    }
+  }
 }
