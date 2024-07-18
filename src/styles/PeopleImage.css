@@ -1,6 +1,5 @@
 .people-image {
   position: relative;
-  border-radius: 5px;
   overflow: hidden;
 }
 .people-image::after {
@@ -11,11 +10,16 @@
   display: block;
   width: 100%;
   height: 100%;
-  border-radius: 5px;
   border: 1px solid rgba(0, 0, 0, 0.05);
   z-index: 10;
 }
-.people-image img {
+.people-image .lazy-load-image-background {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+.people-image .lazy-load-image-background img {
+  display: flex;
   width: 100%;
   height: 100%;
   object-fit: cover;
