@@ -5,6 +5,11 @@ import { isEmpty } from "lodash";
 import { getLocalStorage, clearLocalStorage } from "/src/utils/localStorage";
 import "/src/styles/SearchModal.css";
 
+/**
+ * TODO:
+ * - 연관 검색어 표시
+ */
+
 const SearchModal = () => {
   const [recent, setRecent] = useState([]);
 
