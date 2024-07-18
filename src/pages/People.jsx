@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
-import { useParams, useLocation, useNavigate } from "react-router-dom";
-import { useVideoSearch } from "/src/hooks/useVideoSearch";
 import ProfileImage from "/src/components/Button/Profile/ProfileImage";
 import Videos from "/src/components/Videos";
+import { useParams, useLocation, useNavigate } from "react-router-dom";
+import { useVideoSearch } from "/src/hooks/useVideoSearch";
 import { isEmpty } from "lodash";
 import "/src/styles/People.css";
 
@@ -59,15 +59,13 @@ const People = () => {
 
   return (
     <main className="people-main">
-      <div className="people-wrapper">
-        <section className="people">
+      <section className="people-wrapper">
+        <div className="people">
           <ProfileImage image={people.picture} size={100} />
           <h1 className="name">{people.name}</h1>
-        </section>
-        <section className="people-contents">
-          <Videos videos={videos} handlePage={handlePage} />
-        </section>
-      </div>
+        </div>
+      </section>
+      <Videos videos={videos} handlePage={handlePage} />
     </main>
   );
 };

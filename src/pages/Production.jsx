@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
+import Videos from "/src/components/Videos";
 import { useParams, useLocation, useNavigate } from "react-router-dom";
 import { useVideoSearch } from "/src/hooks/useVideoSearch";
-import Videos from "/src/components/Videos";
 import { isEmpty } from "lodash";
 import "/src/styles/Production.css";
 
@@ -62,14 +62,12 @@ const Production = () => {
 
   return (
     <main className="production-main">
-      <div className="production-wrapper">
-        <section className="production">
+      <section className="production-wrapper">
+        <div className="production">
           <h1 className="title">{name}</h1>
-        </section>
-        <section className="production-contents">
-          <Videos videos={videos} handlePage={handlePage} />
-        </section>
-      </div>
+        </div>
+      </section>
+      <Videos videos={videos} handlePage={handlePage} />
     </main>
   );
 };

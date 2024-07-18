@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
+import Videos from "/src/components/Videos";
 import { useSearchParams } from "react-router-dom";
 import { useVideoSearch } from "/src/hooks/useVideoSearch";
-import Videos from "/src/components/Videos";
 import { isEmpty } from "lodash";
 import "/src/styles/Genre.css";
 
@@ -57,14 +57,12 @@ const Genre = () => {
 
   return (
     <main className="genre-main">
-      <div className="genre-wrapper">
-        <section className="genre">
+      <section className="genre-wrapper">
+        <div className="genre">
           <h1 className="title">{formatQuery(query)}</h1>
-        </section>
-        <section className="genre-contents">
-          <Videos videos={videos} handlePage={handlePage} />
-        </section>
-      </div>
+        </div>
+      </section>
+      <Videos videos={videos} handlePage={handlePage} />
     </main>
   );
 };
