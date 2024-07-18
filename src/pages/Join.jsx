@@ -22,7 +22,6 @@ import "/src/styles/Join.css";
 
 const Join = () => {
   const { isMobile } = useThemeContext();
-
   // 약관 동의 상태
   const [isAgree, setIsAgree] = useState(false);
   // 선택한 약관 동의 값
