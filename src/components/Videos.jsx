@@ -1,9 +1,9 @@
-import React, { useState, useRef, useCallback } from "react";
+import React, { useState, useRef, useCallback, useEffect } from "react";
 import VideoItem from "/src/components/VideoItem";
 import { isEmpty } from "lodash";
 import "/src/styles/Videos.css";
 
-const Videos = ({ videos, handlePage }) => {
+const Videos = ({ videos, handlePage, children }) => {
   const [hasMore, setHasMore] = useState(true);
   const observer = useRef();
 
@@ -14,12 +14,7 @@ const Videos = ({ videos, handlePage }) => {
 
       observer.current = new IntersectionObserver((entries) => {
         if (entries[0].isIntersecting && hasMore) {
-          handlePage((prevPage) => {
-            const nextPage = prevPage + 1;
-            // 5페이지까지만 불러오기
-            if (nextPage === 5) setHasMore(false);
-            return nextPage;
-          });
+          handlePage((prevPage) => prevPage + 1);
         }
       });
 
@@ -28,13 +23,19 @@ const Videos = ({ videos, handlePage }) => {
     [hasMore]
   );
 
+  useEffect(() => {
+    if (videos.data && videos.total <= videos.data.length) {
+      setHasMore(false);
+    } else {
+      setHasMore(true);
+    }
+  }, [videos]);
+
   if (isEmpty(videos)) return null;
 
   return (
     <section className="videos-wrapper">
-      <div className="title-wrapper">
-        <h2 className="title">주인님 내 새끼 구경 좀 해봐요 🦦</h2>
-      </div>
+      {children}
       <div className="list-wrapper">
         {videos.data.map((video, index) => (
           <VideoItem key={index} video={video} />
