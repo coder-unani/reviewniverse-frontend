@@ -1,12 +1,12 @@
 import React, { useState, useEffect, useRef } from "react";
 import Review from "/src/components/Review";
-import Crew from "/src/components/Crew";
+import People from "/src/components/People";
 import PhotoModal from "/src/components/Modal/PhotoModal";
 import EnjoyModal from "/src/components/Modal/EnjoyModal";
 import ReviewModal from "/src/components/Modal/ReviewModal";
 import ConfirmModal from "/src/components/Modal/ConfirmModal";
 import ProfileImage from "/src/components/Button/Profile/ProfileImage";
-import { useParams } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
 import { useAuthContext } from "/src/context/AuthContext";
 import { useVideoDetail } from "/src/hooks/useVideoDetail";
 import { useVideoReviews } from "/src/hooks/useVideoReviews";
@@ -37,10 +37,9 @@ import {
   formatBackgroundImage,
   formatPoster,
   formatCountry,
-  formatGenre,
-  formatProduction,
-  formatActorType,
-  formatStaffType,
+  formatGenreArray,
+  formatActorCode,
+  formatStaffCode,
 } from "/src/utils/contentFormat";
 import "/src/styles/Content.css";
 
@@ -155,7 +154,6 @@ const Content = () => {
       setEnjoyModal(true);
       return;
     }
-
     videoLike({ videoId });
   };
 
@@ -165,7 +163,6 @@ const Content = () => {
       setEnjoyModal(true);
       return;
     }
-
     setReviewModal(true);
   };
 
@@ -187,7 +184,6 @@ const Content = () => {
       setEnjoyModal(true);
       return;
     }
-
     reviewLike({ videoId, reviewId });
   };
 
@@ -291,11 +287,27 @@ const Content = () => {
                   <span>{content.runtime}</span>
                 </div>
                 <div>
-                  <span>{formatGenre(content.genre)}</span>
+                  <span>
+                    {content.genre.map((genre, index) => (
+                      <React.Fragment key={index}>
+                        <Link to={`/genre?genre=${formatGenreArray(genre.name)}`}>{genre.name}</Link>
+                        {index < content.genre.length - 1 && ", "}
+                      </React.Fragment>
+                    ))}
+                  </span>
                 </div>
                 {!isEmpty(content.production) && (
                   <div>
-                    <span>{formatProduction(content.production)}</span>
+                    <span>
+                      {content.production.map((prodn, index) => (
+                        <React.Fragment key={index}>
+                          <Link to={`/production/${prodn.id}`} state={{ name: prodn.name }}>
+                            {prodn.name}
+                          </Link>
+                          {index < content.production.length - 1 && ", "}
+                        </React.Fragment>
+                      ))}
+                    </span>
                   </div>
                 )}
               </div>
@@ -380,7 +392,7 @@ const Content = () => {
           <Swiper {...crewSwiperConfig(".prev-actor", ".next-actor")}>
             {content.actor.map((actor, index) => (
               <SwiperSlide key={index}>
-                <Crew crew={actor} type={formatActorType} key={index} />
+                <People crew={actor} formatCode={formatActorCode} key={index} />
               </SwiperSlide>
             ))}
           </Swiper>
@@ -402,7 +414,7 @@ const Content = () => {
             <Swiper {...crewSwiperConfig(".prev-staff", ".next-staff")}>
               {content.staff.map((staff, index) => (
                 <SwiperSlide key={index}>
-                  <Crew crew={staff} type={formatStaffType} key={index} />
+                  <People crew={staff} formatCode={formatStaffCode} key={index} />
                 </SwiperSlide>
               ))}
             </Swiper>

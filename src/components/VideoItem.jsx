@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import "react-lazy-load-image-component/src/effects/blur.css";
 import { formatYear } from "/src/utils/format";
-import { formatCountry } from "/src/utils/contentFormat";
+import { formatThumbnail, formatCountry } from "/src/utils/contentFormat";
 
 const VideoItem = (props) => {
   const { video } = props;
@@ -13,7 +13,7 @@ const VideoItem = (props) => {
       <Link to={`/contents/${video.id}`}>
         <div className="img-wrapper">
           <figure className="thumbnail">
-            <LazyLoadImage src={video.thumbnail.url} alt="썸네일" effect="blur" />
+            <LazyLoadImage src={formatThumbnail(video.thumbnail)} alt="썸네일" effect="blur" />
           </figure>
         </div>
         <div className="info">

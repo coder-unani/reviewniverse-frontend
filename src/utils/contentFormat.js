@@ -1,5 +1,5 @@
 import { isEmpty } from "lodash";
-import { USER_CODE, VIDEO_ACTOR_CODE, VIDEO_STAFF_CODE, COUNTRY_CODE, VIDEO_PLATFORM_CODE } from "/src/config/types";
+import { USER_CODE, VIDEO_ACTOR_CODE, VIDEO_STAFF_CODE, COUNTRY_CODE, VIDEO_PLATFORM_CODE } from "/src/config/codes";
 import { DEFAULT_IMAGES } from "/src/config/constants";
 
 // 유저 코드 포맷
@@ -19,6 +19,13 @@ export const formatProvider = (provider) => {
     naver: "15",
   };
   return providerCode[provider] || "10";
+};
+
+// 썸네일 이미지 포맷
+export const formatThumbnail = (images) => {
+  if (!images) return DEFAULT_IMAGES.noImage;
+  if (!images.url) return images;
+  return images.url;
 };
 
 // 배경 이미지 포맷
@@ -47,6 +54,7 @@ export const formatCountry = (code) => {
 // 국가 포맷
 export const formatCountry = (country) => {
   if (isEmpty(country)) return "국가";
+  if (!Array.isArray(country)) return country;
   const countryAll = country.map((item) => item.name_ko).join(", ");
   return countryAll;
 };
@@ -56,6 +64,22 @@ export const formatGenre = (genre) => {
   if (isEmpty(genre)) return null;
   const gerneAll = genre.map((item) => item.name).join(", ");
   return gerneAll;
+};
+
+// 장르 포맷
+export const formatGenreArray = (genre) => {
+  // '영화', '시리즈', '프로그램' 단어 제거
+  const cleanedGenre = genre.replace(/영화|시리즈|프로그램/g, "").trim();
+  if (!cleanedGenre) return null;
+
+  // 한글, 알파벳, 숫자, 공백을 제외한 모든 특수 문자 제거
+  const sanitizedGenre = cleanedGenre.replace(/[^\w\s가-힣()]/g, "");
+
+  // 단어들을 배열로 분리하고 빈 값 필터링
+  const genreArray = sanitizedGenre.split(/\s+/).filter(Boolean);
+
+  // 배열을 문자열로 결합
+  return genreArray.join(",");
 };
 
 // 제작사 포맷
@@ -77,13 +101,13 @@ export const formatRating = (rating) => {
 };
 
 // 출연진 타입 포맷
-export const formatActorType = (code) => {
+export const formatActorCode = (code) => {
   const actorType = VIDEO_ACTOR_CODE[code];
   return actorType || "출연진";
 };
 
 // 제작진 타입 포맷
-export const formatStaffType = (code) => {
+export const formatStaffCode = (code) => {
   const staffType = VIDEO_STAFF_CODE[code];
   return staffType || "제작진";
 };
