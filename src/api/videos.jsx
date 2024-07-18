@@ -5,6 +5,7 @@ import { cLog, cError } from "/src/utils/test";
 const baseURL = settings.API_BASE_URL;
 const endpoints = {
   videos: baseURL + "/v1/contents/videos",
+  videoSearch: baseURL + "/v1/videos",
   videoDetail: baseURL + "/v1/contents/videos/:videoId",
   videoReviews: baseURL + "/v1/contents/videos/:videoId/reviews",
   videoMyInfo: baseURL + "/v1/contents/videos/:videoId/myinfo",
@@ -49,7 +50,44 @@ export const fetchVideos = async ({
       ...(genreId && { gid: genreId }),
       ...(orderBy && { ob: orderBy }),
     });
-    return res.status === 200 ? res.data : [];
+    return res;
+  } catch (error) {
+    cError(error);
+  }
+};
+
+// Video List API
+/**
+ * PARAMS:
+ * - query: 검색키워드
+ * - page: 페이지 번호
+ * - size: 페이지 사이즈
+ * - display: 디스플레이
+ * - mode: 검색 모드
+ * - target: 검색 타겟
+ * - orderBy: 정렬
+ */
+export const fetchVideoSearch = async ({
+  query = null,
+  page = null,
+  size = null,
+  display = null,
+  mode = null,
+  target = null,
+  orderBy = null,
+}) => {
+  try {
+    const client = new HttpClient();
+    const res = await client.get(endpoints.videoSearch, {
+      ...(query && { q: query }),
+      ...(page && { p: page }),
+      ...(size && { s: size }),
+      ...(display && { dp: display }),
+      ...(mode && { m: mode }),
+      ...(target && { tg: target }),
+      ...(orderBy && { ob: orderBy }),
+    });
+    return res;
   } catch (error) {
     cError(error);
   }
