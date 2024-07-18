@@ -12,8 +12,8 @@ import { isEmpty } from "lodash";
 import "/src/styles/User.css";
 
 const User = () => {
-  const { userId: paramUserId } = useParams();
-  const userId = parseInt(paramUserId);
+  const { userId: id } = useParams();
+  const userId = parseInt(id);
   const { user } = useAuthContext();
   const [isLogin, setIsLogin] = useState(false);
   const { data: userData, error: userError, isLoading: userIsLoading } = useUser({ userId });
