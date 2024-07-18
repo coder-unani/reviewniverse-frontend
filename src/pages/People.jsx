@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import ProfileImage from "/src/components/Button/Profile/ProfileImage";
+import PeopleImage from "/src/components/Button/People/PeopleImage";
 import Videos from "/src/components/Videos";
 import { useParams, useLocation, useNavigate } from "react-router-dom";
 import { useVideoSearch } from "/src/hooks/useVideoSearch";
@@ -61,7 +61,7 @@ const People = () => {
     <main className="people-main">
       <section className="people-wrapper">
         <div className="people">
-          <ProfileImage image={people.picture} size={100} />
+          <PeopleImage image={people.picture} size={100} />
           <h1 className="name">{people.name}</h1>
         </div>
       </section>
