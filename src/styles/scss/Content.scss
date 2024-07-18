@@ -86,6 +86,11 @@
         &:not(:last-child) {
           margin-right: 8px;
         }
+
+        a:hover {
+          color: deeppink;
+          text-decoration: underline;
+        }
       }
     }
   }

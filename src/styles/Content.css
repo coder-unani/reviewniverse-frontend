@@ -76,6 +76,10 @@
 .banner-wrapper .main-info-wrapper .sub-info span:not(:last-child) {
   margin-right: 8px;
 }
+.banner-wrapper .main-info-wrapper .sub-info span a:hover {
+  color: deeppink;
+  text-decoration: underline;
+}
 
 .info-wrapper {
   display: flex;
