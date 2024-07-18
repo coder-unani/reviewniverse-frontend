@@ -1,0 +1,29 @@
+.genre-main {
+  max-width: 1440px;
+  min-height: calc(100vh - 80px);
+  padding: 24px 60px;
+  margin: 0 auto;
+  margin-top: 60px;
+}
+
+.genre-wrapper {
+  width: 100%;
+}
+
+.genre {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  padding-bottom: 20px;
+}
+.genre .title {
+  font-size: 30px;
+  font-weight: 700;
+  margin-top: 10px;
+}
+
+.genre-contents {
+  padding: 20px 0;
+}
