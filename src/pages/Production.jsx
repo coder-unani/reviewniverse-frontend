@@ -35,7 +35,6 @@ const Production = () => {
 
   useEffect(() => {
     if (isEmpty(videosData)) return;
-    console.log(videosData);
   }, [productionId, videosData]);
 
   useEffect(() => {
