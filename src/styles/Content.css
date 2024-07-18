@@ -323,36 +323,12 @@
   padding: 10px 0;
   margin-right: 10px;
 }
-.crew-wrapper .image {
-  position: relative;
-  width: 54px;
-  height: 54px;
+.crew-wrapper .people-image {
   border-radius: 5px;
-  overflow: hidden;
   margin-right: 12px;
 }
-.crew-wrapper .image::after {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  display: block;
-  width: 100%;
-  height: 100%;
+.crew-wrapper .people-image::after {
   border-radius: 5px;
-  border: 1px solid rgba(0, 0, 0, 0.05);
-  z-index: 10;
-}
-.crew-wrapper .image .lazy-load-image-background {
-  display: block;
-  width: 100%;
-  height: 100%;
-}
-.crew-wrapper .image .lazy-load-image-background img {
-  display: flex;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
 }
 .crew-wrapper .name-wrapper {
   display: flex;

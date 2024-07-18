@@ -381,39 +381,12 @@
     margin-right: 10px;
   }
 
-  .image {
-    position: relative;
-    width: 54px;
-    height: 54px;
+  .people-image {
     border-radius: 5px;
-    overflow: hidden;
     margin-right: 12px;
 
     &::after {
-      content: "";
-      position: absolute;
-      top: 0;
-      left: 0;
-      display: block;
-      width: 100%;
-      height: 100%;
       border-radius: 5px;
-      border: 1px solid rgba(0, 0, 0, 0.05);
-      z-index: 10;
-    }
-
-    .lazy-load-image-background {
-      display: block;
-      width: 100%;
-      height: 100%;
-
-      img {
-        display: flex;
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-        // object-position: top;
-      }
     }
   }
 
