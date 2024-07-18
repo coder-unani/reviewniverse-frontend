@@ -11,6 +11,7 @@ export const useVideos = ({
   staffId = null,
   genreId = null,
   orderBy = null,
+  enabled = true,
 }) => {
   // Custom cache cycle
   const STALE_TIME = 1000 * 60 * 5;
@@ -44,7 +45,7 @@ export const useVideos = ({
     queryKey: queryKey,
     queryFn: async () => {
       // API 호출
-      const response = await fetchVideos({
+      const res = await fetchVideos({
         page,
         pageSize,
         code,
@@ -58,8 +59,9 @@ export const useVideos = ({
       /**
        * API를 통해 넘겨받은 데이터 가공이 필요하면 여기서 처리
        */
-      return response;
+      return res;
     },
+    enabled: !!enabled,
     /**
      * .env 로 관리할 필요까지는 없고, config/settings.js 정도에서 관리
      * query별로 캐시전략을 다르게 가져갈 수 있으므로 default 하나 만들고 이 파일 상단에서 상수 선언 후 사용
