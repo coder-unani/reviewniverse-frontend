@@ -1,11 +1,13 @@
 import React, { useEffect, useRef } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate, useSearchParams } from "react-router-dom";
 import { RiSearchLine } from "@remixicon/react";
 import { recentSaveLoaclStorage, sliceLocalStorage } from "/src/utils/localStorage";
 
 const SearchForm = () => {
   const location = useLocation();
   const navigate = useNavigate();
+  const [searchParams, setSearchParams] = useSearchParams();
+  const query = searchParams.get("query");
 
   // 검색어 입력란
   const searchInputRef = useRef(null);
@@ -36,8 +38,6 @@ const SearchForm = () => {
 
     // 검색 쿼리가 있음에도 검색어 입력란에 값이 없는 경우
     if (path === "/search") {
-      const params = new URLSearchParams(location.search);
-      const query = params.get("query");
       searchInputRef.current.value = query;
 
       // 검색어 입력란에 포커스
