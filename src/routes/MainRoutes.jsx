@@ -4,6 +4,9 @@ import Home from "/src/pages/Home";
 import Movie from "/src/pages/Movie";
 import Series from "/src/pages/Series";
 import Content from "/src/pages/Content";
+import People from "/src/pages/People";
+import Genre from "/src/pages/Genre";
+import Production from "/src/pages/Production";
 import Login from "/src/pages/Login";
 import Join from "/src/pages/Join";
 import SocialJoin from "/src/pages/SocialJoin";
@@ -42,6 +45,18 @@ const MainRoutes = {
     {
       path: "/contents/:contentId",
       element: <Content />,
+    },
+    {
+      path: "/people/:peopleId",
+      element: <People />,
+    },
+    {
+      path: "/genre",
+      element: <Genre />,
+    },
+    {
+      path: "/production/:productionId",
+      element: <Production />,
     },
     {
       path: "/user/login",
