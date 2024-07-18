@@ -1,20 +1,21 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import "react-lazy-load-image-component/src/effects/blur.css";
 import { DEFAULT_IMAGES } from "/src/config/constants";
 
-const Crew = (props) => {
-  const { crew, type } = props;
+const People = (props) => {
+  const { crew, formatCode } = props;
 
   return (
-    <div className="crew" key={crew.id}>
+    <Link to={`/people/${crew.id}`} state={{ people: crew }} className="crew" key={crew.id}>
       <figure className="image">
         <LazyLoadImage src={crew.picture || DEFAULT_IMAGES.noActor} alt={crew.name} effect="blur" />
       </figure>
       <div className="name-wrapper">
         <span className="name">{crew.name}</span>
         <div className="role">
-          <span>{type(crew.code)}</span>
+          <span>{formatCode(crew.code)}</span>
           {crew.role && (
             <>
               <span>|</span>
@@ -23,8 +24,8 @@ const Crew = (props) => {
           )}
         </div>
       </div>
-    </div>
+    </Link>
   );
 };
 
-export default Crew;
+export default People;
