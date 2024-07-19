@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import NaverCallback from "/src/auth/NaverCallback";
 import { useNavigate, useParams } from "react-router-dom";
 import { useAuthContext } from "/src/context/AuthContext";
 import { useThemeContext } from "/src/context/ThemeContext";
@@ -33,9 +34,10 @@ const SocialJoin = () => {
       cLog("회원가입에 성공했습니다.");
 
       const signInUser = {
-        code: formatProvider(provider),
+        // code: formatProvider(provider),
+        code: snsUser.code,
         email: snsUser.email,
-        sns_id: snsUser.uid,
+        sns_id: snsUser.sns_id,
       };
 
       const signInRes = await signIn(signInUser);
@@ -49,18 +51,20 @@ const SocialJoin = () => {
 
   useEffect(() => {
     if (user) navigate("/");
-  }, []);
+  }, [user]);
 
   useEffect(() => {
     // isAgree 값이 true 거나 agreeValues가 존재할 경우 회원가입 진행
     if (!isAgree || isEmpty(agreeValues) || !provider || user || !snsUser) return;
 
     const signUpUser = {
-      code: formatProvider(provider),
+      // ...snsUser,
+      // code: formatProvider(provider),
+      code: snsUser.code,
       email: snsUser.email,
-      sns_id: snsUser.uid,
-      nickname: snsUser.displayName,
-      profile_image: snsUser.photoURL,
+      sns_id: snsUser.sns_id,
+      nickname: snsUser.nickname,
+      profile_image: snsUser.profile_image,
       is_privacy_agree: agreeValues.privacy,
       is_terms_agree: agreeValues.terms,
       is_age_agree: agreeValues.age,
@@ -69,6 +73,10 @@ const SocialJoin = () => {
 
     handleSocialJoin(signUpUser);
   }, [isAgree, agreeValues, provider]);
+
+  if (provider === "naver" && !snsUser) {
+    return <NaverCallback />;
+  }
 
   return (
     <div className="join-wrapper">
