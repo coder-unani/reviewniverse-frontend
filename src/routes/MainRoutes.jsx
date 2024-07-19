@@ -13,6 +13,7 @@ import SocialJoin from "/src/pages/SocialJoin";
 import UserFind from "/src/pages/UserFind";
 import ResetPassword from "/src/pages/ResetPassword";
 import User from "/src/pages/User";
+import Error from "/src/pages/Error";
 import NotFound from "/src/pages/NotFound";
 
 /**
@@ -82,6 +83,10 @@ const MainRoutes = {
     {
       path: "/user/:userId",
       element: <User />,
+    },
+    {
+      paht: "/error",
+      element: <Error />,
     },
     {
       path: "/*",
