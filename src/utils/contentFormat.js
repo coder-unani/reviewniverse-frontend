@@ -100,14 +100,21 @@ export const formatRating = (rating) => {
   return parseFloat(rating / 2).toFixed(1);
 };
 
-// 출연진 타입 포맷
-export const formatActorCode = (code) => {
+// 출연진 코드 포맷
+export const formatPeopleCode = (code) => {
+  if (!code) return "";
+  const target = code === "10" ? "actor" : "staff";
+  return target;
+};
+
+// 출연진 역할 코드 포맷
+export const formatActorRoleCode = (code) => {
   const actorType = VIDEO_ACTOR_CODE[code];
   return actorType || "출연진";
 };
 
-// 제작진 타입 포맷
-export const formatStaffCode = (code) => {
+// 제작진 역할 코드 포맷
+export const formatStaffRoleCode = (code) => {
   const staffType = VIDEO_STAFF_CODE[code];
   return staffType || "제작진";
 };
