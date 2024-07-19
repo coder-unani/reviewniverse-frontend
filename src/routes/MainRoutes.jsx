@@ -13,6 +13,7 @@ import SocialJoin from "/src/pages/SocialJoin";
 import UserFind from "/src/pages/UserFind";
 import ResetPassword from "/src/pages/ResetPassword";
 import User from "/src/pages/User";
+import NotFound from "/src/pages/NotFound";
 
 /**
  * TODO:
@@ -67,8 +68,7 @@ const MainRoutes = {
       element: <Join />,
     },
     {
-      path: "/user/auth/:provider",
-      // path: "auth/:provider/callback",
+      path: "/user/auth/:provider/callback",
       element: <SocialJoin />,
     },
     {
@@ -85,7 +85,7 @@ const MainRoutes = {
     },
     {
       path: "/*",
-      element: <div>404 Not Found</div>,
+      element: <NotFound />,
     },
   ],
 };
