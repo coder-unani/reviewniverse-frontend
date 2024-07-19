@@ -33,8 +33,6 @@ const SocialJoin = () => {
     if (res) {
       cLog("회원가입에 성공했습니다.");
 
-      removeSessionStorage("sns_user");
-
       const signInUser = {
         code: snsUser.code,
         email: snsUser.email,
@@ -42,6 +40,7 @@ const SocialJoin = () => {
       };
 
       const signInRes = await signIn(signInUser);
+      removeSessionStorage("sns_user");
       if (signInRes) {
         window.location.href = "/";
       }
