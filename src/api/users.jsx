@@ -44,55 +44,20 @@ export const fetchSnsSignIn = async ({ code, email, sns_id }) => {
 };
 
 // 회원 가입
-export const fetchSignUp = async ({
-  email,
-  password,
-  nickname,
-  is_privacy_agree,
-  is_terms_agree,
-  is_age_agree,
-  is_marketing_agree,
-}) => {
+export const fetchSignUp = async (user) => {
   try {
     const client = new HttpClient();
-    const res = await client.post(endpoints.signup, {
-      code,
-      nickname,
-      email,
-      password,
-      is_privacy_agree,
-      is_terms_agree,
-      is_age_agree,
-      is_marketing_agree,
-    });
+    const res = await client.post(endpoints.signup, { ...user });
     return res;
   } catch (error) {
     cError(error);
   }
 };
 
-export const fetchSnsSignUp = async ({
-  code,
-  email,
-  sns_id,
-  nickname,
-  is_privacy_agree,
-  is_terms_agree,
-  is_age_agree,
-  is_marketing_agree,
-}) => {
+export const fetchSnsSignUp = async (user) => {
   try {
     const client = new HttpClient();
-    const res = await client.post(endpoints.snsSignup, {
-      code,
-      nickname,
-      email,
-      sns_id,
-      is_privacy_agree,
-      is_terms_agree,
-      is_age_agree,
-      is_marketing_agree,
-    });
+    const res = await client.post(endpoints.snsSignup, { ...user });
     return res;
   } catch (error) {
     cError(error);
