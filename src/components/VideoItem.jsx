@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import "react-lazy-load-image-component/src/effects/blur.css";
 import { formatYear } from "/src/utils/format";
-import { formatThumbnail, formatCountry } from "/src/utils/contentFormat";
+import { formatThumbnail, formatCountry } from "/src/utils/formatContent";
 
 const VideoItem = (props) => {
   const { video } = props;

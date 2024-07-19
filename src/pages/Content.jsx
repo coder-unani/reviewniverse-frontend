@@ -40,7 +40,7 @@ import {
   formatGenreArray,
   formatActorRoleCode,
   formatStaffRoleCode,
-} from "/src/utils/contentFormat";
+} from "/src/utils/formatContent";
 import "/src/styles/Content.css";
 
 /**

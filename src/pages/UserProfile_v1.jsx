@@ -6,7 +6,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm, useWatch } from "react-hook-form";
 import HttpClient from "/src/utils/HttpClient";
 import { isEmpty } from "lodash";
-import { formatUser } from "/src/utils/userFormat";
+import { formatUser } from "/src/utils/formatUser";
 import { RiImageEditFill } from "@remixicon/react";
 import { DEFAULT_IMAGES } from "/src/config/constants";
 import "/src/styles/UserProfile.css";

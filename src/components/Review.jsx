@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import ProfileButton from "/src/components/Button/Profile";
 import { RiStarFill, RiThumbUpLine, RiThumbUpFill } from "@remixicon/react";
 import { diffDate } from "/src/utils/format";
-import { formatRating } from "/src/utils/contentFormat";
+import { formatRating } from "/src/utils/formatContent";
 
 /**
  * TODO:

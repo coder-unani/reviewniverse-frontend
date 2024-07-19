@@ -6,7 +6,7 @@ import * as Yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm } from "react-hook-form";
 import HttpClient from "/src/utils/HttpClient";
-import { formatUser } from "/src/utils/userFormat";
+import { formatUser } from "/src/utils/formatUser";
 import { getAuth, signInWithPopup } from "firebase/auth";
 import { auth, provider } from "/src/auth/firebase";
 import BackButton from "/src/components/Button/Back";
