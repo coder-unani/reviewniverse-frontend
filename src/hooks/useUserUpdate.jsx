@@ -10,7 +10,6 @@ export const useUserUpdate = () => {
     onSuccess: (data, variables) => {
       cLog("프로필이 수정되었습니다.");
       console.log(data);
-      // sessionStorage.setItem("user", JSON.stringify(data.user));
     },
     onError: (error) => {
       cError(error);
