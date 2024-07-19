@@ -2,6 +2,7 @@ import React, { createContext, useContext, useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 import { fetchSignUp, fetchSnsSignUp, fetchSignIn, fetchSnsSignIn } from "/src/api/users";
 import { fetchToken } from "/src/api/token";
+import { validateSnsUser } from "/src/utils/validation";
 import { cLog, cError } from "/src/utils/test";
 
 const AuthContext = createContext(null);
@@ -33,6 +34,10 @@ export const AuthContextProvider = ({ children }) => {
 
   // 회원가입
   const signUp = async (user) => {
+    // TODO: validation
+    const result = validateSnsUser(user);
+    if (!result.status) cLog(result.message);
+
     try {
       let response;
       if (user.code === "10") {
@@ -42,6 +47,7 @@ export const AuthContextProvider = ({ children }) => {
       }
       if (response.status !== 201) {
         throw new Error("로그인에 실패하였습니다.");
+        z;
       }
       return true;
     } catch (error) {
@@ -52,6 +58,10 @@ export const AuthContextProvider = ({ children }) => {
 
   // 로그인
   const signIn = async (user) => {
+    // TODO: validation
+    const result = validateSnsUser(user);
+    if (!result.status) cLog(result.message);
+
     try {
       let get_user = null;
       let access_token = null;
