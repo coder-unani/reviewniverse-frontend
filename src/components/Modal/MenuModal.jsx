@@ -44,7 +44,7 @@ const MenuModal = (props) => {
 
   const renderLoginButton = () => {
     return (
-      <Link to="/user/login" className="login">
+      <Link to="/user/login" className="login" onClick={handleCloseButton}>
         <img src={DEFAULT_IMAGES.noProfile} alt="프로필 이미지" />
         로그인 해주세요
         <RiArrowRightSLine size={20} />
