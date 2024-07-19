@@ -143,6 +143,9 @@
   .search-contents {
     padding: 24px 30px;
   }
+  .search-contents .empty {
+    margin-top: 60px;
+  }
   .search-list-wrapper .info .title {
     font-size: 15px;
     line-height: 20px;
