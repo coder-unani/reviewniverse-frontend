@@ -1,10 +1,11 @@
 import React, { useEffect } from "react";
+import BackButton from "/src/components/Button/Back";
 import { useNavigate } from "react-router-dom";
 import { useAuthContext } from "/src/context/AuthContext";
 import { useThemeContext } from "/src/context/ThemeContext";
 import { signInWithPopup } from "firebase/auth";
 import { auth, provider } from "/src/auth/firebase";
-import BackButton from "/src/components/Button/Back";
+import { setSessionStorage } from "/src/utils/storage";
 import Logo from "/assets/logo.svg";
 import KaKao from "/assets/kakao.png";
 import Naver from "/assets/naver.png";
@@ -24,7 +25,7 @@ const Login = () => {
     cLog("카카오 로그인");
   };
 
-  // TODO: 구글 계정 연동 로그인 구현 (파이어베이스 API 연동)
+  // 구글 계정 연동 로그인 구현
   const handleGoogleLogin = async () => {
     const googleRes = await signInWithPopup(auth, provider);
     const googleUser = googleRes.user;
@@ -45,12 +46,13 @@ const Login = () => {
         nickname: googleUser.displayName,
         profile_image: googleUser.photoURL,
       };
-      sessionStorage.setItem("sns_user", JSON.stringify(setUser));
+
+      setSessionStorage("sns_user", setUser);
       navigate("/user/auth/google/callback");
     }
   };
 
-  // TODO: 네이버 계정 연동 로그인 구현 (네이버 API 연동)
+  // 네이버 계정 연동 로그인 구현
   const handleNaverLogin = () => {
     const { naver } = window;
     const naverLogin = new naver.LoginWithNaverId({
