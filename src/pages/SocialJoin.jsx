@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from "react";
 import NaverCallback from "/src/auth/NaverCallback";
+import JoinAgree from "/src/components/JoinAgree";
+import BackButton from "/src/components/Button/Back";
 import { useNavigate, useParams } from "react-router-dom";
 import { useAuthContext } from "/src/context/AuthContext";
 import { useThemeContext } from "/src/context/ThemeContext";
-import { formatProvider } from "/src/utils/contentFormat";
+import { removeSessionStorage } from "/src/utils/storage";
 import { isEmpty } from "lodash";
-import JoinAgree from "/src/components/JoinAgree";
-import BackButton from "/src/components/Button/Back";
 import Logo from "/assets/logo.svg";
 import "/src/styles/Join.css";
 import { cLog, cError } from "/src/utils/test";
@@ -33,8 +33,9 @@ const SocialJoin = () => {
     if (res) {
       cLog("회원가입에 성공했습니다.");
 
+      removeSessionStorage("sns_user");
+
       const signInUser = {
-        // code: formatProvider(provider),
         code: snsUser.code,
         email: snsUser.email,
         sns_id: snsUser.sns_id,
@@ -59,7 +60,6 @@ const SocialJoin = () => {
 
     const signUpUser = {
       // ...snsUser,
-      // code: formatProvider(provider),
       code: snsUser.code,
       email: snsUser.email,
       sns_id: snsUser.sns_id,
@@ -71,6 +71,7 @@ const SocialJoin = () => {
       is_marketing_agree: agreeValues.marketing,
     };
 
+    // return;
     handleSocialJoin(signUpUser);
   }, [isAgree, agreeValues, provider]);
 
