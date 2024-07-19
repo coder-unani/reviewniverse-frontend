@@ -392,7 +392,7 @@ const Content = () => {
           <Swiper {...crewSwiperConfig(".prev-actor", ".next-actor")}>
             {content.actor.map((actor, index) => (
               <SwiperSlide key={index}>
-                <People crew={actor} formatCode={formatActorRoleCode} key={index} />
+                <People crew={actor} target={"actor"} formatCode={formatActorRoleCode} key={index} />
               </SwiperSlide>
             ))}
           </Swiper>
@@ -414,7 +414,7 @@ const Content = () => {
             <Swiper {...crewSwiperConfig(".prev-staff", ".next-staff")}>
               {content.staff.map((staff, index) => (
                 <SwiperSlide key={index}>
-                  <People crew={staff} formatCode={formatStaffRoleCode} key={index} />
+                  <People crew={staff} target={"staff"} formatCode={formatStaffRoleCode} key={index} />
                 </SwiperSlide>
               ))}
             </Swiper>

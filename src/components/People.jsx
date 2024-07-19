@@ -3,10 +3,10 @@ import { Link } from "react-router-dom";
 import PeopleImage from "/src/components/Button/People/PeopleImage";
 
 const People = (props) => {
-  const { crew, formatCode } = props;
+  const { crew, target, formatCode } = props;
 
   return (
-    <Link to={`/people/${crew.id}`} state={{ people: crew }} className="crew" key={crew.id}>
+    <Link to={`/people/${crew.id}`} state={{ people: crew, target }} className="crew" key={crew.id}>
       <PeopleImage image={crew.picture} size={54} />
       <div className="name-wrapper">
         <span className="name">{crew.name}</span>
