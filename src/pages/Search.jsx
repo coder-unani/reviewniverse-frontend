@@ -71,8 +71,8 @@ const Search = () => {
           "{query}"의 검색결과 {searchVideos.total > 0 && <span>{searchVideos.total}</span>}
         </p>
       </section>
-      {isEmpty(searchVideos.data) ? (
-        <section className="search-contents">
+      <section className="search-contents">
+        {isEmpty(searchVideos.data) ? (
           <div className="empty">
             <img src={DEFAULT_IMAGES.noSearch} alt="검색 결과 없음" />
             <p className="title">
@@ -80,10 +80,10 @@ const Search = () => {
             </p>
             <p className="sub-title">입력한 검색어를 다시 한번 확인해주세요.</p>
           </div>
-        </section>
-      ) : (
-        <Videos videos={searchVideos} handlePage={handlePage} />
-      )}
+        ) : (
+          <Videos videos={searchVideos} handlePage={handlePage} />
+        )}
+      </section>
       {isMobile && isEmpty(query) && <SearchModal />}
     </main>
   );
