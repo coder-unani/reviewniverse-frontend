@@ -33,7 +33,6 @@ const People = () => {
   };
 
   useEffect(() => {
-    console.log(people);
     if (isNaN(peopleId) || isEmpty(people) || isEmpty(target)) navigate("/404-not-found");
   }, []);
 
