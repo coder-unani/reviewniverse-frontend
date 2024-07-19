@@ -78,9 +78,9 @@ const JoinForm = (props) => {
       const client = new HttpClient();
       const res = await client.post(`${API_BASE_URL}/users`, {
         code: "10",
-        nickname: data.nickname,
         email: data.email,
         password: data.password,
+        nickname: data.nickname,
         is_privacy_agree: agreeValues.privacy,
         is_terms_agree: agreeValues.terms,
         is_age_agree: agreeValues.age,
