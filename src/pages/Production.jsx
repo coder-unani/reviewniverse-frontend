@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import Videos from "/src/components/Videos";
 import { useParams, useLocation, useNavigate } from "react-router-dom";
-import { useVideoSearch } from "/src/hooks/useVideoSearch";
+import { useVideosSearch } from "/src/hooks/useVideosSearch";
 import { isEmpty } from "lodash";
 import "/src/styles/Production.css";
 
@@ -17,7 +17,7 @@ const Production = () => {
     data: videosData,
     error: videosError,
     isLoading: videosIsLoading,
-  } = useVideoSearch({
+  } = useVideosSearch({
     query: productionId,
     page,
     mode: "id",

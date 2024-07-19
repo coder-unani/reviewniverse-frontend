@@ -1,7 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
-import { fetchVideoSearch } from "/src/api/videos";
+import { fetchVideosSearch } from "/src/api/videos";
 
-export const useVideoSearch = ({
+export const useVideosSearch = ({
   query = null,
   page = 1,
   size = 20,
@@ -30,7 +30,7 @@ export const useVideoSearch = ({
   return useQuery({
     queryKey: queryKey,
     queryFn: async () => {
-      const res = await fetchVideoSearch({
+      const res = await fetchVideosSearch({
         query,
         page,
         size,

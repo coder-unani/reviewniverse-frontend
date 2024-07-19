@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import Videos from "/src/components/Videos";
 import { useSearchParams } from "react-router-dom";
-import { useVideoSearch } from "/src/hooks/useVideoSearch";
+import { useVideosSearch } from "/src/hooks/useVideosSearch";
 import { isEmpty } from "lodash";
 import "/src/styles/Genre.css";
 
@@ -14,7 +14,7 @@ const Genre = () => {
     data: videosData,
     error: videosError,
     isLoading: videosIsLoading,
-  } = useVideoSearch({
+  } = useVideosSearch({
     query,
     page,
     target: "genre",

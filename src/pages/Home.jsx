@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import VideoPage from "/src/components/VideoPage";
 import { useScreenContents } from "/src/hooks/useScreenContents";
-import { useVideoSearch } from "/src/hooks/useVideoSearch";
+import { useVideosSearch } from "/src/hooks/useVideosSearch";
 import { SCREEN_MAIN_ID } from "/src/config/codes";
 import { VIDEO_ORDER_OPTIONS } from "/src/config/constants";
 import { arrayRandomValue } from "/src/utils/format";
@@ -26,7 +26,7 @@ const Home = () => {
     data: videosData,
     error: videosError,
     isLoading: videosIsLoading,
-  } = useVideoSearch({
+  } = useVideosSearch({
     page,
     orderBy,
     enabled: hasMore,

@@ -5,8 +5,9 @@ import { cLog, cError } from "/src/utils/test";
 const baseURL = settings.API_BASE_URL;
 const endpoints = {
   videos: baseURL + "/v1/contents/videos",
-  videoSearch: baseURL + "/v1/videos",
+  videosSearch: baseURL + "/v1/videos",
   videoDetail: baseURL + "/v1/contents/videos/:videoId",
+  videoDetailSearch: baseURL + "/v1/videos/:videoId",
   videoReviews: baseURL + "/v1/contents/videos/:videoId/reviews",
   videoMyInfo: baseURL + "/v1/contents/videos/:videoId/myinfo",
   videoLike: baseURL + "/v1/contents/videos/:videoId/like",
@@ -67,7 +68,7 @@ export const fetchVideos = async ({
  * - target: 검색 타겟
  * - orderBy: 정렬
  */
-export const fetchVideoSearch = async ({
+export const fetchVideosSearch = async ({
   query = null,
   page = null,
   size = null,
@@ -78,7 +79,7 @@ export const fetchVideoSearch = async ({
 }) => {
   try {
     const client = new HttpClient();
-    const res = await client.get(endpoints.videoSearch, {
+    const res = await client.get(endpoints.videosSearch, {
       ...(query && { q: query }),
       ...(page && { p: page }),
       ...(size && { s: size }),
@@ -98,6 +99,17 @@ export const fetchVideoDetail = async ({ videoId }) => {
     const client = new HttpClient();
     const res = await client.get(endpoints.videoDetail.replace(":videoId", videoId));
     return res.status === 200 ? res.data : [];
+  } catch (error) {
+    cError(error);
+  }
+};
+
+export const fetchVideoDetailSearch = async ({ videoId }) => {
+  try {
+    const client = new HttpClient();
+    const res = await client.get(endpoints.videoDetailSearch.replace(":videoId", videoId));
+    return res.status === 200 ? res.data : [];
+    ç;
   } catch (error) {
     cError(error);
   }
