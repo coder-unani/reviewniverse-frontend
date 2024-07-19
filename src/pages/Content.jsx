@@ -191,11 +191,6 @@ const Content = () => {
 
   // TODO: 리뷰 자세히 보기
 
-  useEffect(() => {
-    if (!content) return;
-    console.log(content);
-  }, [content]);
-
   // 헤더 스타일 변경
   useEffect(() => {
     const header = document.querySelector("header");
