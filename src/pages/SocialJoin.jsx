@@ -39,8 +39,9 @@ const SocialJoin = () => {
         sns_id: snsUser.sns_id,
       };
 
-      const signInRes = await signIn(signInUser);
       removeSessionStorage("sns_user");
+
+      const signInRes = await signIn(signInUser);
       if (signInRes) {
         window.location.href = "/";
       }

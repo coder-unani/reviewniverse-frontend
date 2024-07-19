@@ -36,7 +36,10 @@ export const AuthContextProvider = ({ children }) => {
   const signUp = async (user) => {
     // TODO: validation
     const result = validateSnsUser(user);
-    if (!result.status) cLog(result.message);
+    if (!result.status) {
+      cLog(result.message);
+      window.location.href = "/error";
+    }
 
     try {
       let response;
@@ -47,7 +50,6 @@ export const AuthContextProvider = ({ children }) => {
       }
       if (response.status !== 201) {
         throw new Error("로그인에 실패하였습니다.");
-        z;
       }
       return true;
     } catch (error) {
@@ -60,7 +62,10 @@ export const AuthContextProvider = ({ children }) => {
   const signIn = async (user) => {
     // TODO: validation
     const result = validateSnsUser(user);
-    if (!result.status) cLog(result.message);
+    if (!result.status) {
+      cLog(result.message);
+      window.location.href = "/error";
+    }
 
     try {
       let get_user = null;
