@@ -176,7 +176,7 @@
   align-items: center;
   justify-content: space-between;
   height: 60px;
-  padding: 10px 15px;
+  padding: 10px 30px;
 }
 .header-wrapper .header-search .search {
   flex: 1;
@@ -249,6 +249,9 @@
     padding: 10px 15px;
   }
   .header-wrapper .header-mobile {
+    padding: 10px 15px;
+  }
+  .header-wrapper .header-search {
     padding: 10px 15px;
   }
   .main {
