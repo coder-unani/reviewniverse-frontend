@@ -1,4 +1,3 @@
-// src/firebase.js
 import { initializeApp } from "firebase/app";
 import { getAuth, GoogleAuthProvider } from "firebase/auth";
 
@@ -15,5 +14,9 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const provider = new GoogleAuthProvider();
+
+provider.addScope("openid");
+provider.addScope("https://www.googleapis.com/auth/userinfo.profile");
+provider.addScope("https://www.googleapis.com/auth/userinfo.email");
 
 export { auth, provider };
