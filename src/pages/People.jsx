@@ -4,7 +4,6 @@ import Videos from "/src/components/Videos";
 import { useParams, useLocation, useNavigate } from "react-router-dom";
 import { useVideoSearch } from "/src/hooks/useVideoSearch";
 import { isEmpty } from "lodash";
-import { formatPeopleCode } from "/src/utils/contentFormat";
 import "/src/styles/People.css";
 
 const People = () => {
@@ -12,10 +11,10 @@ const People = () => {
   const { peopleId: id } = useParams();
   const peopleId = parseInt(id);
   const location = useLocation();
-  const people = location.state && location.state.people ? location.state.people : "";
+  const people = location.state && location.state.people ? location.state.people : {};
+  const target = location.state && location.state.target ? location.state.target : "";
   const [videos, setVideos] = useState({});
   const [page, setPage] = useState(1);
-  const target = formatPeopleCode(people.code);
   const {
     data: videosData,
     error: videosError,
@@ -26,7 +25,7 @@ const People = () => {
     mode: "id",
     target,
     orderBy: "release_desc",
-    enabled: !isEmpty(people),
+    enabled: !isEmpty(people) || !isEmpty(target),
   });
 
   const handlePage = (page) => {
@@ -34,7 +33,8 @@ const People = () => {
   };
 
   useEffect(() => {
-    if (isNaN(peopleId) || !people) navigate("/404-not-found");
+    console.log(people);
+    if (isNaN(peopleId) || isEmpty(people) || isEmpty(target)) navigate("/404-not-found");
   }, []);
 
   useEffect(() => {
