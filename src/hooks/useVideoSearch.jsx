@@ -2,7 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 import { fetchVideoSearch } from "/src/api/videos";
 
 export const useVideoSearch = ({
-  query,
+  query = null,
   page = 1,
   size = 20,
   display = null,
@@ -17,7 +17,7 @@ export const useVideoSearch = ({
   const queryKey = [
     "videos",
     {
-      query,
+      ...(query !== null && { query }),
       page,
       size,
       ...(display !== null && { display }),
