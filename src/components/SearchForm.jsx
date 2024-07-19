@@ -1,7 +1,7 @@
 import React, { useEffect, useRef } from "react";
 import { useLocation, useNavigate, useSearchParams } from "react-router-dom";
 import { RiSearchLine } from "@remixicon/react";
-import { recentSaveLoaclStorage, sliceLocalStorage } from "/src/utils/localStorage";
+import { recentSetLoaclStorage, sliceLocalStorage } from "/src/utils/storage";
 
 const SearchForm = () => {
   const location = useLocation();
@@ -22,7 +22,7 @@ const SearchForm = () => {
 
   // 최근 검색어 로컬 스토리지에 저장 (최대 5개)
   const saveKeyword = (keyword) => {
-    recentSaveLoaclStorage("RECENT_SEARCH_KEYWORDS", keyword);
+    recentSetLoaclStorage("RECENT_SEARCH_KEYWORDS", keyword);
     sliceLocalStorage("RECENT_SEARCH_KEYWORDS", 5);
   };
 
