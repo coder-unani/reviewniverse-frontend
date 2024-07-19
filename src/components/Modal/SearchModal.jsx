@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import Modal from "/src/components/Modal";
 import { Link } from "react-router-dom";
 import { isEmpty } from "lodash";
-import { getLocalStorage, clearLocalStorage } from "/src/utils/localStorage";
+import { getLocalStorage, clearLocalStorage } from "/src/utils/storage";
 import "/src/styles/SearchModal.css";
 
 /**
