@@ -69,6 +69,8 @@ export const AuthContextProvider = ({ children }) => {
         } else if (response.status === 400 && response.message.detail === "USER_NOT_FOUND") {
           // TODO: 리턴값 확인
           return false;
+        } else {
+          return false;
         }
       }
       return handleSetUser(get_user, access_token);
