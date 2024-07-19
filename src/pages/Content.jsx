@@ -9,6 +9,7 @@ import ProfileImage from "/src/components/Button/Profile/ProfileImage";
 import { useParams, Link } from "react-router-dom";
 import { useAuthContext } from "/src/context/AuthContext";
 import { useVideoDetail } from "/src/hooks/useVideoDetail";
+import { useVideoDetailSearch } from "/src/hooks/useVideoDetailSearch";
 import { useVideoReviews } from "/src/hooks/useVideoReviews";
 import { useVideoMyInfo } from "/src/hooks/useVideoMyInfo";
 import { useVideoRating } from "/src/hooks/useVideoRating";
@@ -58,7 +59,8 @@ const Content = () => {
   // 사용자 정보
   const { user } = useAuthContext();
   // TODO: 비디오 상세 정보
-  const { data: content, error: contentError, isLoading: contentIsLoading } = useVideoDetail({ videoId });
+  // const { data: content, error: contentError, isLoading: contentIsLoading } = useVideoDetail({ videoId });
+  const { data: content, error: contentError, isLoading: contentIsLoading } = useVideoDetailSearch({ videoId });
   // 비디오 리뷰 목록
   const {
     data: reviews,
@@ -188,6 +190,11 @@ const Content = () => {
   };
 
   // TODO: 리뷰 자세히 보기
+
+  useEffect(() => {
+    if (!content) return;
+    console.log(content);
+  }, [content]);
 
   // 헤더 스타일 변경
   useEffect(() => {
@@ -460,9 +467,9 @@ const Content = () => {
         <div className="swiper-container">
           <Swiper {...gallerySwiperConfig(".prev-gallery", ".next-gallery")}>
             {content.thumbnail.map((image, index) => (
-              <SwiperSlide key={index} onClick={() => togglePhotoModal(image.url)}>
+              <SwiperSlide key={index} onClick={() => togglePhotoModal(image)}>
                 <figure className="photo">
-                  <LazyLoadImage src={image.url} alt="갤러리 이미지" effect="blur" />
+                  <LazyLoadImage src={image} alt="갤러리 이미지" effect="blur" />
                 </figure>
               </SwiperSlide>
             ))}

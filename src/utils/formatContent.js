@@ -23,23 +23,38 @@ export const formatProvider = (provider) => {
 
 // 썸네일 이미지 포맷
 export const formatThumbnail = (images) => {
-  if (!images) return DEFAULT_IMAGES.noImage;
-  if (!images.url) return images;
+  if (isEmpty(images)) return DEFAULT_IMAGES.noImage;
+  if (isEmpty(images.url)) return images;
   return images.url;
 };
-
+/*
 // 배경 이미지 포맷
 export const formatBackgroundImage = (images) => {
   // 썸네일 이미지 배열 중에서 code가 11인 이미지만 렌더링
   const backgroundImage = images?.find((image) => image.code === "11");
   return backgroundImage?.url || DEFAULT_IMAGES.noImage;
 };
+*/
 
+export const formatBackgroundImage = (images) => {
+  if (isEmpty(images)) return DEFAULT_IMAGES.noImage;
+  // images의 2번째 이미지
+  return images[1];
+};
+
+/*
 // 포스터 이미지 포맷
 export const formatPoster = (images) => {
   // 이미지 배열 중에서 code가 10인 이미지만 렌더링
   const thumbnail = images?.find((image) => image.code === "10") ?? images?.find((image) => image.code === "11");
   return thumbnail?.url || DEFAULT_IMAGES.noImage;
+};
+*/
+
+export const formatPoster = (images) => {
+  if (isEmpty(images)) return DEFAULT_IMAGES.noImage;
+  // images의 1번째 이미지
+  return images[0];
 };
 
 /*
