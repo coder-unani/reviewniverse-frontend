@@ -12,7 +12,7 @@
   width: 100%;
   height: 100%;
   background-color: #fff;
-  padding: 15px;
+  padding: 15px 30px;
 }
 .search-modal .search .recent .top {
   display: flex;
@@ -40,4 +40,10 @@
   line-height: 20px;
   white-space: pre-wrap;
   padding: 10px 0;
+}
+
+@media (max-width: 576px) {
+  .search-modal .search {
+    padding: 15px;
+  }
 }
