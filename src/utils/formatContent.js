@@ -118,11 +118,11 @@ export const formatRating = (rating) => {
 // 출연진 역할 코드 포맷
 export const formatActorRoleCode = (code) => {
   const actorType = VIDEO_ACTOR_CODE[code];
-  return actorType || "출연진";
+  return actorType || "출연";
 };
 
 // 제작진 역할 코드 포맷
 export const formatStaffRoleCode = (code) => {
   const staffType = VIDEO_STAFF_CODE[code];
-  return staffType || "제작진";
+  return staffType || "제작";
 };
