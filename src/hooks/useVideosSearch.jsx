@@ -12,7 +12,8 @@ export const useVideosSearch = ({
   enabled = true,
 }) => {
   const STALE_TIME = 1000 * 60 * 5;
-  const CACHE_TIME = 1000 * 60 * 10;
+  // 캐시 시간 30분
+  const CACHE_TIME = 1000 * 60 * 30;
   const RETRY = 1;
   const queryKey = [
     "videos",
