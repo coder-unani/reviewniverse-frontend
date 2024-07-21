@@ -2,6 +2,8 @@ import { isEmpty } from "lodash";
 
 // 날짜 포맷: 어떤 날짜 형식이 들어와도 년도만 반환
 export const formatYear = (date) => {
+  // date null 일 경우
+  if (!date) return "";
   return date.split("-")[0];
 };
 
