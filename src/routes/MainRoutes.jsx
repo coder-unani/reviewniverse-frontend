@@ -85,7 +85,7 @@ const MainRoutes = {
       element: <User />,
     },
     {
-      paht: "/error",
+      path: "/error",
       element: <Error />,
     },
     {
