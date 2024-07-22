@@ -74,7 +74,7 @@ const Search = () => {
       <section className="search-contents">
         {isEmpty(searchVideos.data) ? (
           <div className="empty">
-            <img src={DEFAULT_IMAGES.noSearch} alt="검색 결과 없음" />
+            <img src={DEFAULT_IMAGES.searchNotFound} alt="검색 결과 없음" />
             <p className="title">
               "<em>{query}</em>"에 대한 검색 결과가 없어요.
             </p>
