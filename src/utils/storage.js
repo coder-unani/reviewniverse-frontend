@@ -1,107 +1,40 @@
+import Cookies from "js-cookie";
+
 const endpoints = {
   error: "/error",
+};
+
+// 로컬 스토리지 설정
+export const setLocalStorage = (key, value) => {
+  try {
+    localStorage.setItem(key, value);
+    return true;
+  } catch (e) {
+    window.location.href = endpoints.error;
+  }
 };
 
 // 로컬 스토리지 가져오기
 export const getLocalStorage = (key) => {
   try {
     let data = localStorage.getItem(key);
-    data = data ? JSON.parse(data) : [];
-    data = [...data];
     return data;
-  } catch (e) {
-    window.location.href = endpoints.error;
-  }
-};
-
-// 로컬 스토리지 체크
-export const checkLocalStorage = (key, value) => {
-  try {
-    let data = localStorage.getItem(key);
-    if (!data) return false;
-    data = JSON.parse(data);
-    data = new Set(data);
-    return data.has(value);
-  } catch (e) {
-    window.location.href = endpoints.error;
-  }
-};
-
-// 로컬 스토리지 저장
-export const setLocalStorage = (key, value) => {
-  try {
-    let data = localStorage.getItem(key);
-    data = data ? JSON.parse(data) : [];
-    data = new Set(data);
-    data.add(value);
-    data = [...data];
-    localStorage.setItem(key, JSON.stringify(data));
-  } catch (e) {
-    window.location.href = endpoints.error;
-  }
-};
-
-// 로컬 스토리지 최근순 저장
-export const recentSetLoaclStorage = (key, value) => {
-  try {
-    let data = localStorage.getItem(key);
-    data = data ? JSON.parse(data) : [];
-    data = new Set(data);
-    if (data.has(value)) data.delete(value);
-    data = [value, ...data];
-    localStorage.setItem(key, JSON.stringify(data));
-  } catch (e) {
-    window.location.href = endpoints.error;
-  }
-};
-
-// 로컬 스토리지 원하는 길이만큼 자르기
-export const sliceLocalStorage = (key, length) => {
-  try {
-    let data = localStorage.getItem(key);
-    data = data ? JSON.parse(data) : [];
-    data = data.slice(0, length);
-    localStorage.setItem(key, JSON.stringify(data));
   } catch (e) {
     window.location.href = endpoints.error;
   }
 };
 
 // 로컬 스토리지 삭제
-export const removeItemLocalStorage = (key, value) => {
-  try {
-    let data = localStorage.getItem(key);
-    if (data) {
-      data = JSON.parse(data);
-      data = data.filter((i) => i !== value);
-      localStorage.setItem(key, JSON.stringify(data));
-    }
-  } catch (e) {
-    window.location.href = endpoints.error;
-  }
-};
-
-// 로컬 스토리지 비우기
 export const removeLocalStorage = (key) => {
   try {
     localStorage.removeItem(key);
+    return true;
   } catch (e) {
     window.location.href = endpoints.error;
   }
 };
 
-// 세션 스토리지 가져오기
-export const getSessionStorage = (key) => {
-  try {
-    let data = sessionStorage.getItem(key);
-    data = data ? data : null;
-    return data;
-  } catch (e) {
-    window.location.href = endpoints.error;
-  }
-};
-
-// 세션 스토리지 저장
+// 세션 스토리지 설정
 export const setSessionStorage = (key, value) => {
   try {
     sessionStorage.setItem(key, value);
@@ -111,10 +44,49 @@ export const setSessionStorage = (key, value) => {
   }
 };
 
+// 세션 스토리지 가져오기
+export const getSessionStorage = (key) => {
+  try {
+    let data = sessionStorage.getItem(key);
+    return data;
+  } catch (e) {
+    window.location.href = endpoints.error;
+  }
+};
+
 // 세션 스토리지 삭제
 export const removeSessionStorage = (key) => {
   try {
     sessionStorage.removeItem(key);
+    return true;
+  } catch (e) {
+    window.location.href = endpoints.error;
+  }
+};
+
+// 쿠키 설정
+export const setCookie = (name, value, options = {}) => {
+  try {
+    Cookies.set(name, value, { ...options });
+    return true;
+  } catch (e) {
+    window.location.href = endpoints.error;
+  }
+};
+
+// 쿠키 가져오기
+export const getCookie = (name) => {
+  try {
+    return Cookies.get(name);
+  } catch (e) {
+    window.location.href = endpoints.error;
+  }
+};
+
+// 쿠키 삭제
+export const removeCookie = (name, options = {}) => {
+  try {
+    Cookies.remove(name, { ...options });
     return true;
   } catch (e) {
     window.location.href = endpoints.error;
