@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
+import { useAuthContext } from "/src/context/AuthContext";
 import { useThemeContext } from "/src/context/ThemeContext";
 import MenuModal from "/src/components/Modal/MenuModal";
 import SearchForm from "/src/components/SearchForm";
@@ -10,6 +11,8 @@ import { RiSearchLine, RiMenu3Line } from "@remixicon/react";
 const Header = () => {
   const location = useLocation();
   const navigate = useNavigate();
+  // 로그인 여부
+  const { user } = useAuthContext();
 
   // 메뉴 활성화
   const [activeMenu, setActiveMenu] = useState("");
@@ -19,12 +22,6 @@ const Header = () => {
 
   // 모바일 메뉴 모달
   const [menuModal, setMenuModal] = useState(false);
-
-  // 로그인 여부
-  const [user, setUser] = useState(() => {
-    const storedUser = sessionStorage.getItem("user");
-    return storedUser ? JSON.parse(storedUser) : null;
-  });
 
   /* 데스크탑 */
   // 메뉴 핸들러

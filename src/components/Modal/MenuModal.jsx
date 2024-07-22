@@ -1,6 +1,7 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useRef } from "react";
 import Modal from "/src/components/Modal";
 import ProfileButton from "/src/components/Button/Profile";
+import { useAuthContext } from "/src/context/AuthContext";
 import { Link } from "react-router-dom";
 import { RiCloseLine, RiArrowRightSLine } from "@remixicon/react";
 import { DEFAULT_IMAGES } from "/src/config/constants";
@@ -11,15 +12,9 @@ import "/src/styles/MenuModal.css";
  * 1. 메뉴 애니메이션 추가
  */
 
-const MenuModal = (props) => {
-  const { onClose } = props;
+const MenuModal = ({ onClose }) => {
+  const { user } = useAuthContext();
   const modalRef = useRef();
-
-  // 로그인 여부
-  const [user, setUser] = useState(() => {
-    const storedUser = sessionStorage.getItem("user");
-    return storedUser ? JSON.parse(storedUser) : null;
-  });
 
   // 메뉴 모달 닫기
   const handleCloseButton = () => {
