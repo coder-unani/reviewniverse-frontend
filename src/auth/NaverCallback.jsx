@@ -40,7 +40,7 @@ const NaverCallback = () => {
             profile_image: naverUser.profile_image,
           };
 
-          setSessionStorage("sns_user", snsUser);
+          setSessionStorage("sns_user", JSON.stringify(snsUser));
           navigate("/user/auth/naver/callback");
         }
       } else {

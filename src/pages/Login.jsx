@@ -49,7 +49,7 @@ const Login = () => {
         profile_image: googleUser.photoURL,
       };
 
-      setSessionStorage("sns_user", snsUser);
+      setSessionStorage("sns_user", JSON.stringify(snsUser));
       navigate("/user/auth/google/callback");
     }
   };
