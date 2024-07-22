@@ -5,7 +5,7 @@ import BackButton from "/src/components/Button/Back";
 import { useNavigate, useParams } from "react-router-dom";
 import { useAuthContext } from "/src/context/AuthContext";
 import { useThemeContext } from "/src/context/ThemeContext";
-import { removeSessionStorage } from "/src/utils/storage";
+import { getSessionStorage, removeSessionStorage } from "/src/utils/storage";
 import { isEmpty } from "lodash";
 import Logo from "/assets/logo.svg";
 import "/src/styles/Join.css";
@@ -20,7 +20,7 @@ import { cLog, cError } from "/src/utils/test";
 const SocialJoin = () => {
   const navigate = useNavigate();
   const { user, signUp, signIn } = useAuthContext();
-  const snsUser = JSON.parse(sessionStorage.getItem("sns_user"));
+  const snsUser = getSessionStorage("sns_user");
   const { isMobile } = useThemeContext();
   const { provider } = useParams();
   // 약관 동의 상태
@@ -33,13 +33,13 @@ const SocialJoin = () => {
     if (res) {
       cLog("회원가입에 성공했습니다.");
 
-      const signInUser = {
-        code: snsUser.code,
-        email: snsUser.email,
-        sns_id: snsUser.sns_id,
-      };
-
       removeSessionStorage("sns_user");
+
+      const signInUser = {
+        code: user.code,
+        email: user.email,
+        sns_id: user.sns_id,
+      };
 
       const signInRes = await signIn(signInUser);
       if (signInRes) {
@@ -55,11 +55,9 @@ const SocialJoin = () => {
   }, [user]);
 
   useEffect(() => {
-    // isAgree 값이 true 거나 agreeValues가 존재할 경우 회원가입 진행
-    if (!isAgree || isEmpty(agreeValues) || !provider || user || !snsUser) return;
+    if (user || isEmpty(provider) || isEmpty(snsUser) || !isAgree || isEmpty(agreeValues)) return;
 
     const signUpUser = {
-      // ...snsUser,
       code: snsUser.code,
       email: snsUser.email,
       sns_id: snsUser.sns_id,
@@ -71,11 +69,10 @@ const SocialJoin = () => {
       is_marketing_agree: agreeValues.marketing,
     };
 
-    // return;
     handleSocialJoin(signUpUser);
-  }, [isAgree, agreeValues, provider]);
+  }, [user, snsUser, provider, isAgree, agreeValues]);
 
-  if (provider === "naver" && !snsUser) {
+  if (provider === "naver" && isEmpty(snsUser)) {
     return <NaverCallback />;
   }
 
