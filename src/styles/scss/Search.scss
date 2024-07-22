@@ -34,7 +34,7 @@
     margin-top: 120px;
 
     img {
-      width: 300px;
+      width: 320px;
       height: auto;
       opacity: 0.7;
     }
@@ -84,5 +84,9 @@
 @media (max-width: 576px) {
   .search-contents {
     padding: 12px 0;
+
+    .empty {
+      margin-top: 60px;
+    }
   }
 }
