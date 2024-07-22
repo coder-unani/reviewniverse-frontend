@@ -22,23 +22,25 @@ const NaverCallback = () => {
       if (status) {
         const naverUser = naverLogin.user;
 
-        const snsUser = {
+        const signInUser = {
           code: "15",
           email: naverUser.email,
           sns_id: naverUser.id,
         };
 
-        const res = await signIn(snsUser);
+        const res = await signIn(signInUser);
         if (res) {
           window.location.href = "/";
         } else {
-          const setUser = {
-            ...snsUser,
+          const snsUser = {
+            code: "15",
+            email: naverUser.email,
+            sns_id: naverUser.id,
             nickname: naverUser.nickname,
             profile_image: naverUser.profile_image,
           };
 
-          setSessionStorage("sns_user", setUser);
+          setSessionStorage("sns_user", snsUser);
           navigate("/user/auth/naver/callback");
         }
       } else {
