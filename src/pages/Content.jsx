@@ -59,7 +59,6 @@ const Content = () => {
   // 사용자 정보
   const { user } = useAuthContext();
   // TODO: 비디오 상세 정보
-  // const { data: content, error: contentError, isLoading: contentIsLoading } = useVideoDetail({ videoId });
   const { data: content, error: contentError, isLoading: contentIsLoading } = useVideoDetailSearch({ videoId });
   // 비디오 리뷰 목록
   const {
