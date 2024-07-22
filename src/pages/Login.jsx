@@ -5,7 +5,7 @@ import { useAuthContext } from "/src/context/AuthContext";
 import { useThemeContext } from "/src/context/ThemeContext";
 import { signInWithPopup } from "firebase/auth";
 import { auth, provider } from "/src/auth/firebase";
-import { setSessionStorage } from "/src/utils/storage";
+import { setStorageSnsUser } from "/src/utils/formatStorage";
 import Logo from "/assets/logo.svg";
 import KaKao from "/assets/kakao.png";
 import Naver from "/assets/naver.png";
@@ -49,7 +49,7 @@ const Login = () => {
         profile_image: googleUser.photoURL,
       };
 
-      setSessionStorage("sns_user", JSON.stringify(snsUser));
+      setStorageSnsUser(snsUser);
       navigate("/user/auth/google/callback");
     }
   };

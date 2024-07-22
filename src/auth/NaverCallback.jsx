@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuthContext } from "/src/context/AuthContext";
-import { setSessionStorage } from "/src/utils/storage";
+import { setStorageSnsUser } from "/src/utils/formatStorage";
 import { cError } from "/src/utils/test";
 
 const NaverCallback = () => {
@@ -40,7 +40,7 @@ const NaverCallback = () => {
             profile_image: naverUser.profile_image,
           };
 
-          setSessionStorage("sns_user", JSON.stringify(snsUser));
+          setStorageSnsUser(snsUser);
           navigate("/user/auth/naver/callback");
         }
       } else {

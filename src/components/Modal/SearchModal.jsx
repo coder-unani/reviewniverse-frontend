@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import Modal from "/src/components/Modal";
 import { Link } from "react-router-dom";
 import { isEmpty } from "lodash";
-import { getLocalStorage, removeLocalStorage } from "/src/utils/storage";
+import { getStorageKeyword, removeStorageKeyword } from "/src/utils/formatStorage";
 import "/src/styles/SearchModal.css";
 
 /**
@@ -15,7 +15,7 @@ const SearchModal = () => {
 
   // 최근 검색어 전체 삭제
   const handleClear = () => {
-    removeLocalStorage("RECENT_SEARCH_KEYWORDS");
+    removeStorageKeyword();
     setRecent([]);
   };
 
@@ -42,7 +42,7 @@ const SearchModal = () => {
   };
 
   useEffect(() => {
-    const recentKeywords = getLocalStorage("RECENT_SEARCH_KEYWORDS");
+    const recentKeywords = getStorageKeyword();
     setRecent(recentKeywords);
   }, []);
 

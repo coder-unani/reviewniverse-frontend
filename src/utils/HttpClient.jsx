@@ -1,4 +1,5 @@
 import axios from "axios";
+import { getStorageAccessToken } from "/src/utils/formatStorage";
 
 class HttpClient {
   client = null;
@@ -7,8 +8,8 @@ class HttpClient {
     this.client = axios.create();
     this.client.defaults.headers.common["Content-Type"] = "application/json";
     this.client.defaults.headers.common["Accept"] = "application/json";
-    if (!token && sessionStorage.getItem("access_token")) {
-      token = sessionStorage.getItem("access_token");
+    if (!token && getStorageAccessToken()) {
+      token = getStorageAccessToken();
     }
     if (token) {
       this.client.defaults.headers.common["Authorization"] = `Bearer ${token}`;

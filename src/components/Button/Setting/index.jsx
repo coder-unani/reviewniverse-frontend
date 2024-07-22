@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { removeStorageUser, removeStorageAccessToken } from "/src/utils/formatStorage";
 import { RiSettings2Fill } from "@remixicon/react";
 
 /**
@@ -25,8 +26,8 @@ const SettingButton = () => {
 
   // 로그아웃
   const handleLogoutClick = () => {
-    sessionStorage.removeItem("user");
-    sessionStorage.removeItem("access_token");
+    removeStorageUser();
+    removeStorageAccessToken();
     window.location.href = "/";
   };
 

@@ -5,7 +5,7 @@ import BackButton from "/src/components/Button/Back";
 import { useNavigate, useParams } from "react-router-dom";
 import { useAuthContext } from "/src/context/AuthContext";
 import { useThemeContext } from "/src/context/ThemeContext";
-import { getSessionStorage, removeSessionStorage } from "/src/utils/storage";
+import { getStorageSnsUser, removeStorageSnsUser } from "/src/utils/formatStorage";
 import { isEmpty } from "lodash";
 import Logo from "/assets/logo.svg";
 import "/src/styles/Join.css";
@@ -20,7 +20,7 @@ import { cLog, cError } from "/src/utils/test";
 const SocialJoin = () => {
   const navigate = useNavigate();
   const { user, signUp, signIn } = useAuthContext();
-  const snsUser = getSessionStorage("sns_user") ? JSON.parse(getSessionStorage("sns_user")) : null;
+  const snsUser = getStorageSnsUser();
   const { isMobile } = useThemeContext();
   const { provider } = useParams();
   // 약관 동의 상태
@@ -33,7 +33,7 @@ const SocialJoin = () => {
     if (res) {
       cLog("회원가입에 성공했습니다.");
 
-      removeSessionStorage("sns_user");
+      removeStorageSnsUser();
 
       const signInUser = {
         code: user.code,

@@ -1,6 +1,13 @@
 import React, { createContext, useContext, useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
-import { getSessionStorage, setSessionStorage, removeSessionStorage } from "/src/utils/storage";
+import {
+  getStorageUser,
+  getStorageAccessToken,
+  setStorageUser,
+  setStorageAccessToken,
+  removeStorageUser,
+  removeStorageAccessToken,
+} from "/src/utils/formatStorage";
 import { fetchSignUp, fetchSnsSignUp, fetchSignIn, fetchSnsSignIn } from "/src/api/users";
 import { fetchToken } from "/src/api/token";
 import { validateSnsUser } from "/src/utils/validation";
@@ -10,11 +17,8 @@ const AuthContext = createContext(null);
 
 export const AuthContextProvider = ({ children }) => {
   // 유저 초기화
-  const [user, setUser] = useState(() => {
-    const getUser = getSessionStorage("user");
-    return getUser ? JSON.parse(getUser) : null;
-  });
-  const access_token = getSessionStorage("access_token");
+  const [user, setUser] = useState(getStorageUser());
+  const access_token = getStorageAccessToken();
   const location = useLocation();
 
   useEffect(() => {
@@ -101,8 +105,8 @@ export const AuthContextProvider = ({ children }) => {
 
   const handleSetUser = (user, access_token) => {
     try {
-      setSessionStorage("access_token", access_token);
-      setSessionStorage("user", JSON.stringify(user));
+      setStorageAccessToken(access_token);
+      setStorageUser(user);
       setUser(user);
       return true;
     } catch (error) {
@@ -113,8 +117,8 @@ export const AuthContextProvider = ({ children }) => {
 
   const handleRemoveUser = () => {
     try {
-      removeSessionStorage("user");
-      removeSessionStorage("access_token");
+      removeStorageUser();
+      removeStorageAccessToken();
       setUser(null);
       return true;
     } catch (error) {
