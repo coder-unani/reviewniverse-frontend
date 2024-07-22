@@ -68,7 +68,7 @@ export const sliceLocalStorage = (key, length) => {
 };
 
 // 로컬 스토리지 삭제
-export const removeLocalStorage = (key, value) => {
+export const removeItemLocalStorage = (key, value) => {
   try {
     let data = localStorage.getItem(key);
     if (data) {
@@ -82,7 +82,7 @@ export const removeLocalStorage = (key, value) => {
 };
 
 // 로컬 스토리지 비우기
-export const clearLocalStorage = (key) => {
+export const removeLocalStorage = (key) => {
   try {
     localStorage.removeItem(key);
   } catch (e) {
@@ -94,8 +94,7 @@ export const clearLocalStorage = (key) => {
 export const getSessionStorage = (key) => {
   try {
     let data = sessionStorage.getItem(key);
-    data = data ? JSON.parse(data) : {};
-    data = { ...data };
+    data = data ? data : null;
     return data;
   } catch (e) {
     window.location.href = endpoints.error;
@@ -105,7 +104,7 @@ export const getSessionStorage = (key) => {
 // 세션 스토리지 저장
 export const setSessionStorage = (key, value) => {
   try {
-    sessionStorage.setItem(key, JSON.stringify(value));
+    sessionStorage.setItem(key, value);
     return true;
   } catch (e) {
     window.location.href = endpoints.error;
