@@ -20,7 +20,7 @@ import { cLog, cError } from "/src/utils/test";
 const SocialJoin = () => {
   const navigate = useNavigate();
   const { user, signUp, signIn } = useAuthContext();
-  const snsUser = getSessionStorage("sns_user");
+  const snsUser = getSessionStorage("sns_user") ? JSON.parse(getSessionStorage("sns_user")) : null;
   const { isMobile } = useThemeContext();
   const { provider } = useParams();
   // 약관 동의 상태
