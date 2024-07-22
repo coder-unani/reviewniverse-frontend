@@ -8,8 +8,7 @@ import { RiArrowRightSLine, RiArrowLeftSLine } from "@remixicon/react";
 import { isEmpty } from "lodash";
 import "/src/styles/HVideos.css";
 
-const HVideos = (props) => {
-  const { content } = props;
+const HVideos = ({ content }) => {
   const [videos, setVideos] = useState([]);
 
   // 스와이퍼 설정

@@ -2,8 +2,7 @@ import React, { useRef } from "react";
 import Modal from "/src/components/Modal";
 import "/src/styles/PhotoModal.css";
 
-const PhotoModal = (props) => {
-  const { url, onClose } = props;
+const PhotoModal = ({ url, onClose }) => {
   const modalRef = useRef();
 
   // 이미지 바깥 영역 클릭시 모달 닫기

@@ -14,8 +14,7 @@ import "/src/styles/ReviewModal.css";
  * 1. 리뷰 등록/수정 성공 후 리뷰 업데이트는 어떻게 할 것인지
  */
 
-const ReviewModal = (props) => {
-  const { content, myReview, onClose } = props;
+const ReviewModal = ({ content, myReview, onClose }) => {
   const modalRef = useRef();
   // 리뷰 등록
   const { mutate: reviewCreate } = useReviewCreate();

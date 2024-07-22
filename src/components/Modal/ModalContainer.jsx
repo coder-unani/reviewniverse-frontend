@@ -1,7 +1,6 @@
 import { createPortal } from "react-dom";
 
-const ModalContainer = (props) => {
-  const { children } = props;
+const ModalContainer = ({ children }) => {
   return createPortal(<>{children}</>, document.getElementById("modal"));
 };
 

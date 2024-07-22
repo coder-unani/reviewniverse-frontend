@@ -10,9 +10,7 @@ import { formatRating } from "/src/utils/formatContent";
  * 2. 리뷰 클릭시 리뷰 모달 열기
  */
 
-const Review = (props) => {
-  const { review, isLike, onLikeClick } = props;
-
+const Review = ({ review, isLike, onLikeClick }) => {
   const handleReviewLike = (reviewId) => onLikeClick(reviewId);
 
   return (

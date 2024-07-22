@@ -5,8 +5,7 @@ import { RiCloseLine } from "@remixicon/react";
 import Enjoy from "/assets/enjoy.png";
 import "/src/styles/EnjoyModal.css";
 
-const EnjoyModal = (props) => {
-  const { onClose } = props;
+const EnjoyModal = ({ onClose }) => {
   const modalRef = useRef();
 
   // 모달 바깥 영역 클릭시 모달 닫기

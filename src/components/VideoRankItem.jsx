@@ -5,9 +5,7 @@ import "react-lazy-load-image-component/src/effects/blur.css";
 import { formatYear } from "/src/utils/format";
 import { formatCountry } from "/src/utils/formatContent";
 
-const VideoRankItem = (props) => {
-  const { video, index } = props;
-
+const VideoRankItem = ({ video, index }) => {
   // 랭킹 숫자 포맷
   const formatRankingNumber = (number) => {
     // 숫자 한자리씩 잘라서 배열에 저장

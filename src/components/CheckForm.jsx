@@ -7,9 +7,7 @@ import { useForm } from "react-hook-form";
  * 2. 비밀번호 확인 값 전달
  */
 
-const CheckForm = (props) => {
-  const { setIsPasswordConfirmed } = props;
-
+const CheckForm = ({ setIsPasswordConfirmed }) => {
   const {
     register,
     handleSubmit,

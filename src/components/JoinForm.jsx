@@ -23,8 +23,7 @@ const API_BASE_URL = "https://comet.orbitcode.kr/v1";
  * 4-5. ? 비밀번호 확인 (비밀번호와 동일한지 확인)
  */
 
-const JoinForm = (props) => {
-  const { agreeValues } = props;
+const JoinForm = ({ agreeValues }) => {
   const navigate = useNavigate();
 
   // 회원가입 유효성 검사

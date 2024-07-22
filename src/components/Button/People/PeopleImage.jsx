@@ -4,8 +4,7 @@ import { LazyLoadImage } from "react-lazy-load-image-component";
 import "react-lazy-load-image-component/src/effects/blur.css";
 import "/src/styles/PeopleImage.css";
 
-const PeopleImage = (props) => {
-  const { image, size } = props;
+const PeopleImage = ({ image, size }) => {
   const peopleImage = image || DEFAULT_IMAGES.noActor;
   const style = size ? { width: `${size}px`, height: `${size}px` } : {};
 

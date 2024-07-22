@@ -5,9 +5,7 @@ import "react-lazy-load-image-component/src/effects/blur.css";
 import { formatYear } from "/src/utils/format";
 import { formatThumbnail, formatCountry } from "/src/utils/formatContent";
 
-const VideoItem = (props) => {
-  const { video } = props;
-
+const VideoItem = ({ video }) => {
   return (
     <article className="default-content">
       <Link to={`/contents/${video.id}`}>

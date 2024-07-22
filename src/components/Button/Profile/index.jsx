@@ -3,9 +3,7 @@ import { Link } from "react-router-dom";
 import ProfileImage from "/src/components/Button/Profile/ProfileImage";
 import "/src/styles/ProfileButton.css";
 
-const ProfileButton = (props) => {
-  const { image, user, onClose } = props;
-
+const ProfileButton = ({ image, user, onClose }) => {
   const handleMobileMenuClose = () => {
     onClose?.();
   };

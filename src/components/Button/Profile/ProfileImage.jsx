@@ -2,8 +2,7 @@ import React from "react";
 import { DEFAULT_IMAGES } from "/src/config/constants";
 import "/src/styles/ProfileImage.css";
 
-const ProfileImage = (props) => {
-  const { image, size } = props;
+const ProfileImage = ({ image, size }) => {
   const profileImage = image || DEFAULT_IMAGES.noProfile;
   const style = size ? { width: `${size}px`, height: `${size}px` } : {};
 

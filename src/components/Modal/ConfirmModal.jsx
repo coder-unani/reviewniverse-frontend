@@ -2,8 +2,7 @@ import React, { useRef } from "react";
 import Modal from "/src/components/Modal";
 import "/src/styles/ConfirmModal.css";
 
-const ConfirmModal = (props) => {
-  const { onClose } = props;
+const ConfirmModal = ({ onClose }) => {
   const modalRef = useRef();
 
   // 리뷰 모달 바깥 영역 클릭시 모달 닫기

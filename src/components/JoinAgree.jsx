@@ -11,8 +11,7 @@ import { set } from "lodash";
  * 2. 선택한 약관 동의 전달
  */
 
-const JoinAgree = (props) => {
-  const { setIsAgree, setAgreeValues } = props;
+const JoinAgree = ({ setIsAgree, setAgreeValues }) => {
   const agrees = ["terms", "privacy", "age", "marketing"];
 
   const {
