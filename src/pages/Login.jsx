@@ -30,24 +30,26 @@ const Login = () => {
     const googleRes = await signInWithPopup(auth, provider);
     const googleUser = googleRes.user;
 
-    const snsUser = {
+    const signInUser = {
       code: "11",
       email: googleUser.email,
       sns_id: googleUser.uid,
     };
 
-    const res = await signIn(snsUser);
+    const res = await signIn(signInUser);
     if (res) {
       window.location.href = "/";
     } else {
       // 가입되어 있지 않다면 유저 정보를 가지고 회원가입 페이지로 이동
-      const setUser = {
-        ...snsUser,
+      const snsUser = {
+        code: "11",
+        email: googleUser.email,
+        sns_id: googleUser.uid,
         nickname: googleUser.displayName,
         profile_image: googleUser.photoURL,
       };
 
-      setSessionStorage("sns_user", setUser);
+      setSessionStorage("sns_user", snsUser);
       navigate("/user/auth/google/callback");
     }
   };
@@ -58,7 +60,7 @@ const Login = () => {
     const naverLogin = new naver.LoginWithNaverId({
       clientId: import.meta.env.VITE_NAVER_CLIENT_ID,
       callbackUrl: import.meta.env.VITE_NAVER_CALLBACK_URL,
-      isPopup: false, // 팝업 방식으로 로그인 페이지가 열리도록 설정
+      isPopup: false,
       loginButton: { color: "white", type: 1, height: 60 },
     });
 
