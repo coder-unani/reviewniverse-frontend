@@ -4,7 +4,9 @@ export const DEFAULT_IMAGES = {
   noProfile: "/assets/no-profile.png",
   noActor: "/assets/no-actor.png",
   noImage: "/assets/no-image.png",
-  noSearch: "/assets/no-search.png",
+  searchNotFound: "/assets/search-not-found.png",
+  pageNotFound: "/assets/page-not-found.png",
+  error: "/assets/error.png",
 };
 
 export const VIDEO_ORDER_OPTIONS = [
