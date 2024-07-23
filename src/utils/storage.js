@@ -69,8 +69,8 @@ export const removeSessionStorage = (key) => {
 export const setCookie = (name, value, options = {}) => {
   try {
     const cookieOptions = {
-      secure: false, // HTTPS가 아닌 환경에서도 전송 가능
-      sameSite: "Strict",
+      secure: true,
+      sameSite: "None",
       ...options,
     };
     Cookies.set(name, value, cookieOptions);
@@ -93,7 +93,7 @@ export const getCookie = (name) => {
 export const removeCookie = (name, options = {}) => {
   try {
     const cookieOptions = {
-      sameSite: "Strict",
+      sameSite: "None",
       ...options,
     };
     Cookies.remove(name, cookieOptions);
