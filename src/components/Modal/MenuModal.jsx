@@ -63,7 +63,7 @@ const MenuModal = ({ onClose }) => {
                   홈
                 </Link>
               </li>
-              <li>
+              {/* <li>
                 <Link to="/movie" onClick={handleCloseButton}>
                   영화
                 </Link>
@@ -72,7 +72,7 @@ const MenuModal = ({ onClose }) => {
                 <Link to="/series" onClick={handleCloseButton}>
                   시리즈
                 </Link>
-              </li>
+              </li> */}
             </ul>
           </div>
         </div>
