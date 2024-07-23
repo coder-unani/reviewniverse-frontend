@@ -8,7 +8,6 @@ import ConfirmModal from "/src/components/Modal/ConfirmModal";
 import ProfileImage from "/src/components/Button/Profile/ProfileImage";
 import { useParams, Link } from "react-router-dom";
 import { useAuthContext } from "/src/context/AuthContext";
-import { useVideoDetail } from "/src/hooks/useVideoDetail";
 import { useVideoDetailSearch } from "/src/hooks/useVideoDetailSearch";
 import { useVideoReviews } from "/src/hooks/useVideoReviews";
 import { useVideoMyInfo } from "/src/hooks/useVideoMyInfo";
@@ -434,12 +433,11 @@ const Content = () => {
           <h3>리뷰</h3>
           {content.review_count > 0 && <span>{content.review_count}</span>}
         </div>
-        {reviews.length === 0 && (
+        {isEmpty(reviews) ? (
           <div className="no-review">
             <p>기록된 리뷰가 없습니다. 리뷰를 남겨보세요!</p>
           </div>
-        )}
-        {reviews.length > 0 && (
+        ) : (
           <ul className="reviews">
             {reviews.slice(0, 8).map((review, index) => (
               <li key={index}>
