@@ -1,6 +1,7 @@
 import Cookies from "js-cookie";
 
-// 로컬 환경에서 secure 옵션을 끄는 예제
+const domain = import.meta.env.VITE_MY_DOMAIN;
+const isLocalhost = domain.includes("localhost");
 const endpoints = {
   error: "/error",
 };
@@ -69,8 +70,9 @@ export const removeSessionStorage = (key) => {
 export const setCookie = (name, value, options = {}) => {
   try {
     const cookieOptions = {
-      secure: true,
-      sameSite: "None",
+      secure: !isLocalhost,
+      sameSite: "Strict",
+      domain,
       ...options,
     };
     Cookies.set(name, value, cookieOptions);
@@ -92,7 +94,7 @@ export const getCookie = (name) => {
 // 쿠키 삭제
 export const removeCookie = (name, options = {}) => {
   try {
-    Cookies.remove(name, { ...options });
+    Cookies.remove(name, { sameSite: "Strict", domain, ...options });
     return true;
   } catch (e) {
     window.location.href = endpoints.error;
