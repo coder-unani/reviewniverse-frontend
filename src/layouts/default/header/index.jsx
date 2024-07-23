@@ -72,14 +72,14 @@ const Header = () => {
             <Link to="/">
               <img src={DEFAULT_IMAGES.logo} className="logo" alt="logo" />
             </Link>
-            <ul className="menu">
+            {/* <ul className="menu">
               <li className={activeMenu === "movie" ? "active" : ""} onClick={() => handleMenuClick("movie")}>
                 <Link to="/movie">영화</Link>
               </li>
               <li className={activeMenu === "series" ? "active" : ""} onClick={() => handleMenuClick("series")}>
                 <Link to="/series">시리즈</Link>
               </li>
-            </ul>
+            </ul> */}
           </div>
           <div className="right">
             <SearchForm />
