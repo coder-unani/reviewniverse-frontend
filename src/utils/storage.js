@@ -1,5 +1,6 @@
 import Cookies from "js-cookie";
 
+const domain = import.meta.env.VITE_MY_DOMAIN;
 const endpoints = {
   error: "/error",
 };
@@ -67,7 +68,7 @@ export const removeSessionStorage = (key) => {
 // 쿠키 설정
 export const setCookie = (name, value, options = {}) => {
   try {
-    Cookies.set(name, value, { secure: true, sameSite: "None", ...options });
+    Cookies.set(name, value, { secure: true, sameSite: "None", domain: domain, ...options });
     return true;
   } catch (e) {
     window.location.href = endpoints.error;
@@ -86,7 +87,7 @@ export const getCookie = (name) => {
 // 쿠키 삭제
 export const removeCookie = (name, options = {}) => {
   try {
-    Cookies.remove(name, { secure: true, sameSite: "None", ...options });
+    Cookies.remove(name, { secure: true, sameSite: "None", domain: domain, ...options });
     return true;
   } catch (e) {
     window.location.href = endpoints.error;
