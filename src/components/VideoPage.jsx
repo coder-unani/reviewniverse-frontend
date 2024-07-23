@@ -1,10 +1,14 @@
 import React from "react";
 import HVideos from "/src/components/HVideos";
 import Videos from "/src/components/Videos";
+import { useAuthContext } from "/src/context/AuthContext";
 
 const VideoPage = ({ screens, videos, handlePage }) => {
+  const { user } = useAuthContext();
+
   return (
     <main className="main">
+      <p style={{ wordBreak: "break-all" }}>{JSON.stringify(user)}</p>
       {screens && screens.map((content, index) => <HVideos key={index} content={content} />)}
       {videos && (
         <Videos videos={videos} handlePage={handlePage}>
