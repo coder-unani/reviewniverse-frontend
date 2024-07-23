@@ -1,6 +1,7 @@
 import Cookies from "js-cookie";
+import { settings } from "/src/config/settings";
 
-const domain = import.meta.env.VITE_MY_DOMAIN;
+const domain = settings.COOKIE_DOMAIN;
 const isLocalhost = domain.includes("localhost");
 const endpoints = {
   error: "/error",

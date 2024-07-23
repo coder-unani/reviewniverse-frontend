@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuthContext } from "/src/context/AuthContext";
 import { setStorageSnsUser } from "/src/utils/formatStorage";
+import { settings } from "/src/config/settings";
 import { cError } from "/src/utils/test";
 
 const NaverCallback = () => {
@@ -11,8 +12,8 @@ const NaverCallback = () => {
 
   useEffect(() => {
     const naverLogin = new naver.LoginWithNaverId({
-      clientId: import.meta.env.VITE_NAVER_CLIENT_ID,
-      callbackUrl: import.meta.env.VITE_NAVER_CALLBACK_URL,
+      clientId: settings.NAVER_CLIENT_ID,
+      callbackUrl: settings.NAVER_CALLBACK_URL,
       isPopup: false,
     });
 

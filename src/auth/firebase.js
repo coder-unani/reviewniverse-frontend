@@ -1,14 +1,15 @@
 import { initializeApp } from "firebase/app";
 import { getAuth, GoogleAuthProvider } from "firebase/auth";
+import { settings } from "/src/config/settings";
 
 const firebaseConfig = {
-  apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
-  authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN,
-  projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID,
-  storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET,
-  messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID,
-  appId: import.meta.env.VITE_FIREBASE_APP_ID,
-  measurementId: import.meta.env.VITE_FIREBASE_MEASUREMENT_ID,
+  apiKey: settings.FIREBASE_API_KEY,
+  authDomain: settings.FIREBASE_AUTH_DOMAIN,
+  projectId: settings.FIREBASE_PROJECT_ID,
+  storageBucket: settings.FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: settings.FIREBASE_MESSAGING_SENDER_ID,
+  appId: settings.FIREBASE_APP_ID,
+  measurementId: settings.FIREBASE_MEASUREMENT_ID,
 };
 
 const app = initializeApp(firebaseConfig);

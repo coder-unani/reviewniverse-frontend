@@ -6,6 +6,7 @@ import { useThemeContext } from "/src/context/ThemeContext";
 import { signInWithPopup } from "firebase/auth";
 import { auth, provider } from "/src/auth/firebase";
 import { setStorageSnsUser } from "/src/utils/formatStorage";
+import { settings } from "/src/config/settings";
 import Logo from "/assets/logo.svg";
 import KaKao from "/assets/kakao.png";
 import Naver from "/assets/naver.png";
@@ -58,8 +59,8 @@ const Login = () => {
   const handleNaverLogin = () => {
     const { naver } = window;
     const naverLogin = new naver.LoginWithNaverId({
-      clientId: import.meta.env.VITE_NAVER_CLIENT_ID,
-      callbackUrl: import.meta.env.VITE_NAVER_CALLBACK_URL,
+      clientId: settings.NAVER_CLIENT_ID,
+      callbackUrl: settings.NAVER_CALLBACK_URL,
       isPopup: false,
       loginButton: { color: "white", type: 1, height: 60 },
     });
