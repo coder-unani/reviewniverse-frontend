@@ -128,7 +128,7 @@
   align-items: center;
   height: 40px;
   background-color: #f5f5f7;
-  border-radius: 2px;
+  border-radius: 999px;
   padding: 0 30px 0 10px;
   margin: 0 5%;
 }
@@ -189,7 +189,7 @@
   align-items: center;
   height: 40px;
   background-color: #f5f5f7;
-  border-radius: 2px;
+  border-radius: 999px;
   padding: 0 30px 0 10px;
   margin-right: 10px;
 }
@@ -198,6 +198,7 @@
 }
 .header-wrapper .header-search .search input {
   flex: 1;
+  height: 100%;
   font-size: 15px;
   color: #0c0c0c;
   line-height: 1;
