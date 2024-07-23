@@ -27,6 +27,7 @@ const Search = () => {
   } = useVideosSearch({
     query,
     page,
+    enabled: query,
   });
 
   const handlePage = (page) => {
@@ -62,7 +63,7 @@ const Search = () => {
     }
   }, [page, videosData]);
 
-  if (isEmpty(searchVideos)) return;
+  // if (isEmpty(searchVideos)) return;
 
   return (
     <main className="search-main">
