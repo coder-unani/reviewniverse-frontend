@@ -92,11 +92,7 @@ export const getCookie = (name) => {
 // 쿠키 삭제
 export const removeCookie = (name, options = {}) => {
   try {
-    const cookieOptions = {
-      sameSite: "None",
-      ...options,
-    };
-    Cookies.remove(name, cookieOptions);
+    Cookies.remove(name, { ...options });
     return true;
   } catch (e) {
     window.location.href = endpoints.error;
