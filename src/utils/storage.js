@@ -1,6 +1,6 @@
 import Cookies from "js-cookie";
 
-const domain = import.meta.env.VITE_MY_DOMAIN;
+// 로컬 환경에서 secure 옵션을 끄는 예제
 const endpoints = {
   error: "/error",
 };
@@ -68,7 +68,12 @@ export const removeSessionStorage = (key) => {
 // 쿠키 설정
 export const setCookie = (name, value, options = {}) => {
   try {
-    Cookies.set(name, value, { secure: true, sameSite: "None", domain: domain, ...options });
+    const cookieOptions = {
+      secure: false, // HTTPS가 아닌 환경에서도 전송 가능
+      sameSite: "Strict",
+      ...options,
+    };
+    Cookies.set(name, value, cookieOptions);
     return true;
   } catch (e) {
     window.location.href = endpoints.error;
@@ -87,7 +92,11 @@ export const getCookie = (name) => {
 // 쿠키 삭제
 export const removeCookie = (name, options = {}) => {
   try {
-    Cookies.remove(name, { secure: true, sameSite: "None", domain: domain, ...options });
+    const cookieOptions = {
+      sameSite: "Strict",
+      ...options,
+    };
+    Cookies.remove(name, cookieOptions);
     return true;
   } catch (e) {
     window.location.href = endpoints.error;
