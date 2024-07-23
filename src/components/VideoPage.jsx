@@ -8,7 +8,7 @@ const VideoPage = ({ screens, videos, handlePage }) => {
 
   return (
     <main className="main">
-      <p style={{ wordBreak: "break-all" }}>{JSON.stringify(user)}</p>
+      <p style={{ wordBreak: "break-all" }}>{user ? JSON.stringify(user) : "null"}</p>
       {screens && screens.map((content, index) => <HVideos key={index} content={content} />)}
       {videos && (
         <Videos videos={videos} handlePage={handlePage}>
