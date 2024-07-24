@@ -12,6 +12,7 @@
     height: 100%;
     border: 1px solid rgba(0, 0, 0, 0.05);
     z-index: 10;
+    pointer-events: none;
   }
 
   .lazy-load-image-background {
