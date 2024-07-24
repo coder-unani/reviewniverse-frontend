@@ -10,6 +10,7 @@ import Production from "/src/pages/Production";
 import Login from "/src/pages/Login";
 import Join from "/src/pages/Join";
 import SocialJoin from "/src/pages/SocialJoin";
+import UserFavorite from "/src/pages/UserFavorite";
 import UserFind from "/src/pages/UserFind";
 import ResetPassword from "/src/pages/ResetPassword";
 import User from "/src/pages/User";
@@ -71,6 +72,10 @@ const MainRoutes = {
     {
       path: "/user/auth/:provider/callback",
       element: <SocialJoin />,
+    },
+    {
+      path: "/user/favorite",
+      element: <UserFavorite />,
     },
     {
       path: "/user/find/:type",
