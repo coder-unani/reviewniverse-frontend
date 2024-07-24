@@ -11,7 +11,7 @@ const favorites = [
   {
     id: 2,
     title: "화려한 영상미",
-    subtitle: "눈호강",
+    subtitle: "본격 눈호강",
     image: "/assets/favorite-2.png",
   },
   {
