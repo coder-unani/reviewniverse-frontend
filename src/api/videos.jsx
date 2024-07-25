@@ -6,7 +6,7 @@ const baseURL = settings.API_BASE_URL;
 const endpoints = {
   videos: baseURL + "/v1/videos",
   videoDetail: baseURL + "/v1/videos/:videoId",
-  videoReviews: baseURL + "/v1/contents/videos/:videoId/reviews",
+  videoReviews: baseURL + "/v1/videos/:videoId/reviews",
   videoMyInfo: baseURL + "/v1/contents/videos/:videoId/myinfo",
   videoLike: baseURL + "/v1/contents/videos/:videoId/like",
   videoRating: baseURL + "/v1/contents/videos/:videoId/ratings",
@@ -66,7 +66,7 @@ export const fetchVideoReviews = async ({ videoId, page = null, pageSize = null 
       ...(page && { p: page }),
       ...(pageSize && { ps: pageSize }),
     });
-    return res.status === 200 ? res.data : [];
+    return res;
   } catch (error) {
     cError(error);
   }
