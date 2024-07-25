@@ -7,25 +7,15 @@ export const useReviewUpdate = () => {
 
   return useMutation({
     mutationFn: async (variables) => await fetchReviewUpdate(variables),
-    onSuccess: (data, variables) => {
-      cLog("리뷰가 수정되었습니다.");
-      queryClient.setQueryData(["videoMyInfo", variables.videoId], (prev) => ({
-        ...prev,
-        review: {
-          title: variables.title,
-          is_spoiler: variables.is_spoiler,
-          is_private: variables.is_private,
-        },
-      }));
-      queryClient.setQueryData(["videoReviews", variables.videoId], (prev) => {
-        if (!prev) return prev;
-        const updatedReviews = prev.map((review) =>
-          review.id === variables.reviewId
-            ? { ...review, title: variables.title, is_spoiler: variables.is_spoiler, is_private: variables.is_private }
-            : review
-        );
-        return updatedReviews;
-      });
+    onSuccess: (res, variables) => {
+      if (res.status === 204) {
+        cLog("리뷰가 수정되었습니다.");
+        // 지정된 키를 가진 쿼리를 무효화하여 다시 호출되도록 설정
+        queryClient.invalidateQueries({ queryKey: ["videoMyInfo", variables.videoId] });
+        queryClient.invalidateQueries({ queryKey: ["videoReviews", variables.videoId] });
+      } else {
+        cLog("리뷰 수정에 실패했습니다.");
+      }
     },
     onError: (error) => {
       cError(error);
