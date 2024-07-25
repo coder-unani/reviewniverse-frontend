@@ -216,6 +216,7 @@ const Content = () => {
     };
   }, []);
 
+  // 평가하기 이벤트
   useEffect(() => {
     const emptyRating = emptyRatingRef.current;
     const fillRating = fillRatingRef.current;
