@@ -18,7 +18,7 @@ export const fetchReviewCreate = async ({ videoId, title, is_spoiler = false, is
       is_spoiler,
       is_private,
     });
-    return res.status === 201 ? true : false;
+    return res;
   } catch (error) {
     cError(error);
   }
@@ -32,7 +32,7 @@ export const fetchReviewUpdate = async ({ videoId, reviewId, title, is_spoiler =
       is_spoiler,
       is_private,
     });
-    return res.status === 204 ? true : false;
+    return res;
   } catch (error) {
     cError(error);
   }
@@ -42,7 +42,7 @@ export const fetchReviewDelete = async ({ videoId, reviewId }) => {
   try {
     const client = new HttpClient();
     const res = await client.delete(endpoints.reviewDelete.replace(":videoId", videoId).replace(":reviewId", reviewId));
-    return res.status === 204 ? true : false;
+    return res;
   } catch (error) {
     cError(error);
   }
@@ -52,7 +52,7 @@ export const fetchReviewLike = async ({ videoId, reviewId }) => {
   try {
     const client = new HttpClient();
     const res = await client.post(endpoints.reviewLike.replace(":videoId", videoId).replace(":reviewId", reviewId));
-    return res.status === 200 ? res.data : [];
+    return res;
   } catch (error) {
     cError(error);
   }
