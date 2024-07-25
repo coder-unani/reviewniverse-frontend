@@ -4,10 +4,10 @@ import { cLog, cError } from "/src/utils/test";
 
 const baseURL = settings.API_BASE_URL;
 const endpoints = {
-  reviewCreate: baseURL + "/v1/contents/videos/:videoId/reviews",
-  reviewUpdate: baseURL + "/v1/contents/videos/:videoId/reviews/:reviewId",
-  reviewDelete: baseURL + "/v1/contents/videos/:videoId/reviews/:reviewId",
-  reviewLike: baseURL + "/v1/contents/videos/:videoId/reviews/:reviewId/like",
+  reviewCreate: baseURL + "/v1/videos/:videoId/reviews",
+  reviewUpdate: baseURL + "/v1/videos/:videoId/reviews/:reviewId",
+  reviewDelete: baseURL + "/v1/videos/:videoId/reviews/:reviewId",
+  reviewLike: baseURL + "/v1/videos/:videoId/reviews/:reviewId/like",
 };
 
 export const fetchReviewCreate = async ({ videoId, title, is_spoiler = false, is_private = false }) => {
