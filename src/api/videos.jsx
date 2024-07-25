@@ -7,7 +7,7 @@ const endpoints = {
   videos: baseURL + "/v1/videos",
   videoDetail: baseURL + "/v1/videos/:videoId",
   videoReviews: baseURL + "/v1/videos/:videoId/reviews",
-  videoMyInfo: baseURL + "/v1/contents/videos/:videoId/myinfo",
+  videoMyInfo: baseURL + "/v1/videos/:videoId/myinfo",
   videoLike: baseURL + "/v1/contents/videos/:videoId/like",
   videoRating: baseURL + "/v1/contents/videos/:videoId/ratings",
 };
@@ -76,7 +76,7 @@ export const fetchVideoMyInfo = async ({ videoId }) => {
   try {
     const client = new HttpClient();
     const res = await client.post(endpoints.videoMyInfo.replace(":videoId", videoId));
-    return res.status === 200 ? res.data : [];
+    return res;
   } catch (error) {
     cError(error);
   }
