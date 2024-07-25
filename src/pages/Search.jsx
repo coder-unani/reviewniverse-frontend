@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import Videos from "/src/components/Videos";
 import SearchModal from "/src/components/Modal/SearchModal";
 import { useSearchParams } from "react-router-dom";
-import { useVideosSearch } from "/src/hooks/useVideosSearch";
+import { useVideos } from "/src/hooks/useVideos";
 import { useThemeContext } from "/src/context/ThemeContext";
 import { isEmpty } from "lodash";
 import { DEFAULT_IMAGES } from "/src/config/constants";
@@ -24,7 +24,7 @@ const Search = () => {
     data: videosData,
     error: videosError,
     isLoading: videosIsLoading,
-  } = useVideosSearch({
+  } = useVideos({
     query,
     page,
     enabled: query,

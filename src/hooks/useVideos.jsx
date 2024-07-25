@@ -2,34 +2,28 @@ import { useQuery } from "@tanstack/react-query";
 import { fetchVideos } from "/src/api/videos";
 
 export const useVideos = ({
-  page = 1,
-  pageSize = 20,
-  code = null,
   query = null,
-  videoId = null,
-  actorId = null,
-  staffId = null,
-  genreId = null,
+  page = 1,
+  size = 20,
+  display = null,
+  mode = null,
+  target = null,
   orderBy = null,
   enabled = true,
 }) => {
-  // Custom cache cycle
   const STALE_TIME = 1000 * 60 * 5;
-  const CACHE_TIME = 1000 * 60 * 10;
+  // 캐시 시간 30분
+  const CACHE_TIME = 1000 * 60 * 30;
   const RETRY = 1;
-
-  // queryKey 동적으로 구성
   const queryKey = [
     "videos",
     {
-      page,
-      pageSize,
-      ...(code !== null && { code }),
       ...(query !== null && { query }),
-      ...(videoId !== null && { videoId }),
-      ...(actorId !== null && { actorId }),
-      ...(staffId !== null && { staffId }),
-      ...(genreId !== null && { genreId }),
+      page,
+      size,
+      ...(display !== null && { display }),
+      ...(mode !== null && { mode }),
+      ...(target !== null && { target }),
       ...(orderBy !== null && { orderBy }),
     },
   ];
@@ -44,16 +38,13 @@ export const useVideos = ({
      */
     queryKey: queryKey,
     queryFn: async () => {
-      // API 호출
       const res = await fetchVideos({
-        page,
-        pageSize,
-        code,
         query,
-        videoId,
-        actorId,
-        staffId,
-        genreId,
+        page,
+        size,
+        display,
+        mode,
+        target,
         orderBy,
       });
       /**
@@ -61,12 +52,12 @@ export const useVideos = ({
        */
       return res;
     },
-    enabled: !!enabled,
     /**
      * .env 로 관리할 필요까지는 없고, config/settings.js 정도에서 관리
      * query별로 캐시전략을 다르게 가져갈 수 있으므로 default 하나 만들고 이 파일 상단에서 상수 선언 후 사용
      * custome 하게 사용할 경우 상수에 settings 값 사용 안하고 지금처럼 처리
      */
+    enabled: !!enabled,
     staleTime: STALE_TIME,
     cacheTime: CACHE_TIME,
     retry: RETRY,
