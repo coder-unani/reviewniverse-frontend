@@ -250,7 +250,6 @@ const Content = () => {
         setEnjoyModal(true);
         return;
       }
-
       videoRating({ videoId, rating: fillRatingRef.current.dataset.rating });
     };
 
@@ -263,7 +262,7 @@ const Content = () => {
       emptyRating.removeEventListener("mouseout", handleMouseOut);
       emptyRating.removeEventListener("click", handleClick);
     };
-  }, [content, user, myInfo]);
+  }, [content, user, myInfo, videoRating]);
 
   if (contentIsLoading || reviewsIsLoading || myInfoIsLoading) return null;
 
