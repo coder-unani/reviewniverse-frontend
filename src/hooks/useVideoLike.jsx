@@ -7,12 +7,16 @@ export const useVideoLike = () => {
 
   return useMutation({
     mutationFn: async (variables) => await fetchVideoLike(variables),
-    onSuccess: (data, variables) => {
-      cLog("비디오 좋아요 상태가 변경되었습니다.");
-      queryClient.setQueryData(["videoMyInfo", variables.videoId], (prev) => ({
-        ...prev,
-        is_like: data.data.is_like,
-      }));
+    onSuccess: (res, variables) => {
+      if (res.status === 200) {
+        cLog("비디오 좋아요 상태가 변경되었습니다.");
+        queryClient.setQueryData(["videoMyInfo", variables.videoId], (prev) => ({
+          ...prev,
+          is_like: res.data.data.is_like,
+        }));
+      } else {
+        cLog("비디오 좋아요 상태 변경에 실패했습니다.");
+      }
     },
     onError: (error) => {
       cError(error);
