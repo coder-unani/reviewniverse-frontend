@@ -9,7 +9,7 @@ const endpoints = {
   videoReviews: baseURL + "/v1/videos/:videoId/reviews",
   videoMyInfo: baseURL + "/v1/videos/:videoId/myinfo",
   videoLike: baseURL + "/v1/videos/:videoId/like",
-  videoRating: baseURL + "/v1/contents/videos/:videoId/ratings",
+  videoRating: baseURL + "/v1/videos/:videoId/rating",
 };
 
 // Video List API
@@ -96,7 +96,7 @@ export const fetchVideoRating = async ({ videoId, rating }) => {
   try {
     const client = new HttpClient();
     const res = await client.post(endpoints.videoRating.replace(":videoId", videoId), {}, { rating });
-    return res.status === 204 ? res.code : "";
+    return res;
   } catch (error) {
     cError(error);
   }
