@@ -77,8 +77,7 @@ const Home = () => {
   return (
     <main className="main">
       <p style={{ wordBreak: "break-all" }}>{user ? JSON.stringify(user) : "null"}</p>
-      {!isEmpty(screens.data.data) &&
-        screens.data.data.map((content, index) => <HVideos key={index} content={content} />)}
+      {!isEmpty(screens) && screens.map((content, index) => <HVideos key={index} content={content} />)}
       {!isEmpty(videos) && (
         <Videos videos={videos} handlePage={handlePage}>
           <div className="title-wrapper">
