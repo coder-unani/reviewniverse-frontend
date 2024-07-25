@@ -6,7 +6,7 @@ export const useVideoDetail = ({ videoId }) => {
     queryKey: ["videoDetail", videoId],
     queryFn: async () => {
       const res = await fetchVideoDetail({ videoId });
-      return res.data;
+      return res.status === 200 ? res.data.data : null;
     },
     // TODO: staleTime, cacheTime 변경 (staleTime: 5분, cacheTime: 10분)
     staleTime: 1000 * 60 * 5,

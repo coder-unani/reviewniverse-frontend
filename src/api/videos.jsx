@@ -53,8 +53,7 @@ export const fetchVideoDetail = async ({ videoId }) => {
   try {
     const client = new HttpClient();
     const res = await client.get(endpoints.videoDetail.replace(":videoId", videoId));
-    return res.status === 200 ? res.data : [];
-    ç;
+    return res;
   } catch (error) {
     cError(error);
   }
