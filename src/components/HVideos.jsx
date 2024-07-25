@@ -57,7 +57,7 @@ const HVideos = ({ content }) => {
         </button> */}
       </div>
       <div className="swiper-container">
-        <Swiper {...swiperConfig(`.prev-${content.scn_code}`, `.next-${content.scn_code}`)}>
+        <Swiper {...swiperConfig(`.prev-${content.code}`, `.next-${content.code}`)}>
           {content.content.template === "default"
             ? videos.map((video, index) => (
                 <SwiperSlide key={index}>
@@ -70,10 +70,10 @@ const HVideos = ({ content }) => {
                 </SwiperSlide>
               ))}
         </Swiper>
-        <div className={`swiper-button-prev prev-${content.scn_code}`}>
+        <div className={`swiper-button-prev prev-${content.code}`}>
           <RiArrowLeftSLine size={24} />
         </div>
-        <div className={`swiper-button-next next-${content.scn_code}`}>
+        <div className={`swiper-button-next next-${content.code}`}>
           <RiArrowRightSLine size={24} />
         </div>
       </div>
