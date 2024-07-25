@@ -5,12 +5,12 @@ export const useVideoReviews = ({ videoId, page = null, pageSize = null }) => {
   return useQuery({
     queryKey: ["videoReviews", videoId],
     queryFn: async () => {
-      const response = await fetchVideoReviews({
+      const res = await fetchVideoReviews({
         videoId,
         ...(page !== null && { page }),
         ...(pageSize !== null && { pageSize }),
       });
-      return response.data;
+      return res.status === 200 ? res.data.data : null;
     },
     // TODO: staleTime, cacheTime 변경 (staleTime: 5분, cacheTime: 10분)
     staleTime: 1000 * 60 * 5,
