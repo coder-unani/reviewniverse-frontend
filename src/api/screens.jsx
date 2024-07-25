@@ -13,7 +13,7 @@ export const fetchScreenContents = async ({ code }) => {
     const res = await client.get(endpoints.screens, {
       code,
     });
-    return res.status === 200 ? res.data : [];
+    return res;
   } catch (error) {
     cError(error);
   }
