@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from "react";
-import VideoPage from "/src/components/VideoPage";
+import HVideos from "/src/components/HVideos";
+import Videos from "/src/components/Videos";
+import { useAuthContext } from "/src/context/AuthContext";
 import { useScreenContents } from "/src/hooks/useScreenContents";
-import { useVideosSearch } from "/src/hooks/useVideosSearch";
+import { useVideos } from "/src/hooks/useVideos";
 import { SCREEN_MAIN_ID } from "/src/config/codes";
 import { VIDEO_ORDER_OPTIONS } from "/src/config/constants";
 import { arrayRandomValue } from "/src/utils/format";
@@ -9,6 +11,7 @@ import { isEmpty } from "lodash";
 import "/src/styles/Home.css";
 
 const Home = () => {
+  const { user } = useAuthContext();
   const [page, setPage] = useState(1);
   const [hasMore, setHasMore] = useState(true);
   const [orderBy, setOrderBy] = useState(arrayRandomValue(VIDEO_ORDER_OPTIONS));
@@ -26,7 +29,7 @@ const Home = () => {
     data: videosData,
     error: videosError,
     isLoading: videosIsLoading,
-  } = useVideosSearch({
+  } = useVideos({
     page,
     orderBy,
     enabled: hasMore,
@@ -68,8 +71,23 @@ const Home = () => {
   if (screensError) {
   }
 
+  if (isEmpty(screens) || isEmpty(videos)) return null;
+
   // 데이터 props로 하위 컴포넌트에 전달
-  return <VideoPage screens={screens} videos={videos} handlePage={handlePage} />;
+  return (
+    <main className="main">
+      <p style={{ wordBreak: "break-all" }}>{user ? JSON.stringify(user) : "null"}</p>
+      {!isEmpty(screens.data.data) &&
+        screens.data.data.map((content, index) => <HVideos key={index} content={content} />)}
+      {!isEmpty(videos) && (
+        <Videos videos={videos} handlePage={handlePage}>
+          <div className="title-wrapper">
+            <h2 className="title">주인님 내 새끼 구경 좀 해봐요 🦦</h2>
+          </div>
+        </Videos>
+      )}
+    </main>
+  );
 };
 
 export default Home;
