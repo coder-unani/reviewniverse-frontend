@@ -10,9 +10,10 @@ const Production = () => {
   const { productionId: id } = useParams();
   const productionId = parseInt(id);
   const location = useLocation();
+  // TODO: 고도화 필요
   const name = location.state?.name;
-  const [videos, setVideos] = useState({});
   const [page, setPage] = useState(1);
+  const [videos, setVideos] = useState({ count: 0, page: 1, data: [] });
   const {
     data: videosData,
     error: videosError,
@@ -34,28 +35,20 @@ const Production = () => {
   }, []);
 
   useEffect(() => {
-    if (isEmpty(videosData)) return;
-  }, [productionId, videosData]);
-
-  useEffect(() => {
-    if (isEmpty(videosData)) return;
-    if (videosData.status === 200) {
-      if (page === 1) {
-        setVideos(videosData.data);
-      } else {
-        setVideos((prev) => {
-          return {
-            ...prev,
-            count: videosData.data.count,
-            page: videosData.data.page,
-            data: [...prev.data, ...videosData.data.data],
-          };
-        });
-      }
+    if (!videosData) return;
+    if (page === 1) {
+      setVideos(videosData);
     } else {
-      setVideos({ data: [] });
+      setVideos((prev) => {
+        return {
+          ...prev,
+          count: videosData.count,
+          page: videosData.page,
+          data: [...prev.data, ...videosData.data],
+        };
+      });
     }
-  }, [page, videosData]);
+  }, [videosData, page]);
 
   // TODO: videos가 없으면 not found 페이지로 이동
   if (isEmpty(videos)) return;

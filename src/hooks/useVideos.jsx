@@ -50,7 +50,13 @@ export const useVideos = ({
       /**
        * API를 통해 넘겨받은 데이터 가공이 필요하면 여기서 처리
        */
-      return res;
+      if (res.status === 200) {
+        return res.data;
+      } else if (res.status === 204) {
+        return [];
+      } else {
+        return [];
+      }
     },
     /**
      * .env 로 관리할 필요까지는 없고, config/settings.js 정도에서 관리

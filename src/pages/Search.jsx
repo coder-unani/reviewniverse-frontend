@@ -18,8 +18,8 @@ const Search = () => {
   const { isMobile } = useThemeContext();
   const [searchParams, setSearchParams] = useSearchParams();
   const query = searchParams.get("query");
-  const [searchVideos, setSearchVideos] = useState({});
   const [page, setPage] = useState(1);
+  const [videos, setVideos] = useState({ count: 0, page: 1, data: [] });
   const {
     data: videosData,
     error: videosError,
@@ -37,43 +37,36 @@ const Search = () => {
   useEffect(() => {
     if (!query) return;
     setPage(1);
-    setSearchVideos({});
+    setVideos({ count: 0, page: 1, data: [] });
   }, [query]);
 
   useEffect(() => {
-    if (isEmpty(videosData)) return;
-    if (videosData.status === 200) {
-      if (page === 1) {
-        setSearchVideos(videosData.data);
-      } else {
-        setSearchVideos((prev) => {
-          return {
-            ...prev,
-            count: videosData.data.count,
-            page: videosData.data.page,
-            data: [...prev.data, ...videosData.data.data],
-          };
-        });
-      }
-    } else if (videosData.status === 204) {
-      setSearchVideos({ data: [] });
+    if (!videosData) return;
+    if (page === 1) {
+      setVideos(videosData);
     } else {
-      setSearchVideos({ data: [] });
-      // throw new Error("검색 데이터를 불러오는데 실패했습니다.");
+      setVideos((prev) => {
+        return {
+          ...prev,
+          count: videosData.count,
+          page: videosData.page,
+          data: [...prev.data, ...videosData.data],
+        };
+      });
     }
-  }, [page, videosData]);
+  }, [videosData, page]);
 
-  // if (isEmpty(searchVideos)) return;
+  // if (isEmpty(videos)) return;
 
   return (
     <main className="search-main">
       <section className="search-result">
         <p>
-          "{query}"의 검색결과 {searchVideos.total > 0 && <span>{searchVideos.total}</span>}
+          "{query}"의 검색결과 {videos.total > 0 && <span>{videos.total}</span>}
         </p>
       </section>
       <section className="search-contents">
-        {isEmpty(searchVideos.data) ? (
+        {isEmpty(videos.data) ? (
           <div className="empty">
             <img src={DEFAULT_IMAGES.searchNotFound} alt="검색 결과 없음" />
             <p className="title">
@@ -82,7 +75,7 @@ const Search = () => {
             <p className="sub-title">입력한 검색어를 다시 한번 확인해주세요.</p>
           </div>
         ) : (
-          <Videos videos={searchVideos} handlePage={handlePage} />
+          <Videos videos={videos} handlePage={handlePage} />
         )}
       </section>
       {isMobile && isEmpty(query) && <SearchModal />}

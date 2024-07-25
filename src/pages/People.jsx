@@ -11,10 +11,11 @@ const People = () => {
   const { peopleId: id } = useParams();
   const peopleId = parseInt(id);
   const location = useLocation();
+  // TODO: 고도화 필요
   const people = location.state && location.state.people ? location.state.people : {};
   const target = location.state && location.state.target ? location.state.target : "";
-  const [videos, setVideos] = useState({});
   const [page, setPage] = useState(1);
+  const [videos, setVideos] = useState({ count: 0, page: 1, data: [] });
   const {
     data: videosData,
     error: videosError,
@@ -37,24 +38,20 @@ const People = () => {
   }, []);
 
   useEffect(() => {
-    if (isEmpty(videosData)) return;
-    if (videosData.status === 200) {
-      if (page === 1) {
-        setVideos(videosData.data);
-      } else {
-        setVideos((prev) => {
-          return {
-            ...prev,
-            count: videosData.data.count,
-            page: videosData.data.page,
-            data: [...prev.data, ...videosData.data.data],
-          };
-        });
-      }
+    if (!videosData) return;
+    if (page === 1) {
+      setVideos(videosData);
     } else {
-      setVideos({ data: [] });
+      setVideos((prev) => {
+        return {
+          ...prev,
+          count: videosData.count,
+          page: videosData.page,
+          data: [...prev.data, ...videosData.data],
+        };
+      });
     }
-  }, [page, videosData]);
+  }, [videosData, page]);
 
   if (isEmpty(videos)) return;
 

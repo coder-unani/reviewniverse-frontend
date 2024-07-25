@@ -1,15 +1,16 @@
 import React, { useState, useEffect } from "react";
 import Videos from "/src/components/Videos";
-import { useSearchParams } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import { useVideos } from "/src/hooks/useVideos";
 import { isEmpty } from "lodash";
 import "/src/styles/Genre.css";
 
 const Genre = () => {
+  const navigate = useNavigate();
   const [searchParams, setSearchParams] = useSearchParams();
   const query = searchParams.get("genre");
-  const [videos, setVideos] = useState({});
   const [page, setPage] = useState(1);
+  const [videos, setVideos] = useState({ count: 0, page: 1, data: [] });
   const {
     data: videosData,
     error: videosError,
@@ -33,27 +34,28 @@ const Genre = () => {
     setPage(page);
   };
 
+  // TODO: searchParams가 없을 경우는?(임시조치)
   useEffect(() => {
-    if (isEmpty(videosData)) return;
-    if (videosData.status === 200) {
-      if (page === 1) {
-        setVideos(videosData.data);
-      } else {
-        setVideos((prev) => {
-          return {
-            ...prev,
-            count: videosData.data.count,
-            page: videosData.data.page,
-            data: [...prev.data, ...videosData.data.data],
-          };
-        });
-      }
-    } else {
-      setVideos({ data: [] });
-    }
-  }, [page, videosData]);
+    if (!query) navigate("/404-not-found");
+  }, [query]);
 
-  if (isEmpty(videos)) return;
+  useEffect(() => {
+    if (!videosData) return;
+    if (page === 1) {
+      setVideos(videosData);
+    } else {
+      setVideos((prev) => {
+        return {
+          ...prev,
+          count: videosData.count,
+          page: videosData.page,
+          data: [...prev.data, ...videosData.data],
+        };
+      });
+    }
+  }, [videosData, page]);
+
+  if (isEmpty(videos) || !query) return;
 
   return (
     <main className="genre-main">
