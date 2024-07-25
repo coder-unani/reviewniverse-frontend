@@ -148,6 +148,13 @@ const Content = () => {
     setConfirmModal(!confirmModal);
   };
 
+  // 비디오 평가하기
+  const handleRating = (rating) => {
+    const fillRating = fillRatingRef.current;
+    fillRating.dataset.rating = rating;
+    fillRating.style.width = `${rating * 10}%`;
+  };
+
   // 비디오 좋아요
   const handleLikeButton = async () => {
     if (!user) {
@@ -220,11 +227,10 @@ const Content = () => {
   useEffect(() => {
     const emptyRating = emptyRatingRef.current;
     const fillRating = fillRatingRef.current;
+
     if (!emptyRating || !fillRating) return;
 
-    if (myInfo && myInfo.rating) {
-      fillRating.style.width = `${myInfo.rating * 10}%`;
-    }
+    if (myInfo) handleRating(myInfo.rating || 0);
 
     const width = emptyRating.getBoundingClientRect().width;
 
@@ -232,16 +238,11 @@ const Content = () => {
       const mouseX = e.clientX - emptyRating.getBoundingClientRect().left;
       const ratio = Math.max(0, Math.min(mouseX / width, 1));
       const rating = Math.ceil(ratio * 10);
-      fillRating.dataset.rating = rating;
-      fillRating.style.width = `${rating * 10}%`;
+      handleRating(rating);
     };
 
     const handleMouseOut = () => {
-      if (myInfo && myInfo.rating) {
-        return (fillRating.style.width = `${myInfo.rating * 10}%`);
-      }
-      fillRating.style.width = "0%";
-      fillRating.dataset.rating = "0";
+      handleRating(myInfo && myInfo.rating ? myInfo.rating : 0);
     };
 
     const handleClick = async () => {
@@ -250,7 +251,7 @@ const Content = () => {
         return;
       }
 
-      videoRating({ videoId, rating: fillRatingRef?.current.dataset.rating });
+      videoRating({ videoId, rating: fillRatingRef.current.dataset.rating });
     };
 
     emptyRating.addEventListener("mouseover", handleMouseOver);
