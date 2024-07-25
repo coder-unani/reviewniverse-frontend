@@ -8,7 +8,7 @@ import ConfirmModal from "/src/components/Modal/ConfirmModal";
 import ProfileImage from "/src/components/Button/Profile/ProfileImage";
 import { useParams, Link } from "react-router-dom";
 import { useAuthContext } from "/src/context/AuthContext";
-import { useVideoDetailSearch } from "/src/hooks/useVideoDetailSearch";
+import { useVideoDetail } from "/src/hooks/useVideoDetail";
 import { useVideoReviews } from "/src/hooks/useVideoReviews";
 import { useVideoMyInfo } from "/src/hooks/useVideoMyInfo";
 import { useVideoRating } from "/src/hooks/useVideoRating";
@@ -58,7 +58,7 @@ const Content = () => {
   // 사용자 정보
   const { user } = useAuthContext();
   // TODO: 비디오 상세 정보
-  const { data: content, error: contentError, isLoading: contentIsLoading } = useVideoDetailSearch({ videoId });
+  const { data: content, error: contentError, isLoading: contentIsLoading } = useVideoDetail({ videoId });
   // 비디오 리뷰 목록
   const {
     data: reviews,
