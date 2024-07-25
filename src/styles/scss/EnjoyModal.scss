@@ -15,6 +15,7 @@
     transform: translate(-50%, -50%);
     display: flex;
     flex-direction: column;
+    justify-content: space-between;
     width: 375px;
     height: 540px;
     background-color: #fff;
@@ -40,7 +41,7 @@
     img {
       width: 100%;
       padding: 0 20px;
-      margin-bottom: 40px;
+      margin-bottom: 20px;
     }
 
     p {
@@ -59,8 +60,22 @@
     color: #fff;
     line-height: 48px;
     text-align: center;
-    background-color: #000;
+    // background-color: #000;
+
+    // background: #feac5e;
+    // background: -webkit-linear-gradient(to right, #4bc0c8, #c779d0, #feac5e);
+    // background: linear-gradient(to right, #4bc0c8, #c779d0, #feac5e);
+
+    background: #fc00ff;
+    background: -webkit-linear-gradient(to right, #00dbde, #fc00ff);
+    background: linear-gradient(to right, #00dbde, #fc00ff);
+
+    // background: #12c2e9;
+    // background: -webkit-linear-gradient(to right, #12c2e9, #c471ed, #f64f59);
+    // background: linear-gradient(to right, #12c2e9, #c471ed, #f64f59);
+
     border-radius: 4px;
+    margin-top: 20px;
   }
 
   .join {
