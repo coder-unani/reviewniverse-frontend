@@ -31,7 +31,7 @@ const Videos = ({ videos, handlePage, children }) => {
     }
   }, [videos]);
 
-  if (isEmpty(videos)) return null;
+  if (isEmpty(videos) || isEmpty(videos.data)) return null;
 
   return (
     <section className="videos-wrapper">
