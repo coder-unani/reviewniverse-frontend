@@ -50,10 +50,8 @@ class HttpClient {
     }
   }
 
-  async put(url, data = null, headers = null) {
+  async put(url, data = null) {
     try {
-      if (headers) this.setHeader(headers);
-
       return await this.client
         .put(url, data ? data : {})
         .then((response) => {

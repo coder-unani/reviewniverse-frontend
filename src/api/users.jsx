@@ -89,10 +89,8 @@ export const fetchUser = async ({ userId }) => {
 export const fetchUserUpdate = async ({ userId, updateData }) => {
   try {
     const client = new HttpClient();
-    const headers = {
-      "Content-Type": "multipart/form-data",
-    };
-    const res = await client.put(endpoints.userUpdate.replace(":userId", userId), updateData, headers);
+    client.setHeader({ "Content-Type": "multipart/form-data" });
+    const res = await client.put(endpoints.userUpdate.replace(":userId", userId), updateData);
     return res.status === 200 ? res.data : [];
   } catch (error) {
     cError(error);
