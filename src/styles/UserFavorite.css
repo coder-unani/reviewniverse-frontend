@@ -1,5 +1,6 @@
 .favorite-main {
   min-height: calc(100vh - 80px);
+  background: rgb(248, 248, 248);
   padding-top: 60px;
 }
 
@@ -12,6 +13,7 @@
 .favorite-form {
   border-radius: 6px;
   border: 1px solid rgba(0, 0, 0, 0.1);
+  background-color: #fff;
   padding: 20px;
 }
 .favorite-form > h2 {
