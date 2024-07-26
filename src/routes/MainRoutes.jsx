@@ -66,12 +66,12 @@ const MainRoutes = {
       element: <Login />,
     },
     {
-      path: "/user/join",
-      element: <Join />,
-    },
-    {
       path: "/user/auth/:provider/callback",
       element: <SocialJoin />,
+    },
+    {
+      path: "/user/join",
+      element: <Join />,
     },
     {
       path: "/user/favorite",
