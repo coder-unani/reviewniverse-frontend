@@ -10,25 +10,6 @@ import {
   removeCookie,
 } from "/src/utils/storage";
 
-// SNS 유저 정보 설정
-export const setStorageSnsUser = (sns_user) => {
-  // setSessionStorage("sns_user", JSON.stringify(sns_user));
-  setCookie("sns_user", JSON.stringify(sns_user), { path: "/" });
-};
-
-// SNS 유저 정보 가져오기
-export const getStorageSnsUser = () => {
-  // const getSnsUser = getSessionStorage("sns_user");
-  const getSnsUser = getCookie("sns_user");
-  return getSnsUser ? JSON.parse(getSnsUser) : null;
-};
-
-// SNS 유저 정보 삭제
-export const removeStorageSnsUser = () => {
-  // removeSessionStorage("sns_user");
-  removeCookie("sns_user", { path: "/" });
-};
-
 // 유저 정보 설정
 export const setStorageUser = (user) => {
   // setSessionStorage("user", JSON.stringify(user));
