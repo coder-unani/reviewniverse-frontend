@@ -50,12 +50,14 @@
 }
 .agree-form input {
   margin: 4px;
+  cursor: pointer;
 }
 .agree-form label {
   font-size: 15px;
   color: #0c0c0c;
   line-height: 21px;
   margin-left: 4px;
+  cursor: pointer;
 }
 .agree-form button[type=submit] {
   width: 100%;

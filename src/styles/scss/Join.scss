@@ -58,6 +58,7 @@
 
   input {
     margin: 4px;
+    cursor: pointer;
   }
 
   label {
@@ -65,6 +66,7 @@
     color: #0c0c0c;
     line-height: 21px;
     margin-left: 4px;
+    cursor: pointer;
   }
 
   button[type="submit"] {
