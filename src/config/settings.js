@@ -15,4 +15,6 @@ export const settings = {
   NAVER_CLIENT_ID: import.meta.env.VITE_NAVER_CLIENT_ID,
   NAVER_CLIENT_SECRET: import.meta.env.VITE_NAVER_CLIENT_SECRET,
   NAVER_CALLBACK_URL: import.meta.env.VITE_NAVER_CALLBACK_URL,
+  KAKAO_API_KEY: import.meta.env.VITE_KAKAO_API_KEY,
+  KAKAO_CALLBACK_URL: import.meta.env.VITE_KAKAO_CALLBACK_URL,
 };
