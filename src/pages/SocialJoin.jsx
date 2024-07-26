@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
+import KakaoCallback from "/src/auth/KakaoCallback";
 import NaverCallback from "/src/auth/NaverCallback";
+import GoogleCallback from "/src/auth/GoogleCallback";
 import JoinAgree from "/src/components/JoinAgree";
 import BackButton from "/src/components/Button/Back";
-import { useNavigate, useParams } from "react-router-dom";
 import { useAuthContext } from "/src/context/AuthContext";
 import { useThemeContext } from "/src/context/ThemeContext";
-import { getStorageSnsUser, removeStorageSnsUser } from "/src/utils/formatStorage";
 import { isEmpty } from "lodash";
 import Logo from "/assets/logo.svg";
 import "/src/styles/Join.css";
@@ -19,21 +20,29 @@ import { cLog, cError } from "/src/utils/test";
 
 const SocialJoin = () => {
   const navigate = useNavigate();
-  const { user, signUp, signIn } = useAuthContext();
-  const snsUser = getStorageSnsUser();
-  const { isMobile } = useThemeContext();
   const { provider } = useParams();
-  // 약관 동의 상태
+  const { user, snsUser, setSnsUser, signUp, signIn } = useAuthContext();
+  const { isMobile } = useThemeContext();
   const [isAgree, setIsAgree] = useState(false);
-  // 선택한 약관 동의 값
   const [agreeValues, setAgreeValues] = useState({});
+
+  const renderCallback = () => {
+    switch (provider) {
+      case "kakao":
+        return <KakaoCallback />;
+      case "naver":
+        return <NaverCallback />;
+      case "google":
+        return <GoogleCallback />;
+      default:
+        return navigate("/404-not-found");
+    }
+  };
 
   const handleSocialJoin = async (user) => {
     const res = await signUp(user);
     if (res) {
       cLog("회원가입에 성공했습니다.");
-
-      removeStorageSnsUser();
 
       const signInUser = {
         code: user.code,
@@ -41,21 +50,22 @@ const SocialJoin = () => {
         sns_id: user.sns_id,
       };
 
-      const signInRes = await signIn(signInUser);
-      if (signInRes) {
-        window.location.href = "/";
-      }
+      signIn(signInUser);
     } else {
       cLog("회원가입에 실패했습니다.");
     }
   };
 
   useEffect(() => {
-    if (user) navigate("/");
-  }, [user]);
+    if (!provider) navigate("/404-not-found");
+    if (user) {
+      setSnsUser(null);
+      navigate("/");
+    }
+  }, [provider, user, setSnsUser, navigate]);
 
   useEffect(() => {
-    if (user || isEmpty(provider) || isEmpty(snsUser) || !isAgree || isEmpty(agreeValues)) return;
+    if (!snsUser || !isAgree || isEmpty(agreeValues)) return;
 
     const signUpUser = {
       code: snsUser.code,
@@ -70,21 +80,23 @@ const SocialJoin = () => {
     };
 
     handleSocialJoin(signUpUser);
-  }, [user, snsUser, provider, isAgree, agreeValues]);
-
-  if (provider === "naver" && isEmpty(snsUser)) {
-    return <NaverCallback />;
-  }
+  }, [snsUser, isAgree, agreeValues]);
 
   return (
-    <div className="join-wrapper">
-      {isMobile && <BackButton />}
-      <div className="join-header">
-        <img src={Logo} className="logo" alt="logo" />
-        <h2>SNS 간편 로그인</h2>
-      </div>
-      <JoinAgree setIsAgree={setIsAgree} setAgreeValues={setAgreeValues} />
-    </div>
+    <>
+      {snsUser ? (
+        <div className="join-wrapper">
+          {isMobile && <BackButton />}
+          <div className="join-header">
+            <img src={Logo} className="logo" alt="logo" />
+            <h2>SNS 간편 로그인</h2>
+          </div>
+          <JoinAgree setIsAgree={setIsAgree} setAgreeValues={setAgreeValues} />
+        </div>
+      ) : (
+        renderCallback()
+      )}
+    </>
   );
 };
 
