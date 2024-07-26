@@ -7,6 +7,7 @@ export const DEFAULT_IMAGES = {
   searchNotFound: "/assets/search-not-found.png",
   pageNotFound: "/assets/page-not-found.png",
   error: "/assets/error.png",
+  loading: "/assets/loading.png",
 };
 
 export const VIDEO_ORDER_OPTIONS = [
