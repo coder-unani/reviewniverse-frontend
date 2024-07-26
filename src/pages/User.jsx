@@ -11,6 +11,11 @@ import { formatNumber } from "/src/utils/format";
 import { isEmpty } from "lodash";
 import "/src/styles/User.css";
 
+/**
+ * TODO:
+ * 유저 소개글 pre 태그로 변경
+ */
+
 const User = () => {
   const { userId: id } = useParams();
   const userId = parseInt(id);

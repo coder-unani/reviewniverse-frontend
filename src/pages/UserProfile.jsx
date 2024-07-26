@@ -12,6 +12,7 @@ import "/src/styles/UserProfile.css";
 
 /**
  * TODO:
+ * 소개글 200자 제한
  * 이메일 인증 여부 표시
  * 이메일 인증 기능 추가
  */
