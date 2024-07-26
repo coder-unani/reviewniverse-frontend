@@ -2,7 +2,7 @@ import React, { useRef } from "react";
 import Modal from "/src/components/Modal";
 import { Link } from "react-router-dom";
 import { RiCloseLine } from "@remixicon/react";
-import Enjoy from "/assets/enjoy.png";
+import { DEFAULT_IMAGES } from "/src/config/constants";
 import "/src/styles/EnjoyModal.css";
 
 const EnjoyModal = ({ onClose }) => {
@@ -23,7 +23,7 @@ const EnjoyModal = ({ onClose }) => {
         <div className="enjoy">
           <RiCloseLine size={28} className="close" onClick={handleCloseButton} />
           <div className="content">
-            <img src={Enjoy} alt="enjoy" />
+            <img src={DEFAULT_IMAGES.userLogin} alt="회원 환영 이미지" />
             <p>로그인 후 이용할 수 있어요!</p>
           </div>
           <div className="button-wrapper">
