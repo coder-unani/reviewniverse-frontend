@@ -10,9 +10,7 @@ const endpoints = {
 export const fetchScreenContents = async ({ code }) => {
   try {
     const client = new HttpClient();
-    const res = await client.get(endpoints.screens, {
-      code,
-    });
+    const res = await client.get(endpoints.screens, { code });
     return res;
   } catch (error) {
     cError(error);
