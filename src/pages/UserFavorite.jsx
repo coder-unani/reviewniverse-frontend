@@ -82,7 +82,7 @@ const UserFavorite = () => {
                   <p className="subtitle">{favorite.subtitle}</p>
                   <p className="title">{favorite.title}</p>
                 </div>
-                <button type="button" className="check">
+                <button type="button" className="check" onClick={() => handleFavorite(favorite.id)}>
                   <img src="/assets/check.svg" alt="체크" />
                 </button>
               </section>
