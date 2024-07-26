@@ -4,10 +4,11 @@ export const DEFAULT_IMAGES = {
   noProfile: "/assets/no-profile.png",
   noActor: "/assets/no-actor.png",
   noImage: "/assets/no-image.png",
+  loading: "/assets/loading.png",
   searchNotFound: "/assets/search-not-found.png",
   pageNotFound: "/assets/page-not-found.png",
   error: "/assets/error.png",
-  loading: "/assets/loading.png",
+  userDelete: "/assets/user-delete.png",
 };
 
 export const VIDEO_ORDER_OPTIONS = [
