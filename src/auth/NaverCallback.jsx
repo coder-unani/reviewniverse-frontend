@@ -1,56 +1,60 @@
 import React, { useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { useAuthContext } from "/src/context/AuthContext";
-import { setStorageSnsUser } from "/src/utils/formatStorage";
 import { settings } from "/src/config/settings";
 import { cError } from "/src/utils/test";
+import LoginLoading from "/src/components/LoginLoading";
 
 const NaverCallback = () => {
-  const { signIn } = useAuthContext();
+  const { setSnsUser, signIn } = useAuthContext();
+  const location = useLocation();
   const navigate = useNavigate();
   const { naver } = window;
 
   useEffect(() => {
-    const naverLogin = new naver.LoginWithNaverId({
-      clientId: settings.NAVER_CLIENT_ID,
-      callbackUrl: settings.NAVER_CALLBACK_URL,
-      isPopup: false,
-    });
+    try {
+      const naverLogin = new naver.LoginWithNaverId({
+        clientId: settings.NAVER_CLIENT_ID,
+        callbackUrl: settings.NAVER_CALLBACK_URL,
+        isPopup: false,
+      });
 
-    naverLogin.init();
+      naverLogin.init();
 
-    naverLogin.getLoginStatus(async (status) => {
-      if (status) {
-        const naverUser = naverLogin.user;
+      naverLogin.getLoginStatus(async (status) => {
+        if (status) {
+          const naverUser = naverLogin.user;
 
-        const signInUser = {
-          code: "15",
-          email: naverUser.email,
-          sns_id: naverUser.id,
-        };
-
-        const res = await signIn(signInUser);
-        if (res) {
-          window.location.href = "/";
-        } else {
-          const snsUser = {
+          const signInUser = {
             code: "15",
             email: naverUser.email,
             sns_id: naverUser.id,
-            nickname: naverUser.nickname,
-            profile_image: naverUser.profile_image,
           };
 
-          setStorageSnsUser(snsUser);
-          navigate("/user/auth/naver/callback");
+          const res = await signIn(signInUser);
+          if (res) {
+            // window.location.href = "/";
+          } else {
+            setSnsUser({
+              code: "15",
+              email: naverUser.email,
+              sns_id: naverUser.id,
+              nickname: naverUser.nickname,
+              profile_image: naverUser.profile_image,
+            });
+          }
+        } else {
+          cError("Naver login failed");
         }
-      } else {
-        cError("Naver login failed");
-      }
-    });
-  }, [navigate]);
+      });
+    } catch (error) {
+      cError("Naver login failed");
+      navigate("/user/login");
+    }
+  }, [location]);
 
-  return <div>Loading...</div>;
+  // TODO: 로그인 로딩 화면 구현
+  return <LoginLoading />;
 };
 
 export default NaverCallback;
