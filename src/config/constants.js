@@ -8,6 +8,7 @@ export const DEFAULT_IMAGES = {
   searchNotFound: "/assets/search-not-found.png",
   pageNotFound: "/assets/page-not-found.png",
   error: "/assets/error.png",
+  userLogin: "/assets/user-login.png",
   userDelete: "/assets/user-delete.png",
 };
 
