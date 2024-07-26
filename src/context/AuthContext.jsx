@@ -18,6 +18,7 @@ const AuthContext = createContext(null);
 export const AuthContextProvider = ({ children }) => {
   // 유저 초기화
   const [user, setUser] = useState(getStorageUser());
+  const [snsUser, setSnsUser] = useState(null);
   const access_token = getStorageAccessToken();
   const location = useLocation();
 
@@ -130,6 +131,8 @@ export const AuthContextProvider = ({ children }) => {
   const values = {
     user,
     access_token,
+    snsUser,
+    setSnsUser,
     signUp,
     signIn,
     signOut,
