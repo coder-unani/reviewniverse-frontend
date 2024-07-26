@@ -24,7 +24,7 @@ const EnjoyModal = ({ onClose }) => {
           <RiCloseLine size={28} className="close" onClick={handleCloseButton} />
           <div className="content">
             <img src={Enjoy} alt="enjoy" />
-            <p>로그인이 필요한 기능이에요!</p>
+            <p>로그인 후 이용할 수 있어요!</p>
           </div>
           <div className="button-wrapper">
             <Link to="/user/login" className="login">
