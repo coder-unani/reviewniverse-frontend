@@ -16,7 +16,7 @@ import "/src/styles/Search.css";
 
 const Search = () => {
   const { isMobile } = useThemeContext();
-  const [searchParams, setSearchParams] = useSearchParams();
+  const [searchParams] = useSearchParams();
   const query = searchParams.get("query");
   const [page, setPage] = useState(1);
   const [videos, setVideos] = useState({ count: 0, page: 1, data: [] });
