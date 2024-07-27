@@ -1,13 +1,15 @@
 import React, { useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
+import LoginLoading from "/src/components/LoginLoading";
 import { useAuthContext } from "/src/context/AuthContext";
 import { signInWithPopup } from "firebase/auth";
 import { auth, provider } from "/src/auth/firebase";
-import { cError } from "/src/utils/test";
-import LoginLoading from "/src/components/LoginLoading";
+import { formatProvider } from "/src/utils/formatContent";
+import { MESSAGES } from "/src/config/messages";
+import { cLog, cError } from "/src/utils/test";
 
 const GoogleCallback = () => {
-  const { setSnsUser, signIn } = useAuthContext();
+  const { setSnsUser, login } = useAuthContext();
   const location = useLocation();
   const navigate = useNavigate();
 
@@ -17,28 +19,31 @@ const GoogleCallback = () => {
         const googleRes = await signInWithPopup(auth, provider);
         const googleUser = googleRes.user;
 
-        const signInUser = {
-          code: "11",
+        const loginUser = {
+          code: formatProvider("google"),
           email: googleUser.email,
           sns_id: googleUser.uid,
         };
 
-        // 이미 가입되어 있는 유저라면 로그인 처리
-        const res = await signIn(signInUser);
-        if (res) {
-          // window.location.href = "/";
-        } else {
-          // 가입되어 있지 않다면 유저 정보를 가지고 회원가입 페이지로 이동
-          setSnsUser({
-            code: "11",
-            email: googleUser.email,
-            sns_id: googleUser.uid,
-            nickname: googleUser.displayName,
-            profile_image: googleUser.photoURL,
-          });
+        // 로그인 확인
+        const res = await login(loginUser);
+        if (!res.status) {
+          if (res.code === "L003") {
+            cLog(MESSAGES[res.code]);
+            setSnsUser({
+              code: loginUser.code,
+              email: googleUser.email,
+              sns_id: googleUser.uid,
+              nickname: googleUser.displayName,
+              profile_image: googleUser.photoURL,
+            });
+          } else {
+            cLog(MESSAGES[res.code]);
+            navigate("/user/login");
+          }
         }
       } catch (error) {
-        cError("Google login failed");
+        cLog(MESSAGES["L002"]);
         navigate("/user/login");
       }
     };

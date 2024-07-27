@@ -1,12 +1,14 @@
 import React, { useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useAuthContext } from "/src/context/AuthContext";
-import { settings } from "/src/config/settings";
-import { cError } from "/src/utils/test";
+import { formatProvider } from "/src/utils/formatContent";
+import { SETTINGS } from "/src/config/settings";
+import { MESSAGES } from "/src/config/messages";
+import { cLog, cError } from "/src/utils/test";
 import LoginLoading from "/src/components/LoginLoading";
 
 const NaverCallback = () => {
-  const { setSnsUser, signIn } = useAuthContext();
+  const { setSnsUser, login } = useAuthContext();
   const location = useLocation();
   const navigate = useNavigate();
   const { naver } = window;
@@ -14,8 +16,8 @@ const NaverCallback = () => {
   useEffect(() => {
     try {
       const naverLogin = new naver.LoginWithNaverId({
-        clientId: settings.NAVER_CLIENT_ID,
-        callbackUrl: settings.NAVER_CALLBACK_URL,
+        clientId: SETTINGS.NAVER_CLIENT_ID,
+        callbackUrl: SETTINGS.NAVER_CALLBACK_URL,
         isPopup: false,
       });
 
@@ -25,30 +27,34 @@ const NaverCallback = () => {
         if (status) {
           const naverUser = naverLogin.user;
 
-          const signInUser = {
-            code: "15",
+          const loginUser = {
+            code: formatProvider("naver"),
             email: naverUser.email,
             sns_id: naverUser.id,
           };
 
-          const res = await signIn(signInUser);
-          if (res) {
-            // window.location.href = "/";
-          } else {
-            setSnsUser({
-              code: "15",
-              email: naverUser.email,
-              sns_id: naverUser.id,
-              nickname: naverUser.nickname,
-              profile_image: naverUser.profile_image,
-            });
+          const res = await login(loginUser);
+          if (!res.status) {
+            if (res.code === "L003") {
+              cLog(MESSAGES[res.code]);
+              setSnsUser({
+                code: loginUser.code,
+                email: naverUser.email,
+                sns_id: naverUser.id,
+                nickname: naverUser.nickname,
+                profile_image: naverUser.profile_image,
+              });
+            } else {
+              cLog(MESSAGES[res.code]);
+              navigate("/user/login");
+            }
           }
         } else {
-          cError("Naver login failed");
+          cLog(MESSAGES["L002"]);
         }
       });
     } catch (error) {
-      cError("Naver login failed");
+      cLog(MESSAGES["L002"]);
       navigate("/user/login");
     }
   }, [location]);
