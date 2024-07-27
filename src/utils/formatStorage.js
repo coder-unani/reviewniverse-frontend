@@ -2,9 +2,6 @@ import {
   getLocalStorage,
   setLocalStorage,
   removeLocalStorage,
-  getSessionStorage,
-  setSessionStorage,
-  removeSessionStorage,
   setCookie,
   getCookie,
   removeCookie,
@@ -12,38 +9,32 @@ import {
 
 // 유저 정보 설정
 export const setStorageUser = (user) => {
-  // setSessionStorage("user", JSON.stringify(user));
   setCookie("user", JSON.stringify(user), { path: "/" });
 };
 
 // 유저 정보 가져오기
 export const getStorageUser = () => {
-  // const getUser = getSessionStorage("user");
   const getUser = getCookie("user");
   return getUser ? JSON.parse(getUser) : null;
 };
 
 // 유저 정보 삭제
 export const removeStorageUser = () => {
-  // removeSessionStorage("user");
   removeCookie("user", { path: "/" });
 };
 
 // 액세스 토큰 설정
 export const setStorageAccessToken = (access_token) => {
-  // setSessionStorage("access_token", access_token);
   setCookie("access_token", access_token, { path: "/" });
 };
 
 // 액세스 토큰 가져오기
 export const getStorageAccessToken = () => {
-  // return getSessionStorage("access_token");
   return getCookie("access_token");
 };
 
 // 액세스 토큰 삭제
 export const removeStorageAccessToken = () => {
-  // removeSessionStorage("access_token");
   removeCookie("access_token", { path: "/" });
 };
 
