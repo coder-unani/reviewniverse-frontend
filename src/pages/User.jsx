@@ -8,7 +8,6 @@ import { LazyLoadImage } from "react-lazy-load-image-component";
 import "react-lazy-load-image-component/src/effects/blur.css";
 import { DEFAULT_IMAGES } from "/src/config/constants";
 import { formatNumber } from "/src/utils/format";
-import { isEmpty } from "lodash";
 import "/src/styles/User.css";
 
 /**
@@ -30,39 +29,42 @@ const User = () => {
     }
   }, [userId]);
 
-  if (userIsLoading) return;
+  if (userIsLoading) {
+  }
 
   return (
     <main className="user-main">
       <div className="user-wrapper">
-        <div className="user">
-          <section className="user-info">
-            {isLogin && <SettingButton />}
-            <figure className="background">
-              <LazyLoadImage src={DEFAULT_IMAGES.noImage} alt="배경 이미지" effect="blur" />
-            </figure>
-            <div className="user-profile">
-              <ProfileImage image={userData.profile_image} size={100} />
-              <h1 className="nickname">{userData.nickname}</h1>
-              {userData.profile_text && <p className="introduction">{userData.profile_text}</p>}
-            </div>
-            <div className="user-contents">
-              <Link to="">
-                <p className="count">{formatNumber(userData.rating_count)}</p>
-                <p className="count-label">평가</p>
-              </Link>
-              <Link to="">
-                <p className="count">{formatNumber(userData.review_count)}</p>
-                <p className="count-label">리뷰</p>
-              </Link>
-              <Link to="">
-                <p className="count">{formatNumber(userData.like_count)}</p>
-                <p className="count-label">좋아요</p>
-              </Link>
-            </div>
-          </section>
-          <section className="storage"></section>
-        </div>
+        {userData && (
+          <div className="user">
+            <section className="user-info">
+              {isLogin && <SettingButton />}
+              <figure className="background">
+                <LazyLoadImage src={DEFAULT_IMAGES.noImage} alt="배경 이미지" effect="blur" />
+              </figure>
+              <div className="user-profile">
+                <ProfileImage image={userData.profile_image} size={100} />
+                <h1 className="nickname">{userData.nickname}</h1>
+                {userData.profile_text && <p className="introduction">{userData.profile_text}</p>}
+              </div>
+              <div className="user-contents">
+                <Link to="">
+                  <p className="count">{formatNumber(userData.rating_count)}</p>
+                  <p className="count-label">평가</p>
+                </Link>
+                <Link to="">
+                  <p className="count">{formatNumber(userData.review_count)}</p>
+                  <p className="count-label">리뷰</p>
+                </Link>
+                <Link to="">
+                  <p className="count">{formatNumber(userData.like_count)}</p>
+                  <p className="count-label">좋아요</p>
+                </Link>
+              </div>
+            </section>
+            <section className="storage"></section>
+          </div>
+        )}
       </div>
     </main>
   );
