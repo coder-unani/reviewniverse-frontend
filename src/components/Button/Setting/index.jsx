@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { removeStorageUser, removeStorageAccessToken } from "/src/utils/formatStorage";
+import { useAuthContext } from "/src/context/AuthContext";
+import { MESSAGES } from "/src/config/messages";
 import { RiSettings2Fill } from "@remixicon/react";
 
 /**
@@ -14,6 +15,7 @@ const SettingButton = () => {
   const [menuModal, isMenuModal] = useState(false);
   const menuRef = useRef();
   const navigate = useNavigate();
+  const { logout } = useAuthContext();
 
   const toggleMenuModal = () => {
     isMenuModal(!menuModal);
@@ -25,11 +27,13 @@ const SettingButton = () => {
   };
 
   // 로그아웃
-  // TODO: useAuthContext에서 로그아웃 함수 호출
-  const handleLogoutClick = () => {
-    removeStorageUser();
-    removeStorageAccessToken();
-    window.location.href = "/";
+  const handleLogoutClick = async () => {
+    const res = await logout();
+    if (res.status) {
+      navigate("/");
+    } else {
+      cLog(MESSAGES[res.code]);
+    }
   };
 
   // 회원탈퇴
