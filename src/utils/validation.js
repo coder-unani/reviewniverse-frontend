@@ -6,34 +6,46 @@ import { USER_CODE } from "/src/config/codes";
  * - 로그인 validation
  */
 
-export const validateSnsUser = (user) => {
-  let result = {
-    status: true,
-    message: "",
-  };
-
+export const validateUser = (user) => {
   if (!USER_CODE.hasOwnProperty(user.code)) {
-    return (result = {
+    return {
       status: false,
-      message: "INVALID_USER_CODE",
-    });
+      code: "U002",
+    };
   }
 
   if (!isValidEmail(user.email)) {
-    return (result = {
+    return {
       status: false,
-      message: "INVALID_USER_EMAIL",
-    });
+      code: "U003",
+    };
   }
 
-  if (!user.sns_id) {
-    return (result = {
-      status: false,
-      message: "INVALID_USER_SNS_ID",
-    });
+  if (user.code === "10") {
+    if (!user.password) {
+      return {
+        status: false,
+        code: "U004",
+      };
+    }
+  } else {
+    if (!user.sns_id) {
+      return {
+        status: false,
+        code: "U005",
+      };
+    }
   }
 
-  return result;
+  return {
+    status: true,
+    code: "U001",
+  };
+};
+
+// provider value 유효성 검증 함수
+export const isValidProvider = (provider) => {
+  return Object.values(USER_CODE).includes(provider);
 };
 
 // 이메일 형식 검증 함수
