@@ -1,13 +1,11 @@
 import HttpClient from "/src/utils/HttpClient";
-import { settings } from "/src/config/settings";
+import { SETTINGS } from "/src/config/settings";
 import { cLog, cError } from "/src/utils/test";
 
-const baseURL = settings.API_BASE_URL;
+const baseURL = SETTINGS.API_BASE_URL;
 const endpoints = {
-  signin: baseURL + "/v1/users/signin",
-  snsSignin: baseURL + "/v1/users/sns/signin",
-  signup: baseURL + "/v1/users",
-  snsSignup: baseURL + "/v1/users/sns/signup",
+  login: baseURL + "/v1/users/login",
+  join: baseURL + "/v1/users",
   users: baseURL + "/v1/users",
   user: baseURL + "/v1/users/:userId",
   userUpdate: baseURL + "/v1/users/:userId",
@@ -15,27 +13,14 @@ const endpoints = {
 };
 
 // 회원 로그인
-export const fetchSignIn = async ({ email, password }) => {
+export const fetchLogin = async ({ user }) => {
   try {
     const client = new HttpClient();
-    const res = await client.post(endpoints.signin, {
-      code: "10",
-      email,
-      password,
-    });
-    return res;
-  } catch (error) {
-    cError(error);
-  }
-};
-
-export const fetchSnsSignIn = async ({ code, email, sns_id }) => {
-  try {
-    const client = new HttpClient();
-    const res = await client.post(endpoints.snsSignin, {
-      code,
-      email,
-      sns_id,
+    const res = await client.post(endpoints.login, {
+      code: user.code,
+      email: user.email,
+      ...(user.password && { password: user.password }),
+      ...(user.sns_id && { sns_id: user.sns_id }),
     });
     return res;
   } catch (error) {
@@ -44,20 +29,10 @@ export const fetchSnsSignIn = async ({ code, email, sns_id }) => {
 };
 
 // 회원 가입
-export const fetchSignUp = async (user) => {
+export const fetchJoin = async (user) => {
   try {
     const client = new HttpClient();
-    const res = await client.post(endpoints.signup, { ...user });
-    return res;
-  } catch (error) {
-    cError(error);
-  }
-};
-
-export const fetchSnsSignUp = async (user) => {
-  try {
-    const client = new HttpClient();
-    const res = await client.post(endpoints.snsSignup, { ...user });
+    const res = await client.post(endpoints.join, { ...user });
     return res;
   } catch (error) {
     cError(error);
