@@ -20,14 +20,18 @@ const User = () => {
   const userId = parseInt(id);
   const { user } = useAuthContext();
   const [isLogin, setIsLogin] = useState(false);
-  const { data: userData, error: userError, isLoading: userIsLoading } = useUser({ userId });
+  const { mutate, data: userData, error: userError, isLoading: userIsLoading } = useUser({ userId });
 
   useEffect(() => {
+    mutate();
+
     // 로그인한 유저가 있다면 userId와 로그인한 유저가 같은지 확인
     if (user && user.id === userId) {
       setIsLogin(true);
+    } else {
+      setIsLogin(false);
     }
-  }, [userId]);
+  }, [mutate, userId]);
 
   if (userIsLoading) {
   }

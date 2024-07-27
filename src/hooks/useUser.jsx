@@ -1,15 +1,24 @@
-import { useQuery } from "@tanstack/react-query";
+import { useNavigate } from "react-router-dom";
+import { useMutation } from "@tanstack/react-query";
 import { fetchUser } from "/src/api/users";
 
 export const useUser = ({ userId }) => {
-  return useQuery({
-    queryKey: ["user", userId],
-    queryFn: async () => {
+  const navigate = useNavigate();
+
+  return useMutation({
+    mutationFn: async () => {
       const res = await fetchUser({ userId });
-      return res.status === 200 ? res.data.user : null;
+      if (res.status === 200) {
+        return res.data.user;
+      } else if (res.status === 404) {
+        if (res.message.detail === "USER_NOT_FOUND") {
+          return null;
+        } else {
+          navigate("/error");
+        }
+      } else {
+        navigate("/error");
+      }
     },
-    // staleTime: 1000 * 60 * 5,
-    // cacheTime: 1000 * 60 * 10,
-    retry: 1,
   });
 };
