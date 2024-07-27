@@ -1,13 +1,13 @@
-import { settings } from "/src/config/settings";
+import { SETTINGS } from "/src/config/settings";
 
 export const cLog = (...args) => {
-  if (settings.DEBUG) {
+  if (SETTINGS.DEBUG) {
     console.log(...args);
   }
 };
 
 export const cError = (...args) => {
-  if (settings.DEBUG) {
+  if (SETTINGS.DEBUG) {
     console.error(...args);
   }
 };

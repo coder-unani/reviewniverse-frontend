@@ -1,7 +1,7 @@
 import Cookies from "js-cookie";
-import { settings } from "/src/config/settings";
+import { SETTINGS } from "/src/config/settings";
 
-const domain = settings.COOKIE_DOMAIN;
+const domain = SETTINGS.COOKIE_DOMAIN;
 const isLocalhost = domain.includes("localhost");
 const endpoints = {
   error: "/error",

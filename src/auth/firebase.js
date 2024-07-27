@@ -1,15 +1,15 @@
 import { initializeApp } from "firebase/app";
 import { getAuth, GoogleAuthProvider } from "firebase/auth";
-import { settings } from "/src/config/settings";
+import { SETTINGS } from "/src/config/settings";
 
 const firebaseConfig = {
-  apiKey: settings.FIREBASE_API_KEY,
-  authDomain: settings.FIREBASE_AUTH_DOMAIN,
-  projectId: settings.FIREBASE_PROJECT_ID,
-  storageBucket: settings.FIREBASE_STORAGE_BUCKET,
-  messagingSenderId: settings.FIREBASE_MESSAGING_SENDER_ID,
-  appId: settings.FIREBASE_APP_ID,
-  measurementId: settings.FIREBASE_MEASUREMENT_ID,
+  apiKey: SETTINGS.FIREBASE_API_KEY,
+  authDomain: SETTINGS.FIREBASE_AUTH_DOMAIN,
+  projectId: SETTINGS.FIREBASE_PROJECT_ID,
+  storageBucket: SETTINGS.FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: SETTINGS.FIREBASE_MESSAGING_SENDER_ID,
+  appId: SETTINGS.FIREBASE_APP_ID,
+  measurementId: SETTINGS.FIREBASE_MEASUREMENT_ID,
 };
 
 const app = initializeApp(firebaseConfig);

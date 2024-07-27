@@ -1,8 +1,8 @@
 import HttpClient from "/src/utils/HttpClient";
-import { settings } from "/src/config/settings";
+import { SETTINGS } from "/src/config/settings";
 import { cLog, cError } from "/src/utils/test";
 
-const baseURL = settings.API_BASE_URL;
+const baseURL = SETTINGS.API_BASE_URL;
 const endpoints = {
   token: baseURL + "/v1/token",
 };

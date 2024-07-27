@@ -1,5 +1,5 @@
 // APP 설정 파일
-export const settings = {
+export const SETTINGS = {
   DEBUG: import.meta.env.VITE_DEBUG === "true",
   API_BASE_URL: "https://comet.orbitcode.kr",
   COOKIE_DOMAIN: import.meta.env.VITE_COOKIE_DOMAIN,

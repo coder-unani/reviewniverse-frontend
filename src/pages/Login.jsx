@@ -3,7 +3,7 @@ import BackButton from "/src/components/Button/Back";
 import { useNavigate } from "react-router-dom";
 import { useAuthContext } from "/src/context/AuthContext";
 import { useThemeContext } from "/src/context/ThemeContext";
-import { settings } from "/src/config/settings";
+import { SETTINGS } from "/src/config/settings";
 import Logo from "/assets/logo.svg";
 import KaKao from "/assets/kakao.png";
 import Naver from "/assets/naver.png";
@@ -19,7 +19,7 @@ const Login = () => {
 
   // TODO: 카카오 계정 연동 로그인 구현 (카카오디펠롭퍼스 API 연동)
   const handleKakaoLogin = () => {
-    window.location.href = `https://kauth.kakao.com/oauth/authorize?client_id=${settings.KAKAO_API_KEY}&redirect_uri=${settings.KAKAO_CALLBACK_URL}&response_type=code`;
+    window.location.href = `https://kauth.kakao.com/oauth/authorize?client_id=${SETTINGS.KAKAO_API_KEY}&redirect_uri=${SETTINGS.KAKAO_CALLBACK_URL}&response_type=code`;
   };
 
   // 구글 계정 연동 로그인 구현
@@ -31,8 +31,8 @@ const Login = () => {
   const handleNaverLogin = () => {
     const { naver } = window;
     const naverLogin = new naver.LoginWithNaverId({
-      clientId: settings.NAVER_CLIENT_ID,
-      callbackUrl: settings.NAVER_CALLBACK_URL,
+      clientId: SETTINGS.NAVER_CLIENT_ID,
+      callbackUrl: SETTINGS.NAVER_CALLBACK_URL,
       isPopup: false,
       loginButton: { color: "white", type: 1, height: 60 },
     });
