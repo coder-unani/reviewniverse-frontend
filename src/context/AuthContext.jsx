@@ -8,32 +8,40 @@ import {
   removeStorageUser,
   removeStorageAccessToken,
 } from "/src/utils/formatStorage";
-import { fetchLogin, fetchJoin } from "/src/api/users";
+import { fetchJoin, fetchLogin } from "/src/api/users";
 import { fetchToken } from "/src/api/token";
 import { validateUser } from "/src/utils/validation";
+import { MESSAGES } from "/src/config/messages";
 import { cLog, cError } from "/src/utils/test";
 
 const AuthContext = createContext(null);
 
 export const AuthContextProvider = ({ children }) => {
   const navigate = useNavigate();
-  // 유저 초기화
+  const location = useLocation();
   const [user, setUser] = useState(getStorageUser());
   const [snsUser, setSnsUser] = useState(null);
-  const access_token = getStorageAccessToken();
-  const location = useLocation();
 
   useEffect(() => {
+    const access_token = getStorageAccessToken();
     if (!user || !access_token) return;
 
-    // 토큰 검증
     const verifyToken = async () => {
-      let isVerified = false;
       if (access_token) {
-        isVerified = await fetchToken(access_token);
-      }
-      if (!isVerified) {
-        handleRemoveUser();
+        const res = await fetchToken(access_token);
+        if (res.status === 200) {
+          if (handleSetUser({ accessToken: res.data.access_token })) {
+            // cLog(MESSAGES.T001);
+          } else {
+            cLog(MESSAGES.T003);
+          }
+        } else {
+          if (handleRemoveUser()) {
+            cLog(MESSAGES.T002);
+          } else {
+            cLog(MESSAGES.T004);
+          }
+        }
       }
     };
     verifyToken();
@@ -87,9 +95,6 @@ export const AuthContextProvider = ({ children }) => {
   // 로그인
   const login = async (user) => {
     try {
-      let getUser = null;
-      let accessToken = null;
-
       const result = validateUser(user);
       if (!result.status) {
         return {
@@ -100,10 +105,7 @@ export const AuthContextProvider = ({ children }) => {
 
       const res = await fetchLogin({ user });
       if (res.status === 200) {
-        // 로그인 성공
-        getUser = res.data.user;
-        accessToken = res.data.access_token;
-        if (handleSetUser(getUser, accessToken)) {
+        if (handleSetUser({ user: res.data.user, accessToken: res.data.access_token })) {
           return {
             status: true,
             code: "L001",
@@ -115,7 +117,6 @@ export const AuthContextProvider = ({ children }) => {
           };
         }
       } else if (res.status === 400) {
-        // validation(입력값 검증)
         if (res.message.detail === "USER_NOT_FOUND") {
           return {
             status: false,
@@ -128,7 +129,6 @@ export const AuthContextProvider = ({ children }) => {
           };
         }
       } else if (res.status === 401) {
-        // verify(인증 검증), 로그인 실패
         return {
           status: false,
           code: "L002",
@@ -156,11 +156,15 @@ export const AuthContextProvider = ({ children }) => {
     }
   };
 
-  const handleSetUser = (user, accessToken) => {
+  const handleSetUser = ({ user = null, accessToken = null }) => {
     try {
-      setStorageAccessToken(accessToken);
-      setStorageUser(user);
-      setUser(user);
+      if (accessToken) {
+        setStorageAccessToken(accessToken);
+      }
+      if (user) {
+        setStorageUser(user);
+        setUser(user);
+      }
       return true;
     } catch (error) {
       cError(error);
@@ -170,8 +174,8 @@ export const AuthContextProvider = ({ children }) => {
 
   const handleRemoveUser = () => {
     try {
-      removeStorageUser();
       removeStorageAccessToken();
+      removeStorageUser();
       setUser(null);
       return true;
     } catch (error) {
@@ -182,7 +186,6 @@ export const AuthContextProvider = ({ children }) => {
 
   const values = {
     user,
-    access_token,
     snsUser,
     setSnsUser,
     join,
