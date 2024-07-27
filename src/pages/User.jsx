@@ -30,7 +30,7 @@ const User = () => {
     }
   }, [userId]);
 
-  if (isEmpty(userData)) return null;
+  if (userIsLoading) return;
 
   return (
     <main className="user-main">
