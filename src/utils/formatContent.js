@@ -10,15 +10,8 @@ export const formatUserCode = (code) => {
 
 // provider 포맷
 export const formatProvider = (provider) => {
-  const providerCode = {
-    email: "10",
-    google: "11",
-    facebook: "12",
-    apple: "13",
-    kakao: "14",
-    naver: "15",
-  };
-  return providerCode[provider] || "10";
+  const providerCode = Object.keys(USER_CODE).find((key) => USER_CODE[key] === provider);
+  return providerCode || "";
 };
 
 // 썸네일 이미지 포맷
@@ -27,14 +20,6 @@ export const formatThumbnail = (images) => {
   if (isEmpty(images.url)) return images;
   return images.url;
 };
-/*
-// 배경 이미지 포맷
-export const formatBackgroundImage = (images) => {
-  // 썸네일 이미지 배열 중에서 code가 11인 이미지만 렌더링
-  const backgroundImage = images?.find((image) => image.code === "11");
-  return backgroundImage?.url || DEFAULT_IMAGES.noImage;
-};
-*/
 
 export const formatBackgroundImage = (images) => {
   if (isEmpty(images)) return DEFAULT_IMAGES.noImage;
@@ -42,29 +27,11 @@ export const formatBackgroundImage = (images) => {
   return images[1];
 };
 
-/*
-// 포스터 이미지 포맷
-export const formatPoster = (images) => {
-  // 이미지 배열 중에서 code가 10인 이미지만 렌더링
-  const thumbnail = images?.find((image) => image.code === "10") ?? images?.find((image) => image.code === "11");
-  return thumbnail?.url || DEFAULT_IMAGES.noImage;
-};
-*/
-
 export const formatPoster = (images) => {
   if (isEmpty(images)) return DEFAULT_IMAGES.noImage;
   // images의 1번째 이미지
   return images[0];
 };
-
-/*
-// 국가 코드 포맷
-export const formatCountry = (code) => {
-  const lang = "ko";
-  const country = COUNTRY_CODE[code];
-  return country ? country[`name_${lang}`] : "국가";
-};
-*/
 
 // 국가 포맷
 export const formatCountry = (country) => {
