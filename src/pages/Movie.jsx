@@ -66,7 +66,6 @@ const Movie = () => {
   // 데이터 props로 하위 컴포넌트에 전달
   return (
     <main className="main">
-      <p style={{ wordBreak: "break-all" }}>{user ? JSON.stringify(user) : "null"}</p>
       {!isEmpty(screens) && screens.map((content, index) => <HVideos key={index} content={content} />)}
       {!isEmpty(videos) && (
         <Videos videos={videos} handlePage={handlePage}>
