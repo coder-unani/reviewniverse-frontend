@@ -7,7 +7,9 @@ import JoinAgree from "/src/components/JoinAgree";
 import BackButton from "/src/components/Button/Back";
 import { useAuthContext } from "/src/context/AuthContext";
 import { useThemeContext } from "/src/context/ThemeContext";
+import { isValidProvider } from "/src/utils/validation";
 import { isEmpty } from "lodash";
+import { MESSAGES } from "/src/config/messages";
 import Logo from "/assets/logo.svg";
 import "/src/styles/Join.css";
 import { cLog, cError } from "/src/utils/test";
@@ -21,7 +23,7 @@ import { cLog, cError } from "/src/utils/test";
 const SocialJoin = () => {
   const navigate = useNavigate();
   const { provider } = useParams();
-  const { user, snsUser, setSnsUser, signUp, signIn } = useAuthContext();
+  const { user, snsUser, setSnsUser, join, login } = useAuthContext();
   const { isMobile } = useThemeContext();
   const [isAgree, setIsAgree] = useState(false);
   const [agreeValues, setAgreeValues] = useState({});
@@ -35,39 +37,12 @@ const SocialJoin = () => {
       case "google":
         return <GoogleCallback />;
       default:
-        return navigate("/404-not-found");
+        return null;
     }
   };
 
-  const handleSocialJoin = async (user) => {
-    const res = await signUp(user);
-    if (res) {
-      cLog("회원가입에 성공했습니다.");
-
-      const signInUser = {
-        code: user.code,
-        email: user.email,
-        sns_id: user.sns_id,
-      };
-
-      signIn(signInUser);
-    } else {
-      cLog("회원가입에 실패했습니다.");
-    }
-  };
-
-  useEffect(() => {
-    if (!provider) navigate("/404-not-found");
-    if (user) {
-      setSnsUser(null);
-      navigate("/");
-    }
-  }, [provider, user, setSnsUser, navigate]);
-
-  useEffect(() => {
-    if (!snsUser || !isAgree || isEmpty(agreeValues)) return;
-
-    const signUpUser = {
+  const handleSocialJoin = async (snsUser, agreeValues) => {
+    const joinUser = {
       code: snsUser.code,
       email: snsUser.email,
       sns_id: snsUser.sns_id,
@@ -79,7 +54,37 @@ const SocialJoin = () => {
       is_marketing_agree: agreeValues.marketing,
     };
 
-    handleSocialJoin(signUpUser);
+    const res = await join(joinUser);
+    if (res.status) {
+      cLog(MESSAGES[res.code]);
+
+      const loginUser = {
+        code: joinUser.code,
+        email: joinUser.email,
+        sns_id: joinUser.sns_id,
+      };
+
+      const loginRes = await login(loginUser);
+      cLog(MESSAGES[loginRes.code]);
+      if (!loginRes.status) {
+        navigate("/user/login");
+      }
+    } else {
+      cLog(MESSAGES[res.code]);
+    }
+  };
+
+  useEffect(() => {
+    if (!provider || !isValidProvider(provider)) navigate("/404-not-found");
+    if (user) {
+      setSnsUser(null);
+      navigate("/");
+    }
+  }, [provider, user, setSnsUser, navigate]);
+
+  useEffect(() => {
+    if (!snsUser || !isAgree || isEmpty(agreeValues)) return;
+    handleSocialJoin(snsUser, agreeValues);
   }, [snsUser, isAgree, agreeValues]);
 
   return (
