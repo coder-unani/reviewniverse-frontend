@@ -3,12 +3,12 @@ export const SCREEN_MOVIE_ID = "MA01,MA02,MA03,MA04,MA05";
 export const SCREEN_SERIES_ID = "MA01,MA02,MA03,MA04,MA05";
 
 export const USER_CODE = {
-  10: "이메일",
-  11: "구글",
-  12: "페이스북",
-  13: "애플",
-  14: "카카오",
-  15: "네이버",
+  10: "email",
+  11: "google",
+  12: "facebook",
+  13: "apple",
+  14: "kakao",
+  15: "naver",
 };
 
 export const VIDEO_PLATFORM_CODE = {
