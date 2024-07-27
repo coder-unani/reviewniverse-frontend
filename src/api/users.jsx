@@ -39,16 +39,6 @@ export const fetchJoin = async (user) => {
   }
 };
 
-export const fetchUsers = async ({ userId }) => {
-  try {
-    const client = new HttpClient();
-    const res = await client.get(endpoints.users, { uid: userId });
-    return res;
-  } catch (error) {
-    cError(error);
-  }
-};
-
 // 회원정보 가져오기
 export const fetchUser = async ({ userId }) => {
   try {
