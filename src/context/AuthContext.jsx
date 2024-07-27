@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useEffect, useState } from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import {
   getStorageUser,
   getStorageAccessToken,
@@ -8,14 +8,15 @@ import {
   removeStorageUser,
   removeStorageAccessToken,
 } from "/src/utils/formatStorage";
-import { fetchSignUp, fetchSnsSignUp, fetchSignIn, fetchSnsSignIn } from "/src/api/users";
+import { fetchLogin, fetchJoin } from "/src/api/users";
 import { fetchToken } from "/src/api/token";
-import { validateSnsUser } from "/src/utils/validation";
+import { validateUser } from "/src/utils/validation";
 import { cLog, cError } from "/src/utils/test";
 
 const AuthContext = createContext(null);
 
 export const AuthContextProvider = ({ children }) => {
+  const navigate = useNavigate();
   // 유저 초기화
   const [user, setUser] = useState(getStorageUser());
   const [snsUser, setSnsUser] = useState(null);
@@ -39,74 +40,125 @@ export const AuthContextProvider = ({ children }) => {
   }, [location]);
 
   // 회원가입
-  const signUp = async (user) => {
-    // TODO: validation
-    const result = validateSnsUser(user);
-    if (!result.status) {
-      cLog(result.message);
-      window.location.href = "/error";
-    }
-
+  const join = async (user) => {
     try {
-      let response;
-      if (user.code === "10") {
-        response = await fetchSignUp(user);
+      const result = validateUser(user);
+      if (!result.status) {
+        return {
+          status: false,
+          code: result.code,
+        };
+      }
+
+      const res = await fetchJoin(user);
+      if (res.status === 201) {
+        return {
+          status: true,
+          code: "J001",
+        };
+      } else if (res.status === 400) {
+        if (res.message.detail === "EMAIL_ALREADY_EXIST") {
+          return {
+            status: false,
+            code: "J004",
+          };
+        } else {
+          return {
+            status: false,
+            code: "J002",
+          };
+        }
+      } else if (res.status === 422) {
+        return {
+          status: false,
+          code: "J003",
+        };
       } else {
-        response = await fetchSnsSignUp(user);
+        return {
+          status: false,
+          code: "J002",
+        };
       }
-      if (response.status !== 201) {
-        throw new Error("로그인에 실패하였습니다.");
-      }
-      return true;
     } catch (error) {
-      cError(error);
-      throw new Error(error.message);
+      navigate("/error");
     }
   };
 
   // 로그인
-  const signIn = async (user) => {
-    // TODO: validation
-    const result = validateSnsUser(user);
-    if (!result.status) {
-      cLog(result.message);
-      window.location.href = "/error";
-    }
-
+  const login = async (user) => {
     try {
-      let get_user = null;
-      let access_token = null;
-      if (user.code === "10") {
-        const response = await fetchSignIn(user);
-        if (response.status === 200) {
-          get_user = response.data.user;
-          access_token = response.data.access_token;
-        }
-      } else {
-        const response = await fetchSnsSignIn(user);
-        if (response.status === 200) {
-          get_user = response.data.user;
-          access_token = response.data.access_token;
-        } else if (response.status === 400 && response.message.detail === "USER_NOT_FOUND") {
-          // TODO: 리턴값 확인
-          return false;
-        }
+      let getUser = null;
+      let accessToken = null;
+
+      const result = validateUser(user);
+      if (!result.status) {
+        return {
+          status: false,
+          code: result.code,
+        };
       }
-      return handleSetUser(get_user, access_token);
+
+      const res = await fetchLogin({ user });
+      if (res.status === 200) {
+        // 로그인 성공
+        getUser = res.data.user;
+        accessToken = res.data.access_token;
+        if (handleSetUser(getUser, accessToken)) {
+          return {
+            status: true,
+            code: "L001",
+          };
+        } else {
+          return {
+            status: false,
+            code: "L002",
+          };
+        }
+      } else if (res.status === 400) {
+        // validation(입력값 검증)
+        if (res.message.detail === "USER_NOT_FOUND") {
+          return {
+            status: false,
+            code: "L003",
+          };
+        } else {
+          return {
+            status: false,
+            code: "L002",
+          };
+        }
+      } else if (res.status === 401) {
+        // verify(인증 검증), 로그인 실패
+        return {
+          status: false,
+          code: "L002",
+        };
+      } else {
+        navigate("/error");
+      }
     } catch (error) {
-      cError(error);
-      throw new Error("로그인에 실패하였습니다.");
+      navigate("/error");
     }
   };
 
   // 로그아웃
-  const signOut = () => {
-    return handleRemoveUser();
+  const logout = () => {
+    if (handleRemoveUser()) {
+      return {
+        status: true,
+        code: "L004",
+      };
+    } else {
+      return {
+        status: false,
+        code: "L005",
+      };
+    }
   };
 
-  const handleSetUser = (user, access_token) => {
+  const handleSetUser = (user, accessToken) => {
     try {
-      setStorageAccessToken(access_token);
+      setStorageAccessToken(accessToken);
       setStorageUser(user);
       setUser(user);
       return true;
@@ -133,9 +185,9 @@ export const AuthContextProvider = ({ children }) => {
     access_token,
     snsUser,
     setSnsUser,
-    signUp,
-    signIn,
-    signOut,
+    join,
+    login,
+    logout,
   };
 
   return <AuthContext.Provider value={values}>{children}</AuthContext.Provider>;
