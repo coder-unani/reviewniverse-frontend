@@ -25,6 +25,7 @@ const SettingButton = () => {
   };
 
   // 로그아웃
+  // TODO: useAuthContext에서 로그아웃 함수 호출
   const handleLogoutClick = () => {
     removeStorageUser();
     removeStorageAccessToken();

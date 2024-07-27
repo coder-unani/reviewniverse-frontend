@@ -4,6 +4,7 @@ import { DEFAULT_IMAGES } from "/src/config/constants";
 import "/src/styles/Error.css";
 
 const Error = () => {
+  // TODO: 에러 코드별 메세지 표시
   return (
     <div className="error-main">
       <section className="error-contents">
