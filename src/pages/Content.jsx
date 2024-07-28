@@ -30,8 +30,8 @@ import {
   RiArrowRightSLine,
   RiArrowLeftSLine,
 } from "@remixicon/react";
-import { isEmpty, includes } from "lodash";
 import { DEFAULT_IMAGES } from "/src/config/constants";
+import { isEmpty, includes } from "lodash";
 import { formatYear, formatUpperCase } from "/src/utils/format";
 import {
   formatBackgroundImage,
@@ -49,31 +49,23 @@ import "/src/styles/Content.css";
  * 7. 컴포넌트 분리
  * 8. 리뷰 페이지네이션 추가
  * 9. 리뷰 리스트는 정렬 기본은 좋아요 순
+ * 10. 존재하지 않는 비디오일 경우 404 페이지로 이동
  */
 
 const Content = () => {
-  // 비디오 아이디
   const { contentId } = useParams();
   const videoId = parseInt(contentId);
-  // 사용자 정보
   const { user } = useAuthContext();
-  // TODO: 비디오 상세 정보
   const { data: content, error: contentError, isLoading: contentIsLoading } = useVideoDetail({ videoId });
-  // 비디오 리뷰 목록
   const {
     data: reviews,
     error: reviewsError,
     isLoading: reviewsIsLoading,
   } = useVideoReviews({ videoId, page: 1, pageSize: 8 });
-  // 비디오 내 정보
   const { data: myInfo, error: myInfoError, isLoading: myInfoIsLoading } = useVideoMyInfo({ videoId, enabled: user });
-  // 비디오 평가하기
   const { mutate: videoRating } = useVideoRating();
-  // 비디오 좋아요
   const { mutate: videoLike } = useVideoLike();
-  // 리뷰 좋아요
   const { mutate: reviewLike } = useReviewLike();
-  // 리뷰 삭제
   const { mutate: reviewDelete } = useReviewDelete();
 
   const [photoModal, setPhotoModal] = useState({ isOpen: false, url: "" });
@@ -149,16 +141,38 @@ const Content = () => {
   };
 
   // 비디오 평가하기
-  const handleRating = (rating) => {
+  const handleRatingSet = (rating) => {
     const fillRating = fillRatingRef.current;
     fillRating.dataset.rating = rating;
     fillRating.style.width = `${rating * 10}%`;
   };
 
+  // 비디오 평가하기 이벤트
+  const handleRatingMouseOver = (e) => {
+    const emptyRating = emptyRatingRef.current;
+    const width = emptyRating.getBoundingClientRect().width;
+    const mouseX = e.clientX - emptyRating.getBoundingClientRect().left;
+    const ratio = Math.max(0, Math.min(mouseX / width, 1));
+    const rating = Math.ceil(ratio * 10);
+    handleRatingSet(rating);
+  };
+
+  const handleRatingMouseOut = () => {
+    handleRatingSet(myInfo && myInfo.rating ? myInfo.rating : 0);
+  };
+
+  const handleRatingClick = async () => {
+    if (!user) {
+      toggleEnjoyModal();
+      return;
+    }
+    videoRating({ videoId, rating: fillRatingRef.current.dataset.rating });
+  };
+
   // 비디오 좋아요
   const handleLikeButton = async () => {
     if (!user) {
-      setEnjoyModal(true);
+      toggleEnjoyModal();
       return;
     }
     videoLike({ videoId });
@@ -167,15 +181,15 @@ const Content = () => {
   // 리뷰 작성
   const handleReviewCreate = () => {
     if (!user) {
-      setEnjoyModal(true);
+      toggleEnjoyModal();
       return;
     }
-    setReviewModal(true);
+    toggleReviewModal();
   };
 
   // 리뷰 수정
   const handleReviewUpdate = () => {
-    setReviewModal(true);
+    toggleReviewModal();
   };
 
   // 리뷰 삭제
@@ -188,7 +202,7 @@ const Content = () => {
   // 리뷰 좋아요
   const handleReviewLike = async (reviewId) => {
     if (!user) {
-      setEnjoyModal(true);
+      toggleEnjoyModal();
       return;
     }
     reviewLike({ videoId, reviewId });
@@ -201,7 +215,6 @@ const Content = () => {
     const header = document.querySelector("header");
     const logo = document.querySelector(".logo");
 
-    // 스크롤시 헤더 스타일 변경
     const handleScroll = () => {
       if (window.scrollY > 100 && header.classList.contains("transparent")) {
         header.classList.remove("transparent");
@@ -228,41 +241,24 @@ const Content = () => {
     const emptyRating = emptyRatingRef.current;
     const fillRating = fillRatingRef.current;
 
-    if (!emptyRating || !fillRating) return;
+    if (!emptyRating || !fillRating) {
+      return;
+    }
 
-    if (myInfo) handleRating(myInfo.rating || 0);
+    if (user && myInfo) {
+      handleRatingSet(myInfo.rating || 0);
+    }
 
-    const width = emptyRating.getBoundingClientRect().width;
-
-    const handleMouseOver = (e) => {
-      const mouseX = e.clientX - emptyRating.getBoundingClientRect().left;
-      const ratio = Math.max(0, Math.min(mouseX / width, 1));
-      const rating = Math.ceil(ratio * 10);
-      handleRating(rating);
-    };
-
-    const handleMouseOut = () => {
-      handleRating(myInfo && myInfo.rating ? myInfo.rating : 0);
-    };
-
-    const handleClick = async () => {
-      if (!user) {
-        setEnjoyModal(true);
-        return;
-      }
-      videoRating({ videoId, rating: fillRatingRef.current.dataset.rating });
-    };
-
-    emptyRating.addEventListener("mouseover", handleMouseOver);
-    emptyRating.addEventListener("mouseout", handleMouseOut);
-    emptyRating.addEventListener("click", handleClick);
+    emptyRating.addEventListener("mouseover", handleRatingMouseOver);
+    emptyRating.addEventListener("mouseout", handleRatingMouseOut);
+    emptyRating.addEventListener("click", handleRatingClick);
 
     return () => {
-      emptyRating.removeEventListener("mouseover", handleMouseOver);
-      emptyRating.removeEventListener("mouseout", handleMouseOut);
-      emptyRating.removeEventListener("click", handleClick);
+      emptyRating.removeEventListener("mouseover", handleRatingMouseOver);
+      emptyRating.removeEventListener("mouseout", handleRatingMouseOut);
+      emptyRating.removeEventListener("click", handleRatingClick);
     };
-  }, [content, user, myInfo, videoRating]);
+  }, [user, myInfo, content]);
 
   if (contentIsLoading || reviewsIsLoading || myInfoIsLoading) return null;
 
