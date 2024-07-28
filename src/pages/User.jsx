@@ -1,37 +1,31 @@
 import React, { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
-import { useAuthContext } from "/src/context/AuthContext";
-import { useUser } from "/src/hooks/useUser";
 import ProfileImage from "/src/components/Button/Profile/ProfileImage";
 import SettingButton from "/src/components/Button/Setting";
-import { LazyLoadImage } from "react-lazy-load-image-component";
-import "react-lazy-load-image-component/src/effects/blur.css";
+import { useAuthContext } from "/src/context/AuthContext";
+import { useUser } from "/src/hooks/useUser";
 import { DEFAULT_IMAGES } from "/src/config/constants";
 import { formatNumber } from "/src/utils/format";
+import { LazyLoadImage } from "react-lazy-load-image-component";
+import "react-lazy-load-image-component/src/effects/blur.css";
 import "/src/styles/User.css";
-
-/**
- * TODO:
- * 유저 소개글 pre 태그로 변경
- */
 
 const User = () => {
   const { userId: id } = useParams();
   const userId = parseInt(id);
   const { user } = useAuthContext();
   const [isLogin, setIsLogin] = useState(false);
-  const { mutate, data: userData, error: userError, isLoading: userIsLoading } = useUser({ userId });
+  const { mutate: userGet, data: userData, error: userError, isLoading: userIsLoading } = useUser({ userId });
 
   useEffect(() => {
-    mutate();
-
+    userGet();
     // 로그인한 유저가 있다면 userId와 로그인한 유저가 같은지 확인
     if (user && user.id === userId) {
       setIsLogin(true);
     } else {
       setIsLogin(false);
     }
-  }, [mutate, userId]);
+  }, [userGet, userId]);
 
   if (userIsLoading) {
   }
