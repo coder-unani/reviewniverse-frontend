@@ -75,7 +75,9 @@ const SocialJoin = () => {
   };
 
   useEffect(() => {
-    if (!provider || !isValidProvider(provider)) navigate("/404-not-found");
+    if (!provider || !isValidProvider(provider)) {
+      navigate("/404-not-found");
+    }
     if (user) {
       setSnsUser(null);
       navigate("/");
