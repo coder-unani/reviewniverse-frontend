@@ -9,12 +9,12 @@ import { MESSAGES } from "/src/config/messages";
 import { cLog, cError } from "/src/utils/test";
 
 const GoogleCallback = () => {
-  const { setSnsUser, login } = useAuthContext();
-  const location = useLocation();
   const navigate = useNavigate();
+  const location = useLocation();
+  const { setSnsUser, login } = useAuthContext();
 
   useEffect(() => {
-    const handleGoogleSignIn = async () => {
+    const handleGoogleLogin = async () => {
       try {
         const googleRes = await signInWithPopup(auth, provider);
         const googleUser = googleRes.user;
@@ -38,6 +38,7 @@ const GoogleCallback = () => {
               profile_image: googleUser.photoURL,
             });
           } else {
+            // TODO: 이메일/닉네임 유효성 검사
             cLog(MESSAGES[res.code]);
             navigate("/user/login");
           }
@@ -48,7 +49,7 @@ const GoogleCallback = () => {
       }
     };
 
-    handleGoogleSignIn();
+    handleGoogleLogin();
   }, [location]);
 
   // TODO: 로그인 로딩 화면 구현

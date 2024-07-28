@@ -8,55 +8,59 @@ import { cLog, cError } from "/src/utils/test";
 import LoginLoading from "/src/components/LoginLoading";
 
 const NaverCallback = () => {
-  const { setSnsUser, login } = useAuthContext();
-  const location = useLocation();
   const navigate = useNavigate();
+  const location = useLocation();
+  const { setSnsUser, login } = useAuthContext();
   const { naver } = window;
 
   useEffect(() => {
-    try {
-      const naverLogin = new naver.LoginWithNaverId({
-        clientId: SETTINGS.NAVER_CLIENT_ID,
-        callbackUrl: SETTINGS.NAVER_CALLBACK_URL,
-        isPopup: false,
-      });
+    const handleNaverLogin = () => {
+      try {
+        const naverLogin = new naver.LoginWithNaverId({
+          clientId: SETTINGS.NAVER_CLIENT_ID,
+          callbackUrl: SETTINGS.NAVER_CALLBACK_URL,
+          isPopup: false,
+        });
 
-      naverLogin.init();
+        naverLogin.init();
 
-      naverLogin.getLoginStatus(async (status) => {
-        if (status) {
-          const naverUser = naverLogin.user;
+        naverLogin.getLoginStatus(async (status) => {
+          if (status) {
+            const naverUser = naverLogin.user;
 
-          const loginUser = {
-            code: formatProvider("naver"),
-            email: naverUser.email,
-            sns_id: naverUser.id,
-          };
+            const loginUser = {
+              code: formatProvider("naver"),
+              email: naverUser.email,
+              sns_id: naverUser.id,
+            };
 
-          const res = await login(loginUser);
-          if (!res.status) {
-            if (res.code === "L003") {
-              cLog(MESSAGES[res.code]);
-              setSnsUser({
-                code: loginUser.code,
-                email: naverUser.email,
-                sns_id: naverUser.id,
-                nickname: naverUser.nickname,
-                profile_image: naverUser.profile_image,
-              });
-            } else {
-              cLog(MESSAGES[res.code]);
-              navigate("/user/login");
+            const res = await login(loginUser);
+            if (!res.status) {
+              if (res.code === "L003") {
+                cLog(MESSAGES[res.code]);
+                setSnsUser({
+                  code: loginUser.code,
+                  email: naverUser.email,
+                  sns_id: naverUser.id,
+                  nickname: naverUser.nickname,
+                  profile_image: naverUser.profile_image,
+                });
+              } else {
+                cLog(MESSAGES[res.code]);
+                navigate("/user/login");
+              }
             }
+          } else {
+            cLog(MESSAGES["L002"]);
           }
-        } else {
-          cLog(MESSAGES["L002"]);
-        }
-      });
-    } catch (error) {
-      cLog(MESSAGES["L002"]);
-      navigate("/user/login");
-    }
+        });
+      } catch (error) {
+        cLog(MESSAGES["L002"]);
+        navigate("/user/login");
+      }
+    };
+
+    handleNaverLogin();
   }, [location]);
 
   // TODO: 로그인 로딩 화면 구현

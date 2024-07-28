@@ -9,13 +9,13 @@ import { MESSAGES } from "/src/config/messages";
 import { cLog, cError } from "/src/utils/test";
 
 const KakaoCallback = () => {
-  const { setSnsUser, login } = useAuthContext();
-  const location = useLocation();
   const navigate = useNavigate();
+  const location = useLocation();
   const [searchParams] = useSearchParams();
+  const { setSnsUser, login } = useAuthContext();
 
   useEffect(() => {
-    const handleKakaoSignIn = async () => {
+    const handleKakaoLogin = async () => {
       try {
         const code = searchParams.get("code");
         if (code) {
@@ -61,7 +61,7 @@ const KakaoCallback = () => {
       }
     };
 
-    handleKakaoSignIn();
+    handleKakaoLogin();
   }, [searchParams, location]);
 
   // TODO: 로그인 로딩 화면 구현
