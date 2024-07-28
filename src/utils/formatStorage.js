@@ -12,7 +12,7 @@ export const setStorageUser = (user) => {
   setCookie("user", JSON.stringify(user), { path: "/" });
 };
 
-// 유저 정보 가져오기
+// 유저 정보 조회
 export const getStorageUser = () => {
   const getUser = getCookie("user");
   return getUser ? JSON.parse(getUser) : null;
@@ -28,7 +28,7 @@ export const setStorageAccessToken = (access_token) => {
   setCookie("access_token", access_token, { path: "/" });
 };
 
-// 액세스 토큰 가져오기
+// 액세스 토큰 조회
 export const getStorageAccessToken = () => {
   return getCookie("access_token");
 };
@@ -48,7 +48,7 @@ export const setStorageKeyword = (keyword) => {
   setLocalStorage("RECENT_SEARCH_KEYWORDS", JSON.stringify(data));
 };
 
-// 최근 검색 키워드 가져오기
+// 최근 검색 키워드 조회
 export const getStorageKeyword = () => {
   let data = getLocalStorage("RECENT_SEARCH_KEYWORDS");
   data = data ? JSON.parse(data) : [];
