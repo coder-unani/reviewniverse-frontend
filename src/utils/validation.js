@@ -1,11 +1,5 @@
 import { USER_CODE } from "/src/config/codes";
 
-/**
- * TODO:
- * - 회원가입 validation
- * - 로그인 validation
- */
-
 export const validateUser = (user) => {
   if (!USER_CODE.hasOwnProperty(user.code)) {
     return {
@@ -49,7 +43,7 @@ export const isValidProvider = (provider) => {
 };
 
 // 이메일 형식 검증 함수
-const isValidEmail = (email) => {
+export const isValidEmail = (email) => {
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   return emailRegex.test(email);
 };
