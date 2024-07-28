@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useEffect, useState } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import {
   getStorageUser,
   getStorageAccessToken,
@@ -25,7 +25,7 @@ export const AuthContextProvider = ({ children }) => {
   useEffect(() => {
     const access_token = getStorageAccessToken();
     if (!user || !access_token) return;
-
+    // 토큰검증
     const verifyToken = async () => {
       if (access_token) {
         const res = await fetchToken(access_token);
@@ -38,6 +38,7 @@ export const AuthContextProvider = ({ children }) => {
         } else {
           if (handleRemoveUser()) {
             cLog(MESSAGES.T002);
+            navigate("/login");
           } else {
             cLog(MESSAGES.T004);
           }
@@ -105,7 +106,7 @@ export const AuthContextProvider = ({ children }) => {
 
       const res = await fetchLogin({ user });
       if (res.status === 200) {
-        if (handleSetUser({ user: res.data.user, accessToken: res.data.access_token })) {
+        if (handleSetUser({ accessToken: res.data.access_token, user: res.data.user })) {
           return {
             status: true,
             code: "L001",
@@ -156,7 +157,7 @@ export const AuthContextProvider = ({ children }) => {
     }
   };
 
-  const handleSetUser = ({ user = null, accessToken = null }) => {
+  const handleSetUser = ({ accessToken = null, user = null }) => {
     try {
       if (accessToken) {
         setStorageAccessToken(accessToken);
