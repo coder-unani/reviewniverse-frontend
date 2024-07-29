@@ -9,10 +9,11 @@ const endpoints = {
   users: baseURL + "/v1/users",
   user: baseURL + "/v1/users/:userId",
   userUpdate: baseURL + "/v1/users/:userId",
-  validationNickname: baseURL + "/v1/validation/users/nickname",
+  validateEmail: baseURL + "/v1/users/validate/email",
+  validateNickname: baseURL + "/v1/users/validate/nickname",
 };
 
-// 회원 로그인
+// 로그인
 export const fetchLogin = async ({ user }) => {
   try {
     const client = new HttpClient();
@@ -28,7 +29,7 @@ export const fetchLogin = async ({ user }) => {
   }
 };
 
-// 회원 가입
+// 회원가입
 export const fetchJoin = async (user) => {
   try {
     const client = new HttpClient();
@@ -39,7 +40,7 @@ export const fetchJoin = async (user) => {
   }
 };
 
-// 회원정보 가져오기
+// 회원정보 조회
 export const fetchUser = async ({ userId }) => {
   try {
     const client = new HttpClient();
@@ -56,18 +57,29 @@ export const fetchUserUpdate = async ({ userId, updateData }) => {
     const client = new HttpClient();
     client.setHeader({ "Content-Type": "multipart/form-data" });
     const res = await client.put(endpoints.userUpdate.replace(":userId", userId), updateData);
-    return res.status === 200 ? res.data : [];
+    return res;
   } catch (error) {
     cError(error);
   }
 };
 
-// 닉네임 중복 체크
-export const fetchValidationNickname = async ({ nickname }) => {
+// 이메일 유효성 검사
+export const fetchValidateEmail = async ({ email }) => {
   try {
     const client = new HttpClient();
-    const res = await client.get(endpoints.validationNickname, { nickname });
-    return res.status === 204 ? res.code : "";
+    const res = await client.get(endpoints.validateEmail, { email });
+    return res;
+  } catch (error) {
+    cError(error);
+  }
+};
+
+// 닉네임 유효성 검사
+export const fetchValidateNickname = async ({ nickname }) => {
+  try {
+    const client = new HttpClient();
+    const res = await client.get(endpoints.validateNickname, { nickname });
+    return res;
   } catch (error) {
     cError(error);
   }
