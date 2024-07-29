@@ -23,8 +23,13 @@ export const AuthContextProvider = ({ children }) => {
   const [snsUser, setSnsUser] = useState(null);
 
   useEffect(() => {
+    const getUser = getStorageUser();
     const access_token = getStorageAccessToken();
-    if (!user || !access_token) return;
+    // TODO: 고도화필요
+    if (!getUser || !access_token) {
+      handleRemoveUser();
+      return;
+    }
     // 토큰검증
     const verifyToken = async () => {
       if (access_token) {
@@ -192,6 +197,7 @@ export const AuthContextProvider = ({ children }) => {
     join,
     login,
     logout,
+    handleSetUser,
   };
 
   return <AuthContext.Provider value={values}>{children}</AuthContext.Provider>;
