@@ -62,3 +62,9 @@ export const arrayRandomValue = (array) => {
   const randomNum = Math.floor(Math.random() * array.length);
   return array[randomNum];
 };
+
+// TODO: 파일 사이즈 포맷(고도화필요)
+export const formatFileSize = (size) => {
+  // MB를 바이트로 변경
+  return size * 1024 * 1024;
+};
