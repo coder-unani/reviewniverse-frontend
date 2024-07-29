@@ -1,26 +1,33 @@
 import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { useAuthContext } from "/src/context/AuthContext";
-import { fetchValidationNickname } from "/src/api/users";
 import { useUserUpdate } from "/src/hooks/useUserUpdate";
+import { useValidateNickname } from "/src/hooks/useValidateNickname";
 import * as Yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm, useWatch } from "react-hook-form";
-import { RiImageEditFill } from "@remixicon/react";
-import { DEFAULT_IMAGES } from "/src/config/constants";
 import { isEmpty } from "lodash";
+import {
+  DEFAULT_IMAGES,
+  PROFILE_IMAGE_FILE_SIZE,
+  PROFILE_IMAGE_FILE_TYPE,
+  PROFILE_TEXT_MAX_LENGTH,
+} from "/src/config/constants";
+import { isValidFileSize, isValidFileType } from "/src/utils/validation";
+import { RiImageEditFill } from "@remixicon/react";
 import "/src/styles/UserProfile.css";
+import { cLog, cError } from "/src/utils/test";
 
 /**
  * TODO:
- * 소개글 200자 제한
  * 이메일 인증 여부 표시
  * 이메일 인증 기능 추가
  */
 
 const UserProfile = () => {
+  const navigate = useNavigate();
   const { user } = useAuthContext();
   const [previewImage, setPreviewImage] = useState(user?.profile_image || DEFAULT_IMAGES.noProfile);
-  const { mutate: userUpdate } = useUserUpdate();
 
   // 개인정보 수정 유효성 검사
   const EditSchema = Yup.object().shape({
@@ -29,7 +36,9 @@ const UserProfile = () => {
       .max(20, "닉네임은 최대 20글자입니다.")
       .matches(/^[a-zA-Z가-힣0-9]*$/, "닉네임은 한글, 영문, 숫자만 입력 가능합니다.")
       .required("닉네임을 입력해주세요."),
-    profile_text: Yup.string().max(100, "소개는 최대 100자까지 입력 가능합니다.").nullable(),
+    profile_text: Yup.string()
+      .max(PROFILE_TEXT_MAX_LENGTH, `소개는 최대 ${PROFILE_TEXT_MAX_LENGTH}자까지 입력 가능합니다.`)
+      .nullable(),
     is_marketing_agree: Yup.boolean().nullable(),
   });
 
@@ -53,33 +62,43 @@ const UserProfile = () => {
     setError,
     setValue,
     clearErrors,
-    watch,
     formState: { errors, isDirty, isValid },
-    reset,
     trigger,
   } = methods;
 
   const watchIntroduction = useWatch({ control, name: "profile_text", defaultValue: "" });
 
   const onSubmit = handleSubmit(async (data) => {
+    // 닉네임 검증
+    const nicknameValid = await trigger("nickname");
+    if (nicknameValid && user.nickname !== data.nickname) {
+      const nicknameRes = await useValidateNickname({ nickname: data.nickname });
+      if (!nicknameRes.status) {
+        setError("nickname", {
+          type: "manual",
+          message: nicknameRes.code,
+        });
+        return;
+      }
+    }
+
     const updateData = { ...data };
-
     // 중복되지 않은 데이터만 추출
-    const fieldsToCheck = ["profile_image", "nickname", "profile_text", "is_marketing_agree"];
-
-    fieldsToCheck.forEach((field) => {
-      if (
-        data[field] === user[field] ||
-        (!data[field] && data[field] !== false) ||
-        (field === "profile_image" && data[field] === DEFAULT_IMAGES.noProfile)
-      ) {
+    const fieldsCheck = ["profile_image", "nickname", "profile_text", "is_marketing_agree"];
+    fieldsCheck.forEach((field) => {
+      if (data[field] === user[field] || (field === "profile_image" && data[field] === DEFAULT_IMAGES.noProfile)) {
         delete updateData[field];
       }
     });
-
     if (isEmpty(updateData)) return;
 
-    userUpdate({ userId: user.id, updateData });
+    const res = await useUserUpdate({ userId: user.id, updateData });
+    if (res.status) {
+      cLog(res.code);
+      navigate(`/user/${user.id}`, { state: { userUpdate: res } });
+    } else {
+      cLog(res.code);
+    }
   });
 
   // 프로필 이미지 교체
@@ -88,14 +107,20 @@ const UserProfile = () => {
     if (!file) return;
 
     // 파일 크기와 형식 유효성 검사
-    const validFileSize = file.size <= 31457280; // 30MB
-    const validFileType = ["image/jpeg", "image/png", "image/gif", "image/webp"].includes(file.type);
-    if (!validFileSize) {
-      setError("profile_image", { type: "manual", message: "이미지 파일은 30MB 이하만 가능합니다." });
+    const validFileType = isValidFileType(file, PROFILE_IMAGE_FILE_TYPE);
+    const validFileSize = isValidFileSize(file, PROFILE_IMAGE_FILE_SIZE);
+    if (!validFileType) {
+      setError("profile_image", {
+        type: "manual",
+        message: `이미지 파일 형식만 가능합니다.`,
+      });
       return;
     }
-    if (!validFileType) {
-      setError("profile_image", { type: "manual", message: "이미지 파일 형식만 가능합니다." });
+    if (!validFileSize) {
+      setError("profile_image", {
+        type: "manual",
+        message: `이미지 파일은 ${PROFILE_IMAGE_FILE_SIZE}MB 이하만 가능합니다.`,
+      });
       return;
     }
 
@@ -110,47 +135,18 @@ const UserProfile = () => {
   };
 
   useEffect(() => {
-    // 로그인한 유저가 없을 경우 로그인 페이지로 이동
-    if (!user) {
-      window.location.href = "/user/login";
-      return;
-    }
-
     setValue("profile_image", user.profile_image);
     setValue("nickname", user.nickname);
     setValue("profile_text", user.profile_text || "");
     setValue("is_marketing_agree", user.is_marketing_agree);
-
     trigger();
   }, []);
 
-  // TODO: URL 변수화 필요
-  // input 값 변경 시 유효성 검사
   useEffect(() => {
-    const subscription = watch((value, { name }) => {
-      if (name === "nickname") {
-        if (value.nickname === user.nickname) return;
-        trigger("nickname").then(async (isValid) => {
-          if (isValid) {
-            // 닉네임 중복 체크
-            // TODO: 한글 입력시 글자가 완성되면 두번 호출되는 이슈 해결 필요
-            const res = await fetchValidationNickname({ nickname: value.nickname });
-            if (res === "VALID_NICK_SUCC") {
-              clearErrors("nickname");
-            } else if (res === "VALID_NICK_EXIST") {
-              // 실패: 존재하는 닉네임일 경우 에러 메시지 출력
-              setError("nickname", {
-                type: "manual",
-                message: "이미 사용중인 닉네임입니다.",
-              });
-            }
-          }
-        });
-      }
-    });
-
-    return () => subscription.unsubscribe();
-  }, [watch, trigger, setError, clearErrors]);
+    if (watchIntroduction.length > PROFILE_TEXT_MAX_LENGTH) {
+      setValue("profile_text", watchIntroduction.slice(0, PROFILE_TEXT_MAX_LENGTH));
+    }
+  }, [watchIntroduction, setValue]);
 
   if (isEmpty(user)) return null;
 
@@ -187,7 +183,9 @@ const UserProfile = () => {
           <div className="input-wrapper introduction">
             <label htmlFor="profile_text">
               <span>소개</span>
-              <span>{watchIntroduction.length} / 100</span>
+              <span>
+                {watchIntroduction.length} / {PROFILE_TEXT_MAX_LENGTH}
+              </span>
             </label>
             <textarea
               id="profile_text"
