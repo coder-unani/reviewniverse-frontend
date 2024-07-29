@@ -20,3 +20,9 @@ export const VIDEO_ORDER_OPTIONS = [
   "rating_desc",
   "release_desc",
 ];
+
+export const PROFILE_IMAGE_FILE_SIZE = 30;
+
+export const PROFILE_IMAGE_FILE_TYPE = ["image/jpeg", "image/png", "image/gif", "image/webp"];
+
+export const PROFILE_TEXT_MAX_LENGTH = 200;
