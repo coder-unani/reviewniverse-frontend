@@ -11,6 +11,7 @@
     "postbuild": "react-snap"
   },
   "dependencies": {
+    "@elastic/elasticsearch": "^8.14.0",
     "@fontsource/inter": "^5.0.18",
     "@hookform/resolvers": "^3.6.0",
     "@remixicon/react": "^4.2.0",
@@ -26,6 +27,7 @@
     "react-lazy-load-image-component": "^1.6.0",
     "react-loading-skeleton": "^3.4.0",
     "react-router-dom": "^6.23.1",
+    "react-toastify": "^10.0.5",
     "swiper": "^11.1.4",
     "yup": "^1.4.0"
   },
