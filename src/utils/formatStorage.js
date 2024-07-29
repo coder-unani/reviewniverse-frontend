@@ -6,9 +6,11 @@ import {
   getCookie,
   removeCookie,
 } from "/src/utils/storage";
+import { isEmpty } from "lodash";
 
 // 유저 정보 설정
 export const setStorageUser = (user) => {
+  if (isEmpty(user)) return;
   setCookie("user", JSON.stringify(user), { path: "/" });
 };
 
@@ -25,6 +27,7 @@ export const removeStorageUser = () => {
 
 // 액세스 토큰 설정
 export const setStorageAccessToken = (access_token) => {
+  if (!access_token) return;
   setCookie("access_token", access_token, { path: "/" });
 };
 
@@ -40,6 +43,7 @@ export const removeStorageAccessToken = () => {
 
 // 최근 검색 키워드 설정
 export const setStorageKeyword = (keyword) => {
+  if (!keyword) return;
   let data = getLocalStorage("RECENT_SEARCH_KEYWORDS");
   data = data ? JSON.parse(data) : [];
   data = new Set(data);
