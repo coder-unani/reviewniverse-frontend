@@ -47,7 +47,9 @@ const Login = () => {
   };
 
   useEffect(() => {
-    if (user) navigate("/");
+    if (user) {
+      navigate("/");
+    }
   }, [user]);
 
   return (
