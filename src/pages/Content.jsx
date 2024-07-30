@@ -66,7 +66,7 @@ const Content = () => {
     data: myInfo,
     error: myInfoError,
     isLoading: myInfoIsLoading,
-  } = useVideoMyInfo({ videoId, userId: user.id, enabled: user });
+  } = useVideoMyInfo({ videoId, userId: user?.id, enabled: user });
   const { mutate: videoLike } = useVideoLike();
   const { mutate: reviewLike } = useReviewLike();
   const { mutate: reviewDelete } = useReviewDelete();
