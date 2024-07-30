@@ -77,13 +77,11 @@
     font-weight: 500;
     border-radius: 4px;
     background-color: #0c0c0c;
-    cursor: pointer;
     transition: background-color 0.3s;
 
     &:disabled {
       color: rgba(#fff, 0.8);
       opacity: 0.4;
-      cursor: not-allowed;
     }
   }
 }
@@ -140,13 +138,11 @@
     font-weight: 500;
     border-radius: 4px;
     background-color: #0c0c0c;
-    cursor: pointer;
     transition: background-color 0.3s;
 
     &:disabled {
       color: rgba(#fff, 0.8);
       opacity: 0.4;
-      cursor: not-allowed;
     }
   }
 }
@@ -164,7 +160,6 @@
     color: #0c0c0c;
     border-radius: 4px;
     margin-bottom: 12px;
-    cursor: pointer;
 
     &.kakao {
       color: #191919;

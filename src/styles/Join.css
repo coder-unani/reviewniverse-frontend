@@ -67,13 +67,11 @@
   font-weight: 500;
   border-radius: 4px;
   background-color: #0c0c0c;
-  cursor: pointer;
   transition: background-color 0.3s;
 }
 .agree-form button[type=submit]:disabled {
   color: rgba(255, 255, 255, 0.8);
   opacity: 0.4;
-  cursor: not-allowed;
 }
 
 .join-form {
@@ -121,13 +119,11 @@
   font-weight: 500;
   border-radius: 4px;
   background-color: #0c0c0c;
-  cursor: pointer;
   transition: background-color 0.3s;
 }
 .join-form button[type=submit]:disabled {
   color: rgba(255, 255, 255, 0.8);
   opacity: 0.4;
-  cursor: not-allowed;
 }
 
 .join-sns {
@@ -143,7 +139,6 @@
   color: #0c0c0c;
   border-radius: 4px;
   margin-bottom: 12px;
-  cursor: pointer;
 }
 .join-sns button.kakao {
   color: #191919;
