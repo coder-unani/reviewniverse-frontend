@@ -3,7 +3,7 @@ import { useAuthContext } from "/src/context/AuthContext";
 import { useVideoRating } from "/src/hooks/useVideoRating";
 import { RiStarFill } from "@remixicon/react";
 
-const Rating = ({ videoId, myInfo }) => {
+const Rating = ({ videoId, myInfo, toggleEnjoyModal }) => {
   const { user } = useAuthContext();
   const emptyRatingRef = useRef(null);
   const fillRatingRef = useRef(null);
