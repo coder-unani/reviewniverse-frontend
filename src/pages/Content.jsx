@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import Review from "/src/components/Review";
 import People from "/src/components/People";
 import PhotoModal from "/src/components/Modal/PhotoModal";
@@ -6,12 +6,12 @@ import EnjoyModal from "/src/components/Modal/EnjoyModal";
 import ReviewModal from "/src/components/Modal/ReviewModal";
 import ConfirmModal from "/src/components/Modal/ConfirmModal";
 import ProfileImage from "/src/components/Button/Profile/ProfileImage";
+import Rating from "/src/components/Rating";
 import { useNavigate, useParams, Link } from "react-router-dom";
 import { useAuthContext } from "/src/context/AuthContext";
 import { useVideoDetail } from "/src/hooks/useVideoDetail";
 import { useVideoReviews } from "/src/hooks/useVideoReviews";
 import { useVideoMyInfo } from "/src/hooks/useVideoMyInfo";
-import { useVideoRating } from "/src/hooks/useVideoRating";
 import { useVideoLike } from "/src/hooks/useVideoLike";
 import { useReviewDelete } from "/src/hooks/useReviewDelete";
 import { useReviewLike } from "/src/hooks/useReviewLike";
@@ -22,7 +22,6 @@ import { Navigation, Grid } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/grid";
 import {
-  RiStarFill,
   RiUserSmileLine,
   RiUserSmileFill,
   RiPencilFill,
@@ -49,7 +48,6 @@ import "/src/styles/Content.css";
  * 7. 컴포넌트 분리
  * 8. 리뷰 페이지네이션 추가
  * 9. 리뷰 리스트는 정렬 기본은 좋아요 순
- * 10. 존재하지 않는 비디오일 경우 404 페이지로 이동
  */
 
 const Content = () => {
@@ -64,7 +62,6 @@ const Content = () => {
     isLoading: reviewsIsLoading,
   } = useVideoReviews({ videoId, page: 1, pageSize: 8 });
   const { data: myInfo, error: myInfoError, isLoading: myInfoIsLoading } = useVideoMyInfo({ videoId, enabled: user });
-  const { mutate: videoRating } = useVideoRating();
   const { mutate: videoLike } = useVideoLike();
   const { mutate: reviewLike } = useReviewLike();
   const { mutate: reviewDelete } = useReviewDelete();
@@ -73,9 +70,6 @@ const Content = () => {
   const [enjoyModal, setEnjoyModal] = useState(false);
   const [reviewModal, setReviewModal] = useState(false);
   const [confirmModal, setConfirmModal] = useState(false);
-
-  const emptyRatingRef = useRef(null);
-  const fillRatingRef = useRef(null);
 
   // 출연진 스와이퍼 설정
   const crewSwiperConfig = (prevEl, nextEl) => ({
@@ -139,35 +133,6 @@ const Content = () => {
   // 확인 모달창 토글
   const toggleConfirmModal = () => {
     setConfirmModal(!confirmModal);
-  };
-
-  // 비디오 평가하기
-  const handleRatingSet = (rating) => {
-    const fillRating = fillRatingRef.current;
-    fillRating.dataset.rating = rating;
-    fillRating.style.width = `${rating * 10}%`;
-  };
-
-  // 비디오 평가하기 이벤트
-  const handleRatingMouseOver = (e) => {
-    const emptyRating = emptyRatingRef.current;
-    const width = emptyRating.getBoundingClientRect().width;
-    const mouseX = e.clientX - emptyRating.getBoundingClientRect().left;
-    const ratio = Math.max(0, Math.min(mouseX / width, 1));
-    const rating = Math.ceil(ratio * 10);
-    handleRatingSet(rating);
-  };
-
-  const handleRatingMouseOut = () => {
-    handleRatingSet(myInfo && myInfo.rating ? myInfo.rating : 0);
-  };
-
-  const handleRatingClick = async () => {
-    if (!user) {
-      toggleEnjoyModal();
-      return;
-    }
-    videoRating({ videoId, rating: fillRatingRef.current.dataset.rating });
   };
 
   // 비디오 좋아요
@@ -246,30 +211,11 @@ const Content = () => {
         navigate("/error");
       }
     }
+  }, [content]);
 
-    const emptyRating = emptyRatingRef.current;
-    const fillRating = fillRatingRef.current;
-
-    if (!emptyRating || !fillRating) {
-      return;
-    }
-
-    if (user && myInfo) {
-      handleRatingSet(myInfo.rating || 0);
-    }
-
-    emptyRating.addEventListener("mouseover", handleRatingMouseOver);
-    emptyRating.addEventListener("mouseout", handleRatingMouseOut);
-    emptyRating.addEventListener("click", handleRatingClick);
-
-    return () => {
-      emptyRating.removeEventListener("mouseover", handleRatingMouseOver);
-      emptyRating.removeEventListener("mouseout", handleRatingMouseOut);
-      emptyRating.removeEventListener("click", handleRatingClick);
-    };
-  }, [user, myInfo, content]);
-
+  // TODO: 고도화 필요
   if (contentIsLoading || reviewsIsLoading || myInfoIsLoading) return null;
+  if (contentError || reviewsError || myInfoError) return null;
 
   if (!content.status) return null;
 
@@ -332,23 +278,8 @@ const Content = () => {
         </div>
         <div className="info">
           <div className="top">
-            <div className="rating-wrapper">
-              <div className="empty-rating" ref={emptyRatingRef}>
-                <RiStarFill size={45} />
-                <RiStarFill size={45} />
-                <RiStarFill size={45} />
-                <RiStarFill size={45} />
-                <RiStarFill size={45} />
-              </div>
-              <div className="fill-rating" ref={fillRatingRef}>
-                <RiStarFill size={45} />
-                <RiStarFill size={45} />
-                <RiStarFill size={45} />
-                <RiStarFill size={45} />
-                <RiStarFill size={45} />
-              </div>
-              <span id="ratingText">평가하기</span>
-            </div>
+            <Rating videoId={videoId} myInfo={myInfo} />
+
             <div className="button-wrapper">
               <button
                 className={`like ${myInfo && myInfo.is_like ? "active" : ""}`}
