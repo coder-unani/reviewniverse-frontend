@@ -1,5 +1,4 @@
 import { fetchUser } from "/src/api/users";
-import { cLog, cError } from "/src/utils/test";
 
 export const useUser = async ({ userId }) => {
   try {
