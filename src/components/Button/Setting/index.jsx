@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { useAuthContext } from "/src/context/AuthContext";
 import { MESSAGES } from "/src/config/messages";
 import { RiSettings2Fill } from "@remixicon/react";
+import { showSuccessToast, showErrorToast } from "/src/components/Toast";
 
 /**
  * TODO:
@@ -30,9 +31,10 @@ const SettingButton = () => {
   const handleLogoutClick = async () => {
     const res = await logout();
     if (res.status) {
+      showSuccessToast(MESSAGES[res.code]);
       navigate("/");
     } else {
-      cLog(MESSAGES[res.code]);
+      showErrorToast(MESSAGES[res.code]);
     }
   };
 
