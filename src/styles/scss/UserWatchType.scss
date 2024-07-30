@@ -45,8 +45,12 @@
     border-radius: 4px;
     background-color: #0c0c0c;
     margin-top: 20px;
-    cursor: pointer;
     transition: background-color 0.3s;
+
+    &:disabled {
+      color: rgba(#fff, 0.8);
+      opacity: 0.4;
+    }
   }
 }
 
