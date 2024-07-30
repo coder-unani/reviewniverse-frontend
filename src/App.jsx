@@ -3,6 +3,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ThemeContextProvider } from "/src/context/ThemeContext";
 import { RouterProvider } from "react-router-dom";
 import router from "/src/routes";
+import { ToastWrapper } from "/src/components/Toast";
 import "/src/styles/App.css";
 
 /**
@@ -22,6 +23,7 @@ function App() {
     <QueryClientProvider client={queryClient}>
       <ThemeContextProvider>
         <RouterProvider router={router} />
+        <ToastWrapper />
       </ThemeContextProvider>
     </QueryClientProvider>
   );
