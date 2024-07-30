@@ -124,41 +124,54 @@
 }
 .info-wrapper .top {
   display: flex;
-  align-items: center;
-  justify-content: space-between;
-  border-bottom: 1px solid #d9d9d9;
+  flex-direction: column;
+  align-items: flex-start;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
   padding-bottom: 15px;
 }
 .info-wrapper .top .rating-wrapper {
-  position: relative;
   display: flex;
-  flex-direction: column;
-  cursor: pointer;
+  justify-content: space-between;
+  width: 100%;
+  padding-bottom: 20px;
 }
-.info-wrapper .top .rating-wrapper .empty-rating svg {
-  color: #eeeeee;
+.info-wrapper .top .rating-wrapper .rating-text {
+  display: flex;
+  align-items: baseline;
 }
-.info-wrapper .top .rating-wrapper span {
-  font-size: 12px;
+.info-wrapper .top .rating-wrapper #fullRating {
+  font-weight: 500;
   color: #8c8c8c;
-  margin: 10px 0 0 6px;
+  margin-left: 6px;
 }
-.info-wrapper .top .rating-wrapper .fill-rating {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 0%;
-  white-space: nowrap;
-  overflow: hidden;
-  pointer-events: none;
+.info-wrapper .top .rating-wrapper #ratingNumber {
+  font-size: 45px;
+  font-weight: 800;
+  line-height: 1;
+  letter-spacing: -2.5px;
 }
-.info-wrapper .top .rating-wrapper .fill-rating svg {
-  color: gold;
+.info-wrapper .top .rating-wrapper #ratingNumber.high {
+  color: #00ce7a;
+}
+.info-wrapper .top .rating-wrapper #ratingNumber.middle {
+  color: #ffbd3f;
+}
+.info-wrapper .top .rating-wrapper #ratingNumber.low {
+  color: #ff6874;
+}
+.info-wrapper .top .rating-wrapper #emptyNumber {
+  font-size: 13px;
+  line-height: 24px;
+  color: #8c8c8c;
 }
 .info-wrapper .top .button-wrapper {
   display: flex;
   align-items: flex-end;
+  justify-content: space-between;
   gap: 10px;
+  width: 100%;
+  border-top: 1px solid rgba(0, 0, 0, 0.1);
+  padding-top: 20px;
 }
 .info-wrapper .top .button-wrapper .like,
 .info-wrapper .top .button-wrapper .review {
@@ -187,7 +200,7 @@
   color: deeppink;
 }
 .info-wrapper .my-review-wrapper {
-  border-bottom: 1px solid #d9d9d9;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
   padding: 20px 0;
 }
 .info-wrapper .my-review-wrapper h4 {
@@ -242,6 +255,7 @@
 }
 .info-wrapper .my-review-wrapper .delete span,
 .info-wrapper .my-review-wrapper .update span {
+  line-height: 18px;
   color: #8c8c8c;
   margin-left: 3px;
 }
@@ -374,26 +388,73 @@
   font-size: 14px;
   color: #8c8c8c;
 }
-.review-wrapper .reviews {
-  display: grid;
-  gap: 8px;
-  grid-template-columns: repeat(4, minmax(0px, 1fr));
+.review-wrapper .swiper-container {
+  position: relative;
 }
-.review-wrapper .reviews .review {
-  width: 100%;
+.review-wrapper .swiper-container .swiper-wrapper {
+  display: grid;
+  grid-template-rows: repeat(2, 1fr);
+  grid-auto-flow: column;
+}
+.review-wrapper .swiper-container .swiper {
+  margin: 10px 0;
+}
+.review-wrapper .swiper-container .swiper-button-prev,
+.review-wrapper .swiper-container .swiper-button-next {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background-color: #fff;
+  box-shadow: 0 0 4px 0 rgba(0, 0, 0, 0.2);
+  padding: 5px;
+  z-index: 10;
+  cursor: pointer;
+}
+.review-wrapper .swiper-container .swiper-button-prev.swiper-button-disabled,
+.review-wrapper .swiper-container .swiper-button-next.swiper-button-disabled {
+  display: none;
+}
+.review-wrapper .swiper-container .swiper-button-prev svg,
+.review-wrapper .swiper-container .swiper-button-next svg {
+  color: rgba(0, 0, 0, 0.5);
+}
+.review-wrapper .swiper-container .swiper-button-prev {
+  left: -17px;
+}
+.review-wrapper .swiper-container .swiper-button-next {
+  right: -17px;
+}
+.review-wrapper .swiper-container .swiper-button-prev::after,
+.review-wrapper .swiper-container .swiper-button-next::after {
+  display: none;
+}
+.review-wrapper .swiper-container .swiper-button-prev::after,
+.review-wrapper .swiper-container .swiper-button-next::after {
+  display: none;
+}
+.review-wrapper .review {
+  display: flex;
+  flex-direction: column;
   background-color: #f5f5f5;
   border-radius: 6px;
   padding: 0 12px;
+  margin-right: 4px;
 }
-.review-wrapper .reviews .review > div:not(:last-child) {
+.review-wrapper .review > div:not(:last-child) {
   border-bottom: 1px solid rgba(0, 0, 0, 0.1);
 }
-.review-wrapper .reviews .review .top {
+.review-wrapper .review .top {
   display: flex;
   align-items: center;
   justify-content: space-between;
 }
-.review-wrapper .reviews .review .rating {
+.review-wrapper .review .rating {
   display: flex;
   align-items: center;
   gap: 4px;
@@ -403,11 +464,12 @@
   border: 1px solid rgba(0, 0, 0, 0.1);
   padding: 0 8px;
 }
-.review-wrapper .reviews .review .middle {
+.review-wrapper .review .middle {
+  height: 141px;
   padding: 10px 0;
   cursor: pointer;
 }
-.review-wrapper .reviews .review .middle p {
+.review-wrapper .review .middle p {
   font-size: 15px;
   line-height: 24px;
   white-space: pre-wrap;
@@ -416,25 +478,25 @@
   -webkit-box-orient: vertical;
   overflow: hidden;
 }
-.review-wrapper .reviews .review .bottom {
+.review-wrapper .review .bottom {
   display: flex;
   align-items: center;
   justify-content: space-between;
 }
-.review-wrapper .reviews .review .bottom > span {
+.review-wrapper .review .bottom > span {
   font-size: 14px;
   color: rgba(0, 0, 0, 0.5);
 }
-.review-wrapper .reviews .review .like {
+.review-wrapper .review .like {
   display: flex;
   align-items: center;
   gap: 4px;
   padding: 10px 0;
 }
-.review-wrapper .reviews .review .like svg {
+.review-wrapper .review .like svg {
   color: deeppink;
 }
-.review-wrapper .reviews .review .like span {
+.review-wrapper .review .like span {
   font-size: 14px;
   color: deeppink;
 }
@@ -516,21 +578,23 @@
   object-fit: cover;
 }
 
+/*
 @media (max-width: 1280px) {
-  .info-wrapper .top {
-    flex-direction: column;
-    align-items: flex-start;
-  }
-  .info-wrapper .top .rating-wrapper {
-    padding-bottom: 20px;
-  }
-  .info-wrapper .top .button-wrapper {
-    width: 100%;
-    justify-content: space-between;
-    border-top: 1px solid rgba(0, 0, 0, 0.1);
-    padding-top: 20px;
+  .info-wrapper {
+    .top {
+      flex-direction: column;
+      align-items: flex-start;
+
+      .button-wrapper {
+        width: 100%;
+        justify-content: space-between;
+        border-top: 1px solid rgba(0, 0, 0, 0.1);
+        padding-top: 20px;
+      }
+    }
   }
 }
+*/
 @media (max-width: 1024px) {
   .banner-wrapper .main-info-wrapper .main-info {
     flex-direction: column;
@@ -545,9 +609,6 @@
   .review-wrapper {
     padding: 30px;
   }
-  .review-wrapper .reviews {
-    grid-template-columns: repeat(3, minmax(0px, 1fr));
-  }
   .gallery-wrapper {
     padding: 30px 30px 60px;
   }
@@ -557,9 +618,6 @@
     flex-direction: column-reverse;
     align-items: center;
     gap: unset;
-  }
-  .review-wrapper .reviews {
-    grid-template-columns: repeat(2, minmax(0px, 1fr));
   }
 }
 @media (max-width: 576px) {
@@ -572,10 +630,6 @@
   }
   .info-wrapper .top {
     align-items: center;
-  }
-  .info-wrapper .top .rating-wrapper span {
-    text-align: center;
-    margin: 10px 0 0 0;
   }
   .info-wrapper .my-review-wrapper .my-review {
     flex-direction: column;
@@ -595,24 +649,28 @@
     padding: 30px 0;
   }
   .review-wrapper {
-    padding: 30px 15px;
+    padding: 30px 0;
   }
-  .review-wrapper .reviews {
-    grid-template-columns: repeat(1, minmax(0px, 1fr));
+  .review-wrapper .swiper-container .swiper-wrapper {
+    grid-template-rows: repeat(1, 1fr);
   }
   .gallery-wrapper {
     padding: 30px 0 60px;
   }
   .crew-wrapper .title,
+  .review-wrapper .title,
   .gallery-wrapper .title {
     padding-left: 15px;
   }
   .crew-wrapper .swiper-container .swiper,
+  .review-wrapper .swiper-container .swiper,
   .gallery-wrapper .swiper-container .swiper {
     padding: 0 15px;
   }
   .crew-wrapper .swiper-container .swiper-button-prev,
   .crew-wrapper .swiper-container .swiper-button-next,
+  .review-wrapper .swiper-container .swiper-button-prev,
+  .review-wrapper .swiper-container .swiper-button-next,
   .gallery-wrapper .swiper-container .swiper-button-prev,
   .gallery-wrapper .swiper-container .swiper-button-next {
     display: none;
