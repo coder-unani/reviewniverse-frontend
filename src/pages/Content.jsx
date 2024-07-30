@@ -62,7 +62,11 @@ const Content = () => {
     error: reviewsError,
     isLoading: reviewsIsLoading,
   } = useVideoReviews({ videoId, page: 1, pageSize: 8 });
-  const { data: myInfo, error: myInfoError, isLoading: myInfoIsLoading } = useVideoMyInfo({ videoId, enabled: user });
+  const {
+    data: myInfo,
+    error: myInfoError,
+    isLoading: myInfoIsLoading,
+  } = useVideoMyInfo({ videoId, userId: user.id, enabled: user });
   const { mutate: videoLike } = useVideoLike();
   const { mutate: reviewLike } = useReviewLike();
   const { mutate: reviewDelete } = useReviewDelete();

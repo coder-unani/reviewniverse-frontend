@@ -1,9 +1,9 @@
 import { useQuery } from "@tanstack/react-query";
 import { fetchVideoMyInfo } from "/src/api/videos";
 
-export const useVideoMyInfo = ({ videoId, enabled }) => {
+export const useVideoMyInfo = ({ videoId, userId, enabled }) => {
   return useQuery({
-    queryKey: ["videoMyInfo", videoId],
+    queryKey: ["videoMyInfo", videoId, userId],
     queryFn: async () => {
       const res = await fetchVideoMyInfo({ videoId });
       return res.status === 200 ? res.data.data : null;
