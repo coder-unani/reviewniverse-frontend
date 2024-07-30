@@ -10,9 +10,9 @@ import { useThemeContext } from "/src/context/ThemeContext";
 import { isValidProvider } from "/src/utils/validation";
 import { isEmpty } from "lodash";
 import { MESSAGES } from "/src/config/messages";
+import { showSuccessToast, showErrorToast } from "/src/components/Toast";
 import Logo from "/assets/logo.svg";
 import "/src/styles/Join.css";
-import { cLog, cError } from "/src/utils/test";
 
 /**
  * TODO:
@@ -56,7 +56,7 @@ const SocialJoin = () => {
 
     const res = await join(joinUser);
     if (res.status) {
-      cLog(MESSAGES[res.code]);
+      showSuccessToast(MESSAGES[res.code]);
 
       const loginUser = {
         code: joinUser.code,
@@ -65,12 +65,18 @@ const SocialJoin = () => {
       };
 
       const loginRes = await login(loginUser);
-      cLog(MESSAGES[loginRes.code]);
-      if (!loginRes.status) {
+      if (loginRes.status) {
+        // 회원 취향 등록 페이지로 이동
+        navigate("/user/watchtype");
+      } else {
+        // 로그인 실패
+        showErrorToast(MESSAGES[res.code]);
         navigate("/user/login");
       }
     } else {
-      cLog(MESSAGES[res.code]);
+      // 회원가입 실패
+      showErrorToast(MESSAGES[res.code]);
+      navigate("/user/login");
     }
   };
 
@@ -80,9 +86,9 @@ const SocialJoin = () => {
     }
     if (user) {
       setSnsUser(null);
-      navigate("/");
+      // navigate("/");
     }
-  }, [provider, user, setSnsUser, navigate]);
+  }, [provider, user, setSnsUser]);
 
   useEffect(() => {
     if (!snsUser || !isAgree || isEmpty(agreeValues)) return;
