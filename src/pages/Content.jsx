@@ -278,7 +278,7 @@ const Content = () => {
         </div>
         <div className="info">
           <div className="top">
-            <Rating videoId={videoId} myInfo={myInfo} />
+            <Rating videoId={videoId} myInfo={myInfo} toggleEnjoyModal={toggleEnjoyModal} />
 
             <div className="button-wrapper">
               <button
