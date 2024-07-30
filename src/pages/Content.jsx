@@ -110,9 +110,9 @@ const Content = () => {
     allowTouchMove: true,
     breakpoints: {
       577: {
-        slidesPerView: 1,
-        slidesPerGroup: 1,
-        grid: { rows: 1, fill: "column" },
+        slidesPerView: 2,
+        slidesPerGroup: 2,
+        grid: { rows: 2, fill: "column" },
         allowTouchMove: false,
       },
       1025: {
