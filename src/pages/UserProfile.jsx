@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { useAuthContext } from "/src/context/AuthContext";
 import { useUserUpdate } from "/src/hooks/useUserUpdate";
 import { useValidateNickname } from "/src/hooks/useValidateNickname";
+import { showSuccessToast, showErrorToast } from "/src/components/Toast";
 import * as Yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm, useWatch } from "react-hook-form";
@@ -16,7 +17,6 @@ import {
 import { isValidFileSize, isValidFileType } from "/src/utils/validation";
 import { RiImageEditFill } from "@remixicon/react";
 import "/src/styles/UserProfile.css";
-import { cLog, cError } from "/src/utils/test";
 
 /**
  * TODO:
@@ -68,8 +68,8 @@ const UserProfile = () => {
 
   const watchIntroduction = useWatch({ control, name: "profile_text", defaultValue: "" });
 
+  // TODO: 프로필 소개 길이 확인 필요
   const onSubmit = handleSubmit(async (data) => {
-    // 닉네임 검증
     const nicknameValid = await trigger("nickname");
     if (nicknameValid && user.nickname !== data.nickname) {
       const nicknameRes = await useValidateNickname({ nickname: data.nickname });
@@ -83,7 +83,6 @@ const UserProfile = () => {
     }
 
     const updateData = { ...data };
-    // 중복되지 않은 데이터만 추출
     const fieldsCheck = ["profile_image", "nickname", "profile_text", "is_marketing_agree"];
     fieldsCheck.forEach((field) => {
       if (data[field] === user[field] || (field === "profile_image" && data[field] === DEFAULT_IMAGES.noProfile)) {
@@ -94,10 +93,10 @@ const UserProfile = () => {
 
     const res = await useUserUpdate({ userId: user.id, updateData });
     if (res.status) {
-      cLog(res.code);
-      navigate(`/user/${user.id}`, { state: { userUpdate: res } });
+      showSuccessToast(res.code);
+      navigate(`/user/${user.id}`, { state: { isUserUpdate: res.status } });
     } else {
-      cLog(res.code);
+      showErrorToast(res.code);
     }
   });
 
@@ -129,7 +128,6 @@ const UserProfile = () => {
       setPreviewImage(reader.result);
     };
     reader.readAsDataURL(file);
-    // useForm의 setValue를 사용하여 profileImage 필드를 업데이트
     setValue("profile_image", file, { shouldValidate: true, shouldDirty: true });
     clearErrors("profile_image");
   };
