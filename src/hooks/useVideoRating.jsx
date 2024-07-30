@@ -10,6 +10,15 @@ export const useVideoRating = () => {
     onSuccess: (res, variables) => {
       if (res.status === 200) {
         cLog("비디오 평가 점수가 변경되었습니다.");
+        // videoDetail 쿼리 키의 데이터를 업데이트
+        queryClient.setQueryData(["videoDetail", variables.videoId], (prevDetail) => {
+          if (!prevDetail) return prevDetail;
+          const updatedRating = res.data.data.rating_avg;
+          return {
+            ...prevDetail,
+            data: { ...prevDetail.data, rating: updatedRating },
+          };
+        });
         // videoMyInfo 쿼리 키의 데이터를 업데이트
         queryClient.setQueryData(["videoMyInfo", variables.videoId], (prevMyInfo) => {
           if (!prevMyInfo) return prevMyInfo;
