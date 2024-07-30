@@ -10,10 +10,11 @@ import Production from "/src/pages/Production";
 import Login from "/src/pages/Login";
 import Join from "/src/pages/Join";
 import SocialJoin from "/src/pages/SocialJoin";
-import UserFavorite from "/src/pages/UserFavorite";
+import UserWatchType from "/src/pages/UserWatchType";
 import UserFind from "/src/pages/UserFind";
 import ResetPassword from "/src/pages/ResetPassword";
 import User from "/src/pages/User";
+import UserRatings from "/src/pages/UserRatings";
 import Error from "/src/pages/Error";
 import NotFound from "/src/pages/NotFound";
 
@@ -74,8 +75,8 @@ const MainRoutes = {
       element: <Join />,
     },
     {
-      path: "/user/favorite",
-      element: <UserFavorite />,
+      path: "/user/watchtype",
+      element: <UserWatchType />,
     },
     {
       path: "/user/find/:type",
@@ -88,6 +89,10 @@ const MainRoutes = {
     {
       path: "/user/:userId",
       element: <User />,
+    },
+    {
+      path: "/user/:userId/contents/ratings",
+      element: <UserRatings />,
     },
     {
       path: "/error",
