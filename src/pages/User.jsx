@@ -4,15 +4,12 @@ import ProfileImage from "/src/components/Button/Profile/ProfileImage";
 import SettingButton from "/src/components/Button/Setting";
 import { useAuthContext } from "/src/context/AuthContext";
 import { useUser } from "/src/hooks/useUser";
-import { DEFAULT_IMAGES } from "/src/config/constants";
+import { showErrorToast } from "/src/components/Toast";
 import { formatNumber } from "/src/utils/format";
-import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import { DEFAULT_IMAGES } from "/src/config/constants";
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import "react-lazy-load-image-component/src/effects/blur.css";
 import "/src/styles/User.css";
-import { cLog, cError } from "/src/utils/test";
-import { isEmpty } from "lodash";
 
 const User = () => {
   const navigate = useNavigate();
@@ -23,23 +20,19 @@ const User = () => {
   const [isLogin, setIsLogin] = useState(false);
   const [profile, setProfile] = useState(null);
 
-  const handleUserUpdate = ({ code, data }) => {
-    toast.success(code, { position: "top-center", autoClose: 3000 });
-    handleSetUser({ user: data });
-    navigate(location.pathname, { replace: true, state: {} });
-  };
-
   useEffect(() => {
-    const { userUpdate } = location.state || {};
+    const { isUserUpdate } = location.state || false;
     const getUser = async () => {
       const res = await useUser({ userId });
       if (res.status) {
         setProfile(res.data);
-        if (!isEmpty(userUpdate)) {
-          handleUserUpdate({ code: userUpdate.code, data: res.data });
+        if (isUserUpdate) {
+          handleSetUser({ user: res.data });
+          navigate(location.pathname, { replace: true, state: {} });
         }
       } else {
-        cLog(res.code);
+        showErrorToast(res.code);
+        navigate(-1);
       }
     };
     getUser();
@@ -88,7 +81,6 @@ const User = () => {
           </div>
         )}
       </div>
-      <ToastContainer />
     </main>
   );
 };
