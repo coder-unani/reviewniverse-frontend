@@ -1,5 +1,4 @@
 import { fetchValidateNickname } from "/src/api/users";
-import { cLog, cError } from "/src/utils/test";
 
 export const useValidateNickname = async ({ nickname }) => {
   try {
