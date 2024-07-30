@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import Review from "/src/components/Review";
 import People from "/src/components/People";
 import PhotoModal from "/src/components/Modal/PhotoModal";
@@ -6,7 +6,7 @@ import EnjoyModal from "/src/components/Modal/EnjoyModal";
 import ReviewModal from "/src/components/Modal/ReviewModal";
 import ConfirmModal from "/src/components/Modal/ConfirmModal";
 import ProfileImage from "/src/components/Button/Profile/ProfileImage";
-import Rating from "/src/components/Rating";
+import Rating2 from "/src/components/Rating2";
 import { useNavigate, useParams, Link } from "react-router-dom";
 import { useAuthContext } from "/src/context/AuthContext";
 import { useVideoDetail } from "/src/hooks/useVideoDetail";
@@ -37,6 +37,7 @@ import {
   formatPoster,
   formatCountry,
   formatGenreArray,
+  formatRating,
   formatActorRoleCode,
   formatStaffRoleCode,
 } from "/src/utils/formatContent";
@@ -65,6 +66,7 @@ const Content = () => {
   const { mutate: videoLike } = useVideoLike();
   const { mutate: reviewLike } = useReviewLike();
   const { mutate: reviewDelete } = useReviewDelete();
+  const ratingNumberRef = useRef(null);
 
   const [photoModal, setPhotoModal] = useState({ isOpen: false, url: "" });
   const [enjoyModal, setEnjoyModal] = useState(false);
@@ -91,6 +93,32 @@ const Content = () => {
         slidesPerView: 4,
         slidesPerGroup: 4,
         grid: { rows: 3, fill: "column" },
+        allowTouchMove: false,
+      },
+    },
+  });
+
+  // 리뷰 스와이터 설정
+  const reviewSwiperConfig = (prevEl, nextEl) => ({
+    modules: [Grid, Navigation],
+    spaceBetween: 4,
+    slidesPerView: 1,
+    slidesPerGroup: 1,
+    speed: 1000,
+    grid: { rows: 1, fill: "column" },
+    navigation: { prevEl, nextEl },
+    allowTouchMove: true,
+    breakpoints: {
+      577: {
+        slidesPerView: 1,
+        slidesPerGroup: 1,
+        grid: { rows: 1, fill: "column" },
+        allowTouchMove: false,
+      },
+      1025: {
+        slidesPerView: 4,
+        slidesPerGroup: 4,
+        grid: { rows: 2, fill: "column" },
         allowTouchMove: false,
       },
     },
@@ -211,6 +239,16 @@ const Content = () => {
         navigate("/error");
       }
     }
+
+    if (!ratingNumberRef.current) return;
+    ratingNumberRef.current.classList.remove("high", "middle", "low");
+    if (content.data.rating > 6) {
+      ratingNumberRef.current.classList.add("high");
+    } else if (content.data.rating > 4) {
+      ratingNumberRef.current.classList.add("middle");
+    } else {
+      ratingNumberRef.current.classList.add("low");
+    }
   }, [content]);
 
   // TODO: 고도화 필요
@@ -278,7 +316,21 @@ const Content = () => {
         </div>
         <div className="info">
           <div className="top">
-            <Rating videoId={videoId} myInfo={myInfo} toggleEnjoyModal={toggleEnjoyModal} />
+            <div className="rating-wrapper">
+              <div className="rating-text">
+                {content.data.rating > 0 ? (
+                  <>
+                    <span id="ratingNumber" ref={ratingNumberRef}>
+                      {formatRating(content.data.rating)}
+                    </span>
+                    <span id="fullRating">/ 5</span>
+                  </>
+                ) : (
+                  <span id="emptyNumber">아직 기록된 평점이 없습니다.</span>
+                )}
+              </div>
+              <Rating2 videoId={videoId} myInfo={myInfo} toggleEnjoyModal={toggleEnjoyModal} />
+            </div>
 
             <div className="button-wrapper">
               <button
@@ -295,6 +347,7 @@ const Content = () => {
               </button>
             </div>
           </div>
+
           {myInfo && !isEmpty(myInfo.review) && (
             <div className="my-review-wrapper">
               <h4>내가 쓴 리뷰</h4>
@@ -377,17 +430,25 @@ const Content = () => {
             <p>기록된 리뷰가 없습니다. 리뷰를 남겨보세요!</p>
           </div>
         ) : (
-          <ul className="reviews">
-            {reviews.slice(0, 8).map((review, index) => (
-              <li key={index}>
-                <Review
-                  review={review}
-                  isLike={myInfo && includes(myInfo.review_like, review.id)}
-                  onLikeClick={handleReviewLike}
-                />
-              </li>
-            ))}
-          </ul>
+          <div className="swiper-container">
+            <Swiper {...reviewSwiperConfig(".prev-review", ".next-review")}>
+              {reviews.map((review, index) => (
+                <SwiperSlide key={index}>
+                  <Review
+                    review={review}
+                    isLike={myInfo && includes(myInfo.review_like, review.id)}
+                    onLikeClick={handleReviewLike}
+                  />
+                </SwiperSlide>
+              ))}
+            </Swiper>
+            <div className={`swiper-button-prev prev-review`}>
+              <RiArrowLeftSLine size={24} />
+            </div>
+            <div className={`swiper-button-next next-review`}>
+              <RiArrowRightSLine size={24} />
+            </div>
+          </div>
         )}
       </section>
 
