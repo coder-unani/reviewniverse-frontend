@@ -2,6 +2,7 @@ import React, { useRef, useEffect } from "react";
 import { useAuthContext } from "/src/context/AuthContext";
 import { useVideoRating } from "/src/hooks/useVideoRating";
 import { RiStarFill } from "@remixicon/react";
+import "/src/styles/Rating.css";
 
 const Rating = ({ videoId, myInfo, toggleEnjoyModal }) => {
   const { user } = useAuthContext();
@@ -62,7 +63,7 @@ const Rating = ({ videoId, myInfo, toggleEnjoyModal }) => {
   }, [user, myInfo]);
 
   return (
-    <div className="rating-wrapper">
+    <div className="ratings-wrapper">
       <div className="empty-rating" ref={emptyRatingRef}>
         <RiStarFill size={45} />
         <RiStarFill size={45} />

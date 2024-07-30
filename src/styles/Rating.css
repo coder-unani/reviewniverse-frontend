@@ -1,0 +1,38 @@
+.ratings-wrapper {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  cursor: pointer;
+}
+.ratings-wrapper .empty-rating svg {
+  color: #eeeeee;
+}
+.ratings-wrapper span {
+  font-size: 12px;
+  color: #8c8c8c;
+  margin: 10px 0 0 6px;
+}
+.ratings-wrapper .fill-rating {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 0%;
+  white-space: nowrap;
+  overflow: hidden;
+  pointer-events: none;
+}
+.ratings-wrapper .fill-rating svg {
+  color: gold;
+}
+
+@media (max-width: 1280px) {
+  .ratings-wrapper {
+    padding-bottom: 20px;
+  }
+}
+@media (max-width: 576px) {
+  .ratings-wrapper span {
+    text-align: center;
+    margin: 10px 0 0 0;
+  }
+}
