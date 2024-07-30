@@ -20,6 +20,8 @@ export const VIDEO_ORDER_OPTIONS = [
   "rating_desc",
   "release_desc",
 ];
+1;
+export const VIDEO_RATING_TEXT = ["최악이에요!", "싫어요", "그저그래요", "좋아요", "최고에요!"];
 
 export const PROFILE_IMAGE_FILE_SIZE = 30;
 
