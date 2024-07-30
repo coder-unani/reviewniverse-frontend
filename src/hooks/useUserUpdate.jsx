@@ -1,5 +1,4 @@
 import { fetchUserUpdate } from "/src/api/users";
-import { cLog, cError } from "/src/utils/test";
 
 export const useUserUpdate = async ({ userId, updateData }) => {
   try {
