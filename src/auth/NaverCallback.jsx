@@ -1,11 +1,11 @@
 import React, { useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
+import LoginLoading from "/src/components/LoginLoading";
 import { useAuthContext } from "/src/context/AuthContext";
 import { formatProvider } from "/src/utils/formatContent";
 import { SETTINGS } from "/src/config/settings";
 import { MESSAGES } from "/src/config/messages";
-import { cLog, cError } from "/src/utils/test";
-import LoginLoading from "/src/components/LoginLoading";
+import { showSuccessToast, showErrorToast } from "/src/components/Toast";
 
 const NaverCallback = () => {
   const navigate = useNavigate();
@@ -35,9 +35,11 @@ const NaverCallback = () => {
             };
 
             const res = await login(loginUser);
-            if (!res.status) {
+            if (res.status) {
+              showSuccessToast(MESSAGES[res.code]);
+              navigate("/");
+            } else {
               if (res.code === "L003") {
-                cLog(MESSAGES[res.code]);
                 setSnsUser({
                   code: loginUser.code,
                   email: naverUser.email,
@@ -46,16 +48,17 @@ const NaverCallback = () => {
                   profile_image: naverUser.profile_image,
                 });
               } else {
-                cLog(MESSAGES[res.code]);
+                showErrorToast(MESSAGES[res.code]);
                 navigate("/user/login");
               }
             }
           } else {
-            cLog(MESSAGES["L002"]);
+            showErrorToast(MESSAGES["L002"]);
+            navigate("/user/login");
           }
         });
       } catch (error) {
-        cLog(MESSAGES["L002"]);
+        showErrorToast(MESSAGES["L002"]);
         navigate("/user/login");
       }
     };

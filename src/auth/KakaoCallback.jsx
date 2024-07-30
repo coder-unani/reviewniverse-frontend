@@ -6,7 +6,7 @@ import { useAuthContext } from "/src/context/AuthContext";
 import { formatProvider } from "/src/utils/formatContent";
 import { SETTINGS } from "/src/config/settings";
 import { MESSAGES } from "/src/config/messages";
-import { cLog, cError } from "/src/utils/test";
+import { showSuccessToast, showErrorToast } from "/src/components/Toast";
 
 const KakaoCallback = () => {
   const navigate = useNavigate();
@@ -39,9 +39,11 @@ const KakaoCallback = () => {
           };
 
           const res = await login(loginUser);
-          if (!res.status) {
+          if (res.status) {
+            showSuccessToast(MESSAGES[res.code]);
+            navigate("/");
+          } else {
             if (res.code === "L003") {
-              cLog(MESSAGES[res.code]);
               setSnsUser({
                 code: loginUser.code,
                 email: kakaoUser.kakao_account.email,
@@ -50,13 +52,14 @@ const KakaoCallback = () => {
                 profile_image: kakaoUser.properties.profile_image,
               });
             } else {
-              cLog(MESSAGES[res.code]);
+              // TODO: 이메일/닉네임 유효성 검사
+              showErrorToast(MESSAGES[res.code]);
               navigate("/user/login");
             }
           }
         }
       } catch (error) {
-        cLog(MESSAGES["L002"]);
+        showErrorToast(MESSAGES["L002"]);
         navigate("/user/login");
       }
     };

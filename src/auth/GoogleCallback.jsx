@@ -6,7 +6,7 @@ import { signInWithPopup } from "firebase/auth";
 import { auth, provider } from "/src/auth/firebase";
 import { formatProvider } from "/src/utils/formatContent";
 import { MESSAGES } from "/src/config/messages";
-import { cLog, cError } from "/src/utils/test";
+import { showSuccessToast, showErrorToast } from "/src/components/Toast";
 
 const GoogleCallback = () => {
   const navigate = useNavigate();
@@ -27,9 +27,11 @@ const GoogleCallback = () => {
 
         // 로그인 확인
         const res = await login(loginUser);
-        if (!res.status) {
+        if (res.status) {
+          showSuccessToast(MESSAGES[res.code]);
+          navigate("/");
+        } else {
           if (res.code === "L003") {
-            cLog(MESSAGES[res.code]);
             setSnsUser({
               code: loginUser.code,
               email: googleUser.email,
@@ -39,12 +41,12 @@ const GoogleCallback = () => {
             });
           } else {
             // TODO: 이메일/닉네임 유효성 검사
-            cLog(MESSAGES[res.code]);
+            showErrorToast(MESSAGES[res.code]);
             navigate("/user/login");
           }
         }
       } catch (error) {
-        cLog(MESSAGES["L002"]);
+        showErrorToast(MESSAGES["L002"]);
         navigate("/user/login");
       }
     };
