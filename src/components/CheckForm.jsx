@@ -1,5 +1,6 @@
 import React from "react";
 import { useForm } from "react-hook-form";
+import { cLog, cError } from "/src/utils/test";
 
 /**
  * TODO:
@@ -15,7 +16,7 @@ const CheckForm = ({ setIsPasswordConfirmed }) => {
   } = useForm();
 
   const onSubmit = handleSubmit((data) => {
-    console.log(data);
+    cLog(data);
     // 비밀번호 확인 API 호출
 
     // 성공시
