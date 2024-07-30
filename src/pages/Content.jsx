@@ -235,6 +235,19 @@ const Content = () => {
   }, []);
 
   useEffect(() => {
+    const ratingNumber = ratingNumberRef.current;
+    if (!ratingNumber || !content || contentIsLoading) return;
+    ratingNumber.classList.remove("high", "middle", "low");
+    if (content.data.rating > 6) {
+      ratingNumber.classList.add("high");
+    } else if (content.data.rating > 4) {
+      ratingNumber.classList.add("middle");
+    } else {
+      ratingNumber.classList.add("low");
+    }
+  });
+
+  useEffect(() => {
     if (!content) return;
     if (!content.status) {
       if (content.code === "V002") {
@@ -242,16 +255,7 @@ const Content = () => {
       } else {
         navigate("/error");
       }
-    }
-
-    if (!ratingNumberRef.current) return;
-    ratingNumberRef.current.classList.remove("high", "middle", "low");
-    if (content.data.rating > 6) {
-      ratingNumberRef.current.classList.add("high");
-    } else if (content.data.rating > 4) {
-      ratingNumberRef.current.classList.add("middle");
-    } else {
-      ratingNumberRef.current.classList.add("low");
+      return;
     }
   }, [content]);
 
