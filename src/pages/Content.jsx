@@ -6,7 +6,7 @@ import EnjoyModal from "/src/components/Modal/EnjoyModal";
 import ReviewModal from "/src/components/Modal/ReviewModal";
 import ConfirmModal from "/src/components/Modal/ConfirmModal";
 import ProfileImage from "/src/components/Button/Profile/ProfileImage";
-import { useParams, Link } from "react-router-dom";
+import { useNavigate, useParams, Link } from "react-router-dom";
 import { useAuthContext } from "/src/context/AuthContext";
 import { useVideoDetail } from "/src/hooks/useVideoDetail";
 import { useVideoReviews } from "/src/hooks/useVideoReviews";
@@ -53,6 +53,7 @@ import "/src/styles/Content.css";
  */
 
 const Content = () => {
+  const navigate = useNavigate();
   const { contentId } = useParams();
   const videoId = parseInt(contentId);
   const { user } = useAuthContext();
@@ -236,8 +237,16 @@ const Content = () => {
     };
   }, []);
 
-  // 평가하기 이벤트
   useEffect(() => {
+    if (!content) return;
+    if (!content.status) {
+      if (content.code === "V002") {
+        navigate("/404-not-found");
+      } else {
+        navigate("/error");
+      }
+    }
+
     const emptyRating = emptyRatingRef.current;
     const fillRating = fillRatingRef.current;
 
@@ -262,46 +271,48 @@ const Content = () => {
 
   if (contentIsLoading || reviewsIsLoading || myInfoIsLoading) return null;
 
+  if (!content.status) return null;
+
   return (
     <main className="content-main">
       <section className="banner-wrapper">
         <figure className="banner">
-          <LazyLoadImage src={formatBackgroundImage(content.thumbnail)} alt="배경 이미지" effect="blur" />
+          <LazyLoadImage src={formatBackgroundImage(content.data.thumbnail)} alt="배경 이미지" effect="blur" />
         </figure>
         <div className="main-info-wrapper">
           <div className="main-info">
             <div>
-              <h2 className="title-kr">{content.title}</h2>
-              <p className="title-og">{content.title_og || content.title}</p>
+              <h2 className="title-kr">{content.data.title}</h2>
+              <p className="title-og">{content.data.title_og || content.data.title}</p>
               <div className="sub-info">
                 <div>
-                  <span>{formatYear(content.release)}</span>
+                  <span>{formatYear(content.data.release)}</span>
                   <span>|</span>
-                  <span>{formatCountry(content.country)}</span>
+                  <span>{formatCountry(content.data.country)}</span>
                   <span>|</span>
-                  <span>{formatUpperCase(content.notice_age)}</span>
+                  <span>{formatUpperCase(content.data.notice_age)}</span>
                   <span>|</span>
-                  <span>{content.runtime}</span>
+                  <span>{content.data.runtime}</span>
                 </div>
                 <div>
                   <span>
-                    {content.genre.map((genre, index) => (
+                    {content.data.genre.map((genre, index) => (
                       <React.Fragment key={index}>
                         <Link to={`/genre?genre=${formatGenreArray(genre.name)}`}>{genre.name}</Link>
-                        {index < content.genre.length - 1 && ", "}
+                        {index < content.data.genre.length - 1 && ", "}
                       </React.Fragment>
                     ))}
                   </span>
                 </div>
-                {!isEmpty(content.production) && (
+                {!isEmpty(content.data.production) && (
                   <div>
                     <span>
-                      {content.production.map((prodn, index) => (
+                      {content.data.production.map((prodn, index) => (
                         <React.Fragment key={index}>
                           <Link to={`/production/${prodn.id}`} state={{ name: prodn.name }}>
                             {prodn.name}
                           </Link>
-                          {index < content.production.length - 1 && ", "}
+                          {index < content.data.production.length - 1 && ", "}
                         </React.Fragment>
                       ))}
                     </span>
@@ -316,7 +327,7 @@ const Content = () => {
       <section className="info-wrapper">
         <div className="poster-wrapper">
           <figure className="poster">
-            <LazyLoadImage src={formatPoster(content.thumbnail)} alt="포스터" effect="blur" />
+            <LazyLoadImage src={formatPoster(content.data.thumbnail)} alt="포스터" effect="blur" />
           </figure>
         </div>
         <div className="info">
@@ -376,7 +387,7 @@ const Content = () => {
             </div>
           )}
           <div className="bottom">
-            <p>{content.synopsis}</p>
+            <p>{content.data.synopsis}</p>
           </div>
         </div>
       </section>
@@ -387,7 +398,7 @@ const Content = () => {
         </div>
         <div className="swiper-container">
           <Swiper {...crewSwiperConfig(".prev-actor", ".next-actor")}>
-            {content.actor.map((actor, index) => (
+            {content.data.actor.map((actor, index) => (
               <SwiperSlide key={index}>
                 <People crew={actor} target={"actor"} formatCode={formatActorRoleCode} key={index} />
               </SwiperSlide>
@@ -402,14 +413,14 @@ const Content = () => {
         </div>
       </section>
 
-      {!isEmpty(content.staff) && (
+      {!isEmpty(content.data.staff) && (
         <section className="crew-wrapper">
           <div className="title">
             <h3>제작진</h3>
           </div>
           <div className="swiper-container">
             <Swiper {...crewSwiperConfig(".prev-staff", ".next-staff")}>
-              {content.staff.map((staff, index) => (
+              {content.data.staff.map((staff, index) => (
                 <SwiperSlide key={index}>
                   <People crew={staff} target={"staff"} formatCode={formatStaffRoleCode} key={index} />
                 </SwiperSlide>
@@ -428,7 +439,7 @@ const Content = () => {
       <section className="review-wrapper">
         <div className="title">
           <h3>리뷰</h3>
-          {content.review_count > 0 && <span>{content.review_count}</span>}
+          {content.data.review_count > 0 && <span>{content.data.review_count}</span>}
         </div>
         {isEmpty(reviews) ? (
           <div className="no-review">
@@ -455,7 +466,7 @@ const Content = () => {
         </div>
         <div className="swiper-container">
           <Swiper {...gallerySwiperConfig(".prev-gallery", ".next-gallery")}>
-            {content.thumbnail.map((image, index) => (
+            {content.data.thumbnail.map((image, index) => (
               <SwiperSlide key={index} onClick={() => togglePhotoModal(image)}>
                 <figure className="photo">
                   <LazyLoadImage src={image} alt="갤러리 이미지" effect="blur" />
@@ -474,7 +485,7 @@ const Content = () => {
 
       {photoModal.isOpen && <PhotoModal url={photoModal.url} onClose={togglePhotoModal} />}
       {enjoyModal && <EnjoyModal onClose={toggleEnjoyModal} />}
-      {reviewModal && <ReviewModal content={content} myReview={myInfo.review} onClose={toggleReviewModal} />}
+      {reviewModal && <ReviewModal content={content.data} myReview={myInfo.review} onClose={toggleReviewModal} />}
       {confirmModal && <ConfirmModal onClose={toggleConfirmModal} />}
     </main>
   );
