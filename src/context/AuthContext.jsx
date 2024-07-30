@@ -12,6 +12,7 @@ import { fetchJoin, fetchLogin } from "/src/api/users";
 import { fetchToken } from "/src/api/token";
 import { validateUser } from "/src/utils/validation";
 import { MESSAGES } from "/src/config/messages";
+import { showInfoToast, showSuccessToast, showErrorToast } from "/src/components/Toast";
 import { cLog, cError } from "/src/utils/test";
 
 const AuthContext = createContext(null);
@@ -36,16 +37,16 @@ export const AuthContextProvider = ({ children }) => {
         const res = await fetchToken(access_token);
         if (res.status === 200) {
           if (handleSetUser({ accessToken: res.data.access_token })) {
-            // cLog(MESSAGES.T001);
+            // showInfoToast(MESSAGES.T001);
           } else {
-            cLog(MESSAGES.T003);
+            showErrorToast(MESSAGES.T003);
           }
         } else {
           if (handleRemoveUser()) {
-            cLog(MESSAGES.T002);
+            showInfoToast(MESSAGES.T002);
             navigate("/login");
           } else {
-            cLog(MESSAGES.T004);
+            showErrorToast(MESSAGES.T004);
           }
         }
       }
@@ -198,6 +199,7 @@ export const AuthContextProvider = ({ children }) => {
     login,
     logout,
     handleSetUser,
+    handleRemoveUser,
   };
 
   return <AuthContext.Provider value={values}>{children}</AuthContext.Provider>;
