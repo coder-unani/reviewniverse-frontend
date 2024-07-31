@@ -273,6 +273,7 @@ const Content = () => {
         <title>
           {content.data.title} ({formatYear(content.data.release)}) - 리뷰니버스
         </title>
+        <meta name="keywords" content={content.data.tag || ""} data-rh="true" />
         <meta name="description" content={content.data.synopsis} />
         <meta
           property="og:title"
@@ -281,9 +282,21 @@ const Content = () => {
         <meta property="og:description" content={content.data.synopsis} />
         <meta property="og:image" content={formatPoster(content.data.thumbnail)} />
         <meta property="og:url" content={`${SETTINGS.DOMAIN_URL}/content/${contentId}`} />
-        <meta property="og:type" content="website" />
-        <meta property="og:locale" content="ko_KR" />
-        <meta property="og:site_name" content="Reviewniverse" />
+        <meta name="twitter:card" content="summary_large_image" data-rh="true" />
+        <meta
+          name="twitter:title"
+          content={`${content.data.title} (${formatYear(content.data.release)}) - 리뷰니버스`}
+          data-rh="true"
+        />
+        <meta name="twitter:description" content={content.data.synopsis} data-rh="true" />
+        <meta name="twitter:image" content={formatPoster(content.data.thumbnail)} data-rh="true" />
+        <meta
+          name="kakao:title"
+          content={`${content.data.title} (${formatYear(content.data.release)}) - 리뷰니버스`}
+          data-rh="true"
+        />
+        <meta name="kakao:description" content={content.data.synopsis} data-rh="true" />
+        <meta name="kakao:image" content={formatPoster(content.data.thumbnail)} data-rh="true" />
       </Helmet>
       <main className="content-main">
         <section className="banner-wrapper">
