@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from "react";
 import HVideos from "/src/components/HVideos";
 import Videos from "/src/components/Videos";
+import { Helmet } from "react-helmet-async";
 import { useAuthContext } from "/src/context/AuthContext";
 import { useScreenContents } from "/src/hooks/useScreenContents";
 import { useVideos } from "/src/hooks/useVideos";
 import { SCREEN_MAIN_ID } from "/src/config/codes";
-import { VIDEO_ORDER_OPTIONS } from "/src/config/constants";
+import { DEFAULT_IMAGES, VIDEO_ORDER_OPTIONS } from "/src/config/constants";
+import { SETTINGS } from "/src/config/settings";
 import { arrayRandomValue } from "/src/utils/format";
 import { isEmpty } from "lodash";
 import "/src/styles/Home.css";
@@ -69,16 +71,32 @@ const Home = () => {
 
   // 데이터 props로 하위 컴포넌트에 전달
   return (
-    <main className="main">
-      {!isEmpty(screens) && screens.map((content, index) => <HVideos key={index} content={content} />)}
-      {!isEmpty(videos) && (
-        <Videos videos={videos} handlePage={handlePage}>
-          <div className="title-wrapper">
-            <h2 className="title">주인님 내 새끼 구경 좀 해봐요 🦦</h2>
-          </div>
-        </Videos>
-      )}
-    </main>
+    <>
+      <Helmet>
+        <title>리뷰니버스</title>
+        <meta name="description" content="리뷰니버스와 함께라면 보는 즐거움이 2배로, 생생한 리뷰를 확인해보세요!" />
+        <meta property="og:title" content="리뷰니버스" />
+        <meta
+          property="og:description"
+          content="리뷰니버스와 함께라면 보는 즐거움이 2배로, 생생한 리뷰를 확인해보세요!"
+        />
+        <meta property="og:image" content={DEFAULT_IMAGES.logo} />
+        <meta property="og:url" content={SETTINGS.DOMAIN_URL} />
+        <meta property="og:type" content="website" />
+        <meta property="og:locale" content="ko_KR" />
+        <meta property="og:site_name" content="Reviewniverse" />
+      </Helmet>
+      <main className="main">
+        {!isEmpty(screens) && screens.map((content, index) => <HVideos key={index} content={content} />)}
+        {!isEmpty(videos) && (
+          <Videos videos={videos} handlePage={handlePage}>
+            <div className="title-wrapper">
+              <h2 className="title">주인님 내 새끼 구경 좀 해봐요 🦦</h2>
+            </div>
+          </Videos>
+        )}
+      </main>
+    </>
   );
 };
 
