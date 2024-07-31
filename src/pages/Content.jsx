@@ -270,9 +270,14 @@ const Content = () => {
   return (
     <>
       <Helmet>
-        <title>{content.data.title}</title>
+        <title>
+          {content.data.title} ({formatYear(content.data.release)}) - 리뷰니버스
+        </title>
         <meta name="description" content={content.data.synopsis} />
-        <meta property="og:title" content={content.data.title} />
+        <meta
+          property="og:title"
+          content={`${content.data.title} (${formatYear(content.data.release)}) - 리뷰니버스`}
+        />
         <meta property="og:description" content={content.data.synopsis} />
         <meta property="og:image" content={formatPoster(content.data.thumbnail)} />
         <meta property="og:url" content={`${SETTINGS.DOMAIN_URL}/content/${contentId}`} />
