@@ -23,7 +23,8 @@ export const showErrorToast = (message) => {
 
 export const ToastWrapper = () => (
   <ToastContainer
-    position="top-center"
+    // position="top-center"
+    position="bottom-center"
     autoClose={2000}
     hideProgressBar={true}
     pauseOnFocusLoss={false}
