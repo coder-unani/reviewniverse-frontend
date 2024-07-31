@@ -1,5 +1,6 @@
 import React, { useEffect, useRef } from "react";
 import Modal from "/src/components/Modal";
+import { useAuthContext } from "/src/context/AuthContext";
 import { useReviewCreate } from "/src/hooks/useReviewCreate";
 import { useReviewUpdate } from "/src/hooks/useReviewUpdate";
 import * as Yup from "yup";
@@ -16,6 +17,7 @@ import "/src/styles/ReviewModal.css";
 
 const ReviewModal = ({ content, myReview, onClose }) => {
   const modalRef = useRef();
+  const { user } = useAuthContext();
   // 리뷰 등록
   const { mutate: reviewCreate } = useReviewCreate();
   // 리뷰 수정
@@ -68,6 +70,7 @@ const ReviewModal = ({ content, myReview, onClose }) => {
         title: data.title,
         is_spoiler: data.spoiler,
         is_private: data.private,
+        userId: user.id,
       });
       // TODO: 리뷰가 등록되었습니다. 확인 버튼 클릭시 모달 닫기
       onClose();
@@ -79,6 +82,7 @@ const ReviewModal = ({ content, myReview, onClose }) => {
         title: data.title,
         is_spoiler: data.spoiler,
         is_private: data.private,
+        userId: user.id,
       });
       // TODO: 리뷰가 수정되었습니다. 확인 버튼 클릭시 모달 닫기
       onClose();

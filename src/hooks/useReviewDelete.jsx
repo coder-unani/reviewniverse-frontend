@@ -10,7 +10,7 @@ export const useReviewDelete = () => {
     onSuccess: (res, variables) => {
       if (res.status === 204) {
         cLog("리뷰가 삭제되었습니다.");
-        queryClient.setQueryData(["videoMyInfo", variables.videoId], (prev) => ({
+        queryClient.setQueryData(["videoMyInfo", { videoId: variables.videoId, userId: variables.userId }], (prev) => ({
           ...prev,
           review: {},
         }));

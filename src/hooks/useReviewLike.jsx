@@ -13,7 +13,7 @@ export const useReviewLike = () => {
         // 응답값: like_count, is_like
         // 1. myInfo: review_like 배열에 해당 review id값 업데이트
         // 2. reviews: 해당 review id값의 like_count 업데이트
-        queryClient.setQueryData(["videoMyInfo", variables.videoId], (prev) => {
+        queryClient.setQueryData(["videoMyInfo", { videoId: variables.videoId, userId: variables.userId }], (prev) => {
           const updatedMyInfo = { ...prev };
           if (res.data.data.is_like) {
             updatedMyInfo.review_like.push(variables.reviewId);

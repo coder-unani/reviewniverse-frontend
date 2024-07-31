@@ -46,7 +46,7 @@ const Rating = ({ videoId, myInfo, toggleEnjoyModal }) => {
       return;
     }
     const rating = ratingRef.current.dataset.rating;
-    videoRating({ videoId, rating: rating * 2 });
+    videoRating({ videoId, rating: rating * 2, userId: user.id });
   };
 
   useEffect(() => {

@@ -173,7 +173,7 @@ const Content = () => {
       toggleEnjoyModal();
       return;
     }
-    videoLike({ videoId });
+    videoLike({ videoId, userId: user.id });
   };
 
   // 리뷰 작성
@@ -194,7 +194,7 @@ const Content = () => {
   const handleReviewDelete = async () => {
     // TODO: 삭제 확인 모달 추가
     // setConfirmModal(true);
-    reviewDelete({ videoId, reviewId: myInfo.review.id });
+    reviewDelete({ videoId, reviewId: myInfo.review.id, userId: user.id });
   };
 
   // 리뷰 좋아요
@@ -203,7 +203,7 @@ const Content = () => {
       toggleEnjoyModal();
       return;
     }
-    reviewLike({ videoId, reviewId });
+    reviewLike({ videoId, reviewId, userId: user.id });
   };
 
   // TODO: 리뷰 자세히 보기

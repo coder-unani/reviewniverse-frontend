@@ -3,7 +3,7 @@ import { fetchVideoMyInfo } from "/src/api/videos";
 
 export const useVideoMyInfo = ({ videoId, userId, enabled }) => {
   return useQuery({
-    queryKey: ["videoMyInfo", videoId, userId],
+    queryKey: ["videoMyInfo", { videoId, userId }],
     queryFn: async () => {
       const res = await fetchVideoMyInfo({ videoId });
       return res.status === 200 ? res.data.data : null;
