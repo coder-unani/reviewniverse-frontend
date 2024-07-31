@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from "react";
 import PeopleImage from "/src/components/Button/People/PeopleImage";
 import Videos from "/src/components/Videos";
+import { Helmet } from "react-helmet-async";
 import { useParams, useLocation, useNavigate } from "react-router-dom";
 import { useVideos } from "/src/hooks/useVideos";
+import { SETTINGS } from "/src/config/settings";
 import { isEmpty } from "lodash";
 import "/src/styles/People.css";
 
@@ -56,15 +58,25 @@ const People = () => {
   if (isEmpty(videos)) return;
 
   return (
-    <main className="people-main">
-      <section className="people-wrapper">
-        <div className="people">
-          <PeopleImage image={people.picture} size={100} />
-          <h1 className="name">{people.name}</h1>
-        </div>
-      </section>
-      <Videos videos={videos} handlePage={handlePage} />
-    </main>
+    <>
+      <Helmet>
+        <title>{people.name} - 리뷰니버스</title>
+        <meta name="description" content={`${people.name}의 ${videos.total}개 작품`} />
+        <meta property="og:title" content={`${people.name} - 리뷰니버스`} />
+        <meta property="og:description" content={`${people.name}의 ${videos.total}개 작품`} />
+        <meta property="og:image" content={people.picture} />
+        <meta property="og:url" content={`${SETTINGS.DOMAIN_URL}/people/${peopleId}`} />
+      </Helmet>
+      <main className="people-main">
+        <section className="people-wrapper">
+          <div className="people">
+            <PeopleImage image={people.picture} size={100} />
+            <h1 className="name">{people.name}</h1>
+          </div>
+        </section>
+        <Videos videos={videos} handlePage={handlePage} />
+      </main>
+    </>
   );
 };
 
