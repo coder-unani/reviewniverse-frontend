@@ -1,7 +1,10 @@
 import React, { useState, useEffect } from "react";
 import Videos from "/src/components/Videos";
+import { Helmet } from "react-helmet-async";
 import { useParams, useLocation, useNavigate } from "react-router-dom";
 import { useVideos } from "/src/hooks/useVideos";
+import { SETTINGS } from "/src/config/settings";
+import { DEFAULT_IMAGES } from "/src/config/constants";
 import { isEmpty } from "lodash";
 import "/src/styles/Production.css";
 
@@ -54,14 +57,24 @@ const Production = () => {
   if (isEmpty(videos)) return;
 
   return (
-    <main className="production-main">
-      <section className="production-wrapper">
-        <div className="production">
-          <h1 className="title">{name}</h1>
-        </div>
-      </section>
-      <Videos videos={videos} handlePage={handlePage} />
-    </main>
+    <>
+      <Helmet>
+        <title>{name} - 리뷰니버스</title>
+        <meta name="description" content={`${name}의 ${videos.total}개 작품`} />
+        <meta property="og:title" content={`${name} - 리뷰니버스`} />
+        <meta property="og:description" content={`${name}의 ${videos.total}개 작품`} />
+        <meta property="og:image" content={DEFAULT_IMAGES.logo} />
+        <meta property="og:url" content={`${SETTINGS.DOMAIN_URL}/genre/${productionId}`} />
+      </Helmet>
+      <main className="production-main">
+        <section className="production-wrapper">
+          <div className="production">
+            <h1 className="title">{name}</h1>
+          </div>
+        </section>
+        <Videos videos={videos} handlePage={handlePage} />
+      </main>
+    </>
   );
 };
 
