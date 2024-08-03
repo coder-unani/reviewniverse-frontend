@@ -21,19 +21,34 @@ export const formatThumbnail = (images) => {
   return images.url;
 };
 
+// 배경 이미지 포맷
 export const formatBackgroundImage = (images) => {
   if (isEmpty(images)) return DEFAULT_IMAGES.noImage;
   // images의 2번째 이미지
   return images[1];
 };
 
+// 포스터 이미지 포맷
 export const formatPoster = (images) => {
   if (isEmpty(images)) return DEFAULT_IMAGES.noImage;
   // images의 1번째 이미지
   return images[0];
 };
 
-// 국가 포맷
+// TODO: 관람등급 포맷
+
+// 공개일자, 개봉일자 텍스트 포맷
+export const formatReleaseText = (code) => {
+  return code === "10" ? "개봉일자" : "공개일자";
+};
+
+// 날짜 포맷: 어떤 날짜 형식이 들어와도 월, 일만 반환 (MM.DD)
+export const formatReleaseDate = (date) => {
+  if (!date) return "";
+  return date.split("-").slice(1).join(".");
+};
+
+// 국가 포맷 (한국,일본,미국)
 export const formatCountry = (country) => {
   if (isEmpty(country)) return "국가";
   if (!Array.isArray(country)) return country;
@@ -41,7 +56,7 @@ export const formatCountry = (country) => {
   return countryAll;
 };
 
-// 장르 포맷
+// 장르 포맷 (액션,드라마,로맨스)
 export const formatGenre = (genre) => {
   if (isEmpty(genre)) return null;
   const gerneAll = genre.map((item) => item.name).join(", ");
@@ -92,4 +107,9 @@ export const formatActorRoleCode = (code) => {
 export const formatStaffRoleCode = (code) => {
   const staffType = VIDEO_STAFF_CODE[code];
   return staffType || "제작";
+};
+
+// 회차, 상영시간 텍스트 포맷
+export const formatRuntimeText = (code) => {
+  return code === "10" ? "상영시간" : "회차";
 };
