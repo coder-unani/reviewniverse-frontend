@@ -1,6 +1,6 @@
-import React, { useEffect } from "react";
+import React from "react";
 import ProfileButton from "/src/components/Button/Profile";
-import { RiStarFill, RiThumbUpLine, RiThumbUpFill } from "@remixicon/react";
+import { DEFAULT_ICONS } from "/src/config/constants";
 import { diffDate } from "/src/utils/format";
 import { formatRating } from "/src/utils/formatContent";
 
@@ -22,8 +22,12 @@ const Review = ({ review, isLike, onLikeClick }) => {
         />
         {review.rating && (
           <div className="rating">
-            <RiStarFill size={16} />
-            <span>{formatRating(review.rating)}</span>
+            <div className="bars" data-index={Math.floor(formatRating(review.rating))}>
+              {Array.from({ length: Math.floor(formatRating(review.rating)) }, (_, i) => (
+                <div key={i} className="bar" />
+              ))}
+            </div>
+            <span>{Math.floor(formatRating(review.rating))}</span>
           </div>
         )}
       </div>
@@ -33,7 +37,11 @@ const Review = ({ review, isLike, onLikeClick }) => {
       <div className="bottom">
         <span>{diffDate(review.created_at)}</span>
         <button className="like" onClick={() => handleReviewLike(review.id)}>
-          {isLike ? <RiThumbUpFill size={16} /> : <RiThumbUpLine size={16} />}
+          {isLike ? (
+            <img src={DEFAULT_ICONS.fillThumb2} alt="좋아요" />
+          ) : (
+            <img src={DEFAULT_ICONS.outlineThumb2} alt="좋아요" />
+          )}
           <span>{review.like_count}</span>
         </button>
       </div>
