@@ -3,18 +3,17 @@
   display: grid;
 
   span {
-    grid-column: 1;
+    grid-column: 2;
     grid-row: 1;
     display: flex;
-    align-items: center;
-    justify-content: flex-end;
+    align-items: flex-start;
     font-size: 13px;
-    color: #8c8c8c;
+    color: #ffffff;
   }
 
   .bar-rating {
     position: relative;
-    grid-column: 1;
+    grid-column: 2;
     grid-row: 2;
     display: flex;
     align-items: flex-end;
@@ -25,28 +24,24 @@
         background-color: #ff6874;
       }
     }
-
     &[data-rating="2"] {
       .bar:nth-child(-n + 2) {
         opacity: 1;
         background-color: #ff6874;
       }
     }
-
     &[data-rating="3"] {
       .bar:nth-child(-n + 3) {
         opacity: 1;
         background-color: #ffbd3f;
       }
     }
-
     &[data-rating="4"] {
       .bar:nth-child(-n + 4) {
         opacity: 1;
         background-color: #00ce7a;
       }
     }
-
     &[data-rating="5"] {
       .bar:nth-child(-n + 5) {
         opacity: 1;
@@ -56,20 +51,32 @@
   }
 
   .bar-rating-image {
-    grid-column: 2;
+    position: relative;
+    grid-column: 1;
     grid-row: 1 / 3;
     width: 45px;
     height: 45px;
-    border-radius: 4px;
-    background-color: rgba(0, 0, 0, 0.1);
-    margin-left: 10px;
+    border-radius: 12px;
+    background-color: transparent;
+    margin-right: 10px;
     overflow: hidden;
+
+    &::after {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      border-radius: 12px;
+      border: 1px solid rgba(255, 255, 255, 0.5);
+      pointer-events: none;
+    }
 
     img {
       display: flex;
       width: 100%;
       height: 100%;
-      scale: 2;
       pointer-events: none;
     }
   }
@@ -77,19 +84,15 @@
   .bars {
     display: grid;
     grid-template-columns: repeat(5, auto);
+    gap: 4px;
     cursor: pointer;
   }
 
   .bar {
     width: 30px;
-    height: 0.75rem;
-    background-color: rgba(0, 0, 0, 0.1);
+    height: 12px;
     border-radius: 2px;
     opacity: 0.2;
-
-    &:not(:last-child) {
-      margin-right: 0.25rem;
-    }
 
     &:first-child {
       border-top-left-radius: 4px;
@@ -105,11 +108,9 @@
     &[data-rating="2"] {
       background-color: #ff6874;
     }
-
     &[data-rating="3"] {
       background-color: #ffbd3f;
     }
-
     &[data-rating="4"],
     &[data-rating="5"] {
       background-color: #00ce7a;
