@@ -3,7 +3,8 @@ import DefaultLayout from "/src/layouts/default";
 import Home from "/src/pages/Home";
 import Movie from "/src/pages/Movie";
 import Series from "/src/pages/Series";
-import Content from "/src/pages/Content";
+// import Content from "/src/pages/Content";
+import VideoDetail from "/src/pages/VideoDetail";
 import People from "/src/pages/People";
 import Genre from "/src/pages/Genre";
 import Production from "/src/pages/Production";
@@ -46,9 +47,13 @@ const MainRoutes = {
       path: "/series",
       element: <Series />,
     },
+    // {
+    //   path: "/contents/:contentId",
+    //   element: <Content />,
+    // },
     {
-      path: "/contents/:contentId",
-      element: <Content />,
+      path: "contents/:videoId",
+      element: <VideoDetail />,
     },
     {
       path: "/people/:peopleId",
