@@ -6,7 +6,7 @@ import "/src/styles/Rating2.css";
 
 const Rating = ({ videoId, myInfo, toggleEnjoyModal }) => {
   const { user } = useAuthContext();
-  const [imgSrc, setImgSrc] = useState(DEFAULT_IMAGES.noImage);
+  const [imgSrc, setImgSrc] = useState("/assets/rating/0.png");
   const ratingRef = useRef(null);
   const ratingImgRef = useRef(null);
   const { mutate: videoRating } = useVideoRating();
@@ -18,12 +18,8 @@ const Rating = ({ videoId, myInfo, toggleEnjoyModal }) => {
     const barRating = ratingRef.current;
     barRating.dataset.rating = ceilRating;
     const text = document.querySelector("#ratingText");
-    text.innerText = ceilRating === 0 ? "평가하기" : `${VIDEO_RATING_TEXT[ceilRating - 1]}`;
-    if (ceilRating === 0) {
-      setImgSrc(DEFAULT_IMAGES.noImage);
-    } else {
-      setImgSrc(`/assets/rating-${ceilRating}.png`);
-    }
+    text.innerText = VIDEO_RATING_TEXT[ceilRating];
+    setImgSrc(`/assets/rating/${ceilRating}.png`);
   };
 
   // 비디오 평가하기 이벤트
@@ -68,7 +64,10 @@ const Rating = ({ videoId, myInfo, toggleEnjoyModal }) => {
 
   return (
     <div className="bar-rating-wrapper">
-      <span id="ratingText">평가하기</span>
+      <span id="ratingText">{VIDEO_RATING_TEXT[0]}</span>
+      <figure className="bar-rating-image">
+        <img src={imgSrc} alt="평가 이미지" ref={ratingImgRef} />
+      </figure>
       <div className="bar-rating" ref={ratingRef}>
         <div className="bars">
           <div className="bar" data-rating="1"></div>
@@ -78,9 +77,6 @@ const Rating = ({ videoId, myInfo, toggleEnjoyModal }) => {
           <div className="bar" data-rating="5"></div>
         </div>
       </div>
-      <figure className="bar-rating-image">
-        <img src={imgSrc} alt="평가 이미지" ref={ratingImgRef} />
-      </figure>
     </div>
   );
 };
