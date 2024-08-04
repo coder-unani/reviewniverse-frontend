@@ -111,7 +111,7 @@ const VideoDetail = () => {
   // 갤러리 스와이퍼 설정
   const gallerySwiperConfig = (prevEl, nextEl) => ({
     modules: [Navigation],
-    spaceBetween: 12,
+    spaceBetween: 10,
     slidesPerView: 2.01,
     slidesPerGroup: 2,
     speed: 1000,
@@ -119,7 +119,7 @@ const VideoDetail = () => {
     allowTouchMove: true,
     breakpoints: {
       577: {
-        spaceBetween: 10,
+        spaceBetween: 12,
         slidesPerView: 3,
         slidesPerGroup: 3,
         allowTouchMove: false,
@@ -263,11 +263,13 @@ const VideoDetail = () => {
         <meta name="kakao:description" content={content.data.synopsis} data-rh="true" />
         <meta name="kakao:image" content={formatPoster(content.data.thumbnail)} data-rh="true" />
       </Helmet>
+
       <main className="detail-main">
         <section className="detail-info-wrapper">
           <figure className="background-image">
             <LazyLoadImage src={formatBackgroundImage(content.data.thumbnail)} alt="배경 이미지" effect="blur" />
           </figure>
+
           <div className="main-info-wrapper">
             <div className="main-info">
               <div className="info-right">
@@ -298,6 +300,7 @@ const VideoDetail = () => {
               </div>
             </div>
           </div>
+
           <div className="sub-info-wrapper">
             <div className="sub-info">
               <div
@@ -362,6 +365,7 @@ const VideoDetail = () => {
                 <LazyLoadImage src={formatPoster(content.data.thumbnail)} alt="포스터" effect="blur" />
               </figure>
             </div>
+
             <div className="content-wrapper">
               {myInfo && !isEmpty(myInfo.review) && (
                 <div className="my-review-wrapper">
@@ -385,11 +389,13 @@ const VideoDetail = () => {
                   </div>
                 </div>
               )}
+
               <div className="synopsis-wrapper">
                 <h4>작품 소개</h4>
                 <p>{content.data.synopsis}</p>
               </div>
             </div>
+
             <div className="more-wrapper">
               <div className="rating-wrapper">
                 <h4>평가하기</h4>
@@ -402,17 +408,19 @@ const VideoDetail = () => {
                 </div>
                 <Rating2 videoId={videoId} myInfo={myInfo} toggleEnjoyModal={toggleEnjoyModal} />
               </div>
-              <div className="platform-wrapper">
-                <h4>보러가기</h4>
-                <div className="platforms">
-                  {content.data.platform &&
-                    content.data.platform.map((platform, index) => (
+
+              {!isEmpty(content.data.platform) && (
+                <div className="platform-wrapper">
+                  <h4>보러가기</h4>
+                  <div className="platforms">
+                    {content.data.platform.map((platform, index) => (
                       <button type="button" onClick={() => window.open(platform.url)} key={index}>
                         <img src={`/assets/platform/${platform.code}.png`} alt="플랫폼" />
                       </button>
                     ))}
+                  </div>
                 </div>
-              </div>
+              )}
             </div>
           </section>
 
