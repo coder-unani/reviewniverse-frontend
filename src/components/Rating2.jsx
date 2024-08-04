@@ -36,13 +36,15 @@ const Rating = ({ videoId, myInfo, toggleEnjoyModal }) => {
     }
   };
 
-  const handleRatingClick = async () => {
+  const handleRatingClick = async (e) => {
     if (!user) {
       toggleEnjoyModal();
       return;
     }
-    const rating = ratingRef.current.dataset.rating;
+    const rating = e.target.dataset.rating;
+    if (!rating) return;
     videoRating({ videoId, rating: rating * 2, userId: user.id });
+    // handleRatingSet(rating * 2);
   };
 
   useEffect(() => {
