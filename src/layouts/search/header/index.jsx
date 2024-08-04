@@ -1,14 +1,10 @@
 import React, { useState } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
 import MenuModal from "/src/components/Modal/MenuModal";
 import SearchForm from "/src/components/SearchForm";
 import { DEFAULT_ICONS } from "/src/config/constants";
 import { RiMenu3Line } from "@remixicon/react";
 
 const Header = () => {
-  const location = useLocation();
-  const navigate = useNavigate();
-
   // 모바일 메뉴 모달
   const [menuModal, setMenuModal] = useState(false);
 
