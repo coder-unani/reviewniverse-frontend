@@ -1,6 +1,7 @@
 import React, { useEffect, useRef } from "react";
 import { useLocation, useNavigate, useSearchParams } from "react-router-dom";
 import { RiSearchLine } from "@remixicon/react";
+import { DEFAULT_ICONS } from "/src/config/constants";
 import { setStorageKeyword, sliceStorageKeyword } from "/src/utils/formatStorage";
 
 const SearchForm = () => {
@@ -51,8 +52,9 @@ const SearchForm = () => {
 
   return (
     <form className="search" onSubmit={handleSearchSubmit}>
-      <RiSearchLine size={20} />
       <input type="text" placeholder="검색어를 입력하세요." ref={searchInputRef} />
+      {/* <RiSearchLine size={20} /> */}
+      <img src={DEFAULT_ICONS.search} alt="검색" />
     </form>
   );
 };
