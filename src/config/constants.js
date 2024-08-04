@@ -2,7 +2,8 @@ export const DEFAULT_IMAGES = {
   logo: "/assets/logo.svg",
   logoWhite: "/assets/logo-w.svg",
   noProfile: "/assets/no-profile.png",
-  noActor: "/assets/no-actor.png",
+  // noActor: "/assets/no-actor.png",
+  noActor: "/assets/no-actor2.png",
   noImage: "/assets/no-image.png",
   loading: "/assets/loading.png",
   searchNotFound: "/assets/search-not-found.png",
@@ -29,6 +30,9 @@ export const DEFAULT_ICONS = {
   fillThumb2: "/assets/button/fill-thumb-2.svg",
   arrowLeft: "/assets/button/arrow-left.svg",
   arrowRight: "/assets/button/arrow-right.svg",
+  search: "/assets/button/search.svg",
+  menu: "/assets/button/menu3.svg",
+  close: "/assets/button/close.svg",
 };
 
 export const VIDEO_ORDER_OPTIONS = [
@@ -40,7 +44,7 @@ export const VIDEO_ORDER_OPTIONS = [
   "release_desc",
 ];
 
-export const VIDEO_RATING_TEXT = ["어떠셨나요?", "최악이에요!", "싫어요", "그저그래요", "좋아요", "최고에요!"];
+export const VIDEO_RATING_TEXT = ["어떠셨나요?", "최악이에요!", "싫어요", "그냥 볼만했어요", "좋아요", "최고에요!"];
 
 export const PROFILE_IMAGE_FILE_SIZE = 30;
 
