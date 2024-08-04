@@ -14,9 +14,11 @@ export const useReviewDelete = () => {
           ...prev,
           review: {},
         }));
-        queryClient.setQueryData(["videoReviews", variables.videoId], (prev) =>
-          prev.filter((review) => review.id !== variables.reviewId)
-        );
+        queryClient.setQueryData(["videoReviews", variables.videoId], (prev) => {
+          const updatedReviews = prev.filter((review) => review.id !== variables.reviewId);
+          if (!updatedReviews.length) return [];
+          return updatedReviews;
+        });
         // TODO: review_count 이렇게 업데이트 하는게 맞나?
         queryClient.setQueryData(["videoDetail", variables.videoId], (prev) => ({
           ...prev,
