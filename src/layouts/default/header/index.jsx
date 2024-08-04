@@ -5,7 +5,8 @@ import { useThemeContext } from "/src/context/ThemeContext";
 import MenuModal from "/src/components/Modal/MenuModal";
 import SearchForm from "/src/components/SearchForm";
 import ProfileButton from "/src/components/Button/Profile";
-import { DEFAULT_IMAGES } from "/src/config/constants";
+import ProfileImage from "/src/components/Button/Profile/ProfileImage";
+import { DEFAULT_IMAGES, DEFAULT_ICONS } from "/src/config/constants";
 import { RiSearchLine, RiMenu3Line } from "@remixicon/react";
 
 const Header = () => {
@@ -62,8 +63,10 @@ const Header = () => {
             </Link>
           </div>
           <div className="right">
-            <RiSearchLine size={32} onClick={handleMobileSearch} />
-            <RiMenu3Line size={32} className="mobile-menu" onClick={toggleMobileMenu} />
+            <img src={DEFAULT_ICONS.search} alt="검색" onClick={handleMobileSearch} />
+            {/* <RiSearchLine size={32} onClick={handleMobileSearch} /> */}
+            <img src={DEFAULT_ICONS.menu} alt="메뉴" className="mobile-menu" onClick={toggleMobileMenu} />
+            {/* <RiMenu3Line size={32} className="mobile-menu" onClick={toggleMobileMenu} /> */}
           </div>
         </div>
       ) : (
@@ -84,7 +87,9 @@ const Header = () => {
           <div className="right">
             <SearchForm />
             {user ? (
-              <ProfileButton image={user.profile_image} user={{ id: user.id, nickname: user.nickname }} />
+              <Link to={`/user/${user.id}`}>
+                <ProfileImage image={user.profile_image} size={30} />
+              </Link>
             ) : (
               <Link to="/user/login" className="login">
                 로그인
