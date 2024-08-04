@@ -14,12 +14,12 @@ const Rating = ({ videoId, myInfo, toggleEnjoyModal }) => {
   // 비디오 평가하기
   const handleRatingSet = (rating) => {
     // 1~10까지의 rating을 0~5까지로 변환
-    const ceilRating = Math.ceil(rating / 2);
+    const floorRating = Math.floor(rating / 2);
     const barRating = ratingRef.current;
-    barRating.dataset.rating = ceilRating;
+    barRating.dataset.rating = floorRating;
     const text = document.querySelector("#ratingText");
-    text.innerText = VIDEO_RATING_TEXT[ceilRating];
-    setImgSrc(`/assets/rating/${ceilRating}.png`);
+    text.innerText = VIDEO_RATING_TEXT[floorRating];
+    setImgSrc(`/assets/rating/${floorRating}.png`);
   };
 
   // 비디오 평가하기 이벤트
@@ -64,12 +64,14 @@ const Rating = ({ videoId, myInfo, toggleEnjoyModal }) => {
 
   return (
     <div className="bar-rating-wrapper">
-      <span id="ratingText">{VIDEO_RATING_TEXT[0]}</span>
-      <figure className="bar-rating-image">
-        <img src={imgSrc} alt="평가 이미지" ref={ratingImgRef} />
-      </figure>
-      <div className="bar-rating" ref={ratingRef}>
-        <div className="bars">
+      <div className="right">
+        <figure className="bar-rating-image">
+          <img src={imgSrc} alt="평가 이미지" ref={ratingImgRef} />
+        </figure>
+      </div>
+      <div className="left">
+        <span id="ratingText">{VIDEO_RATING_TEXT[0]}</span>
+        <div className="bar-rating" ref={ratingRef}>
           <div className="bar" data-rating="1"></div>
           <div className="bar" data-rating="2"></div>
           <div className="bar" data-rating="3"></div>
