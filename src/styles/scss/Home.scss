@@ -161,7 +161,8 @@ $border-radius: 4px;
         border-radius: 12px;
         background-color: #f5f5f7;
         backdrop-filter: blur(8px);
-        padding: 0 16px;
+        // padding: 0 16px;
+        padding: 0 12px 0 14px;
 
         img {
           width: 24px;
@@ -248,7 +249,8 @@ $border-radius: 4px;
       height: 40px;
       background-color: #f5f5f7;
       border-radius: 12px;
-      padding: 0 16px;
+      // padding: 0 16px;
+      padding: 0 12px 0 14px;
       margin-right: 4px;
 
       img {
