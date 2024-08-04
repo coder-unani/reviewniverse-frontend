@@ -161,7 +161,6 @@ $border-radius: 4px;
         border-radius: 12px;
         background-color: #f5f5f7;
         backdrop-filter: blur(8px);
-        // padding: 0 16px;
         padding: 0 12px 0 14px;
 
         img {
@@ -216,7 +215,8 @@ $border-radius: 4px;
       display: flex;
       justify-content: flex-end;
       align-items: center;
-      gap: 4px;
+      // gap: 4px;
+      gap: 12px;
       margin-right: -4px;
 
       img {
@@ -249,7 +249,6 @@ $border-radius: 4px;
       height: 40px;
       background-color: #f5f5f7;
       border-radius: 12px;
-      // padding: 0 16px;
       padding: 0 12px 0 14px;
       margin-right: 4px;
 

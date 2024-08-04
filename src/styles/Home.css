@@ -170,7 +170,7 @@
   display: flex;
   justify-content: flex-end;
   align-items: center;
-  gap: 4px;
+  gap: 12px;
   margin-right: -4px;
 }
 .header-wrapper .header-mobile .right img {
