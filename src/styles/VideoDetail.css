@@ -194,14 +194,11 @@
 .detail-info-wrapper .sub-info-wrapper .sub-info .info-country[data-index]:not([data-index="0"], [data-index="1"]) .sub-content {
   font-size: 18px;
 }
-.detail-info-wrapper .sub-info-wrapper .sub-info .info-production {
-  gap: 6px;
-}
 .detail-info-wrapper .sub-info-wrapper .sub-info .info-production .sub-contents {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 6px;
+  gap: 12px;
   width: 100%;
   text-align: center;
   overflow-y: scroll;

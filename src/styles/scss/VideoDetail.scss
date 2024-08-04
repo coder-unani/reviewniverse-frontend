@@ -259,13 +259,12 @@
       }
 
       .info-production {
-        gap: 6px;
-
         .sub-contents {
           display: flex;
           flex-direction: column;
           align-items: center;
-          gap: 6px;
+          // gap: 6px;
+          gap: 12px;
           width: 100%;
           text-align: center;
           overflow-y: scroll;
