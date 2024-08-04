@@ -32,7 +32,6 @@
     }
 
     .lazy-load-image-background {
-      display: block;
       width: 100%;
       height: 100%;
     }
@@ -305,6 +304,7 @@
 
     .poster {
       position: relative;
+      display: flex;
       width: 280px;
       // aspect-ratio: 2 / 3;
       // border-radius: 4px;
@@ -324,13 +324,8 @@
       //   pointer-events: none;
       // }
 
-      .lazy-load-image-background {
-        display: flex !important;
-        width: 100%;
-        // height: 100%;
-      }
-
       img {
+        display: flex;
         width: 100%;
         // height: 100%;
         // object-fit: cover;
@@ -737,12 +732,9 @@
     //   border: 1px solid rgba(255, 255, 255, 0.1);
     //   pointer-events: none;
     // }
-  }
-
-  .lazy-load-image-background {
-    display: flex !important;
 
     img {
+      display: flex;
       width: 100%;
       aspect-ratio: 16 / 9;
       object-fit: cover;

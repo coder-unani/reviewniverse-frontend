@@ -29,7 +29,6 @@
   pointer-events: none;
 }
 .detail-info-wrapper .background-image .lazy-load-image-background {
-  display: block;
   width: 100%;
   height: 100%;
 }
@@ -229,16 +228,14 @@
 }
 .detail-content-wrapper .poster-wrapper .poster {
   position: relative;
+  display: flex;
   width: 280px;
   border-radius: 14px;
   background-color: transparent;
   overflow: hidden;
 }
-.detail-content-wrapper .poster-wrapper .poster .lazy-load-image-background {
-  display: flex !important;
-  width: 100%;
-}
 .detail-content-wrapper .poster-wrapper .poster img {
+  display: flex;
   width: 100%;
   object-fit: contain;
 }
@@ -583,10 +580,8 @@
   background-color: transparent;
   overflow: hidden;
 }
-.gallery-wrapper .lazy-load-image-background {
-  display: flex !important;
-}
-.gallery-wrapper .lazy-load-image-background img {
+.gallery-wrapper .photo img {
+  display: flex;
   width: 100%;
   aspect-ratio: 16/9;
   object-fit: cover;
