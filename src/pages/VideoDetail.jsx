@@ -340,17 +340,19 @@ const VideoDetail = () => {
 
               <SwiperSlide className="info-country" data-index={content.data.country ? content.data.country.length : 0}>
                 <p className="sub-title">제작국가</p>
-                {content.data.country ? (
-                  content.data.country.map((country, index) => (
-                    <p className="sub-content" key={index} data-indx={index + 1}>
-                      {country.name_ko}
+                <div className="sub-contents">
+                  {content.data.country ? (
+                    content.data.country.map((country, index) => (
+                      <p className="sub-content" key={index} data-indx={index + 1}>
+                        {country.name_ko}
+                      </p>
+                    ))
+                  ) : (
+                    <p className="sub-content" data-index="0">
+                      -
                     </p>
-                  ))
-                ) : (
-                  <p className="sub-content" data-index="0">
-                    -
-                  </p>
-                )}
+                  )}
+                </div>
               </SwiperSlide>
 
               <SwiperSlide

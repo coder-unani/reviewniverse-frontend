@@ -143,7 +143,6 @@
   border-radius: 24px;
   background-color: rgba(255, 255, 255, 0.1);
   backdrop-filter: blur(8px);
-  padding: 20px;
 }
 .detail-info-wrapper .sub-info-wrapper .sub-info .sub-title {
   position: absolute;
@@ -164,7 +163,8 @@
   font-weight: 800;
   color: #ffffff;
   text-align: center;
-  word-break: keep-all;
+  white-space: wrap;
+  word-break: break-all;
 }
 .detail-info-wrapper .sub-info-wrapper .sub-info .info-rating[data-index="0"] .sub-content {
   font-size: 32px;
@@ -187,36 +187,36 @@
   font-weight: 600;
   opacity: 0.5;
 }
-.detail-info-wrapper .sub-info-wrapper .sub-info .info-country {
+.detail-info-wrapper .sub-info-wrapper .sub-info .info-country .sub-contents {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   gap: 6px;
+  max-width: 60%;
+  text-align: center;
+  padding: 20px 0;
+  overflow-y: scroll;
 }
 .detail-info-wrapper .sub-info-wrapper .sub-info .info-country[data-index="0"] .sub-content {
   font-size: 32px;
   opacity: 0.5;
 }
 .detail-info-wrapper .sub-info-wrapper .sub-info .info-country[data-index]:not([data-index="0"], [data-index="1"]) .sub-content {
-  font-size: 18px;
-}
-.detail-info-wrapper .sub-info-wrapper .sub-info .info-production {
-  padding: 0;
+  font-size: 20px;
 }
 .detail-info-wrapper .sub-info-wrapper .sub-info .info-production .sub-contents {
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 12px;
-  max-width: 60%;
-  text-align: center;
+  max-width: 50%;
   padding: 20px 0;
   overflow-y: scroll;
 }
 .detail-info-wrapper .sub-info-wrapper .sub-info .info-production .sub-content {
   display: block;
-  font-size: 18px;
-  color: #ffffff;
+  font-size: 20px;
   text-align: center;
-  white-space: wrap;
-  word-break: normal;
 }
 .detail-info-wrapper .sub-info-wrapper .sub-info .info-production[data-index="0"] .sub-content {
   font-size: 32px;
@@ -815,16 +815,37 @@
   .detail-info-wrapper .sub-info-wrapper .sub-info .swiper-slide {
     min-width: 160px;
     height: 100px;
-    padding: 16px;
+    border-radius: 21px;
   }
   .detail-info-wrapper .sub-info-wrapper .sub-info .sub-title {
-    left: 16px;
+    left: 12px;
     font-size: 13px;
   }
   .detail-info-wrapper .sub-info-wrapper .sub-info .sub-content {
     font-size: 24px;
   }
   .detail-info-wrapper .sub-info-wrapper .sub-info .info-rating[data-index="0"] .sub-content {
+    font-size: 24px;
+  }
+  .detail-info-wrapper .sub-info-wrapper .sub-info .info-release .sub-content.date {
+    font-size: 13px;
+  }
+  .detail-info-wrapper .sub-info-wrapper .sub-info .info-country .sub-contents {
+    padding: 12px 0;
+  }
+  .detail-info-wrapper .sub-info-wrapper .sub-info .info-country[data-index="0"] .sub-content {
+    font-size: 24px;
+  }
+  .detail-info-wrapper .sub-info-wrapper .sub-info .info-country[data-index]:not([data-index="0"], [data-index="1"]) .sub-content {
+    font-size: 16px;
+  }
+  .detail-info-wrapper .sub-info-wrapper .sub-info .info-production .sub-contents {
+    padding: 12px 0;
+  }
+  .detail-info-wrapper .sub-info-wrapper .sub-info .info-production .sub-content {
+    font-size: 16px;
+  }
+  .detail-info-wrapper .sub-info-wrapper .sub-info .info-production[data-index="0"] .sub-content {
     font-size: 24px;
   }
   .detail-main-wrapper {
@@ -869,10 +890,8 @@
     min-width: 120px;
     height: 80px;
     border-radius: 18px;
-    padding: 0;
   }
   .detail-info-wrapper .sub-info-wrapper .sub-info .sub-title {
-    left: 12px;
     font-size: 12px;
   }
   .detail-info-wrapper .sub-info-wrapper .sub-info .sub-content {
@@ -884,12 +903,17 @@
   .detail-info-wrapper .sub-info-wrapper .sub-info .info-release .sub-content.date {
     font-size: 12px;
   }
-  .detail-info-wrapper .sub-info-wrapper .sub-info .info-production .sub-contents {
-    max-width: 50%;
-    padding: 12px 0;
+  .detail-info-wrapper .sub-info-wrapper .sub-info .info-country[data-index="0"] .sub-content {
+    font-size: 18px;
+  }
+  .detail-info-wrapper .sub-info-wrapper .sub-info .info-country[data-index]:not([data-index="0"], [data-index="1"]) .sub-content {
+    font-size: 14px;
   }
   .detail-info-wrapper .sub-info-wrapper .sub-info .info-production .sub-content {
     font-size: 14px;
+  }
+  .detail-info-wrapper .sub-info-wrapper .sub-info .info-production[data-index="0"] .sub-content {
+    font-size: 18px;
   }
   .detail-main-wrapper {
     padding-top: 60px;
