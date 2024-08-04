@@ -85,6 +85,7 @@
 
       a {
         flex: 0 0 auto;
+        display: block;
         font-size: 13px;
         font-weight: 600;
         color: #ffffff;
@@ -136,16 +137,17 @@
     bottom: 0;
     transform: translateY(50%);
     width: 100%;
+    cursor: pointer;
 
     .sub-info {
       display: flex;
-      gap: 12px;
       align-items: center;
+      gap: 12px;
       max-width: 1440px;
       padding: 0 60px;
       margin: 0 auto;
 
-      & > div {
+      .swiper-slide {
         flex: 1;
         position: relative;
         display: flex;
@@ -259,9 +261,24 @@
       .info-production {
         gap: 6px;
 
+        .sub-contents {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          gap: 6px;
+          width: 100%;
+          text-align: center;
+          overflow-y: scroll;
+        }
+
         .sub-content {
+          display: block;
           max-width: 65%;
           font-size: 18px;
+          color: #ffffff;
+          text-align: center;
+          white-space: wrap;
+          word-break: keep-all;
         }
 
         &[data-index="0"] {
@@ -285,7 +302,7 @@
   }
 }
 
-.datil-main-wrapper {
+.detail-main-wrapper {
   width: 100%;
   max-width: 1440px;
   padding-top: 97.5px;
@@ -576,6 +593,10 @@
         display: none;
       }
 
+      &:hover {
+        background-color: rgba(255, 255, 255, 0.25);
+      }
+
       img {
         width: 24px;
         height: 24px;
@@ -684,6 +705,10 @@
 
       &.swiper-button-disabled {
         display: none;
+      }
+
+      &:hover {
+        background-color: rgba(255, 255, 255, 0.25);
       }
 
       img {
@@ -1041,6 +1066,8 @@
 @media (max-width: 576px) {
   .detail-info-wrapper {
     .main-info-wrapper {
+      margin-bottom: 70px;
+
       .main-info {
         padding: 0 15px;
       }
@@ -1049,8 +1076,33 @@
     .sub-info-wrapper {
       .sub-info {
         padding: 0 15px;
+
+        .swiper-slide {
+          min-width: 160px;
+          height: 100px;
+          padding: 16px;
+        }
+
+        .sub-title {
+          left: 16px;
+          font-size: 13px;
+        }
+
+        .sub-content {
+          font-size: 24px;
+        }
+
+        .info-production {
+          .sub-content {
+            font-size: 14px;
+          }
+        }
       }
     }
+  }
+
+  .detail-main-wrapper {
+    padding-top: 70px;
   }
 
   .detail-content-wrapper {
