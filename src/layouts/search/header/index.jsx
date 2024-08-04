@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import MenuModal from "/src/components/Modal/MenuModal";
 import SearchForm from "/src/components/SearchForm";
+import { DEFAULT_ICONS } from "/src/config/constants";
 import { RiMenu3Line } from "@remixicon/react";
 
 const Header = () => {
@@ -21,7 +22,8 @@ const Header = () => {
     <header className="header-wrapper">
       <div className="header-search">
         <SearchForm />
-        <RiMenu3Line size={32} className="mobile-menu" onClick={toggleMobileMenu} />
+        <img src={DEFAULT_ICONS.menu} alt="메뉴" className="mobile-menu" onClick={toggleMobileMenu} />
+        {/* <RiMenu3Line size={32} className="mobile-menu" onClick={toggleMobileMenu} /> */}
       </div>
       {menuModal && <MenuModal onClose={toggleMobileMenu} />}
     </header>
