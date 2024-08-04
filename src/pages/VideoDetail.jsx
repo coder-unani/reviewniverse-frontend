@@ -77,6 +77,22 @@ const VideoDetail = () => {
   const [reviewModal, setReviewModal] = useState(false);
   const [confirmModal, setConfirmModal] = useState(false);
 
+  // 비디오 정보 스와이퍼 설정
+  const subInfoSwiperConfig = (prevEl, nextEl) => ({
+    modules: [Navigation],
+    spaceBetween: 12,
+    slidesPerView: "auto",
+    slidesPerGroup: 2,
+    speed: 1000,
+    navigation: { prevEl, nextEl },
+    allowTouchMove: true,
+    breakpoints: {
+      1441: {
+        allowTouchMove: false,
+      },
+    },
+  });
+
   // 출연진 스와이퍼 설정
   const crewSwiperConfig = (prevEl, nextEl) => ({
     modules: [Grid, Navigation],
@@ -277,13 +293,13 @@ const VideoDetail = () => {
                   <p className="title-og">{content.data.title_og || content.data.title}</p>
                   <h2 className="title-kr">{content.data.title}</h2>
                 </div>
-                <div className="info-genre">
+                <ul className="info-genre">
                   {content.data.genre.map((genre, index) => (
-                    <Link to={`/genre?genre=${formatGenreArray(genre.name)}`} key={index}>
-                      {genre.name}
-                    </Link>
+                    <li key={index}>
+                      <Link to={`/genre?genre=${formatGenreArray(genre.name)}`}>{genre.name}</Link>
+                    </li>
                   ))}
-                </div>
+                </ul>
               </div>
               <div className="info-left">
                 <div className="info-button">
@@ -302,24 +318,27 @@ const VideoDetail = () => {
           </div>
 
           <div className="sub-info-wrapper">
-            <div className="sub-info">
-              <div
+            <Swiper {...subInfoSwiperConfig(".prev-info", ".next-info")} className="sub-info">
+              <SwiperSlide
                 className="info-rating"
                 data-index={content.data.rating > 0 ? Math.floor(formatRating(content.data.rating)) : 0}
               >
                 <p className="sub-title">평점</p>
                 <p className="sub-content">{content.data.rating > 0 ? formatRating(content.data.rating) : "-"}</p>
-              </div>
-              <div className="info-notice-age">
+              </SwiperSlide>
+
+              <SwiperSlide className="info-notice-age">
                 <p className="sub-title">관람등급</p>
                 <p className="sub-content">{formatUpperCase(content.data.notice_age)}</p>
-              </div>
-              <div className="info-release">
+              </SwiperSlide>
+
+              <SwiperSlide className="info-release">
                 <p className="sub-title">{formatReleaseText(content.data.code)}</p>
                 <p className="sub-content year">{formatYear(content.data.release)}</p>
                 <p className="sub-content date">{formatReleaseDate(content.data.release)}</p>
-              </div>
-              <div className="info-country" data-index={content.data.country ? content.data.country.length : 0}>
+              </SwiperSlide>
+
+              <SwiperSlide className="info-country" data-index={content.data.country ? content.data.country.length : 0}>
                 <p className="sub-title">제작국가</p>
                 {content.data.country ? (
                   content.data.country.map((country, index) => (
@@ -332,33 +351,40 @@ const VideoDetail = () => {
                     -
                   </p>
                 )}
-              </div>
-              <div
+              </SwiperSlide>
+
+              <SwiperSlide
                 className="info-production"
                 data-index={content.data.production ? content.data.production.length : 0}
               >
                 <p className="sub-title">제작사</p>
-                {content.data.production ? (
-                  content.data.production.map((prodn, index) => (
-                    <p className="sub-content" key={index}>
-                      <Link to={`/production/${prodn.id}`} state={{ name: prodn.name }}>
+                <div className="sub-contents">
+                  {content.data.production ? (
+                    content.data.production.map((prodn, index) => (
+                      <Link
+                        to={`/production/${prodn.id}`}
+                        state={{ name: prodn.name }}
+                        className="sub-content"
+                        key={index}
+                      >
                         {prodn.name}
                       </Link>
-                    </p>
-                  ))
-                ) : (
-                  <p className="sub-content">-</p>
-                )}
-              </div>
-              <div className="info-runtime">
+                    ))
+                  ) : (
+                    <p className="sub-content">-</p>
+                  )}
+                </div>
+              </SwiperSlide>
+
+              <SwiperSlide className="info-runtime">
                 <p className="sub-title">{formatRuntimeText(content.data.code)}</p>
                 <p className="sub-content">{content.data.runtime}</p>
-              </div>
-            </div>
+              </SwiperSlide>
+            </Swiper>
           </div>
         </section>
 
-        <div className="datil-main-wrapper">
+        <div className="detail-main-wrapper">
           <section className="detail-content-wrapper">
             <div className="poster-wrapper">
               <figure className="poster">
@@ -413,11 +439,17 @@ const VideoDetail = () => {
                 <div className="platform-wrapper">
                   <h4>보러가기</h4>
                   <div className="platforms">
-                    {content.data.platform.map((platform, index) => (
-                      <button type="button" onClick={() => window.open(platform.url)} key={index}>
-                        <img src={`/assets/platform/${platform.code}.png`} alt="플랫폼" />
-                      </button>
-                    ))}
+                    {content.data.platform.map((platform, index) => {
+                      // for test
+                      if (platform.code === 50) {
+                        return null;
+                      }
+                      return (
+                        <button type="button" onClick={() => window.open(platform.url)} key={index}>
+                          <img src={`/assets/platform/${platform.code}.png`} alt="플랫폼" />
+                        </button>
+                      );
+                    })}
                   </div>
                 </div>
               )}
