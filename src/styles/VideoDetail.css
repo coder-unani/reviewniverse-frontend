@@ -139,10 +139,15 @@
   align-items: center;
   justify-content: center;
   min-width: 210px;
+  width: auto;
   height: 145px;
   border-radius: 24px;
   background-color: rgba(255, 255, 255, 0.1);
   backdrop-filter: blur(8px);
+}
+.detail-info-wrapper .sub-info-wrapper .sub-info .swiper-slide[data-index="0"] .sub-content {
+  font-size: 32px;
+  opacity: 0.5;
 }
 .detail-info-wrapper .sub-info-wrapper .sub-info .sub-title {
   position: absolute;
@@ -158,17 +163,22 @@
   text-orientation: sideways;
   opacity: 0.5;
 }
+.detail-info-wrapper .sub-info-wrapper .sub-info .sub-contents {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  max-width: 60%;
+  padding: 20px 0;
+  overflow-y: scroll;
+}
 .detail-info-wrapper .sub-info-wrapper .sub-info .sub-content {
   font-size: 32px;
   font-weight: 800;
   color: #ffffff;
   text-align: center;
   white-space: wrap;
-  word-break: break-all;
-}
-.detail-info-wrapper .sub-info-wrapper .sub-info .info-rating[data-index="0"] .sub-content {
-  font-size: 32px;
-  opacity: 0.5;
+  word-break: keep-all;
 }
 .detail-info-wrapper .sub-info-wrapper .sub-info .info-rating[data-index="1"] .sub-content, .detail-info-wrapper .sub-info-wrapper .sub-info .info-rating[data-index="2"] .sub-content {
   color: #ff6874;
@@ -179,7 +189,7 @@
 .detail-info-wrapper .sub-info-wrapper .sub-info .info-rating[data-index="4"] .sub-content, .detail-info-wrapper .sub-info-wrapper .sub-info .info-rating[data-index="5"] .sub-content {
   color: #00ce7a;
 }
-.detail-info-wrapper .sub-info-wrapper .sub-info .info-release {
+.detail-info-wrapper .sub-info-wrapper .sub-info .info-release .sub-contents {
   gap: 2px;
 }
 .detail-info-wrapper .sub-info-wrapper .sub-info .info-release .sub-content.date {
@@ -187,43 +197,16 @@
   font-weight: 600;
   opacity: 0.5;
 }
-.detail-info-wrapper .sub-info-wrapper .sub-info .info-country .sub-contents {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 6px;
-  max-width: 60%;
-  text-align: center;
-  padding: 20px 0;
-  overflow-y: scroll;
-}
-.detail-info-wrapper .sub-info-wrapper .sub-info .info-country[data-index="0"] .sub-content {
-  font-size: 32px;
-  opacity: 0.5;
-}
 .detail-info-wrapper .sub-info-wrapper .sub-info .info-country[data-index]:not([data-index="0"], [data-index="1"]) .sub-content {
   font-size: 20px;
 }
 .detail-info-wrapper .sub-info-wrapper .sub-info .info-production .sub-contents {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
   gap: 12px;
-  max-width: 50%;
-  padding: 20px 0;
-  overflow-y: scroll;
 }
 .detail-info-wrapper .sub-info-wrapper .sub-info .info-production .sub-content {
   display: block;
+  width: 100%;
   font-size: 20px;
-  text-align: center;
-}
-.detail-info-wrapper .sub-info-wrapper .sub-info .info-production[data-index="0"] .sub-content {
-  font-size: 32px;
-  opacity: 0.5;
-}
-.detail-info-wrapper .sub-info-wrapper .sub-info .info-runtime .sub-content {
-  max-width: 65%;
 }
 .detail-info-wrapper .sub-info-wrapper .sub-info .info-runtime .sub-content:empty {
   color: red;
@@ -757,6 +740,14 @@
     justify-content: flex-end;
     width: 100%;
   }
+  .detail-info-wrapper .sub-info-wrapper .sub-info .swiper-slide {
+    flex: none;
+  }
+  .detail-info-wrapper .sub-info-wrapper .sub-info .info-production .sub-contents {
+    max-width: unset;
+    white-space: nowrap;
+    padding: 20px 54px;
+  }
   .cast-wrapper .swiper-container[data-length="4"] .swiper-wrapper {
     grid-template-rows: repeat(2, 1fr);
   }
@@ -817,36 +808,30 @@
     height: 100px;
     border-radius: 21px;
   }
+  .detail-info-wrapper .sub-info-wrapper .sub-info .swiper-slide[data-index="0"] .sub-content {
+    font-size: 24px;
+  }
   .detail-info-wrapper .sub-info-wrapper .sub-info .sub-title {
     left: 12px;
     font-size: 13px;
   }
-  .detail-info-wrapper .sub-info-wrapper .sub-info .sub-content {
-    font-size: 24px;
+  .detail-info-wrapper .sub-info-wrapper .sub-info .sub-contents {
+    padding: 12px 0;
   }
-  .detail-info-wrapper .sub-info-wrapper .sub-info .info-rating[data-index="0"] .sub-content {
+  .detail-info-wrapper .sub-info-wrapper .sub-info .sub-content {
     font-size: 24px;
   }
   .detail-info-wrapper .sub-info-wrapper .sub-info .info-release .sub-content.date {
     font-size: 13px;
   }
-  .detail-info-wrapper .sub-info-wrapper .sub-info .info-country .sub-contents {
-    padding: 12px 0;
-  }
-  .detail-info-wrapper .sub-info-wrapper .sub-info .info-country[data-index="0"] .sub-content {
-    font-size: 24px;
-  }
   .detail-info-wrapper .sub-info-wrapper .sub-info .info-country[data-index]:not([data-index="0"], [data-index="1"]) .sub-content {
     font-size: 16px;
   }
   .detail-info-wrapper .sub-info-wrapper .sub-info .info-production .sub-contents {
-    padding: 12px 0;
+    padding: 12px 36px;
   }
   .detail-info-wrapper .sub-info-wrapper .sub-info .info-production .sub-content {
     font-size: 16px;
-  }
-  .detail-info-wrapper .sub-info-wrapper .sub-info .info-production[data-index="0"] .sub-content {
-    font-size: 24px;
   }
   .detail-main-wrapper {
     padding-top: 70px;
@@ -891,29 +876,23 @@
     height: 80px;
     border-radius: 18px;
   }
+  .detail-info-wrapper .sub-info-wrapper .sub-info .swiper-slide[data-index="0"] .sub-content {
+    font-size: 18px;
+  }
   .detail-info-wrapper .sub-info-wrapper .sub-info .sub-title {
     font-size: 12px;
   }
   .detail-info-wrapper .sub-info-wrapper .sub-info .sub-content {
     font-size: 18px;
   }
-  .detail-info-wrapper .sub-info-wrapper .sub-info .info-rating[data-index="0"] .sub-content {
-    font-size: 18px;
-  }
   .detail-info-wrapper .sub-info-wrapper .sub-info .info-release .sub-content.date {
     font-size: 12px;
-  }
-  .detail-info-wrapper .sub-info-wrapper .sub-info .info-country[data-index="0"] .sub-content {
-    font-size: 18px;
   }
   .detail-info-wrapper .sub-info-wrapper .sub-info .info-country[data-index]:not([data-index="0"], [data-index="1"]) .sub-content {
     font-size: 14px;
   }
   .detail-info-wrapper .sub-info-wrapper .sub-info .info-production .sub-content {
     font-size: 14px;
-  }
-  .detail-info-wrapper .sub-info-wrapper .sub-info .info-production[data-index="0"] .sub-content {
-    font-size: 18px;
   }
   .detail-main-wrapper {
     padding-top: 60px;

@@ -324,18 +324,26 @@ const VideoDetail = () => {
                 data-index={content.data.rating > 0 ? Math.floor(formatRating(content.data.rating)) : 0}
               >
                 <p className="sub-title">평점</p>
-                <p className="sub-content">{content.data.rating > 0 ? formatRating(content.data.rating) : "-"}</p>
+                <div className="sub-contents">
+                  <p className="sub-content">{content.data.rating > 0 ? formatRating(content.data.rating) : "-"}</p>
+                </div>
               </SwiperSlide>
 
               <SwiperSlide className="info-notice-age">
                 <p className="sub-title">관람등급</p>
-                <p className="sub-content">{formatUpperCase(content.data.notice_age)}</p>
+                <div className="sub-contents">
+                  <p className="sub-content">{formatUpperCase(content.data.notice_age)}</p>
+                </div>
               </SwiperSlide>
 
               <SwiperSlide className="info-release">
                 <p className="sub-title">{formatReleaseText(content.data.code)}</p>
-                <p className="sub-content year">{formatYear(content.data.release)}</p>
-                <p className="sub-content date">{formatReleaseDate(content.data.release)}</p>
+                <div className="sub-contents">
+                  <p className="sub-content year">{formatYear(content.data.release)}</p>
+                  {formatReleaseDate(content.data.release) && (
+                    <p className="sub-content date">{formatReleaseDate(content.data.release)}</p>
+                  )}
+                </div>
               </SwiperSlide>
 
               <SwiperSlide className="info-country" data-index={content.data.country ? content.data.country.length : 0}>
@@ -380,7 +388,9 @@ const VideoDetail = () => {
 
               <SwiperSlide className="info-runtime">
                 <p className="sub-title">{formatRuntimeText(content.data.code)}</p>
-                <p className="sub-content">{content.data.runtime}</p>
+                <div className="sub-contents">
+                  <p className="sub-content">{content.data.runtime}</p>
+                </div>
               </SwiperSlide>
             </Swiper>
           </div>
