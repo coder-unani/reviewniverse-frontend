@@ -1,7 +1,7 @@
 import React, { useRef, useEffect, useState } from "react";
 import { useAuthContext } from "/src/context/AuthContext";
 import { useVideoRating } from "/src/hooks/useVideoRating";
-import { DEFAULT_IMAGES, VIDEO_RATING_TEXT } from "/src/config/constants";
+import { VIDEO_RATING_TEXT } from "/src/config/constants";
 import "/src/styles/Rating2.css";
 
 const Rating = ({ videoId, myInfo, toggleEnjoyModal }) => {
@@ -44,7 +44,6 @@ const Rating = ({ videoId, myInfo, toggleEnjoyModal }) => {
     const rating = e.target.dataset.rating;
     if (!rating) return;
     videoRating({ videoId, rating: rating * 2, userId: user.id });
-    // handleRatingSet(rating * 2);
   };
 
   useEffect(() => {
