@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import Review from "/src/components/Review";
 import People from "/src/components/People";
 import PhotoModal from "/src/components/Modal/PhotoModal";
@@ -42,12 +42,14 @@ import "/src/styles/VideoDetail.css";
 
 /**
  * TODO:
+ * - 반응형 레이아웃
  * - 리뷰 무한 스크롤 (스와이퍼 삭제)
  * - 리뷰 없을 때 스타일 디벨롭
  * - 리뷰 스포일러 기능
  * - 리뷰 자세히 보기 (리뷰 모달?)
- * - react modal 라이브러리 사용하기
+ * - react modal 라이브러리 사용하기 (갤러리 등)
  * - react tooltip 라이브러리 사용하기 (ex.평점 취소하기)
+ * - 줄거리 더보기 기능
  */
 
 const VideoDetail = () => {
@@ -69,7 +71,6 @@ const VideoDetail = () => {
   const { mutate: videoLike } = useVideoLike();
   const { mutate: reviewLike } = useReviewLike();
   const { mutate: reviewDelete } = useReviewDelete();
-  const ratingNumberRef = useRef(null);
 
   const [photoModal, setPhotoModal] = useState({ isOpen: false, url: "" });
   const [enjoyModal, setEnjoyModal] = useState(false);
@@ -93,6 +94,12 @@ const VideoDetail = () => {
         allowTouchMove: false,
       },
       1025: {
+        slidesPerView: 3,
+        slidesPerGroup: 3,
+        grid: { rows: 2, fill: "column" },
+        allowTouchMove: false,
+      },
+      1281: {
         slidesPerView: 4,
         slidesPerGroup: 4,
         grid: { rows: 2, fill: "column" },
@@ -360,7 +367,7 @@ const VideoDetail = () => {
                 <div className="my-review-wrapper">
                   <h4>내가 쓴 리뷰</h4>
                   <div className="my-review">
-                    <ProfileImage image={user.profile_image} size={56} />
+                    <ProfileImage image={user.profile_image} size={45} />
                     <div className="content" onClick={handleReviewCreate}>
                       <p>{myInfo.review.title}</p>
                     </div>
@@ -409,29 +416,31 @@ const VideoDetail = () => {
             </div>
           </section>
 
-          <section className="cast-wrapper">
-            <h4>출연진</h4>
-            <div className="swiper-container">
-              <Swiper {...crewSwiperConfig(".prev-actor", ".next-actor")}>
-                {content.data.actor.map((actor, index) => (
-                  <SwiperSlide key={index}>
-                    <People crew={actor} target={"actor"} formatCode={formatActorRoleCode} key={index} />
-                  </SwiperSlide>
-                ))}
-              </Swiper>
-              <div className={`swiper-button-prev prev-actor`}>
-                <img src={DEFAULT_ICONS.arrowLeft} alt="왼쪽" />
+          {!isEmpty(content.data.actor) && (
+            <section className="cast-wrapper">
+              <h4>출연진</h4>
+              <div className="swiper-container" data-length={content.data.actor.length}>
+                <Swiper {...crewSwiperConfig(".prev-actor", ".next-actor")}>
+                  {content.data.actor.map((actor, index) => (
+                    <SwiperSlide key={index}>
+                      <People crew={actor} target={"actor"} formatCode={formatActorRoleCode} key={index} />
+                    </SwiperSlide>
+                  ))}
+                </Swiper>
+                <div className={`swiper-button-prev prev-actor`}>
+                  <img src={DEFAULT_ICONS.arrowLeft} alt="왼쪽" />
+                </div>
+                <div className={`swiper-button-next next-actor`}>
+                  <img src={DEFAULT_ICONS.arrowRight} alt="오른쪽" />
+                </div>
               </div>
-              <div className={`swiper-button-next next-actor`}>
-                <img src={DEFAULT_ICONS.arrowRight} alt="오른쪽" />
-              </div>
-            </div>
-          </section>
+            </section>
+          )}
 
           {!isEmpty(content.data.staff) && (
             <section className="cast-wrapper">
               <h4>제작진</h4>
-              <div className="swiper-container">
+              <div className="swiper-container" data-length={content.data.staff.length}>
                 <Swiper {...crewSwiperConfig(".prev-staff", ".next-staff")}>
                   {content.data.staff.map((staff, index) => (
                     <SwiperSlide key={index}>
@@ -449,26 +458,28 @@ const VideoDetail = () => {
             </section>
           )}
 
-          <section className="gallery-wrapper">
-            <h4>갤러리</h4>
-            <div className="swiper-container">
-              <Swiper {...gallerySwiperConfig(".prev-gallery", ".next-gallery")}>
-                {content.data.thumbnail.map((image, index) => (
-                  <SwiperSlide key={index} onClick={() => togglePhotoModal(image)}>
-                    <figure className="photo">
-                      <LazyLoadImage src={image} alt="갤러리 이미지" effect="blur" />
-                    </figure>
-                  </SwiperSlide>
-                ))}
-              </Swiper>
-              <div className="swiper-button-prev prev-gallery">
-                <img src={DEFAULT_ICONS.arrowLeft} alt="왼쪽" />
+          {!isEmpty(content.data.thumbnail) && (
+            <section className="gallery-wrapper">
+              <h4>갤러리</h4>
+              <div className="swiper-container">
+                <Swiper {...gallerySwiperConfig(".prev-gallery", ".next-gallery")}>
+                  {content.data.thumbnail.map((image, index) => (
+                    <SwiperSlide key={index} onClick={() => togglePhotoModal(image)}>
+                      <figure className="photo">
+                        <LazyLoadImage src={image} alt="갤러리 이미지" effect="blur" />
+                      </figure>
+                    </SwiperSlide>
+                  ))}
+                </Swiper>
+                <div className="swiper-button-prev prev-gallery">
+                  <img src={DEFAULT_ICONS.arrowLeft} alt="왼쪽" />
+                </div>
+                <div className="swiper-button-next next-gallery">
+                  <img src={DEFAULT_ICONS.arrowRight} alt="오른쪽" />
+                </div>
               </div>
-              <div className="swiper-button-next next-gallery">
-                <img src={DEFAULT_ICONS.arrowRight} alt="오른쪽" />
-              </div>
-            </div>
-          </section>
+            </section>
+          )}
 
           <section className="review-wrapper">
             <div className="title">
