@@ -274,7 +274,7 @@
 .detail-content-wrapper .more-wrapper .my-review-wrapper .my-review {
   display: flex;
   align-items: center;
-  border-radius: 6px;
+  border-radius: 14px;
   background-color: #122129;
   padding: 20px;
 }
@@ -641,7 +641,7 @@
   display: flex;
   flex-direction: column;
   background-color: #122129;
-  border-radius: 6px;
+  border-radius: 14px;
   padding: 0 12px;
 }
 .review-wrapper .review > div:not(:last-child) {
@@ -804,9 +804,6 @@
     width: 60px;
     height: 60px;
   }
-  .review-wrapper .reviews {
-    grid-template-columns: repeat(1, 1fr);
-  }
 }
 @media (max-width: 576px) {
   .detail-info-wrapper .main-info-wrapper .main-info {
@@ -843,6 +840,10 @@
   }
   .review-wrapper .no-review {
     padding: 0 15px;
+  }
+  .review-wrapper .reviews {
+    grid-template-columns: repeat(1, 1fr);
+    gap: 10px;
   }
   .cast-wrapper h4,
   .gallery-wrapper h4 {
