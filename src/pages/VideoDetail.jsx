@@ -80,12 +80,17 @@ const VideoDetail = () => {
   // 비디오 정보 스와이퍼 설정
   const subInfoSwiperConfig = (prevEl, nextEl) => ({
     modules: [Navigation],
-    spaceBetween: 12,
+    spaceBetween: 10,
     slidesPerView: "auto",
     slidesPerGroup: 2,
     speed: 1000,
     navigation: { prevEl, nextEl },
     allowTouchMove: true,
+    breakpoints: {
+      769: {
+        spaceBetween: 12,
+      },
+    },
   });
 
   // 출연진 스와이퍼 설정
@@ -129,7 +134,7 @@ const VideoDetail = () => {
     navigation: { prevEl, nextEl },
     allowTouchMove: true,
     breakpoints: {
-      577: {
+      769: {
         spaceBetween: 12,
         slidesPerView: 3,
         slidesPerGroup: 3,

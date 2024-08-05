@@ -88,7 +88,7 @@
       a {
         flex: 0 0 auto;
         display: block;
-        font-size: 13px;
+        font-size: 12px;
         font-weight: 600;
         color: #ffffff;
         padding: 6px 8px;
@@ -785,7 +785,7 @@
 
   .reviews {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(4, 1fr);
     gap: 12px;
   }
 
@@ -962,6 +962,12 @@
       }
     }
   }
+
+  .review-wrapper {
+    .reviews {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
 }
 
 @media (max-width: 1024px) {
@@ -1108,7 +1114,6 @@
 
   .detail-content-wrapper {
     grid-template-columns: 1fr;
-    padding: 20px 30px;
 
     .poster-wrapper {
       grid-column: 1;
@@ -1140,10 +1145,14 @@
 @media (max-width: 576px) {
   .detail-info-wrapper {
     .main-info-wrapper {
-      margin-bottom: 60px;
+      margin-bottom: 57px;
 
       .main-info {
         padding: 0 15px;
+      }
+
+      .title-og {
+        font-size: 14px;
       }
     }
 
@@ -1153,7 +1162,7 @@
 
         .swiper-slide {
           min-width: 120px;
-          height: 80px;
+          height: 74px;
           border-radius: 18px;
 
           &[data-index="0"] {
@@ -1169,7 +1178,7 @@
         }
 
         .sub-content {
-          font-size: 20px;
+          font-size: 18px;
         }
 
         .sub-contents {
@@ -1187,7 +1196,7 @@
         .info-country {
           &[data-index]:not([data-index="0"], [data-index="1"]) {
             .sub-content {
-              font-size: 20px;
+              font-size: 18px;
             }
           }
         }
@@ -1201,7 +1210,7 @@
 
           &[data-index="1"] {
             .sub-content {
-              font-size: 20px !important;
+              font-size: 18px !important;
             }
           }
         }
@@ -1210,7 +1219,7 @@
   }
 
   .detail-main-wrapper {
-    padding-top: 60px;
+    padding-top: 57px;
   }
 
   .detail-content-wrapper {

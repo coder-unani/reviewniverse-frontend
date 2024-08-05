@@ -78,7 +78,7 @@
 .detail-info-wrapper .main-info-wrapper .info-genre a {
   flex: 0 0 auto;
   display: block;
-  font-size: 13px;
+  font-size: 12px;
   font-weight: 600;
   color: #ffffff;
   padding: 6px 8px;
@@ -642,7 +642,7 @@
 }
 .review-wrapper .reviews {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(4, 1fr);
   gap: 12px;
 }
 .review-wrapper .review {
@@ -759,6 +759,9 @@
   .cast-wrapper .swiper-container[data-length="4"] .swiper-wrapper {
     grid-template-rows: repeat(2, 1fr);
   }
+  .review-wrapper .reviews {
+    grid-template-columns: repeat(3, 1fr);
+  }
 }
 @media (max-width: 1024px) {
   .detail-info-wrapper .main-info-wrapper .main-info {
@@ -846,7 +849,6 @@
   }
   .detail-content-wrapper {
     grid-template-columns: 1fr;
-    padding: 20px 30px;
   }
   .detail-content-wrapper .poster-wrapper {
     grid-column: 1;
@@ -868,17 +870,20 @@
 }
 @media (max-width: 576px) {
   .detail-info-wrapper .main-info-wrapper {
-    margin-bottom: 60px;
+    margin-bottom: 57px;
   }
   .detail-info-wrapper .main-info-wrapper .main-info {
     padding: 0 15px;
+  }
+  .detail-info-wrapper .main-info-wrapper .title-og {
+    font-size: 14px;
   }
   .detail-info-wrapper .sub-info-wrapper .sub-info {
     padding: 0 15px;
   }
   .detail-info-wrapper .sub-info-wrapper .sub-info .swiper-slide {
     min-width: 120px;
-    height: 80px;
+    height: 74px;
     border-radius: 18px;
   }
   .detail-info-wrapper .sub-info-wrapper .sub-info .swiper-slide[data-index="0"] .sub-content {
@@ -889,7 +894,7 @@
     font-size: 12px;
   }
   .detail-info-wrapper .sub-info-wrapper .sub-info .sub-content {
-    font-size: 20px;
+    font-size: 18px;
   }
   .detail-info-wrapper .sub-info-wrapper .sub-info .sub-contents {
     padding: 12px 36px;
@@ -898,16 +903,16 @@
     font-size: 12px;
   }
   .detail-info-wrapper .sub-info-wrapper .sub-info .info-country[data-index]:not([data-index="0"], [data-index="1"]) .sub-content {
-    font-size: 20px;
+    font-size: 18px;
   }
   .detail-info-wrapper .sub-info-wrapper .sub-info .info-production[data-index]:not([data-index="0"]) .sub-content {
     font-size: 14px;
   }
   .detail-info-wrapper .sub-info-wrapper .sub-info .info-production[data-index="1"] .sub-content {
-    font-size: 20px !important;
+    font-size: 18px !important;
   }
   .detail-main-wrapper {
-    padding-top: 60px;
+    padding-top: 57px;
   }
   .detail-content-wrapper {
     padding: 20px 15px;
