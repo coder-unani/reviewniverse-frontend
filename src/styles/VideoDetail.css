@@ -865,6 +865,9 @@
     width: 60px;
     height: 60px;
   }
+  .gallery-wrapper .photo img {
+    border-radius: 12px;
+  }
 }
 @media (max-width: 576px) {
   .detail-info-wrapper .background-image::after {

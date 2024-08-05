@@ -1144,6 +1144,14 @@
       }
     }
   }
+
+  .gallery-wrapper {
+    .photo {
+      img {
+        border-radius: 12px;
+      }
+    }
+  }
 }
 
 @media (max-width: 576px) {
