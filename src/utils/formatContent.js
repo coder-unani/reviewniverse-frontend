@@ -109,7 +109,7 @@ export const formatStaffRoleCode = (code) => {
   return staffType || "제작";
 };
 
-// 회차, 상영시간 텍스트 포맷
+// 시리즈, 상영시간 텍스트 포맷
 export const formatRuntimeText = (code) => {
-  return code === "10" ? "상영시간" : "회차";
+  return code === "10" ? "상영시간" : "시리즈";
 };
