@@ -25,9 +25,9 @@
       bottom: 0;
       left: 0;
       width: 100%;
-      height: calc(50% + 72.5px);
-      background: linear-gradient(180deg, rgba(#05151e, 0) 0%, rgba(#05151e, 1) 82%);
-      margin-bottom: -72.5px;
+      height: calc(50% + 65px);
+      background: linear-gradient(180deg, rgba(#05151e, 0) 0%, rgba(#05151e, 1) 85%);
+      margin-bottom: -65px;
       pointer-events: none;
     }
 
@@ -96,6 +96,7 @@
         border-radius: 6px;
         border: 1px solid rgba(255, 255, 255, 0.5);
         backdrop-filter: blur(8px);
+        -webkit-backdrop-filter: blur(8px);
       }
     }
 
@@ -162,6 +163,7 @@
         border-radius: 24px;
         background-color: rgba(255, 255, 255, 0.1);
         backdrop-filter: blur(8px);
+        -webkit-backdrop-filter: blur(8px);
 
         &[data-index="0"] {
           .sub-content {
@@ -252,7 +254,7 @@
 
       .info-production {
         .sub-contents {
-          gap: 12px;
+          gap: 24px;
         }
 
         &[data-index]:not([data-index="0"]) {
@@ -296,10 +298,8 @@
       display: flex;
       width: 280px;
       // aspect-ratio: 2 / 3;
-      // border-radius: 4px;
-      border-radius: 14px;
       background-color: transparent;
-      overflow: hidden;
+      // overflow: hidden;
 
       // &::after {
       //   content: "";
@@ -318,7 +318,9 @@
         width: 100%;
         // height: 100%;
         // object-fit: cover;
+        // border-radius: 4px;
         object-fit: contain;
+        border-radius: 14px;
       }
     }
   }
@@ -363,13 +365,6 @@
       .content {
         flex: 1;
         cursor: pointer;
-
-        img {
-          width: 60px;
-          height: 60px;
-          border-radius: 50%;
-          border: 1px solid rgba(255, 255, 255, 0.1);
-        }
 
         p {
           font-size: 15px;
@@ -485,8 +480,7 @@
           position: relative;
           width: 67px;
           height: 67px;
-          border-radius: 12px;
-          overflow: hidden;
+          // overflow: hidden;
 
           // &::after {
           //   content: "";
@@ -504,6 +498,7 @@
             width: 100%;
             height: 100%;
             object-fit: cover;
+            border-radius: 12px;
           }
         }
       }
@@ -553,6 +548,7 @@
       border-radius: 50%;
       background-color: rgba(255, 255, 255, 0.1);
       backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
       box-shadow: 0 0 4px 0 rgba(0, 0, 0, 0.2);
       padding: 5px;
       z-index: 10;
@@ -600,11 +596,14 @@
   }
 
   .people-image {
-    // border-radius: 18px;
-    border-radius: 50%;
     margin-right: 12px;
 
-    &::after {
+    // &::after {
+    //   // border-radius: 18px;
+    //   border-radius: 50%;
+    // }
+
+    img {
       // border-radius: 18px;
       border-radius: 50%;
     }
@@ -667,6 +666,7 @@
       border-radius: 50%;
       background-color: rgba(255, 255, 255, 0.1);
       backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
       box-shadow: 0 0 4px 0 rgba(0, 0, 0, 0.2);
       padding: 5px;
       z-index: 10;
@@ -711,10 +711,8 @@
     display: flex;
     width: 100%;
     height: 100%;
-    // border-radius: 4px;
-    border-radius: 14px;
     background-color: transparent;
-    overflow: hidden;
+    // overflow: hidden;
 
     // &::after {
     //   content: "";
@@ -733,6 +731,8 @@
       width: 100%;
       aspect-ratio: 16 / 9;
       object-fit: cover;
+      // border-radius: 4px;
+      border-radius: 14px;
     }
   }
 }
@@ -1032,6 +1032,14 @@
 
 @media (max-width: 768px) {
   .detail-info-wrapper {
+    .background-image {
+      &::after {
+        height: calc(50% + 50px);
+        background: linear-gradient(180deg, rgba(#05151e, 0) 0%, rgba(#05151e, 1) 88%);
+        margin-bottom: -50px;
+      }
+    }
+
     .main-info-wrapper {
       margin-bottom: 70px;
 
@@ -1084,6 +1092,10 @@
         }
 
         .info-production {
+          .sub-contents {
+            gap: 16px;
+          }
+
           &[data-index]:not([data-index="0"]) {
             .sub-content {
               font-size: 16px;
@@ -1136,6 +1148,14 @@
 
 @media (max-width: 576px) {
   .detail-info-wrapper {
+    .background-image {
+      &::after {
+        height: calc(50% + 37px);
+        background: linear-gradient(180deg, rgba(#05151e, 0) 0%, rgba(#05151e, 1) 90%);
+        margin-bottom: -37px;
+      }
+    }
+
     .main-info-wrapper {
       margin-bottom: 57px;
 
@@ -1198,6 +1218,10 @@
         }
 
         .info-production {
+          .sub-contents {
+            gap: 10px;
+          }
+
           &[data-index]:not([data-index="0"]) {
             .sub-content {
               font-size: 14px;
