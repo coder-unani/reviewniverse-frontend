@@ -191,7 +191,7 @@
         flex-direction: column;
         align-items: center;
         gap: 6px;
-        max-width: 60%;
+        max-width: 50%;
         padding: 20px 0;
         overflow-y: scroll;
       }
@@ -252,10 +252,12 @@
           gap: 12px;
         }
 
-        .sub-content {
-          display: block;
-          width: 100%;
-          font-size: 20px;
+        &[data-index]:not([data-index="0"]) {
+          .sub-content {
+            display: block;
+            width: 100%;
+            font-size: 20px;
+          }
         }
       }
 
@@ -904,6 +906,31 @@
 }
 
 // 반응형
+@media (max-width: 1440px) {
+  .detail-info-wrapper {
+    .sub-info-wrapper {
+      .sub-info {
+        .swiper-slide {
+          flex: none;
+        }
+
+        .sub-contents {
+          max-width: unset;
+          padding: 20px 54px;
+        }
+
+        .info-production {
+          &[data-index="1"] {
+            .sub-content {
+              font-size: 32px !important;
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
 @media (max-width: 1280px) {
   .detail-info-wrapper {
     .main-info-wrapper {
@@ -916,22 +943,6 @@
         display: flex;
         justify-content: flex-end;
         width: 100%;
-      }
-    }
-
-    .sub-info-wrapper {
-      .sub-info {
-        .swiper-slide {
-          flex: none;
-        }
-
-        .info-production {
-          .sub-contents {
-            max-width: unset;
-            white-space: nowrap;
-            padding: 20px 54px;
-          }
-        }
       }
     }
   }
@@ -1045,7 +1056,7 @@
         }
 
         .sub-contents {
-          padding: 12px 0;
+          padding: 12px 36px;
         }
 
         .sub-content {
@@ -1069,12 +1080,16 @@
         }
 
         .info-production {
-          .sub-contents {
-            padding: 12px 36px;
+          &[data-index]:not([data-index="0"]) {
+            .sub-content {
+              font-size: 16px;
+            }
           }
 
-          .sub-content {
-            font-size: 16px;
+          &[data-index="1"] {
+            .sub-content {
+              font-size: 24px !important;
+            }
           }
         }
       }
@@ -1171,8 +1186,16 @@
         }
 
         .info-production {
-          .sub-content {
-            font-size: 14px;
+          &[data-index]:not([data-index="0"]) {
+            .sub-content {
+              font-size: 14px;
+            }
+          }
+
+          &[data-index="1"] {
+            .sub-content {
+              font-size: 18px !important;
+            }
           }
         }
       }

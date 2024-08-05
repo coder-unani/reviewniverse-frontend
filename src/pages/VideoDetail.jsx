@@ -86,11 +86,6 @@ const VideoDetail = () => {
     speed: 1000,
     navigation: { prevEl, nextEl },
     allowTouchMove: true,
-    breakpoints: {
-      1441: {
-        allowTouchMove: false,
-      },
-    },
   });
 
   // 출연진 스와이퍼 설정
@@ -452,8 +447,7 @@ const VideoDetail = () => {
                   <h4>보러가기</h4>
                   <div className="platforms">
                     {content.data.platform.map((platform, index) => {
-                      // for test
-                      if (platform.code === 50) {
+                      if (platform.code === "50") {
                         return null;
                       }
                       return (
