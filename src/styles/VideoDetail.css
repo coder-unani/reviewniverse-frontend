@@ -739,9 +739,6 @@
   .detail-info-wrapper .sub-info-wrapper .sub-info .sub-contents {
     padding: 20px 54px;
   }
-  .detail-info-wrapper .sub-info-wrapper .sub-info .info-country[data-index]:not([data-index="0"], [data-index="1"]) .sub-content {
-    font-size: 32px;
-  }
   .detail-info-wrapper .sub-info-wrapper .sub-info .info-production[data-index="1"] .sub-content {
     font-size: 32px !important;
   }
@@ -812,7 +809,7 @@
     margin-bottom: 70px;
   }
   .detail-info-wrapper .main-info-wrapper .title-kr {
-    font-size: 38px;
+    font-size: 40px;
   }
   .detail-info-wrapper .sub-info-wrapper .sub-info .swiper-slide {
     min-width: 160px;
@@ -877,6 +874,9 @@
   }
   .detail-info-wrapper .main-info-wrapper .title-og {
     font-size: 14px;
+  }
+  .detail-info-wrapper .main-info-wrapper .title-kr {
+    font-size: 36px;
   }
   .detail-info-wrapper .sub-info-wrapper .sub-info {
     padding: 0 15px;

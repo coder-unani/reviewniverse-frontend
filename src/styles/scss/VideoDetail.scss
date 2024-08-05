@@ -917,14 +917,6 @@
           padding: 20px 54px;
         }
 
-        .info-country {
-          &[data-index]:not([data-index="0"], [data-index="1"]) {
-            .sub-content {
-              font-size: 32px;
-            }
-          }
-        }
-
         .info-production {
           &[data-index="1"] {
             .sub-content {
@@ -1044,7 +1036,7 @@
       margin-bottom: 70px;
 
       .title-kr {
-        font-size: 38px;
+        font-size: 40px;
       }
     }
 
@@ -1153,6 +1145,10 @@
 
       .title-og {
         font-size: 14px;
+      }
+
+      .title-kr {
+        font-size: 36px;
       }
     }
 
