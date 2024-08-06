@@ -1,0 +1,17 @@
+@import "base/fonts";
+@import "base/normalize";
+@import "base/variables";
+
+// layout
+@import "modules/common";
+@import "modules/header";
+@import "modules/footer";
+@import "modules/main";
+
+// components
+@import "modules/rating";
+@import "modules/peopleImage";
+
+// pages
+@import "modules/home";
+@import "modules/videoDetail";
