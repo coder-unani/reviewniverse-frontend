@@ -381,7 +381,7 @@ figure {
   top: 0;
   left: 0;
   width: 100%;
-  background-color: #05151e;
+  background-color: rgba(5, 21, 30, 0.25);
   backdrop-filter: blur(25px);
   -webkit-backdrop-filter: blur(25px);
   transition: all 0.2s ease-in-out;
@@ -465,7 +465,7 @@ figure {
   width: 300px;
   height: 40px;
   border-radius: 12px;
-  background-color: #263d4b;
+  background-color: rgba(38, 61, 75, 0.5);
   backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);
   padding: 0 12px 0 14px;
