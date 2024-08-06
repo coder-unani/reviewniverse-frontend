@@ -8,7 +8,6 @@ import { SCREEN_MAIN_ID } from "/src/config/codes";
 import { VIDEO_ORDER_OPTIONS } from "/src/config/constants";
 import { arrayRandomValue } from "/src/utils/format";
 import { isEmpty } from "lodash";
-import "/src/styles/Home.css";
 
 const Home = () => {
   const { user } = useAuthContext();
@@ -64,8 +63,6 @@ const Home = () => {
   }
   if (screensError) {
   }
-
-  if (isEmpty(screens) || isEmpty(videos)) return null;
 
   // 데이터 props로 하위 컴포넌트에 전달
   return (

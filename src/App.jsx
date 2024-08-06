@@ -7,7 +7,6 @@ import router from "/src/routes";
 import { ToastWrapper } from "/src/components/Toast";
 import { DEFAULT_IMAGES } from "/src/config/constants";
 import { SETTINGS } from "/src/config/settings";
-import "/src/styles/App.css";
 
 /**
  * TODO:
