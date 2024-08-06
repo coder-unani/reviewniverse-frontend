@@ -6,7 +6,7 @@ import EnjoyModal from "/src/components/Modal/EnjoyModal";
 import ReviewModal from "/src/components/Modal/ReviewModal";
 import ConfirmModal from "/src/components/Modal/ConfirmModal";
 import ProfileImage from "/src/components/Button/Profile/ProfileImage";
-import Rating2 from "/src/components/Rating2";
+import Rating from "/src/components/Rating";
 import { Helmet } from "react-helmet-async";
 import { useNavigate, useParams, Link } from "react-router-dom";
 import { useAuthContext } from "/src/context/AuthContext";
@@ -38,7 +38,10 @@ import {
   formatStaffRoleCode,
   formatRuntimeText,
 } from "/src/utils/formatContent";
-import "/src/styles/VideoDetail.css";
+import FillTrashIcon from "/src/assets/button/fill-trash.svg?react";
+import FillUpdateIcon from "/src/assets/button/fill-update.svg?react";
+import ArrowLeftIcon from "/src/assets/button/arrow-left.svg?react";
+import ArrowRightIcon from "/src/assets/button/arrow-right.svg?react";
 
 /**
  * TODO:
@@ -203,32 +206,6 @@ const VideoDetail = () => {
   };
 
   // TODO: 리뷰 자세히 보기
-
-  // 헤더 스타일 변경
-  useEffect(() => {
-    const header = document.querySelector("header");
-    const logo = document.querySelector(".logo");
-
-    const handleScroll = () => {
-      if (window.scrollY > 100 && header.classList.contains("transparent")) {
-        header.classList.remove("transparent");
-        logo.src = DEFAULT_IMAGES.logo;
-      } else if (window.scrollY <= 100 && !header.classList.contains("transparent")) {
-        header.classList.add("transparent");
-        logo.src = DEFAULT_IMAGES.logoWhite;
-      }
-    };
-
-    window.addEventListener("scroll", handleScroll);
-    header.classList.add("transparent");
-    logo.src = DEFAULT_IMAGES.logoWhite;
-
-    return () => {
-      window.removeEventListener("scroll", handleScroll);
-      header.classList.remove("transparent");
-      logo.src = DEFAULT_IMAGES.logo;
-    };
-  }, []);
 
   useEffect(() => {
     if (!content) return;
@@ -415,12 +392,12 @@ const VideoDetail = () => {
                     </div>
                     <div className="button-wrapper">
                       <button type="button" className="delete" onClick={handleReviewDelete}>
-                        <img src={DEFAULT_ICONS.fillTrash} alt="삭제" />
+                        <FillTrashIcon />
                         <span>삭제</span>
                       </button>
                       |
                       <button type="button" className="update" onClick={handleReviewUpdate}>
-                        <img src={DEFAULT_ICONS.fillUpdate} alt="수정" />
+                        <FillUpdateIcon />
                         <span>수정</span>
                       </button>
                     </div>
@@ -444,7 +421,7 @@ const VideoDetail = () => {
                   <span>/</span>
                   <span>5</span>
                 </div>
-                <Rating2 videoId={videoId} myInfo={myInfo} toggleEnjoyModal={toggleEnjoyModal} />
+                <Rating videoId={videoId} myInfo={myInfo} toggleEnjoyModal={toggleEnjoyModal} />
               </div>
 
               {!isEmpty(content.data.platform) && (
@@ -479,10 +456,10 @@ const VideoDetail = () => {
                   ))}
                 </Swiper>
                 <div className={`swiper-button-prev prev-actor`}>
-                  <img src={DEFAULT_ICONS.arrowLeft} alt="왼쪽" />
+                  <ArrowLeftIcon />
                 </div>
                 <div className={`swiper-button-next next-actor`}>
-                  <img src={DEFAULT_ICONS.arrowRight} alt="오른쪽" />
+                  <ArrowRightIcon />
                 </div>
               </div>
             </section>
@@ -500,10 +477,10 @@ const VideoDetail = () => {
                   ))}
                 </Swiper>
                 <div className={`swiper-button-prev prev-staff`}>
-                  <img src={DEFAULT_ICONS.arrowLeft} alt="왼쪽" />
+                  <ArrowLeftIcon />
                 </div>
                 <div className={`swiper-button-next next-staff`}>
-                  <img src={DEFAULT_ICONS.arrowRight} alt="오른쪽" />
+                  <ArrowRightIcon />
                 </div>
               </div>
             </section>
@@ -523,10 +500,10 @@ const VideoDetail = () => {
                   ))}
                 </Swiper>
                 <div className="swiper-button-prev prev-gallery">
-                  <img src={DEFAULT_ICONS.arrowLeft} alt="왼쪽" />
+                  <ArrowLeftIcon />
                 </div>
                 <div className="swiper-button-next next-gallery">
-                  <img src={DEFAULT_ICONS.arrowRight} alt="오른쪽" />
+                  <ArrowRightIcon />
                 </div>
               </div>
             </section>
