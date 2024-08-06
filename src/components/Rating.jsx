@@ -1,84 +1,84 @@
-import React, { useRef, useEffect } from "react";
+import React, { useRef, useEffect, useState } from "react";
 import { useAuthContext } from "/src/context/AuthContext";
 import { useVideoRating } from "/src/hooks/useVideoRating";
-import { RiStarFill } from "@remixicon/react";
-import "/src/styles/Rating.css";
+import { VIDEO_RATING_TEXT } from "/src/config/constants";
 
 const Rating = ({ videoId, myInfo, toggleEnjoyModal }) => {
   const { user } = useAuthContext();
-  const emptyRatingRef = useRef(null);
-  const fillRatingRef = useRef(null);
+  const [imgSrc, setImgSrc] = useState("/assets/rating/0.png");
+  const ratingRef = useRef(null);
+  const ratingImgRef = useRef(null);
   const { mutate: videoRating } = useVideoRating();
 
   // 비디오 평가하기
   const handleRatingSet = (rating) => {
-    const fillRating = fillRatingRef.current;
-    fillRating.dataset.rating = rating;
-    fillRating.style.width = `${rating * 10}%`;
+    // 1~10까지의 rating을 0~5까지로 변환
+    const floorRating = Math.floor(rating / 2);
+    const barRating = ratingRef.current;
+    barRating.dataset.rating = floorRating;
+    const text = document.querySelector("#ratingText");
+    text.innerText = VIDEO_RATING_TEXT[floorRating];
+    setImgSrc(`/assets/rating/${floorRating}.png`);
   };
 
   // 비디오 평가하기 이벤트
   const handleRatingMouseOver = (e) => {
-    const emptyRating = emptyRatingRef.current;
-    const width = emptyRating.getBoundingClientRect().width;
-    const mouseX = e.clientX - emptyRating.getBoundingClientRect().left;
-    const ratio = Math.max(0, Math.min(mouseX / width, 1));
-    const rating = Math.ceil(ratio * 10);
-    handleRatingSet(rating);
+    const rating = e.target.dataset.rating;
+    if (!rating) return;
+    handleRatingSet(rating * 2);
   };
 
-  const handleRatingMouseOut = () => {
-    handleRatingSet(myInfo && myInfo.rating ? myInfo.rating : 0);
+  const handleRatingMouseOut = (e) => {
+    const barRating = ratingRef.current;
+    if (!barRating.contains(e.relatedTarget)) {
+      handleRatingSet(myInfo && myInfo.rating ? myInfo.rating : 0);
+    }
   };
 
-  const handleRatingClick = async () => {
+  const handleRatingClick = async (e) => {
     if (!user) {
       toggleEnjoyModal();
       return;
     }
-    videoRating({ videoId, rating: fillRatingRef.current.dataset.rating });
+    const rating = e.target.dataset.rating;
+    if (!rating) return;
+    videoRating({ videoId, rating: rating * 2, userId: user.id });
   };
 
   useEffect(() => {
-    const emptyRating = emptyRatingRef.current;
-    const fillRating = fillRatingRef.current;
+    const barRating = ratingRef.current;
+    if (!barRating) return;
 
-    if (!emptyRating || !fillRating) {
-      return;
-    }
+    if (user && myInfo) handleRatingSet(myInfo.rating || 0);
 
-    if (user && myInfo) {
-      handleRatingSet(myInfo.rating || 0);
-    }
-
-    emptyRating.addEventListener("mouseover", handleRatingMouseOver);
-    emptyRating.addEventListener("mouseout", handleRatingMouseOut);
-    emptyRating.addEventListener("click", handleRatingClick);
+    barRating.addEventListener("mouseover", handleRatingMouseOver);
+    barRating.addEventListener("mouseout", handleRatingMouseOut);
+    barRating.addEventListener("click", handleRatingClick);
 
     return () => {
-      emptyRating.removeEventListener("mouseover", handleRatingMouseOver);
-      emptyRating.removeEventListener("mouseout", handleRatingMouseOut);
-      emptyRating.removeEventListener("click", handleRatingClick);
+      barRating.removeEventListener("mouseover", handleRatingMouseOver);
+      barRating.removeEventListener("mouseout", handleRatingMouseOut);
+      barRating.removeEventListener("click", handleRatingClick);
     };
   }, [user, myInfo]);
 
   return (
-    <div className="ratings-wrapper">
-      <div className="empty-rating" ref={emptyRatingRef}>
-        <RiStarFill size={45} />
-        <RiStarFill size={45} />
-        <RiStarFill size={45} />
-        <RiStarFill size={45} />
-        <RiStarFill size={45} />
+    <div className="bar-rating-wrapper">
+      <div className="right">
+        <figure className="bar-rating-image">
+          <img src={imgSrc} alt="평가 이미지" ref={ratingImgRef} />
+        </figure>
       </div>
-      <div className="fill-rating" ref={fillRatingRef}>
-        <RiStarFill size={45} />
-        <RiStarFill size={45} />
-        <RiStarFill size={45} />
-        <RiStarFill size={45} />
-        <RiStarFill size={45} />
+      <div className="left">
+        <span id="ratingText">{VIDEO_RATING_TEXT[0]}</span>
+        <div className="bar-rating" ref={ratingRef}>
+          <div className="bar" data-rating="1"></div>
+          <div className="bar" data-rating="2"></div>
+          <div className="bar" data-rating="3"></div>
+          <div className="bar" data-rating="4"></div>
+          <div className="bar" data-rating="5"></div>
+        </div>
       </div>
-      <span id="ratingText">평가하기</span>
     </div>
   );
 };
