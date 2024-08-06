@@ -1,8 +1,7 @@
 import React, { useState } from "react";
 import MenuModal from "/src/components/Modal/MenuModal";
 import SearchForm from "/src/components/SearchForm";
-import { DEFAULT_ICONS } from "/src/config/constants";
-import { RiMenu3Line } from "@remixicon/react";
+import MenuIcon from "/src/assets/button/menu3.svg?react";
 
 const Header = () => {
   // 모바일 메뉴 모달
@@ -18,8 +17,7 @@ const Header = () => {
     <header className="header-wrapper">
       <div className="header-search">
         <SearchForm />
-        <img src={DEFAULT_ICONS.menu} alt="메뉴" className="mobile-menu" onClick={toggleMobileMenu} />
-        {/* <RiMenu3Line size={32} className="mobile-menu" onClick={toggleMobileMenu} /> */}
+        <MenuIcon className="mobile-menu" onClick={toggleMobileMenu} />
       </div>
       {menuModal && <MenuModal onClose={toggleMobileMenu} />}
     </header>

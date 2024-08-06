@@ -4,10 +4,10 @@ import { useAuthContext } from "/src/context/AuthContext";
 import { useThemeContext } from "/src/context/ThemeContext";
 import MenuModal from "/src/components/Modal/MenuModal";
 import SearchForm from "/src/components/SearchForm";
-import ProfileButton from "/src/components/Button/Profile";
 import ProfileImage from "/src/components/Button/Profile/ProfileImage";
-import { DEFAULT_IMAGES, DEFAULT_ICONS } from "/src/config/constants";
-import { RiSearchLine, RiMenu3Line } from "@remixicon/react";
+import { DEFAULT_IMAGES } from "/src/config/constants";
+import SearchIcon from "/src/assets/button/search.svg?react";
+import MenuIcon from "/src/assets/button/menu3.svg?react";
 
 const Header = () => {
   const location = useLocation();
@@ -59,21 +59,19 @@ const Header = () => {
         <div className="header-mobile">
           <div className="left">
             <Link to="/">
-              <img src={DEFAULT_IMAGES.logo} className="logo" alt="logo" />
+              <img src={DEFAULT_IMAGES.logoWhite} className="logo" alt="logo" />
             </Link>
           </div>
           <div className="right">
-            <img src={DEFAULT_ICONS.search} alt="검색" onClick={handleMobileSearch} />
-            {/* <RiSearchLine size={32} onClick={handleMobileSearch} /> */}
-            <img src={DEFAULT_ICONS.menu} alt="메뉴" className="mobile-menu" onClick={toggleMobileMenu} />
-            {/* <RiMenu3Line size={32} className="mobile-menu" onClick={toggleMobileMenu} /> */}
+            <SearchIcon onClick={handleMobileSearch} />
+            <MenuIcon className="mobile-menu" onClick={toggleMobileMenu} />
           </div>
         </div>
       ) : (
         <div className="header">
           <div className="left">
             <Link to="/">
-              <img src={DEFAULT_IMAGES.logo} className="logo" alt="logo" />
+              <img src={DEFAULT_IMAGES.logoWhite} className="logo" alt="logo" />
             </Link>
             {/* <ul className="menu">
               <li className={activeMenu === "movie" ? "active" : ""} onClick={() => handleMenuClick("movie")}>
