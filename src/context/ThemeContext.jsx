@@ -7,6 +7,30 @@ const ThemeContextProvider = ({ children }) => {
 
   useEffect(() => {
     window.innerWidth < 768 ? setIsMobile(true) : setIsMobile(false);
+
+    // 헤더 스타일 변경
+    const header = document.querySelector("header");
+    // const logo = document.querySelector(".logo");
+
+    const handleScroll = () => {
+      if (window.scrollY > 100 && header.classList.contains("transparent")) {
+        header.classList.remove("transparent");
+        // logo.src = DEFAULT_IMAGES.logo;
+      } else if (window.scrollY <= 100 && !header.classList.contains("transparent")) {
+        header.classList.add("transparent");
+        // logo.src = DEFAULT_IMAGES.logoWhite;
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    header.classList.add("transparent");
+    // logo.src = DEFAULT_IMAGES.logoWhite;
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+      header.classList.remove("transparent");
+      // logo.src = DEFAULT_IMAGES.logo;
+    };
   }, []);
 
   useEffect(() => {
