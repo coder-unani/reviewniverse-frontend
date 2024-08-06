@@ -1,0 +1,32 @@
+.footer-wrapper {
+  background-color: $color-black;
+
+  .footer {
+    width: 100%;
+    max-width: 1440px;
+    padding: 20px 60px 40px;
+    margin: 0 auto;
+  }
+
+  span {
+    font-size: 13px;
+    color: $color-white-01;
+    opacity: 0.7;
+  }
+}
+
+@media (max-width: 1024px) {
+  .footer-wrapper {
+    .footer {
+      padding: 20px 30px 40px;
+    }
+  }
+}
+
+@media (max-width: 576px) {
+  .footer-wrapper {
+    .footer {
+      padding: 20px 15px 40px;
+    }
+  }
+}
