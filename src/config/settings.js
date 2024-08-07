@@ -1,4 +1,3 @@
-// APP 설정 파일
 export const SETTINGS = {
   DEBUG: import.meta.env.VITE_DEBUG === "true",
   API_BASE_URL: "https://comet.reviewniverse.net",
