@@ -122,7 +122,7 @@
         width: 300px;
         height: 40px;
         border-radius: 12px;
-        border: 1px solid rgba($color-white-02, 0.15);
+        border: 1px solid $border-color-02;
         background-color: $color-background;
         backdrop-filter: blur(8px);
         -webkit-backdrop-filter: blur(8px);
@@ -130,7 +130,7 @@
 
         &:focus-within {
           // border-color: rgba($color-primary, 0.7);
-          border-color: rgba($color-white-02, 0.5);
+          border-color: $border-color-05;
         }
 
         svg {
