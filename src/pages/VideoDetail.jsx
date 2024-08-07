@@ -454,7 +454,7 @@ const VideoDetail = () => {
                   <h4>보러가기</h4>
                   <div className="platforms">
                     {content.data.platform.map((platform, index) => {
-                      if (platform.code === "50") {
+                      if (parseInt(platform.code) >= 50) {
                         return null;
                       }
                       return (
