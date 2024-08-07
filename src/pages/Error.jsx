@@ -2,8 +2,13 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { DEFAULT_IMAGES } from "/src/config/constants";
 
+// TODO: 에러 코드별 메세지 표시
+
 const Error = () => {
-  // TODO: 에러 코드별 메세지 표시
+  const handleGoHome = () => {
+    window.location.href = "/";
+  };
+
   return (
     <div className="error-main">
       <section className="error-contents">
@@ -15,7 +20,9 @@ const Error = () => {
             <br />
             잠시 후 다시 이용 부탁드립니다.
           </p>
-          <button>리뷰니버스 홈</button>
+          <button className="home" onClick={handleGoHome}>
+            리뷰니버스 홈
+          </button>
         </div>
       </section>
     </div>
