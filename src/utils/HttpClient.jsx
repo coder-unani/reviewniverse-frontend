@@ -1,5 +1,6 @@
 import axios from "axios";
 import { getStorageAccessToken } from "/src/utils/formatStorage";
+import { SETTINGS } from "/src/config/settings";
 
 class HttpClient {
   client = null;
@@ -8,6 +9,7 @@ class HttpClient {
     this.client = axios.create();
     this.client.defaults.headers.common["Content-Type"] = "application/json";
     this.client.defaults.headers.common["Accept"] = "application/json";
+    // this.client.defaults.headers.common["X-Device-Identifier"] = SETTINGS.DEVICE_IDENTIFIER;
     if (!token && getStorageAccessToken()) {
       token = getStorageAccessToken();
     }
