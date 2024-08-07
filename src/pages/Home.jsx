@@ -1,41 +1,64 @@
 import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import HVideos from "/src/components/HVideos";
 import Videos from "/src/components/Videos";
 import { useAuthContext } from "/src/context/AuthContext";
-import { useScreenContents } from "/src/hooks/useScreenContents";
+import { useRankingVideos } from "/src/hooks/useRankingVideos";
+import { useScreenVideos } from "/src/hooks/useScreenVideos";
 import { useVideos } from "/src/hooks/useVideos";
 import { SCREEN_MAIN_ID } from "/src/config/codes";
 import { VIDEO_ORDER_OPTIONS } from "/src/config/constants";
 import { arrayRandomValue } from "/src/utils/format";
 import { isEmpty } from "lodash";
+import { LazyLoadImage } from "react-lazy-load-image-component";
+import "react-lazy-load-image-component/src/effects/blur.css";
+import ArrowRightIcon from "/src/assets/button/arrow-right.svg?react";
 
 const Home = () => {
+  const navigate = useNavigate();
   const { user } = useAuthContext();
   const [page, setPage] = useState(1);
   const [hasMore, setHasMore] = useState(true);
-  const [orderBy, setOrderBy] = useState(arrayRandomValue(VIDEO_ORDER_OPTIONS));
+  // const [orderBy, setOrderBy] = useState(arrayRandomValue(VIDEO_ORDER_OPTIONS));
   const [videos, setVideos] = useState({ count: 0, page: 1, data: [] });
-  // 스크린 데이터
   const {
-    data: screens,
-    error: screensError,
-    isLoading: screensIsLoading,
-  } = useScreenContents({ code: SCREEN_MAIN_ID });
-  // 비디오 리스트
+    data: ranking,
+    error: rankingError,
+    isLoading: rankingIsLoading,
+  } = useRankingVideos({ code: "20240808", count: 20 });
+  const { data: screens, error: screensError, isLoading: screensIsLoading } = useScreenVideos({ code: SCREEN_MAIN_ID });
   const {
     data: videosData,
     error: videosError,
     isLoading: videosIsLoading,
   } = useVideos({
     page,
-    orderBy,
+    orderBy: "release_desc",
     enabled: hasMore,
   });
+  const [screensMA01, setScreensMA01] = useState(null);
+  const [screensMA02, setScreensMA02] = useState(null);
+  const [screensMA03, setScreensMA03] = useState(null);
+  const [screensMA04, setScreensMA04] = useState(null);
+  const [screensMA05, setScreensMA05] = useState(null);
+
+  const formatScreens = (screens, code) => {
+    return screens.find((screen) => screen.code === code);
+  };
 
   // 페이지 변경
   const handlePage = (page) => {
     setPage(page);
   };
+
+  useEffect(() => {
+    if (isEmpty(screens)) return;
+    setScreensMA01(formatScreens(screens, "MA01"));
+    setScreensMA02(formatScreens(screens, "MA02"));
+    setScreensMA03(formatScreens(screens, "MA03"));
+    setScreensMA04(formatScreens(screens, "MA04"));
+    setScreensMA05(formatScreens(screens, "MA05"));
+  }, [screens]);
 
   useEffect(() => {
     if (!videosData || !hasMore) return;
@@ -55,31 +78,79 @@ const Home = () => {
   }, [videosData, hasMore, page]);
 
   // 로딩중일때 표시할 화면 (스켈레톤 UI)
-  if (videosIsLoading || screensIsLoading) {
-  }
+  // if (videosIsLoading || rankingIsLoading || screensIsLoading) return null;
+  if (rankingIsLoading || screensIsLoading) return;
 
   // 에러일때 표시할 화면
-  if (videosError) {
-  }
-  if (screensError) {
-  }
+  if (videosError || rankingError || screensError) return navigate("/error");
 
   // 데이터 props로 하위 컴포넌트에 전달
   return (
-    <main className="main">
-      <section></section>
-      {screens && !isEmpty(screens) && <HVideos content={screens.find((screen) => screen.code === "MA01")} />}
-      {screens && !isEmpty(screens) && <HVideos content={screens.find((screen) => screen.code === "MA02")} />}
-      {screens && !isEmpty(screens) && <HVideos content={screens.find((screen) => screen.code === "MA03")} />}
-      {screens && !isEmpty(screens) && <HVideos content={screens.find((screen) => screen.code === "MA04")} />}
-      {screens && !isEmpty(screens) && <HVideos content={screens.find((screen) => screen.code === "MA05")} />}
-      {!isEmpty(videos) && (
-        <Videos videos={videos} handlePage={handlePage}>
+    <main className="home-main">
+      <section className="home-preview-wrapper">
+        {/* <figure className="background-image">
+          <LazyLoadImage src="" alt="배경 이미지" effect="blur" />
+        </figure> */}
+      </section>
+      <section className="home-main-wrapper">
+        {screensMA01 && (
+          <HVideos content={screensMA01.content.list} template={screensMA01.content.template} code={screensMA01.code}>
+            <div className="title-wrapper">
+              <h2 className="title">{screensMA01.title}</h2>
+              {/* <button className="more">
+                  더보기
+                  <ArrowRightIcon />
+                </button> */}
+            </div>
+          </HVideos>
+        )}
+
+        <HVideos content={ranking} template="rank" code="ranking">
           <div className="title-wrapper">
-            <h2 className="title">🍟 이건 어때요?</h2>
+            <h2 className="title">🍿 리뷰니버스 TOP 20</h2>
           </div>
-        </Videos>
-      )}
+        </HVideos>
+
+        {screensMA02 && (
+          <HVideos content={screensMA02.content.list} template={screensMA02.content.template} code={screensMA02.code}>
+            <div className="title-wrapper">
+              <h2 className="title">{screensMA02.title}</h2>
+            </div>
+          </HVideos>
+        )}
+
+        {screensMA03 && (
+          <HVideos content={screensMA03.content.list} template={screensMA03.content.template} code={screensMA03.code}>
+            <div className="title-wrapper">
+              <h2 className="title">{screensMA03.title}</h2>
+            </div>
+          </HVideos>
+        )}
+
+        {screensMA04 && (
+          <HVideos content={screensMA04.content.list} template={screensMA04.content.template} code={screensMA04.code}>
+            <div className="title-wrapper">
+              <h2 className="title">{screensMA04.title}</h2>
+            </div>
+          </HVideos>
+        )}
+
+        {screensMA05 && (
+          <HVideos content={screensMA05.content.list} template={screensMA05.content.template} code={screensMA05.code}>
+            <div className="title-wrapper">
+              <h2 className="title">{screensMA05.title}</h2>
+            </div>
+          </HVideos>
+        )}
+
+        {videos && (
+          <Videos videos={videos} handlePage={handlePage}>
+            <div className="title-wrapper">
+              <h2 className="title">🍟 이건 어때요?</h2>
+            </div>
+          </Videos>
+        )}
+      </section>
     </main>
   );
 };

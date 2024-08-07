@@ -8,7 +8,7 @@ import ArrowLeftIcon from "/src/assets/button/arrow-left.svg?react";
 import ArrowRightIcon from "/src/assets/button/arrow-right.svg?react";
 import { isEmpty } from "lodash";
 
-const HVideos = ({ content }) => {
+const HVideos = ({ children, content, template, code }) => {
   const [videos, setVideos] = useState([]);
 
   // 스와이퍼 설정
@@ -42,23 +42,17 @@ const HVideos = ({ content }) => {
 
   useEffect(() => {
     if (!content) return;
-    setVideos(content.content.list);
+    setVideos(content);
   }, [content]);
 
   if (isEmpty(videos)) return null;
 
   return (
     <section className="horizontal-videos-wrapper">
-      <div className="title-wrapper">
-        <h2 className="title">{content.title}</h2>
-        <button className="more">
-          더보기
-          <ArrowRightIcon />
-        </button>
-      </div>
+      {children}
       <div className="swiper-container">
-        <Swiper {...swiperConfig(`.prev-${content.code}`, `.next-${content.code}`)}>
-          {content.content.template === "default"
+        <Swiper {...swiperConfig(`.prev-${code}`, `.next-${code}`)}>
+          {template === "default"
             ? videos.map((video, index) => (
                 <SwiperSlide key={index}>
                   <VideoItem video={video} index={index} />
@@ -70,10 +64,10 @@ const HVideos = ({ content }) => {
                 </SwiperSlide>
               ))}
         </Swiper>
-        <div className={`swiper-button-prev prev-${content.code}`}>
+        <div className={`swiper-button-prev prev-${code}`}>
           <ArrowLeftIcon />
         </div>
-        <div className={`swiper-button-next next-${content.code}`}>
+        <div className={`swiper-button-next next-${code}`}>
           <ArrowRightIcon />
         </div>
       </div>
