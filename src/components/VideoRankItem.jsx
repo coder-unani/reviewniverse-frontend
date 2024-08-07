@@ -30,8 +30,12 @@ const VideoRankItem = ({ video, index }) => {
             <p className="title">{video.title}</p>
             <div className="sub-title">
               <span>{formatYear(video.release)}</span>
-              <span>|</span>
-              <span>{formatCountry(video.country)}</span>
+              {video.country && (
+                <>
+                  <span>|</span>
+                  <span>{formatCountry(video.country)}</span>
+                </>
+              )}
             </div>
           </div>
           <div className="right">
