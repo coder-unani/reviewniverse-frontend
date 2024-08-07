@@ -35,6 +35,15 @@
     }
   }
 
+  &.ranking {
+    .swiper-container {
+      .swiper-button-prev,
+      .swiper-button-next {
+        top: calc((100% - 65px) * 0.5);
+      }
+    }
+  }
+
   .swiper-container {
     position: relative;
     width: 100%;
@@ -46,8 +55,8 @@
     .swiper-button-prev,
     .swiper-button-next {
       position: absolute;
-      // top: 33.333%;
-      top: 37%;
+      top: calc((100% - 57px) * 0.5);
+      transform: translateY(-50%);
       display: flex;
       align-items: center;
       justify-content: center;
@@ -79,11 +88,11 @@
     }
 
     .swiper-button-prev {
-      left: -17px;
+      left: -20px;
     }
 
     .swiper-button-next {
-      right: -17px;
+      right: -20px;
     }
 
     .swiper-button-prev::after,

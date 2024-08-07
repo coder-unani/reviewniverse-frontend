@@ -1,19 +1,27 @@
-.main {
-  max-width: 1440px;
+.home-main {
   min-height: 100vh;
+  overflow: hidden;
+}
+
+.home-preview-wrapper {
+  position: relative;
+}
+
+.home-main-wrapper {
+  width: 100%;
+  max-width: 1440px;
   padding: 84px 60px 24px;
   margin: 0 auto;
-  // margin-top: 60px;
 }
 
 @media (max-width: 1024px) {
-  .main {
+  .home-main-wrapper {
     padding: 84px 30px;
   }
 }
 
 @media (max-width: 576px) {
-  .main {
+  .home-main-wrapper {
     padding: 84px 0;
   }
 }
