@@ -67,11 +67,16 @@ const Home = () => {
   // 데이터 props로 하위 컴포넌트에 전달
   return (
     <main className="main">
-      {!isEmpty(screens) && screens.map((content, index) => <HVideos key={index} content={content} />)}
+      <section></section>
+      {screens && !isEmpty(screens) && <HVideos content={screens.find((screen) => screen.code === "MA01")} />}
+      {screens && !isEmpty(screens) && <HVideos content={screens.find((screen) => screen.code === "MA02")} />}
+      {screens && !isEmpty(screens) && <HVideos content={screens.find((screen) => screen.code === "MA03")} />}
+      {screens && !isEmpty(screens) && <HVideos content={screens.find((screen) => screen.code === "MA04")} />}
+      {screens && !isEmpty(screens) && <HVideos content={screens.find((screen) => screen.code === "MA05")} />}
       {!isEmpty(videos) && (
         <Videos videos={videos} handlePage={handlePage}>
           <div className="title-wrapper">
-            <h2 className="title">주인님 내 새끼 구경 좀 해봐요 🦦</h2>
+            <h2 className="title">🍟 이건 어때요?</h2>
           </div>
         </Videos>
       )}
