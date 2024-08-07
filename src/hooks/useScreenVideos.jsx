@@ -1,12 +1,12 @@
 import { useQuery } from "@tanstack/react-query";
-import { fetchScreenContents } from "/src/api/screens";
+import { fetchScreenVideos } from "/src/api/screens";
 
-export const useScreenContents = ({ code }) => {
+export const useScreenVideos = ({ code }) => {
   return useQuery({
-    queryKey: ["screenContents", code],
+    queryKey: ["screenVideos", code],
     queryFn: async () => {
       // API 호출
-      const res = await fetchScreenContents({ code });
+      const res = await fetchScreenVideos({ code });
       /**
        * API를 통해 넘겨받은 데이터 가공이 필요하면 여기서 처리
        */

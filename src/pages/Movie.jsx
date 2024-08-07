@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import HVideos from "/src/components/HVideos";
 import Videos from "/src/components/Videos";
 import { useAuthContext } from "/src/context/AuthContext";
-import { useScreenContents } from "/src/hooks/useScreenContents";
+import { useScreenVideos } from "/src/hooks/useScreenVideos";
 import { useVideos } from "/src/hooks/useVideos";
 import { SCREEN_MOVIE_ID } from "/src/config/codes";
 import { VIDEO_ORDER_OPTIONS } from "/src/config/constants";
@@ -21,7 +21,7 @@ const Movie = () => {
     data: screens,
     error: screensError,
     isLoading: screensIsLoading,
-  } = useScreenContents({ code: SCREEN_MOVIE_ID });
+  } = useScreenVideos({ code: SCREEN_MOVIE_ID });
   // 비디오 리스트
   const {
     data: videosData,
