@@ -23,7 +23,6 @@ import { Navigation, Grid } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/grid";
 import { SETTINGS } from "/src/config/settings";
-import { DEFAULT_IMAGES, DEFAULT_ICONS } from "/src/config/constants";
 import { isEmpty, includes } from "lodash";
 import { formatYear, formatUpperCase } from "/src/utils/format";
 import {
@@ -206,6 +205,32 @@ const VideoDetail = () => {
   };
 
   // TODO: 리뷰 자세히 보기
+
+  // 헤더 스타일 변경
+  useEffect(() => {
+    const header = document.querySelector("header");
+    // const logo = document.querySelector(".logo");
+
+    const handleScroll = () => {
+      if (window.scrollY > 100 && header.classList.contains("transparent")) {
+        header.classList.remove("transparent");
+        // logo.src = DEFAULT_IMAGES.logo;
+      } else if (window.scrollY <= 100 && !header.classList.contains("transparent")) {
+        header.classList.add("transparent");
+        // logo.src = DEFAULT_IMAGES.logoWhite;
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    header.classList.add("transparent");
+    // logo.src = DEFAULT_IMAGES.logoWhite;
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+      header.classList.remove("transparent");
+      // logo.src = DEFAULT_IMAGES.logo;
+    };
+  }, []);
 
   useEffect(() => {
     if (!content) return;
