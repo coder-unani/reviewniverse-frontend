@@ -578,7 +578,8 @@ figure {
   }
 }
 .footer-wrapper {
-  background-color: #0c0c0c;
+  border-top: 1px solid rgba(213, 221, 226, 0.1);
+  background-color: #05151e;
 }
 .footer-wrapper .footer {
   width: 100%;
@@ -2126,5 +2127,71 @@ figure {
   .gallery-wrapper .swiper-container .swiper-button-prev,
   .gallery-wrapper .swiper-container .swiper-button-next {
     display: none;
+  }
+}
+.error-main {
+  min-height: calc(100vh - 80px);
+  padding-top: 60px;
+}
+
+.error-contents {
+  max-width: 1440px;
+  padding: 12px 60px;
+  margin: 0 auto;
+}
+.error-contents .error {
+  width: 100%;
+  height: 100%;
+  text-align: center;
+  margin-top: 120px;
+}
+.error-contents .error img {
+  width: 320px;
+  height: auto;
+  opacity: 0.5;
+}
+.error-contents .error .title {
+  font-size: 17px;
+  font-weight: 700;
+  color: #eef7fc;
+  line-height: 20px;
+  white-space: pre-wrap;
+  padding: 0 15px;
+  margin-top: 20px;
+}
+.error-contents .error .sub-title {
+  font-size: 15px;
+  color: #93a8b4;
+  line-height: 22px;
+  white-space: pre-wrap;
+  padding: 0 15px;
+  margin-top: 6px;
+}
+.error-contents .error button {
+  display: inline-block;
+  text-align: center;
+  height: 40px;
+  color: #d5dde2;
+  font-size: 15px;
+  font-weight: 500;
+  line-height: 40px;
+  border-radius: 4px;
+  background-color: #263d4b;
+  padding: 0 16px;
+  margin-top: 40px;
+  cursor: pointer;
+}
+
+@media (max-width: 1024px) {
+  .error-contents {
+    padding: 12px 30px;
+  }
+}
+@media (max-width: 576px) {
+  .error-contents {
+    padding: 12px 0;
+  }
+  .error-contents .error {
+    margin-top: 60px;
   }
 }

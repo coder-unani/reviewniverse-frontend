@@ -1,7 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { DEFAULT_IMAGES } from "/src/config/constants";
-import "/src/styles/Error.css";
 
 const Error = () => {
   // TODO: 에러 코드별 메세지 표시
@@ -16,7 +15,7 @@ const Error = () => {
             <br />
             잠시 후 다시 이용 부탁드립니다.
           </p>
-          <Link to="/">리뷰니버스 홈</Link>
+          <button>리뷰니버스 홈</button>
         </div>
       </section>
     </div>

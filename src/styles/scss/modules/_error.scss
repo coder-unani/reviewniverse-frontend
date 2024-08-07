@@ -17,36 +17,39 @@
     img {
       width: 320px;
       height: auto;
-      opacity: 0.7;
+      // opacity: 0.7;
+      opacity: 0.5;
     }
 
     .title {
       font-size: 17px;
       font-weight: 700;
-      color: #8c8c8c;
+      color: $color-white-01;
       line-height: 20px;
       white-space: pre-wrap;
+      padding: 0 15px;
       margin-top: 20px;
     }
 
     .sub-title {
       font-size: 15px;
-      color: #a0a0a0;
+      color: $color-white-04;
       line-height: 22px;
       white-space: pre-wrap;
+      padding: 0 15px;
       margin-top: 6px;
     }
 
-    a {
+    button {
       display: inline-block;
       text-align: center;
       height: 40px;
-      color: #fff;
+      color: $color-white-02;
       font-size: 15px;
       font-weight: 500;
       line-height: 40px;
       border-radius: 4px;
-      background-color: #0c0c0c;
+      background-color: $color-white-08;
       padding: 0 16px;
       margin-top: 40px;
       cursor: pointer;
