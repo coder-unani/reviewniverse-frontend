@@ -6,7 +6,7 @@ import { useForm } from "react-hook-form";
 import HttpClient from "/src/utils/HttpClient";
 import { cLog, cError } from "/src/utils/test";
 
-const API_BASE_URL = "https://comet.orbitcode.kr/v1";
+const API_BASE_URL = "https://comet.reviewniverse.net/v1";
 
 /**
  * TODO:

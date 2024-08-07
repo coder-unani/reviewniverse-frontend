@@ -10,7 +10,7 @@ import Logo from "/assets/logo.svg";
 import "/src/styles/ResetPassword.css";
 import { cLog, cError } from "/src/utils/test";
 
-const API_BASE_URL = "https://comet.orbitcode.kr/v1";
+const API_BASE_URL = "https://comet.reviewniverse.net/v1";
 
 const ResetPassword = () => {
   const { isMobile } = useThemeContext();

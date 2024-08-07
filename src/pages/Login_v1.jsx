@@ -17,7 +17,7 @@ import Google from "/assets/google.png";
 import "/src/styles/Login_v1.css";
 import { cLog, cError } from "/src/utils/test";
 
-const API_BASE_URL = "https://comet.orbitcode.kr/v1";
+const API_BASE_URL = "https://comet.reviewniverse.net";
 
 // TODO: authContext 사용하여 로그인 처리
 
@@ -131,7 +131,7 @@ const Login = () => {
 
   // TODO: 네이버 계정 연동 로그인 구현 (네이버 API 연동)
   const handleNaverLogin = () => {
-    window.location.href = "https://comet.orbitcode.kr/v1/users/naver/login";
+    window.location.href = "https://comet.reviewniverse.net/v1/users/naver/login";
     // try {
     //   const client = new HttpClient();
     //   const res = client.get("http://0.0.0.0:8000/v1/users/naver/login");
