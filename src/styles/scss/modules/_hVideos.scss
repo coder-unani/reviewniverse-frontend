@@ -1,0 +1,130 @@
+.horizontal-videos-wrapper {
+  padding: 20px 0;
+  margin-bottom: 16px;
+
+  .title-wrapper {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    margin-bottom: 34px;
+
+    h2 {
+      font-size: 20px;
+      font-weight: 800;
+      color: $color-white-01;
+      letter-spacing: -0.2px;
+    }
+
+    .more {
+      display: flex;
+      align-items: center;
+      font-size: 15px;
+      color: $color-white-04;
+      line-height: 1;
+      letter-spacing: -0.2px;
+      margin-right: -8px;
+
+      svg {
+        width: 24px;
+        height: 24px;
+
+        path {
+          fill: $color-white-04;
+        }
+      }
+    }
+  }
+
+  .swiper-container {
+    position: relative;
+    width: 100%;
+
+    .swiper-slide {
+      cursor: pointer;
+    }
+
+    .swiper-button-prev,
+    .swiper-button-next {
+      position: absolute;
+      // top: 33.333%;
+      top: 37%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      border: 1px solid rgba($color-white-02, 0.1);
+      background-color: $color-background;
+      box-shadow: 0 0 2px 0 rgba($color-white, 0.05);
+      padding: 5px;
+      z-index: 10;
+      cursor: pointer;
+
+      &.swiper-button-disabled {
+        display: none;
+      }
+
+      &:hover {
+        border: 1px solid rgba($color-white-02, 0.2);
+        background-color: $color-white-09;
+      }
+
+      svg {
+        width: 28px;
+        height: 28px;
+
+        path {
+          fill: $color-white-02;
+        }
+      }
+    }
+
+    .swiper-button-prev {
+      left: -17px;
+    }
+
+    .swiper-button-next {
+      right: -17px;
+    }
+
+    .swiper-button-prev::after,
+    .swiper-button-next::after {
+      display: none;
+    }
+
+    .swiper-button-prev::after,
+    .swiper-button-next::after {
+      display: none;
+    }
+  }
+}
+
+@media (max-width: 576px) {
+  .horizontal-videos-wrapper {
+    padding: 12px 0;
+    margin-bottom: 12px;
+
+    .title-wrapper {
+      padding: 0 15px;
+      margin-bottom: 20px;
+
+      .title {
+        font-size: 17px;
+      }
+
+      button.more {
+        font-size: 13px;
+      }
+    }
+
+    .swiper-container {
+      .swiper {
+        padding: 0 15px;
+      }
+
+      .swiper-button-prev,
+      .swiper-button-next {
+        display: none;
+      }
+    }
+  }
+}

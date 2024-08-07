@@ -4,9 +4,9 @@ import VideoItem from "/src/components/VideoItem";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation } from "swiper/modules";
 import "swiper/css";
-import { RiArrowRightSLine, RiArrowLeftSLine } from "@remixicon/react";
+import ArrowLeftIcon from "/src/assets/button/arrow-left.svg?react";
+import ArrowRightIcon from "/src/assets/button/arrow-right.svg?react";
 import { isEmpty } from "lodash";
-import "/src/styles/HVideos.css";
 
 const HVideos = ({ content }) => {
   const [videos, setVideos] = useState([]);
@@ -51,10 +51,10 @@ const HVideos = ({ content }) => {
     <section className="horizontal-videos-wrapper">
       <div className="title-wrapper">
         <h2 className="title">{content.title}</h2>
-        {/* <button className="more">
+        <button className="more">
           더보기
-          <RiArrowRightSLine size={20} />
-        </button> */}
+          <ArrowRightIcon />
+        </button>
       </div>
       <div className="swiper-container">
         <Swiper {...swiperConfig(`.prev-${content.code}`, `.next-${content.code}`)}>
@@ -71,10 +71,10 @@ const HVideos = ({ content }) => {
               ))}
         </Swiper>
         <div className={`swiper-button-prev prev-${content.code}`}>
-          <RiArrowLeftSLine size={24} />
+          <ArrowLeftIcon />
         </div>
         <div className={`swiper-button-next next-${content.code}`}>
-          <RiArrowRightSLine size={24} />
+          <ArrowRightIcon />
         </div>
       </div>
     </section>

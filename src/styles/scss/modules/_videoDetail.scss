@@ -83,10 +83,13 @@
         display: block;
         font-size: 12px;
         font-weight: 600;
-        color: $color-white-01;
+        // color: $color-white-01;
+        color: $color-white-02;
         border-radius: 6px;
-        border: 1px solid rgba($color-white-02, 0.5);
-        background-color: rgba($color-white-02, 0.2);
+        // border: 1px solid rgba($color-white-02, 0.5);
+        // background-color: rgba($color-white-02, 0.2);
+        border: 1px solid rgba($color-white-02, 0.15);
+        background-color: rgba($color-white-02, 0.1);
         backdrop-filter: blur(8px);
         -webkit-backdrop-filter: blur(8px);
         padding: 6px 8px;
@@ -352,7 +355,7 @@
 
         p {
           font-size: 15px;
-          color: $color-white-01;
+          color: $color-white-02;
           line-height: 24px;
           white-space: pre-wrap;
           margin: 0 16px;
@@ -542,10 +545,9 @@
       align-items: center;
       justify-content: center;
       border-radius: 50%;
-      background-color: rgba($color-white-02, 0.1);
-      backdrop-filter: blur(8px);
-      -webkit-backdrop-filter: blur(8px);
-      box-shadow: 0 0 4px 0 rgba($color-black, 0.2);
+      border: 1px solid rgba($color-white-02, 0.1);
+      background-color: $color-background;
+      box-shadow: 0 0 2px 0 rgba($color-white, 0.05);
       padding: 5px;
       z-index: 10;
       cursor: pointer;
@@ -555,12 +557,13 @@
       }
 
       &:hover {
-        background-color: rgba($color-white-02, 0.25);
+        border: 1px solid rgba($color-white-02, 0.2);
+        background-color: $color-white-09;
       }
 
       svg {
-        width: 24px;
-        height: 24px;
+        width: 28px;
+        height: 28px;
 
         path {
           fill: $color-white-02;
@@ -663,10 +666,9 @@
       align-items: center;
       justify-content: center;
       border-radius: 50%;
-      background-color: rgba($color-white-02, 0.1);
-      backdrop-filter: blur(8px);
-      -webkit-backdrop-filter: blur(8px);
-      box-shadow: 0 0 4px 0 rgba($color-black, 0.2);
+      border: 1px solid rgba($color-white-02, 0.1);
+      background-color: $color-background;
+      box-shadow: 0 0 2px 0 rgba($color-white, 0.05);
       padding: 5px;
       z-index: 10;
       cursor: pointer;
@@ -676,12 +678,13 @@
       }
 
       &:hover {
-        background-color: rgba($color-white-02, 0.25);
+        border: 1px solid rgba($color-white-02, 0.2);
+        background-color: $color-white-09;
       }
 
       svg {
-        width: 24px;
-        height: 24px;
+        width: 28px;
+        height: 28px;
 
         path {
           fill: $color-white-02;
@@ -817,8 +820,8 @@
         // 1줄 이상일때 생략
         display: -webkit-box;
         -webkit-line-clamp: 1;
-        -webkit-box-orient: vertical;
         overflow: hidden;
+        -webkit-box-orient: vertical;
       }
     }
 

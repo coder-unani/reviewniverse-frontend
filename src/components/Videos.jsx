@@ -1,7 +1,6 @@
 import React, { useState, useRef, useCallback, useEffect } from "react";
 import VideoItem from "/src/components/VideoItem";
 import { isEmpty } from "lodash";
-import "/src/styles/Videos.css";
 
 const Videos = ({ videos, handlePage, children }) => {
   const [hasMore, setHasMore] = useState(true);
