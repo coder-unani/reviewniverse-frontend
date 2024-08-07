@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import "react-lazy-load-image-component/src/effects/blur.css";
 import { formatYear } from "/src/utils/format";
-import { formatCodeText, formatThumbnail, formatCountry } from "/src/utils/formatContent";
+import { formatThumbnail, formatCountry } from "/src/utils/formatContent";
 
 const VideoItem = ({ video }) => {
   return (
@@ -24,7 +24,7 @@ const VideoItem = ({ video }) => {
             </div>
           </div>
           <div className="right">
-            <div className="code">{formatCodeText(video.code)}</div>
+            <div className="code">{video.code_string}</div>
           </div>
         </div>
       </Link>

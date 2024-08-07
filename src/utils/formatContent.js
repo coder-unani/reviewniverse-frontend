@@ -8,11 +8,6 @@ export const formatUserCode = (code) => {
   return userCode || "10";
 };
 
-// 비디오 코드 텍스트 포맷
-export const formatCodeText = (code) => {
-  return code === "10" ? "영화" : "시리즈";
-};
-
 // provider 포맷
 export const formatProvider = (provider) => {
   const providerCode = Object.keys(USER_CODE).find((key) => USER_CODE[key] === provider);
