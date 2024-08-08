@@ -12,7 +12,7 @@ const VideoRankItem = ({ video, index }) => {
     const numbers = number.toString().split("");
     // 배열 반복해서 number/{}.svg 이미지 추가해서 반환
     return numbers.map((num, index) => (
-      <img key={index} src={`/assets/number/v2-${num}.svg`} alt={num} data-number={num} />
+      <img key={index} src={`/assets/number/${num}.svg`} alt={num} data-number={num} />
     ));
   };
 
