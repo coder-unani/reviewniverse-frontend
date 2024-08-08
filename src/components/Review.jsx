@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import ProfileButton from "/src/components/Button/Profile";
 import { DEFAULT_ICONS } from "/src/config/constants";
 import { diffDate } from "/src/utils/format";
@@ -11,7 +11,13 @@ import { formatRating } from "/src/utils/formatContent";
  */
 
 const Review = ({ review, isLike, onLikeClick }) => {
+  const [active, setActive] = useState(review.is_spoiler);
   const handleReviewLike = (reviewId) => onLikeClick(reviewId);
+
+  const handleSpoiler = () => {
+    // if (!active) return;
+    setActive(!active);
+  };
 
   return (
     <div className="review">
@@ -32,7 +38,13 @@ const Review = ({ review, isLike, onLikeClick }) => {
         )}
       </div>
       <div className="middle">
-        <p>{review.title}</p>
+        {review.is_spoiler ? (
+          <p className={`content ${review.is_spoiler ? "spoiler" : ""}`} data-active={active} onClick={handleSpoiler}>
+            {review.title}
+          </p>
+        ) : (
+          <p className="content">{review.title}</p>
+        )}
       </div>
       <div className="bottom">
         <span>{diffDate(review.created_at)}</span>
