@@ -1,22 +1,24 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import HVideos from "/src/components/HVideos";
 import Videos from "/src/components/Videos";
-import { useAuthContext } from "/src/context/AuthContext";
 import { useRankingVideos } from "/src/hooks/useRankingVideos";
 import { useScreenVideos } from "/src/hooks/useScreenVideos";
 import { useVideos } from "/src/hooks/useVideos";
 import { SCREEN_MAIN_ID } from "/src/config/codes";
 import { VIDEO_ORDER_OPTIONS } from "/src/config/constants";
-import { arrayRandomValue } from "/src/utils/format";
+import { formatDate, arrayRandomValue } from "/src/utils/format";
+import { formatReleaseText } from "/src/utils/formatContent";
 import { isEmpty } from "lodash";
+import { Swiper, SwiperSlide } from "swiper/react";
+import { Autoplay } from "swiper/modules";
+import "swiper/css";
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import "react-lazy-load-image-component/src/effects/blur.css";
 import ArrowRightIcon from "/src/assets/button/arrow-right.svg?react";
 
 const Home = () => {
   const navigate = useNavigate();
-  const { user } = useAuthContext();
   const [page, setPage] = useState(1);
   const [hasMore, setHasMore] = useState(true);
   // const [orderBy, setOrderBy] = useState(arrayRandomValue(VIDEO_ORDER_OPTIONS));
@@ -41,6 +43,45 @@ const Home = () => {
   const [screensMA03, setScreensMA03] = useState(null);
   const [screensMA04, setScreensMA04] = useState(null);
   const [screensMA05, setScreensMA05] = useState(null);
+  const [previewVideo, setPreviewVideo] = useState("");
+  const swiperRef = useRef(null);
+
+  // 프리뷰 비디오 스와이퍼 설정
+  const previewSwiperConfig = {
+    modules: [Autoplay],
+    spaceBetween: 10,
+    slidesPerView: "auto",
+    speed: 1000,
+    autoplay: {
+      delay: 6000,
+      disableOnInteraction: false,
+    },
+    loop: true,
+    allowTouchMove: true,
+    breakpoints: {
+      577: {
+        spaceBetween: 12,
+      },
+      769: {
+        spaceBetween: 18,
+      },
+      1281: {
+        spaceBetween: 24,
+      },
+    },
+    onSwiper: (swiper) => {
+      swiperRef.current = swiper;
+    },
+    onSlideChange: (swiper) => {
+      if (screensMA01 && screensMA01.content.list.length > 0) {
+        const activeIndex = swiper.realIndex;
+        setPreviewVideo(screensMA01.content.list[activeIndex]);
+      }
+    },
+    onSlideChangeStart: (swiper) => {
+      console.log(swiper.realIndex);
+    },
+  };
 
   const formatScreens = (screens, code) => {
     return screens.find((screen) => screen.code === code);
@@ -50,6 +91,32 @@ const Home = () => {
   const handlePage = (page) => {
     setPage(page);
   };
+
+  useEffect(() => {
+    const header = document.querySelector("header");
+
+    const handleScroll = () => {
+      if (window.scrollY > 100 && header.classList.contains("transparent")) {
+        header.classList.remove("transparent");
+      } else if (window.scrollY <= 100 && !header.classList.contains("transparent")) {
+        header.classList.add("transparent");
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    header.classList.add("transparent");
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+      header.classList.remove("transparent");
+    };
+  }, []);
+
+  useEffect(() => {
+    if (screensMA01 && screensMA01.content.list.length > 0) {
+      setPreviewVideo(screensMA01.content.list[0]);
+    }
+  }, [screensMA01]);
 
   useEffect(() => {
     if (isEmpty(screens)) return;
@@ -88,13 +155,52 @@ const Home = () => {
   return (
     <main className="home-main">
       <section className="home-preview-wrapper">
-        {/* <figure className="background-image">
-          <LazyLoadImage src="" alt="배경 이미지" effect="blur" />
-        </figure> */}
+        <figure className="background-image">
+          {previewVideo && <LazyLoadImage src={previewVideo.thumbnail} alt="배경 이미지" effect="blur" />}
+        </figure>
+
+        <div className="preview-info-wrapper">
+          {previewVideo && (
+            <div className="preview-info">
+              <div className="info-right">
+                <div className="info-title">
+                  {/* <p className="title-og">{previewVideo.title}</p> */}
+                  <h2 className="title-kr">{previewVideo.title}</h2>
+                </div>
+              </div>
+              <div className="info-left">
+                <div className="info-release">
+                  <span>{formatReleaseText(previewVideo.code)}</span>
+                  <span>|</span>
+                  <span>{formatDate(previewVideo.release)}</span>
+                </div>
+              </div>
+            </div>
+          )}
+        </div>
+
+        <div className="preview-videos-wrapper">
+          {screensMA01 && (
+            <div className="preview-videos">
+              <Swiper {...previewSwiperConfig} className="preview">
+                {screensMA01.content.list.map((video) => (
+                  <SwiperSlide key={video.id}>
+                    {({ isActive }) => (
+                      <figure className={`thumbnail ${isActive ? "active" : ""}`}>
+                        <LazyLoadImage src={video.thumbnail} alt={video.title} effect="blur" />
+                      </figure>
+                    )}
+                  </SwiperSlide>
+                ))}
+              </Swiper>
+            </div>
+          )}
+        </div>
       </section>
+
       <section className="home-main-wrapper">
         {screensMA01 && (
-          <HVideos content={screensMA01.content.list} template={screensMA01.content.template} code={screensMA01.code}>
+          <HVideos content={screensMA01.content.list} template={screensMA01.content.template}>
             <div className="title-wrapper">
               <h2 className="title">{screensMA01.title}</h2>
               {/* <button className="more">
@@ -105,14 +211,16 @@ const Home = () => {
           </HVideos>
         )}
 
-        <HVideos content={ranking} template="rank" code="ranking">
-          <div className="title-wrapper">
-            <h2 className="title">🍿 리뷰니버스 TOP 20</h2>
-          </div>
-        </HVideos>
+        {ranking && (
+          <HVideos content={ranking} template="rank" code="ranking">
+            <div className="title-wrapper">
+              <h2 className="title">🍿 리뷰니버스 TOP 20</h2>
+            </div>
+          </HVideos>
+        )}
 
         {screensMA02 && (
-          <HVideos content={screensMA02.content.list} template={screensMA02.content.template} code={screensMA02.code}>
+          <HVideos content={screensMA02.content.list} template={screensMA02.content.template}>
             <div className="title-wrapper">
               <h2 className="title">{screensMA02.title}</h2>
             </div>
@@ -120,7 +228,7 @@ const Home = () => {
         )}
 
         {screensMA03 && (
-          <HVideos content={screensMA03.content.list} template={screensMA03.content.template} code={screensMA03.code}>
+          <HVideos content={screensMA03.content.list} template={screensMA03.content.template}>
             <div className="title-wrapper">
               <h2 className="title">{screensMA03.title}</h2>
             </div>
@@ -128,7 +236,7 @@ const Home = () => {
         )}
 
         {screensMA04 && (
-          <HVideos content={screensMA04.content.list} template={screensMA04.content.template} code={screensMA04.code}>
+          <HVideos content={screensMA04.content.list} template={screensMA04.content.template}>
             <div className="title-wrapper">
               <h2 className="title">{screensMA04.title}</h2>
             </div>
@@ -136,7 +244,7 @@ const Home = () => {
         )}
 
         {screensMA05 && (
-          <HVideos content={screensMA05.content.list} template={screensMA05.content.template} code={screensMA05.code}>
+          <HVideos content={screensMA05.content.list} template={screensMA05.content.template}>
             <div className="title-wrapper">
               <h2 className="title">{screensMA05.title}</h2>
             </div>
