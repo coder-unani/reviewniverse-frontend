@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import Review from "/src/components/Review";
-import People from "/src/components/People";
-import PhotoModal from "/src/components/Modal/PhotoModal";
+import CastSwiper from "/src/components/CastSwiper";
+import GallerySwiper from "/src/components/GallerySwiper";
 import EnjoyModal from "/src/components/Modal/EnjoyModal";
 import ReviewModal from "/src/components/Modal/ReviewModal";
 import ConfirmModal from "/src/components/Modal/ConfirmModal";
@@ -19,16 +19,13 @@ import { useReviewLike } from "/src/hooks/useReviewLike";
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import "react-lazy-load-image-component/src/effects/blur.css";
 import { Swiper, SwiperSlide } from "swiper/react";
-import { Navigation, Grid } from "swiper/modules";
 import "swiper/css";
-import "swiper/css/grid";
 import { SETTINGS } from "/src/config/settings";
 import { isEmpty, includes } from "lodash";
 import { formatYear, formatUpperCase } from "/src/utils/format";
 import {
   formatBackgroundImage,
   formatPoster,
-  formatCountry,
   formatReleaseText,
   formatReleaseDate,
   formatGenreArray,
@@ -39,8 +36,6 @@ import {
 } from "/src/utils/formatContent";
 import FillTrashIcon from "/src/assets/button/fill-trash.svg?react";
 import FillUpdateIcon from "/src/assets/button/fill-update.svg?react";
-import ArrowLeftIcon from "/src/assets/button/arrow-left.svg?react";
-import ArrowRightIcon from "/src/assets/button/arrow-right.svg?react";
 
 /**
  * TODO:
@@ -74,80 +69,22 @@ const VideoDetail = () => {
   const { mutate: reviewLike } = useReviewLike();
   const { mutate: reviewDelete } = useReviewDelete();
 
-  const [photoModal, setPhotoModal] = useState({ isOpen: false, url: "" });
   const [enjoyModal, setEnjoyModal] = useState(false);
   const [reviewModal, setReviewModal] = useState(false);
   const [confirmModal, setConfirmModal] = useState(false);
 
   // 비디오 정보 스와이퍼 설정
-  const subInfoSwiperConfig = (prevEl, nextEl) => ({
-    modules: [Navigation],
+  const subInfoSwiperConfig = {
     spaceBetween: 10,
     slidesPerView: "auto",
     slidesPerGroup: 2,
     speed: 1000,
-    navigation: { prevEl, nextEl },
     allowTouchMove: true,
     breakpoints: {
       769: {
         spaceBetween: 12,
       },
     },
-  });
-
-  // 출연진 스와이퍼 설정
-  const crewSwiperConfig = (prevEl, nextEl) => ({
-    modules: [Grid, Navigation],
-    slidesPerView: 1,
-    slidesPerGroup: 1,
-    speed: 1000,
-    grid: { rows: 2, fill: "column" },
-    navigation: { prevEl, nextEl },
-    allowTouchMove: true,
-    breakpoints: {
-      577: {
-        slidesPerView: 2,
-        slidesPerGroup: 2,
-        grid: { rows: 2, fill: "column" },
-        allowTouchMove: false,
-      },
-      1025: {
-        slidesPerView: 3,
-        slidesPerGroup: 3,
-        grid: { rows: 2, fill: "column" },
-        allowTouchMove: false,
-      },
-      1281: {
-        slidesPerView: 4,
-        slidesPerGroup: 4,
-        grid: { rows: 2, fill: "column" },
-        allowTouchMove: false,
-      },
-    },
-  });
-
-  // 갤러리 스와이퍼 설정
-  const gallerySwiperConfig = (prevEl, nextEl) => ({
-    modules: [Navigation],
-    spaceBetween: 10,
-    slidesPerView: 2.01,
-    slidesPerGroup: 2,
-    speed: 1000,
-    navigation: { prevEl, nextEl },
-    allowTouchMove: true,
-    breakpoints: {
-      769: {
-        spaceBetween: 12,
-        slidesPerView: 3,
-        slidesPerGroup: 3,
-        allowTouchMove: false,
-      },
-    },
-  });
-
-  // 사진 모달창 토글
-  const togglePhotoModal = (url = "") => {
-    setPhotoModal({ isOpen: !photoModal.isOpen, url });
   };
 
   // 로그인 필요 모달창 토글
@@ -204,31 +141,23 @@ const VideoDetail = () => {
     reviewLike({ videoId, reviewId, userId: user.id });
   };
 
-  // TODO: 리뷰 자세히 보기
-
-  // 헤더 스타일 변경
   useEffect(() => {
     const header = document.querySelector("header");
-    // const logo = document.querySelector(".logo");
 
     const handleScroll = () => {
       if (window.scrollY > 100 && header.classList.contains("transparent")) {
         header.classList.remove("transparent");
-        // logo.src = DEFAULT_IMAGES.logo;
       } else if (window.scrollY <= 100 && !header.classList.contains("transparent")) {
         header.classList.add("transparent");
-        // logo.src = DEFAULT_IMAGES.logoWhite;
       }
     };
 
     window.addEventListener("scroll", handleScroll);
     header.classList.add("transparent");
-    // logo.src = DEFAULT_IMAGES.logoWhite;
 
     return () => {
       window.removeEventListener("scroll", handleScroll);
       header.classList.remove("transparent");
-      // logo.src = DEFAULT_IMAGES.logo;
     };
   }, []);
 
@@ -320,7 +249,7 @@ const VideoDetail = () => {
           </div>
 
           <div className="sub-info-wrapper">
-            <Swiper {...subInfoSwiperConfig(".prev-info", ".next-info")} className="sub-info">
+            <Swiper {...subInfoSwiperConfig} className="sub-info">
               <SwiperSlide
                 className="info-rating"
                 data-index={content.data.rating > 0 ? Math.floor(formatRating(content.data.rating)) : 0}
@@ -470,68 +399,34 @@ const VideoDetail = () => {
           </section>
 
           {!isEmpty(content.data.actor) && (
-            <section className="cast-wrapper">
-              <h4>출연진</h4>
-              <div className="swiper-container" data-length={content.data.actor.length}>
-                <Swiper {...crewSwiperConfig(".prev-actor", ".next-actor")}>
-                  {content.data.actor.map((actor, index) => (
-                    <SwiperSlide key={index}>
-                      <People crew={actor} target={"actor"} formatCode={formatActorRoleCode} key={index} />
-                    </SwiperSlide>
-                  ))}
-                </Swiper>
-                <div className={`swiper-button-prev prev-actor`}>
-                  <ArrowLeftIcon />
-                </div>
-                <div className={`swiper-button-next next-actor`}>
-                  <ArrowRightIcon />
-                </div>
-              </div>
-            </section>
+            <CastSwiper
+              data={{
+                title: "출연진",
+                items: content.data.actor,
+                target: "actor",
+                formatCode: formatActorRoleCode,
+              }}
+            />
           )}
 
           {!isEmpty(content.data.staff) && (
-            <section className="cast-wrapper">
-              <h4>제작진</h4>
-              <div className="swiper-container" data-length={content.data.staff.length}>
-                <Swiper {...crewSwiperConfig(".prev-staff", ".next-staff")}>
-                  {content.data.staff.map((staff, index) => (
-                    <SwiperSlide key={index}>
-                      <People crew={staff} target={"staff"} formatCode={formatStaffRoleCode} key={index} />
-                    </SwiperSlide>
-                  ))}
-                </Swiper>
-                <div className={`swiper-button-prev prev-staff`}>
-                  <ArrowLeftIcon />
-                </div>
-                <div className={`swiper-button-next next-staff`}>
-                  <ArrowRightIcon />
-                </div>
-              </div>
-            </section>
+            <CastSwiper
+              data={{
+                title: "제작진",
+                items: content.data.staff,
+                target: "staff",
+                formatCode: formatStaffRoleCode,
+              }}
+            />
           )}
 
           {!isEmpty(content.data.thumbnail) && (
-            <section className="gallery-wrapper">
-              <h4>갤러리</h4>
-              <div className="swiper-container">
-                <Swiper {...gallerySwiperConfig(".prev-gallery", ".next-gallery")}>
-                  {content.data.thumbnail.map((image, index) => (
-                    <SwiperSlide key={index} onClick={() => togglePhotoModal(image)}>
-                      <figure className="photo">
-                        <LazyLoadImage src={image} alt="갤러리 이미지" effect="blur" />
-                      </figure>
-                    </SwiperSlide>
-                  ))}
-                </Swiper>
-                <div className="swiper-button-prev prev-gallery">
-                  <ArrowLeftIcon />
-                </div>
-                <div className="swiper-button-next next-gallery">
-                  <ArrowRightIcon />
-                </div>
-              </div>
-            </section>
+            <GallerySwiper
+              data={{
+                title: "갤러리",
+                items: content.data.thumbnail,
+              }}
+            />
           )}
 
           <section className="review-wrapper">
@@ -561,7 +456,6 @@ const VideoDetail = () => {
           </section>
         </div>
 
-        {photoModal.isOpen && <PhotoModal url={photoModal.url} onClose={togglePhotoModal} />}
         {enjoyModal && <EnjoyModal onClose={toggleEnjoyModal} />}
         {reviewModal && <ReviewModal content={content.data} myReview={myInfo.review} onClose={toggleReviewModal} />}
         {confirmModal && <ConfirmModal onClose={toggleConfirmModal} />}
