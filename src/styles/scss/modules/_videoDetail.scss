@@ -89,7 +89,7 @@
         border-radius: 6px;
         // border: 1px solid $border-color-05;
         // background-color: rgba($color-white-02, 0.2);
-        border: 1px solid $border-color-02;
+        border: 1px solid $border-color-04;
         background-color: rgba($color-white-02, 0.1);
         backdrop-filter: blur(8px);
         -webkit-backdrop-filter: blur(8px);
@@ -553,7 +553,7 @@
       z-index: 10;
       cursor: pointer;
 
-      &.swiper-button-disabled {
+      &:disabled {
         display: none;
       }
 
@@ -578,11 +578,6 @@
 
     .swiper-button-next {
       right: -20px;
-    }
-
-    .swiper-button-prev::after,
-    .swiper-button-next::after {
-      display: none;
     }
 
     .swiper-button-prev::after,
@@ -674,7 +669,7 @@
       z-index: 10;
       cursor: pointer;
 
-      &.swiper-button-disabled {
+      &:disabled {
         display: none;
       }
 
@@ -699,11 +694,6 @@
 
     .swiper-button-next {
       right: -20px;
-    }
-
-    .swiper-button-prev::after,
-    .swiper-button-next::after {
-      display: none;
     }
 
     .swiper-button-prev::after,
@@ -877,12 +867,38 @@
         color: $color-white-03;
         line-height: 24px;
         white-space: pre-wrap;
+        z-index: 0;
 
         // 5줄 이상일때 생략
         display: -webkit-box;
         -webkit-line-clamp: 5;
         -webkit-box-orient: vertical;
         overflow: hidden;
+
+        &.spoiler {
+          position: relative;
+
+          &[data-active="true"] {
+            &:hover {
+              &::before {
+                background-color: $color-white-07;
+              }
+            }
+
+            &::before {
+              content: "";
+              position: absolute;
+              top: 0;
+              left: 0;
+              width: 100%;
+              height: 100%;
+              border-radius: 6px;
+              background-color: $color-white-08;
+              z-index: 999;
+              cursor: pointer;
+            }
+          }
+        }
       }
     }
 

@@ -35,7 +35,7 @@
             color: $color-white-01;
 
             &::placeholder {
-              color: rgba($color-white-02, 0.25);
+              color: rgba($color-white-02, 0.5);
             }
           }
         }
@@ -106,6 +106,7 @@
       display: flex;
       justify-content: flex-end;
       align-items: center;
+      margin-right: -10px;
 
       a {
         font-size: 14px;

@@ -1,5 +1,5 @@
 .videos-wrapper {
-  padding: 20px 0;
+  padding: 20px 60px;
 
   .title-wrapper {
     display: flex;
@@ -36,6 +36,8 @@
 
 @media (max-width: 1024px) {
   .videos-wrapper {
+    padding: 20px 30px;
+
     .list-wrapper {
       grid-template-columns: repeat(4, minmax(0px, 1fr));
       gap: 56px 10px;
