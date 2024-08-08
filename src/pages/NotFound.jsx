@@ -1,9 +1,11 @@
 import React from "react";
-import { Link } from "react-router-dom";
 import { DEFAULT_IMAGES } from "/src/config/constants";
-import "/src/styles/NotFound.css";
 
 const NotFound = () => {
+  const handleGoHome = () => {
+    window.location.href = "/";
+  };
+
   return (
     <div className="not-found-main">
       <section className="not-found-contents">
@@ -15,8 +17,9 @@ const NotFound = () => {
             <br />
             입력하신 주소가 정확한지 다시 한번 확인해주세요.
           </p>
-          {/* <p className="sub-title">관련 문의사항은 고객센터에 문의해주시기 바랍니다. 감사합니다.</p> */}
-          <Link to="/">리뷰니버스 홈</Link>
+          <button className="home" onClick={handleGoHome}>
+            리뷰니버스 홈
+          </button>
         </div>
       </section>
     </div>
