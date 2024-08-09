@@ -51,7 +51,7 @@ const UserFind = () => {
 
   useEffect(() => {
     if (type !== "id" && type !== "password") {
-      navigate("/user/404-not-found");
+      navigate("/404-not-found");
     }
   }, [type]);
 
