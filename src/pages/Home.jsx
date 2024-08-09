@@ -111,6 +111,14 @@ const Home = () => {
       </section>
 
       <section className="home-main-wrapper">
+        {ranking && (
+          <HVideos content={ranking} template="rank" code="ranking">
+            <div className="title-wrapper">
+              <h2 className="title">🍿 리뷰니버스 TOP 20</h2>
+            </div>
+          </HVideos>
+        )}
+
         {screensMA02 && (
           <HVideos content={screensMA02.content.list} template={screensMA02.content.template}>
             <div className="title-wrapper">
@@ -123,14 +131,6 @@ const Home = () => {
           </HVideos>
         )}
 
-        {ranking && (
-          <HVideos content={ranking} template="rank" code="ranking">
-            <div className="title-wrapper">
-              <h2 className="title">🍿 리뷰니버스 TOP 20</h2>
-            </div>
-          </HVideos>
-        )}
-
         {screensMA03 && (
           <HVideos content={screensMA03.content.list} template={screensMA03.content.template}>
             <div className="title-wrapper">
@@ -138,7 +138,6 @@ const Home = () => {
             </div>
           </HVideos>
         )}
-
         {screensMA04 && (
           <HVideos content={screensMA04.content.list} template={screensMA04.content.template}>
             <div className="title-wrapper">
