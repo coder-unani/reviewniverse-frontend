@@ -4,10 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { useAuthContext } from "/src/context/AuthContext";
 import { useThemeContext } from "/src/context/ThemeContext";
 import { SETTINGS } from "/src/config/settings";
-import Logo from "/assets/logo.svg";
-import KaKao from "/assets/kakao.png";
-import Naver from "/assets/naver.png";
-import Google from "/assets/google.png";
+import { DEFAULT_IMAGES } from "/src/config/constants";
 
 // TODO: authContext 사용하여 로그인 처리
 
@@ -55,21 +52,21 @@ const Login = () => {
     <div className="login-wrapper">
       {isMobile && <BackButton />}
       <div className="login-header">
-        <img src={Logo} className="logo" alt="logo" />
+        <img src={DEFAULT_IMAGES.logoWhite} className="logo" alt="logo" />
         <h2>소셜 로그인</h2>
       </div>
       <div className="login-sns">
         <button type="button" className="kakao" onClick={handleKakaoLogin}>
-          <img src={KaKao} alt="kakao" />
+          <img src={DEFAULT_IMAGES.kakao} alt="kakao" />
           카카오로 시작하기
         </button>
         <div id="naverIdLogin" style={{ display: "none" }} />
         <button type="button" className="naver" onClick={handleNaverLogin}>
-          <img src={Naver} alt="naver" />
+          <img src={DEFAULT_IMAGES.naver} alt="naver" />
           네이버로 시작하기
         </button>
         <button type="button" className="google" onClick={handleGoogleLogin}>
-          <img src={Google} alt="google" />
+          <img src={DEFAULT_IMAGES.google} alt="google" />
           구글로 시작하기
         </button>
       </div>
