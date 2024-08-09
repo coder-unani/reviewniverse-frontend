@@ -7,10 +7,10 @@ const endpoints = {
   screens: baseURL + "/v1/screens",
 };
 
-export const fetchScreenVideos = async ({ code }) => {
+export const fetchScreenVideos = async ({ code, display = null }) => {
   try {
     const client = new HttpClient();
-    const res = await client.get(endpoints.screens, { code });
+    const res = await client.get(endpoints.screens, { code, ...(display && { dp: display }) });
     return res;
   } catch (error) {
     cError(error);
