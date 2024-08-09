@@ -35,12 +35,8 @@ export const AuthContextProvider = ({ children }) => {
     const verifyToken = async () => {
       if (access_token) {
         const res = await fetchToken(access_token);
-        if (res.status === 200) {
-          if (handleSetUser({ accessToken: res.data.access_token })) {
-            // showInfoToast(MESSAGES.T001);
-          } else {
-            showErrorToast(MESSAGES.T003);
-          }
+        if (res.status === 204) {
+          // showInfoToast(MESSAGES.T001);
         } else {
           if (handleRemoveUser()) {
             showInfoToast(MESSAGES.T002);
