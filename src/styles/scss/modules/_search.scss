@@ -24,7 +24,8 @@
 
 .search-contents {
   max-width: 1440px;
-  padding: 12px 60px;
+  padding: 12px 0;
+  // padding: 12px 60px;
   margin: 0 auto;
 
   .empty {
@@ -69,10 +70,6 @@
       padding: 0 30px;
     }
   }
-
-  .search-contents {
-    padding: 12px 30px;
-  }
 }
 
 @media (max-width: 768px) {
@@ -83,8 +80,6 @@
 
 @media (max-width: 576px) {
   .search-contents {
-    padding: 12px 0;
-
     .empty {
       margin-top: 60px;
     }
