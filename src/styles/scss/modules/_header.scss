@@ -106,15 +106,31 @@
       display: flex;
       justify-content: flex-end;
       align-items: center;
-      margin-right: -10px;
 
       a {
-        font-size: 14px;
-        color: $color-white-01;
-        letter-spacing: -0.2px;
-        line-height: 40px;
-        padding: 0 10px;
-        margin-left: 2px;
+        padding: 0 15px;
+        margin-left: 5px;
+
+        &.login {
+          font-size: 14px;
+          color: $color-white-01;
+          line-height: 40px;
+          letter-spacing: -0.2px;
+          font-weight: 500;
+          border-radius: 12px;
+          background: $color-magenta-02;
+          background: -webkit-linear-gradient(to right, rgba($color-cyan-02, 0.75), rgba($color-magenta-02, 0.75));
+          background: linear-gradient(to right, rgba($color-cyan-02, 0.75), rgba($color-magenta-02, 0.75));
+          backdrop-filter: blur(8px);
+          -webkit-backdrop-filter: blur(8px);
+          margin-left: 12px;
+
+          &:hover {
+            background: $color-magenta-02;
+            background: -webkit-linear-gradient(to right, rgba($color-cyan-02, 1), rgba($color-magenta-02, 1));
+            background: linear-gradient(to right, rgba($color-cyan-02, 1), rgba($color-magenta-02, 1));
+          }
+        }
       }
 
       .search {

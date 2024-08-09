@@ -431,15 +431,29 @@ figure {
   display: flex;
   justify-content: flex-end;
   align-items: center;
-  margin-right: -10px;
 }
 .header-wrapper .header .right a {
+  padding: 0 15px;
+  margin-left: 5px;
+}
+.header-wrapper .header .right a.login {
   font-size: 14px;
   color: #eef7fc;
-  letter-spacing: -0.2px;
   line-height: 40px;
-  padding: 0 10px;
-  margin-left: 2px;
+  letter-spacing: -0.2px;
+  font-weight: 500;
+  border-radius: 12px;
+  background: #fc00ff;
+  background: -webkit-linear-gradient(to right, rgba(0, 219, 222, 0.75), rgba(252, 0, 255, 0.75));
+  background: linear-gradient(to right, rgba(0, 219, 222, 0.75), rgba(252, 0, 255, 0.75));
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  margin-left: 12px;
+}
+.header-wrapper .header .right a.login:hover {
+  background: #fc00ff;
+  background: -webkit-linear-gradient(to right, #00dbde, #fc00ff);
+  background: linear-gradient(to right, #00dbde, #fc00ff);
 }
 .header-wrapper .header .right .search {
   display: flex;
@@ -1279,7 +1293,7 @@ figure {
 
 @media (max-width: 1280px) {
   .home-preview-wrapper .preview-videos-wrapper .swiper-slide {
-    min-width: calc(33.3333% - 13.5px);
+    min-width: calc(33.3333% - 12px);
   }
 }
 @media (max-width: 1024px) {
@@ -2326,6 +2340,77 @@ figure {
   .gallery-wrapper .swiper-container .swiper-button-prev,
   .gallery-wrapper .swiper-container .swiper-button-next {
     display: none;
+  }
+}
+.login-wrapper {
+  width: 100%;
+  max-width: 720px;
+  height: 100%;
+  min-height: 100vh;
+  padding: 32px 60px 16px;
+  margin: 0 auto;
+}
+.login-wrapper .back {
+  position: absolute;
+  top: 16px;
+  left: 12px;
+  cursor: pointer;
+}
+
+.login-header {
+  width: 100%;
+  text-align: center;
+}
+.login-header .logo {
+  width: 200px;
+  height: auto;
+}
+.login-header h2 {
+  font-size: 17px;
+  margin: 24px 0 20px;
+}
+
+.login-sns button {
+  position: relative;
+  width: 100%;
+  height: 48px;
+  font-size: 14px;
+  font-weight: 500;
+  color: #0c0c0c;
+  border-radius: 4px;
+  margin-bottom: 12px;
+}
+.login-sns button.kakao {
+  color: #191919;
+  background-color: #fee500;
+}
+.login-sns button.naver {
+  color: #fff;
+  background-color: #03c75a;
+}
+.login-sns button.google {
+  background-color: #fff;
+  border: 1px solid rgba(12, 12, 12, 0.1);
+}
+.login-sns button img {
+  position: absolute;
+  top: 50%;
+  left: 4px;
+  transform: translateY(-50%);
+  width: 40px;
+  height: 40px;
+  object-fit: contain;
+  padding: 10px;
+}
+
+@media (max-width: 768px) {
+  .login-wrapper {
+    padding: 32px 30px 16px;
+  }
+}
+@media (max-width: 576px) {
+  .login-wrapper {
+    padding: 60px 15px 16px;
   }
 }
 .not-found-main {
