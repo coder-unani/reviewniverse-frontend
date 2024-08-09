@@ -6,7 +6,6 @@ import { useVideos } from "/src/hooks/useVideos";
 import { useThemeContext } from "/src/context/ThemeContext";
 import { isEmpty } from "lodash";
 import { DEFAULT_IMAGES } from "/src/config/constants";
-import "/src/styles/Search.css";
 
 /**
  * TODO:
