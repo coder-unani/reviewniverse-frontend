@@ -18,14 +18,6 @@ import UserRatings from "/src/pages/UserRatings";
 import Error from "/src/pages/Error";
 import NotFound from "/src/pages/NotFound";
 
-/**
- * TODO:
- * - 장르 홈
- * - 배우 홈
- * - 스태프 홈
- * - 404 페이지
- */
-
 const MainRoutes = {
   path: "/",
   element: (
@@ -63,28 +55,12 @@ const MainRoutes = {
       element: <Production />,
     },
     {
-      path: "/user/login",
-      element: <Login />,
-    },
-    {
       path: "/user/auth/:provider/callback",
       element: <SocialJoin />,
     },
     {
-      path: "/user/join",
-      element: <Join />,
-    },
-    {
       path: "/user/watchtype",
       element: <UserWatchType />,
-    },
-    {
-      path: "/user/find/:type",
-      element: <UserFind />,
-    },
-    {
-      path: "/user/reset/password",
-      element: <ResetPassword />,
     },
     {
       path: "/user/:userId",
