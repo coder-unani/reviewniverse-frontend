@@ -1,6 +1,9 @@
 export const DEFAULT_IMAGES = {
   logo: "/assets/logo.svg",
   logoWhite: "/assets/logo-w.svg",
+  kakao: "/assets/kakao.png",
+  naver: "/assets/naver.png",
+  google: "/assets/google.png",
   noProfile: "/assets/no-profile.png",
   noActor: "/assets/no-actor.png",
   noImage: "/assets/no-image.png",
