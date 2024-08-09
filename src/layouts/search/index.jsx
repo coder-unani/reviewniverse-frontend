@@ -6,7 +6,7 @@ import Footer from "/src/layouts/default/footer";
 import ScrollToTop from "/src/components/ScrollToTop";
 import { useThemeContext } from "/src/context/ThemeContext";
 
-const searchLayout = () => {
+const SearchLayout = () => {
   const { isMobile } = useThemeContext();
   const Header = isMobile ? SearchHeader : DefaultHeader;
 
@@ -20,4 +20,4 @@ const searchLayout = () => {
   );
 };
 
-export default searchLayout;
+export default SearchLayout;
