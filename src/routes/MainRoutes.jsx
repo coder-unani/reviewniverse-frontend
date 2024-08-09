@@ -7,6 +7,7 @@ import VideoDetail from "/src/pages/VideoDetail";
 import People from "/src/pages/People";
 import Genre from "/src/pages/Genre";
 import Production from "/src/pages/Production";
+import SocialJoin from "/src/pages/SocialJoin";
 import UserWatchType from "/src/pages/UserWatchType";
 import User from "/src/pages/User";
 import UserRatings from "/src/pages/UserRatings";
@@ -48,6 +49,10 @@ const MainRoutes = {
     {
       path: "/production/:productionId",
       element: <Production />,
+    },
+    {
+      path: "/user/auth/:provider/callback",
+      element: <SocialJoin />,
     },
     {
       path: "/user/watchtype",
