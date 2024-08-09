@@ -91,6 +91,9 @@ const PreviewSwiper = React.memo(({ screensMA01 }) => {
                       <figure className={`thumbnail ${isActive ? "active" : ""}`}>
                         <LazyLoadImage src={formatBackgroundImage(video.thumbnail)} alt={video.title} effect="blur" />
                       </figure>
+                      {/* <div className="preview-card">
+                        <span className="new">NEW</span>
+                      </div> */}
                     </Link>
                   )}
                 </SwiperSlide>
