@@ -35,6 +35,14 @@ export const formatPoster = (images) => {
   return images[0];
 };
 
+// 프리뷰 썸네일 포맷
+export const formatPreviewThumbnail = (images) => {
+  if (isEmpty(images)) return DEFAULT_IMAGES.noImage;
+  if (images[2]) return images[2];
+  if (images[1]) return images[1];
+  return images[0];
+};
+
 // TODO: 관람등급 포맷
 
 // 공개일자, 개봉일자 텍스트 포맷
