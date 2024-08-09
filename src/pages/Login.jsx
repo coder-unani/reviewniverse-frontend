@@ -8,7 +8,6 @@ import Logo from "/assets/logo.svg";
 import KaKao from "/assets/kakao.png";
 import Naver from "/assets/naver.png";
 import Google from "/assets/google.png";
-import "/src/styles/Login.css";
 
 // TODO: authContext 사용하여 로그인 처리
 
