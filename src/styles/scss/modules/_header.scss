@@ -108,21 +108,24 @@
       align-items: center;
 
       a {
-        padding: 0 15px;
-        margin-left: 5px;
+        &.login-user {
+          padding: 0 12px;
+          margin-left: 4px;
+        }
 
         &.login {
-          font-size: 14px;
+          font-size: 12px;
+          font-weight: 600;
           color: $color-white-01;
-          line-height: 40px;
+          line-height: 30px;
           letter-spacing: -0.2px;
-          font-weight: 500;
-          border-radius: 12px;
+          border-radius: 8px;
           background: $color-magenta-02;
           background: -webkit-linear-gradient(to right, rgba($color-cyan-02, 0.75), rgba($color-magenta-02, 0.75));
           background: linear-gradient(to right, rgba($color-cyan-02, 0.75), rgba($color-magenta-02, 0.75));
           backdrop-filter: blur(8px);
           -webkit-backdrop-filter: blur(8px);
+          padding: 0 15px;
           margin-left: 12px;
 
           &:hover {
