@@ -8,9 +8,25 @@
 
   .back {
     position: absolute;
-    top: 16px;
-    left: 12px;
+    top: 0;
+    left: 0;
+    padding: 12px;
     cursor: pointer;
+
+    // img {
+    //   width: 40px;
+    //   height: 40px;
+    //   object-fit: contain;
+    // }
+
+    svg {
+      width: 40px;
+      height: 40px;
+
+      path {
+        fill: $color-white;
+      }
+    }
   }
 }
 
@@ -25,6 +41,7 @@
 
   h2 {
     font-size: 17px;
+    color: $color-white-01;
     margin: 24px 0 20px;
   }
 }
@@ -36,7 +53,7 @@
     height: 48px;
     font-size: 14px;
     font-weight: 500;
-    color: #0c0c0c;
+    color: $color-white-01;
     border-radius: 4px;
     margin-bottom: 12px;
 
@@ -46,13 +63,11 @@
     }
 
     &.naver {
-      color: #fff;
       background-color: #03c75a;
     }
 
     &.google {
-      background-color: #fff;
-      border: 1px solid rgba(#0c0c0c, 0.1);
+      border: 1px solid $border-color-02;
     }
 
     img {
@@ -76,6 +91,6 @@
 
 @media (max-width: 576px) {
   .login-wrapper {
-    padding: 60px 15px 16px;
+    padding: 64px 15px 16px;
   }
 }

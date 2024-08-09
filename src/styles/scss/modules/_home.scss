@@ -203,8 +203,17 @@
 @media (max-width: 768px) {
   .home-preview-wrapper {
     .preview-info-wrapper {
+      .preview-info {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
       .title-kr {
         font-size: 40px;
+      }
+
+      .info-left {
+        margin-top: 8px;
       }
     }
 

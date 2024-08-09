@@ -1305,8 +1305,15 @@ figure {
   }
 }
 @media (max-width: 768px) {
+  .home-preview-wrapper .preview-info-wrapper .preview-info {
+    flex-direction: column;
+    align-items: flex-start;
+  }
   .home-preview-wrapper .preview-info-wrapper .title-kr {
     font-size: 40px;
+  }
+  .home-preview-wrapper .preview-info-wrapper .info-left {
+    margin-top: 8px;
   }
   .home-preview-wrapper .preview-videos-wrapper .swiper-slide {
     min-width: calc(50% - 9px);
@@ -2352,9 +2359,17 @@ figure {
 }
 .login-wrapper .back {
   position: absolute;
-  top: 16px;
-  left: 12px;
+  top: 0;
+  left: 0;
+  padding: 12px;
   cursor: pointer;
+}
+.login-wrapper .back svg {
+  width: 40px;
+  height: 40px;
+}
+.login-wrapper .back svg path {
+  fill: #ffffff;
 }
 
 .login-header {
@@ -2367,6 +2382,7 @@ figure {
 }
 .login-header h2 {
   font-size: 17px;
+  color: #eef7fc;
   margin: 24px 0 20px;
 }
 
@@ -2376,7 +2392,7 @@ figure {
   height: 48px;
   font-size: 14px;
   font-weight: 500;
-  color: #0c0c0c;
+  color: #eef7fc;
   border-radius: 4px;
   margin-bottom: 12px;
 }
@@ -2385,12 +2401,10 @@ figure {
   background-color: #fee500;
 }
 .login-sns button.naver {
-  color: #fff;
   background-color: #03c75a;
 }
 .login-sns button.google {
-  background-color: #fff;
-  border: 1px solid rgba(12, 12, 12, 0.1);
+  border: 1px solid rgba(213, 221, 226, 0.15);
 }
 .login-sns button img {
   position: absolute;
@@ -2410,7 +2424,7 @@ figure {
 }
 @media (max-width: 576px) {
   .login-wrapper {
-    padding: 60px 15px 16px;
+    padding: 64px 15px 16px;
   }
 }
 .not-found-main {
