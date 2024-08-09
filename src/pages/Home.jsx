@@ -100,15 +100,13 @@ const Home = () => {
 
   // 로딩중일때 표시할 화면 (스켈레톤 UI)
   // if (previewsIsLoading || screensIsLoading || rankingIsLoading || videosIsLoading) return null;
-  if (previewsIsLoading || screensIsLoading || rankingIsLoading) return;
+  // if (previewsIsLoading || screensIsLoading || rankingIsLoading) return;
 
   if (previewsError || screensError || rankingError || videosError) return navigate("/error");
 
   return (
     <main className="home-main">
-      <section className="home-preview-wrapper">
-        <PreviewSwiper screensMA01={screensMA01} />
-      </section>
+      <section className="home-preview-wrapper">{screensMA01 && <PreviewSwiper screensMA01={screensMA01} />}</section>
 
       <section className="home-main-wrapper">
         {ranking && (
