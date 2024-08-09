@@ -85,7 +85,7 @@ const Header = () => {
           <div className="right">
             <SearchForm />
             {user ? (
-              <Link to={`/user/${user.id}`}>
+              <Link to={`/user/${user.id}`} className="login-user">
                 <ProfileImage image={user.profile_image} size={30} />
               </Link>
             ) : (
