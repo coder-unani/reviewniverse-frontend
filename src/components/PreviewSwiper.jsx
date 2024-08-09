@@ -64,6 +64,7 @@ const PreviewSwiper = React.memo(({ screensMA01 }) => {
           <div className="preview-info">
             <div className="info-right">
               <div className="info-title">
+                {/* <p className="title">{screensMA01.title}</p> */}
                 <p className="title-og">{previewVideo.title_og}</p>
                 <h2 className="title-kr">{previewVideo.title}</h2>
               </div>
