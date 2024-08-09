@@ -1,12 +1,16 @@
 import React from "react";
-import { RiArrowLeftSLine } from "@remixicon/react";
+import ArrowLeft from "/src/assets/button/arrow-left.svg?react";
 
 const BackButton = () => {
   const handleBack = () => {
     window.history.back();
   };
 
-  return <RiArrowLeftSLine size={30} className="back" onClick={handleBack} />;
+  return (
+    <button className="back">
+      <ArrowLeft onClick={handleBack} />
+    </button>
+  );
 };
 
 export default BackButton;
