@@ -6,7 +6,6 @@ import { useVideos } from "/src/hooks/useVideos";
 import { SETTINGS } from "/src/config/settings";
 import { DEFAULT_IMAGES } from "/src/config/constants";
 import { isEmpty } from "lodash";
-import "/src/styles/Genre.css";
 
 const Genre = () => {
   const navigate = useNavigate();
@@ -72,10 +71,11 @@ const Genre = () => {
         <meta property="og:image" content={DEFAULT_IMAGES.logo} />
         <meta property="og:url" content={`${SETTINGS.DOMAIN_URL}/genre/${query}`} />
       </Helmet>
-      <main className="genre-main">
-        <section className="genre-wrapper">
-          <div className="genre">
-            <h1 className="title">{formatQuery(query)}</h1>
+
+      <main className="genre-main-container">
+        <section className="genre-section">
+          <div className="genre-title-wrapper">
+            <h1 className="genre-title">{formatQuery(query)}</h1>
           </div>
         </section>
         <Videos videos={videos} handlePage={handlePage} />

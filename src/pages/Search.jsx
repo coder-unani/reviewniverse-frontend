@@ -58,23 +58,23 @@ const Search = () => {
   // if (isEmpty(videos)) return;
 
   return (
-    <main className="search-main">
-      <section className="search-result">
-        <p>
-          "{query}"의 검색결과 {videos.total > 0 && <span>{videos.total}</span>}
-        </p>
-      </section>
-      <section className="search-contents">
+    <main className="search-main-container">
+      <section className="search-content-section">
         {isEmpty(videos.data) ? (
-          <div className="empty">
-            <img src={DEFAULT_IMAGES.searchNotFound} alt="검색 결과 없음" />
-            <p className="title">
+          <div className="no-search-content">
+            <img className="no-search-image" src={DEFAULT_IMAGES.searchNotFound} alt="검색 결과 없음" />
+            <p className="no-search-title">
               "<em>{query}</em>"에 대한 검색 결과가 없어요.
             </p>
-            <p className="sub-title">입력한 검색어를 다시 한번 확인해주세요.</p>
+            <p className="no-search-subtitle">입력한 검색어를 다시 한번 확인해주세요.</p>
           </div>
         ) : (
-          <Videos videos={videos} handlePage={handlePage} />
+          <>
+            <strong className="search-content-title">
+              "<em>{query}</em>"의 검색 결과가 {videos.total} 개 있어요
+            </strong>
+            <Videos videos={videos} handlePage={handlePage} />
+          </>
         )}
       </section>
       {isMobile && isEmpty(query) && <SearchModal />}

@@ -33,7 +33,7 @@ const ReviewModal = ({ content, myReview, onClose }) => {
   };
 
   const reviewSchema = Yup.object().shape({
-    title: Yup.string().required("리뷰를 입력해주세요.").max(100, "리뷰는 최대 100자까지 작성 가능합니다."),
+    title: Yup.string().required("리뷰를 입력해주세요.").max(200, "리뷰는 최대 200자까지 작성 가능합니다."),
     spoiler: Yup.boolean(),
     private: Yup.boolean(),
   });

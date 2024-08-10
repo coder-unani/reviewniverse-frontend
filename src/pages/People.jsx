@@ -6,7 +6,6 @@ import { useParams, useLocation, useNavigate } from "react-router-dom";
 import { useVideos } from "/src/hooks/useVideos";
 import { SETTINGS } from "/src/config/settings";
 import { isEmpty } from "lodash";
-import "/src/styles/People.css";
 
 const People = () => {
   const navigate = useNavigate();
@@ -67,11 +66,12 @@ const People = () => {
         <meta property="og:image" content={people.picture} />
         <meta property="og:url" content={`${SETTINGS.DOMAIN_URL}/people/${peopleId}`} />
       </Helmet>
-      <main className="people-main">
-        <section className="people-wrapper">
-          <div className="people">
+
+      <main className="people-main-container">
+        <section className="people-section">
+          <div className="people-info-wrapper">
             <PeopleImage image={people.picture} size={100} />
-            <h1 className="name">{people.name}</h1>
+            <h1 className="people-name">{people.name}</h1>
           </div>
         </section>
         <Videos videos={videos} handlePage={handlePage} />

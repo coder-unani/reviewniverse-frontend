@@ -1,145 +1,106 @@
-.default-video-item {
-  .img-wrapper {
-    position: relative;
+.default-thumbnail-container {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 2 / 3;
+}
+
+.default-thumbnail-wrapper {
+  position: absolute;
+  display: flex;
+  width: 100%;
+  height: 100%;
+  background-color: transparent;
+
+  &::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
     width: 100%;
-    aspect-ratio: 2 / 3;
-
-    .thumbnail {
-      position: absolute;
-      display: flex;
-      width: 100%;
-      height: 100%;
-      background-color: transparent;
-
-      &::after {
-        content: "";
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        border-radius: 14px;
-        border: 1px solid $border-color-01;
-      }
-
-      .lazy-load-image-background {
-        width: 100%;
-        height: 100%;
-      }
-
-      img {
-        display: flex;
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-        border-radius: 14px;
-      }
-    }
-
-    .number {
-      position: absolute;
-      bottom: -14px;
-      right: -8px;
-      display: flex;
-
-      img {
-        position: relative;
-        z-index: 1;
-
-        &:first-child[data-number="1"] ~ img:nth-child(2) {
-          margin-left: -36px;
-          z-index: 0;
-        }
-
-        &:not(:first-child) {
-          margin-left: -32px;
-          z-index: 0;
-        }
-      }
-    }
-  }
-
-  .info {
-    display: flex;
-    align-items: flex-end;
-    margin-top: 16px;
-
-    .left {
-      flex: 1;
-    }
-
-    .right {
-      flex: 0 0 auto;
-      margin-left: 10px;
-    }
-
-    .title {
-      font-size: 15px;
-      font-weight: 600;
-      color: $color-white-01;
-      line-height: 20px;
-      letter-spacing: -0.2px;
-      // 1줄 이상일때 생략
-      // display: -webkit-box;
-      // -webkit-line-clamp: 1;
-      // overflow: hidden;
-      // -webkit-box-orient: vertical;
-    }
-
-    .sub-title {
-      font-size: 13px;
-      font-weight: 600;
-      color: $color-white-04;
-      letter-spacing: -0.2px;
-      margin-top: 6px;
-
-      & > span:not(:last-child) {
-        margin-right: 8px;
-      }
-    }
-
-    .code {
-      font-size: 14px;
-      font-weight: 600;
-      color: $color-white-04;
-      border-radius: 6px;
-      background-color: $color-white-09;
-      padding: 6px 8px;
-    }
+    height: 100%;
+    border-radius: 14px;
+    border: 1px solid $border-color-01;
   }
 }
 
+.default-thumbnail {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 14px;
+}
+
+.default-info-container {
+  display: flex;
+  align-items: flex-end;
+  margin-top: 16px;
+}
+
+.default-title-wrapper {
+  flex: 1;
+}
+
+.default-title {
+  font-size: 15px;
+  font-weight: 600;
+  color: $color-white-01;
+  line-height: 20px;
+  letter-spacing: -0.2px;
+}
+
+.default-subtitle {
+  font-size: 13px;
+  font-weight: 600;
+  color: $color-white-04;
+  letter-spacing: -0.2px;
+  margin-top: 6px;
+
+  & > span:not(:last-child) {
+    margin-right: 8px;
+  }
+}
+
+.default-code-wrapper {
+  flex: none;
+  margin-left: 10px;
+}
+
+.default-code {
+  font-size: 14px;
+  font-weight: 600;
+  color: $color-white-04;
+  border-radius: 6px;
+  background-color: $color-white-09;
+  padding: 6px 8px;
+}
+
 @media (max-width: 576px) {
-  .default-video-item {
-    .img-wrapper {
-      .thumbnail {
-        img {
-          border-radius: 8px;
-        }
-
-        &::after {
-          border-radius: 8px;
-        }
-      }
+  .default-thumbnail-wrapper {
+    &::after {
+      border-radius: 8px;
     }
+  }
 
-    .info {
-      flex-direction: column;
-      align-items: flex-start;
-      margin-top: 12px;
+  .default-thumbnail {
+    border-radius: 8px;
+  }
 
-      .right {
-        display: none;
-        // margin: 6px 0 0 auto;
-      }
+  .default-info-container {
+    flex-direction: column;
+    align-items: flex-start;
+    margin-top: 12px;
+  }
 
-      .sub-title {
-        margin-top: 4px;
-      }
+  .default-subtitle {
+    margin-top: 4px;
+  }
 
-      .code {
-        font-size: 13px;
-      }
-    }
+  .default-code-wrapper {
+    display: none;
+  }
+
+  .default-code {
+    font-size: 13px;
   }
 }

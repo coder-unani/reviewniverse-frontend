@@ -1,110 +1,88 @@
-.bar-rating-wrapper {
+.video-rating-container {
   position: relative;
   display: inline-flex;
+}
 
-  .left {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
+.rating-image-wrapper {
+  position: relative;
+  width: 45px;
+  height: 45px;
+  border-radius: 12px;
+  background-color: transparent;
+  margin-right: 10px;
+  overflow: hidden;
+
+  &::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
     width: 100%;
-  }
-
-  .bar-rating-image {
-    position: relative;
-    width: 45px;
-    height: 45px;
+    height: 100%;
     border-radius: 12px;
-    background-color: transparent;
-    margin-right: 10px;
-    overflow: hidden;
-
-    &::after {
-      content: "";
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      border-radius: 12px;
-      border: 1px solid $border-color-02;
-    }
-
-    img {
-      display: flex;
-      width: 100%;
-      height: 100%;
-    }
+    border: 1px solid $border-color-02;
   }
+}
 
-  #ratingText {
-    font-size: 13px;
-    color: $color-white-02;
-  }
+.rating-image {
+  display: flex;
+  width: 100%;
+  height: 100%;
+}
 
-  .bar-rating {
-    position: relative;
-    display: flex;
-    gap: 4px;
-    cursor: pointer;
+.video-rating-range-wrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 100%;
+}
 
-    &[data-rating="1"] {
-      .bar:nth-child(-n + 1) {
+.video-rating-text {
+  font-size: 13px;
+  color: $color-white-02;
+}
+
+.video-rating-range {
+  position: relative;
+  display: flex;
+  gap: 4px;
+  cursor: pointer;
+
+  @for $i from 1 through 5 {
+    &[data-rating="#{$i}"] {
+      .rating-range:nth-child(-n + #{$i}) {
         opacity: 1;
-        background-color: $color-red;
-      }
-    }
-    &[data-rating="2"] {
-      .bar:nth-child(-n + 2) {
-        opacity: 1;
-        background-color: $color-red;
-      }
-    }
-    &[data-rating="3"] {
-      .bar:nth-child(-n + 3) {
-        opacity: 1;
-        background-color: $color-yellow;
-      }
-    }
-    &[data-rating="4"] {
-      .bar:nth-child(-n + 4) {
-        opacity: 1;
-        background-color: $color-green;
-      }
-    }
-    &[data-rating="5"] {
-      .bar:nth-child(-n + 5) {
-        opacity: 1;
-        background-color: $color-green;
+        background-color: if($i <= 2, $color-red, if($i == 3, $color-yellow, $color-green));
       }
     }
   }
+}
 
-  .bar {
-    flex: 1;
-    min-width: 30px;
-    height: 16px;
-    border-radius: 2px;
-    opacity: 0.2;
+.rating-range {
+  flex: 1;
+  min-width: 30px;
+  height: 16px;
+  border-radius: 2px;
+  opacity: 0.2;
 
-    &:first-child {
-      border-top-left-radius: 6px;
-      border-bottom-left-radius: 6px;
-    }
-    &:last-child {
-      border-top-right-radius: 6px;
-      border-bottom-right-radius: 6px;
-    }
+  &:first-child {
+    border-top-left-radius: 6px;
+    border-bottom-left-radius: 6px;
+  }
+  &:last-child {
+    border-top-right-radius: 6px;
+    border-bottom-right-radius: 6px;
+  }
 
-    &[data-rating="1"],
-    &[data-rating="2"] {
-      background-color: $color-red;
-    }
-    &[data-rating="3"] {
-      background-color: $color-yellow;
-    }
-    &[data-rating="4"],
-    &[data-rating="5"] {
-      background-color: $color-green;
-    }
+  &[data-rating="1"],
+  &[data-rating="2"] {
+    background-color: $color-red;
+  }
+  &[data-rating="3"] {
+    background-color: $color-yellow;
+  }
+  &[data-rating="4"],
+  &[data-rating="5"] {
+    background-color: $color-green;
   }
 }

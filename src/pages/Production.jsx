@@ -6,7 +6,6 @@ import { useVideos } from "/src/hooks/useVideos";
 import { SETTINGS } from "/src/config/settings";
 import { DEFAULT_IMAGES } from "/src/config/constants";
 import { isEmpty } from "lodash";
-import "/src/styles/Production.css";
 
 const Production = () => {
   const navigate = useNavigate();
@@ -66,10 +65,11 @@ const Production = () => {
         <meta property="og:image" content={DEFAULT_IMAGES.logo} />
         <meta property="og:url" content={`${SETTINGS.DOMAIN_URL}/genre/${productionId}`} />
       </Helmet>
-      <main className="production-main">
-        <section className="production-wrapper">
-          <div className="production">
-            <h1 className="title">{name}</h1>
+
+      <main className="production-main-container">
+        <section className="production-section">
+          <div className="production-title-wrapper">
+            <h1 className="production-title">{name}</h1>
           </div>
         </section>
         <Videos videos={videos} handlePage={handlePage} />

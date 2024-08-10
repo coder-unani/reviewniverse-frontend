@@ -7,9 +7,9 @@ import { useScreenVideos } from "/src/hooks/useScreenVideos";
 import { useRankingVideos } from "/src/hooks/useRankingVideos";
 import { useVideos } from "/src/hooks/useVideos";
 import { SCREEN_PREVIEW_ID, SCREEN_MAIN_ID } from "/src/config/codes";
-// import { VIDEO_ORDER_OPTIONS } from "/src/config/constants";
+import { VIDEO_ORDER_OPTIONS } from "/src/config/constants";
+import { formatScreens } from "/src/utils/formatContent";
 import { isEmpty } from "lodash";
-// import ArrowRightIcon from "/src/assets/button/arrow-right.svg?react";
 
 const Home = () => {
   const navigate = useNavigate();
@@ -34,7 +34,7 @@ const Home = () => {
     isLoading: videosIsLoading,
   } = useVideos({
     page,
-    orderBy: "release_desc",
+    orderBy: VIDEO_ORDER_OPTIONS,
     enabled: hasMore,
   });
   const [screensMA01, setScreensMA01] = useState(null);
@@ -42,10 +42,6 @@ const Home = () => {
   const [screensMA03, setScreensMA03] = useState(null);
   const [screensMA04, setScreensMA04] = useState(null);
   const [screensMA05, setScreensMA05] = useState(null);
-
-  const formatScreens = (screens, code) => {
-    return screens.find((screen) => screen.code === code);
-  };
 
   const handlePage = (page) => {
     setPage(page);
@@ -98,64 +94,54 @@ const Home = () => {
     }
   }, [videosData, hasMore, page]);
 
-  // 로딩중일때 표시할 화면 (스켈레톤 UI)
+  // TODO: 로딩중일때 표시할 화면 (스켈레톤 UI)
   // if (previewsIsLoading || screensIsLoading || rankingIsLoading || videosIsLoading) return null;
   // if (previewsIsLoading || screensIsLoading || rankingIsLoading) return;
 
   if (previewsError || screensError || rankingError || videosError) return navigate("/error");
 
   return (
-    <main className="home-main">
-      <section className="home-preview-wrapper">{screensMA01 && <PreviewSwiper screensMA01={screensMA01} />}</section>
+    <main className="home-main-container">
+      <section className="home-preview-section">{screensMA01 && <PreviewSwiper screensMA01={screensMA01} />}</section>
 
-      <section className="home-main-wrapper">
-        {ranking && (
-          <HVideos content={ranking} template="rank" code="ranking">
-            <div className="title-wrapper">
-              <h2 className="title">🍿 리뷰니버스 TOP 20</h2>
-            </div>
-          </HVideos>
-        )}
+      <section className="home-main-section">
+        {ranking && <HVideos content={ranking} template="rank" title="🍿 리뷰니버스 TOP 20"></HVideos>}
 
         {screensMA02 && (
-          <HVideos content={screensMA02.content.list} template={screensMA02.content.template}>
-            <div className="title-wrapper">
-              <h2 className="title">{screensMA02.title}</h2>
-              {/* <button className="more">
-                  더보기
-                  <ArrowRightIcon />
-                </button> */}
-            </div>
-          </HVideos>
+          <HVideos
+            content={screensMA02.content.list}
+            template={screensMA02.content.template}
+            title={screensMA02.title}
+          ></HVideos>
         )}
 
         {screensMA03 && (
-          <HVideos content={screensMA03.content.list} template={screensMA03.content.template}>
-            <div className="title-wrapper">
-              <h2 className="title">{screensMA03.title}</h2>
-            </div>
-          </HVideos>
+          <HVideos
+            content={screensMA03.content.list}
+            template={screensMA03.content.template}
+            title={screensMA03.title}
+          ></HVideos>
         )}
         {screensMA04 && (
-          <HVideos content={screensMA04.content.list} template={screensMA04.content.template}>
-            <div className="title-wrapper">
-              <h2 className="title">{screensMA04.title}</h2>
-            </div>
-          </HVideos>
+          <HVideos
+            content={screensMA04.content.list}
+            template={screensMA04.content.template}
+            title={screensMA04.title}
+          ></HVideos>
         )}
 
         {screensMA05 && (
-          <HVideos content={screensMA05.content.list} template={screensMA05.content.template}>
-            <div className="title-wrapper">
-              <h2 className="title">{screensMA05.title}</h2>
-            </div>
-          </HVideos>
+          <HVideos
+            content={screensMA05.content.list}
+            template={screensMA05.content.template}
+            title={screensMA05.title}
+          ></HVideos>
         )}
 
         {videos && (
           <Videos videos={videos} handlePage={handlePage}>
-            <div className="title-wrapper">
-              <h2 className="title">🍟 이건 어때요?</h2>
+            <div className="vertical-title-wrapper">
+              <h2 className="vertical-title">🍟 이건 어때요?</h2>
             </div>
           </Videos>
         )}

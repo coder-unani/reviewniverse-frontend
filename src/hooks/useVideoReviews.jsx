@@ -10,7 +10,7 @@ export const useVideoReviews = ({ videoId, page = null, pageSize = null }) => {
         ...(page !== null && { page }),
         ...(pageSize !== null && { pageSize }),
       });
-      return res.status === 200 ? res.data.data : null;
+      return res.status === 200 ? res.data : [];
     },
     // TODO: staleTime, cacheTime 변경 (staleTime: 5분, cacheTime: 10분)
     staleTime: 1000 * 60 * 5,

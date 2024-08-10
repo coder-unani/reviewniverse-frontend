@@ -4,7 +4,7 @@ import JoinAgree from "/src/components/JoinAgree";
 import JoinForm from "/src/components/JoinForm";
 import BackButton from "/src/components/Button/Back";
 import Logo from "/assets/logo.svg";
-import "/src/styles/Join.css";
+import "/src/styles/Join_v1.css";
 
 /**
  * TODO:

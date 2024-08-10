@@ -11,7 +11,7 @@ const ProfileButton = ({ image, user, onClose }) => {
   return (
     <Link className="profile" to={`/user/${user.id}`} onClick={handleMobileMenuClose}>
       <ProfileImage image={image} size={28} />
-      <span className="nickname">{user.nickname}</span>
+      <span className="profile-nickname">{user.nickname}</span>
     </Link>
   );
 };

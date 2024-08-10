@@ -10,9 +10,8 @@ import { useThemeContext } from "/src/context/ThemeContext";
 import { isValidProvider } from "/src/utils/validation";
 import { isEmpty } from "lodash";
 import { MESSAGES } from "/src/config/messages";
+import { DEFAULT_IMAGES } from "/src/config/constants";
 import { showSuccessToast, showErrorToast } from "/src/components/Toast";
-import Logo from "/assets/logo.svg";
-import "/src/styles/Join.css";
 
 /**
  * TODO:
@@ -86,7 +85,6 @@ const SocialJoin = () => {
     }
     if (user) {
       setSnsUser(null);
-      // navigate("/");
     }
   }, [provider, user, setSnsUser]);
 
@@ -98,14 +96,14 @@ const SocialJoin = () => {
   return (
     <>
       {snsUser ? (
-        <div className="join-wrapper">
+        <main className="join-main-container">
           {isMobile && <BackButton />}
           <div className="join-header">
-            <img src={Logo} className="logo" alt="logo" />
-            <h2>SNS 간편 로그인</h2>
+            <img className="join-header-logo" src={DEFAULT_IMAGES.logoWhite} alt="logo" />
+            <h2 className="join-header-title">SNS 간편 로그인</h2>
           </div>
           <JoinAgree setIsAgree={setIsAgree} setAgreeValues={setAgreeValues} />
-        </div>
+        </main>
       ) : (
         renderCallback()
       )}

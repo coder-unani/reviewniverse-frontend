@@ -55,45 +55,45 @@ const JoinAgree = ({ setIsAgree, setAgreeValues }) => {
   }, [allAgrees, setValue]);
 
   return (
-    <div className="join-agree">
-      <h3 className="title">약관 동의</h3>
-      <form onSubmit={onSubmit} className="agree-form">
-        <div className="all">
+    <section className="join-agree-section">
+      <h3 className="join-agree-title">약관 동의</h3>
+      <form onSubmit={onSubmit} className="join-agree-form">
+        <div className="join-agree-all">
           <input type="checkbox" name="all" id="all" {...register("all")} onClick={handleSelectAll} />
           <label htmlFor="all">
             <span>모두 동의합니다.</span>
           </label>
         </div>
-        <div>
+        <div className="join-agree-terms">
           <input id="terms" type="checkbox" name="terms" {...register("terms", { required: true })} />
           <label htmlFor="terms">
             <span>[필수] 이용약관에 동의합니다.</span>
           </label>
         </div>
-        <div>
+        <div className="join-agree-privacy">
           <input id="privacy" type="checkbox" name="privacy" {...register("privacy", { required: true })} />
           <label htmlFor="privacy">
             <span>[필수] 개인정보 수집 및 이용에 동의합니다.</span>
           </label>
         </div>
-        <div>
+        <div className="join-agree-age">
           <input id="age" type="checkbox" name="age" {...register("age", { required: true })} />
           <label htmlFor="age">
             <span>[필수] 본인은 만 14세 이상입니다.</span>
           </label>
         </div>
-        <div>
+        <div className="join-agree-marketing">
           <input id="marketing" type="checkbox" name="marketing" {...register("marketing")} />
           <label htmlFor="marketing">
             <span>[선택] 이벤트 및 기타 혜택 등에 대한 알림 수신에 동의합니다.</span>
           </label>
         </div>
-        <button type="submit" disabled={!isValid}>
+        <button className="join-agree-button" type="submit" disabled={!isValid}>
           {/* 다음 */}
           완료
         </button>
       </form>
-    </div>
+    </section>
   );
 };
 

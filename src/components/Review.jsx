@@ -21,40 +21,37 @@ const Review = ({ review, isLike, onLikeClick }) => {
 
   return (
     <div className="review">
-      <div className="top">
+      <div className="review-header">
         <ProfileButton
           image={review.user_profile_image}
           user={{ id: review.user_id, nickname: review.user_nickname }}
         />
         {review.rating && (
-          <div className="rating">
-            <div className="bars" data-index={Math.floor(formatRating(review.rating))}>
+          <div className="review-rating">
+            <div className="rating-bars" data-index={Math.floor(formatRating(review.rating))}>
               {Array.from({ length: Math.floor(formatRating(review.rating)) }, (_, i) => (
-                <div key={i} className="bar" />
+                <div key={i} className="rating-bar" />
               ))}
             </div>
-            <span>{Math.floor(formatRating(review.rating))}</span>
+            <span className="rating-count">{Math.floor(formatRating(review.rating))}</span>
           </div>
         )}
       </div>
-      <div className="middle">
+      {/* TODO: 고도화 */}
+      <div className="review-content" data-spoiler={review.is_spoiler ? "spoiler" : ""}>
         {review.is_spoiler ? (
-          <p className={`content ${review.is_spoiler ? "spoiler" : ""}`} data-active={active} onClick={handleSpoiler}>
+          <p className="content spoiler" data-active={active} onClick={handleSpoiler}>
             {review.title}
           </p>
         ) : (
           <p className="content">{review.title}</p>
         )}
       </div>
-      <div className="bottom">
-        <span>{diffDate(review.created_at)}</span>
-        <button className="like" onClick={() => handleReviewLike(review.id)}>
-          {isLike ? (
-            <img src={DEFAULT_ICONS.fillThumb2} alt="좋아요" />
-          ) : (
-            <img src={DEFAULT_ICONS.outlineThumb2} alt="좋아요" />
-          )}
-          <span>{review.like_count}</span>
+      <div className="review-footer">
+        <span className="review-date">{diffDate(review.created_at)}</span>
+        <button className="review-like" onClick={() => handleReviewLike(review.id)}>
+          <img src={isLike ? DEFAULT_ICONS.fillThumb2 : DEFAULT_ICONS.outlineThumb2} alt="좋아요" />
+          <span className="review-like-count">{review.like_count}</span>
         </button>
       </div>
     </div>

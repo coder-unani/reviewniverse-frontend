@@ -1,4 +1,3 @@
-// common
 *,
 *::before,
 *::after {
@@ -63,6 +62,15 @@ span {
   margin: 0;
 }
 
+em {
+  font-style: normal;
+}
+
 figure {
   margin: 0;
+}
+
+.lazy-load-image-background {
+  width: 100%;
+  height: 100%;
 }

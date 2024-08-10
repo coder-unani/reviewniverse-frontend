@@ -53,24 +53,29 @@ const PreviewSwiper = React.memo(({ screensMA01 }) => {
 
   return (
     <>
-      <figure className="background-image">
+      <figure className="preview-background-wrapper">
         {previewVideo && (
-          <LazyLoadImage src={formatPreviewThumbnail(previewVideo.thumbnail)} alt="배경 이미지" effect="blur" />
+          <LazyLoadImage
+            className="preview-background-image"
+            src={formatPreviewThumbnail(previewVideo.thumbnail)}
+            alt="배경 이미지"
+            effect="blur"
+          />
         )}
       </figure>
 
-      <div className="preview-info-wrapper">
+      <div className="preview-info-container">
         {previewVideo && (
-          <div className="preview-info">
-            <div className="info-right">
-              <div className="info-title">
+          <div className="preview-info-wrapper">
+            <div className="preview-title-wrapper">
+              <div className="preview-title">
                 {/* <p className="title">{screensMA01.title}</p> */}
-                <p className="title-og">{previewVideo.title_og}</p>
-                <h2 className="title-kr">{previewVideo.title}</h2>
+                <p className="preview-title-og">{previewVideo.title_og}</p>
+                <h2 className="preview-title-kr">{previewVideo.title}</h2>
               </div>
             </div>
-            <div className="info-left">
-              <div className="info-release">
+            <div className="preview-release-wrapper">
+              <div className="preview-release">
                 <span>{formatReleaseText(previewVideo.code)}</span>
                 <span>|</span>
                 <span>{formatDate(previewVideo.release)}</span>
@@ -80,16 +85,21 @@ const PreviewSwiper = React.memo(({ screensMA01 }) => {
         )}
       </div>
 
-      <div className="preview-videos-wrapper">
+      <div className="preview-videos-container">
         {screensMA01 && (
-          <div className="preview-videos">
-            <Swiper {...previewSwiperConfig} className="preview">
+          <div className="preview-videos-wrapper">
+            <Swiper className="preview-videos" {...previewSwiperConfig}>
               {screensMA01.content.list.map((video, index) => (
-                <SwiperSlide key={index}>
+                <SwiperSlide className="preview-video-item" key={index}>
                   {({ isActive }) => (
-                    <Link to={`/contents/${video.id}`}>
-                      <figure className={`thumbnail ${isActive ? "active" : ""}`}>
-                        <LazyLoadImage src={formatBackgroundImage(video.thumbnail)} alt={video.title} effect="blur" />
+                    <Link to={`/contents/${video.id}`} className="preview-video-link">
+                      <figure className={`preview-thumbnail-wrapper ${isActive ? "active" : ""}`}>
+                        <LazyLoadImage
+                          className="preview-thumbnail-image"
+                          src={formatBackgroundImage(video.thumbnail)}
+                          alt={video.title}
+                          effect="blur"
+                        />
                       </figure>
                       {/* <div className="preview-card">
                         <span className="new">NEW</span>

@@ -12,23 +12,28 @@ const VideoRankItem = ({ video, index }) => {
     const numbers = number.toString().split("");
     // 배열 반복해서 number/{}.svg 이미지 추가해서 반환
     return numbers.map((num, index) => (
-      <img key={index} src={`/assets/number/${num}.svg`} alt={num} data-number={num} />
+      <img className="rank-number" data-number={num} src={`/assets/number/${num}.svg`} alt={num} key={index} />
     ));
   };
 
   return (
     <article className="rank-video-item">
       <Link to={`/contents/${video.id}`}>
-        <div className="img-wrapper">
-          <figure className="thumbnail">
-            <LazyLoadImage src={formatThumbnail(video.thumbnail)} alt="썸네일" effect="blur" />
+        <div className="rank-thumbnail-container">
+          <figure className="rank-thumbnail-wrapper">
+            <LazyLoadImage
+              className="rank-thumbnail"
+              src={formatThumbnail(video.thumbnail)}
+              alt="썸네일"
+              effect="blur"
+            />
           </figure>
-          <div className="number">{formatRankingNumber(index + 1)}</div>
+          <div className="rank-number-wrapper">{formatRankingNumber(index + 1)}</div>
         </div>
-        <div className="info">
-          <div className="left">
-            <p className="title">{video.title}</p>
-            <div className="sub-title">
+        <div className="rank-info-container">
+          <div className="rank-title-wrapper">
+            <p className="rank-title">{video.title}</p>
+            <div className="rank-subtitle">
               <span>{formatYear(video.release)}</span>
               {video.country && (
                 <>
@@ -38,8 +43,8 @@ const VideoRankItem = ({ video, index }) => {
               )}
             </div>
           </div>
-          <div className="right">
-            <div className="code">{video.code_string}</div>
+          <div className="rank-code-wrapper">
+            <div className="rank-code">{video.code_string}</div>
           </div>
         </div>
       </Link>

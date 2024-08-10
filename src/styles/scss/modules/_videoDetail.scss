@@ -80,7 +80,7 @@
       margin-top: 8px;
 
       a {
-        flex: 0 0 auto;
+        flex: none;
         display: block;
         font-size: 12px;
         font-weight: 600;
@@ -285,9 +285,7 @@
       position: relative;
       display: flex;
       width: 280px;
-      // aspect-ratio: 2 / 3;
       background-color: transparent;
-      // overflow: hidden;
 
       // &::after {
       //   content: "";
@@ -301,12 +299,13 @@
       //   pointer-events: none;
       // }
 
+      .lazy-load-image-background {
+        width: 100%;
+      }
+
       img {
         display: flex;
         width: 100%;
-        // height: 100%;
-        // object-fit: cover;
-        // border-radius: 4px;
         object-fit: contain;
         border-radius: 14px;
       }
@@ -593,18 +592,12 @@
     margin-right: 12px;
   }
 
-  .people-image {
+  .people-image-wrapper {
     margin-right: 12px;
+  }
 
-    // &::after {
-    //   // border-radius: 18px;
-    //   border-radius: 50%;
-    // }
-
-    img {
-      // border-radius: 18px;
-      border-radius: 50%;
-    }
+  .people-image {
+    border-radius: 50%;
   }
 
   .name-wrapper {
@@ -789,8 +782,8 @@
   .review {
     display: flex;
     flex-direction: column;
+    width: 100%;
     background-color: $color-white-09;
-    // border-radius: 6px;
     border-radius: 14px;
     padding: 0 12px;
 
@@ -798,131 +791,129 @@
       border-bottom: 1px solid $border-color-01;
     }
 
-    .top {
+    .review-header {
       display: flex;
       align-items: center;
       justify-content: space-between;
-
-      span {
-        color: $color-white-02;
-      }
-
-      .nickname {
-        // 1줄 이상일때 생략
-        display: -webkit-box;
-        -webkit-line-clamp: 1;
-        overflow: hidden;
-        -webkit-box-orient: vertical;
-      }
     }
 
-    .rating {
+    .profile-nickname {
+      flex: 1;
+      // 1줄 이상일때 생략
+      color: $color-white-02;
+      display: -webkit-box;
+      -webkit-line-clamp: 1;
+      overflow: hidden;
+      -webkit-box-orient: vertical;
+    }
+
+    .review-rating {
       display: flex;
       align-items: center;
       margin-left: 12px;
+    }
 
-      span {
-        color: $color-white-02;
-        margin-left: 8px;
+    .rating-bars {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+
+      .rating-bar {
+        width: 12px;
+        height: 12px;
+        border-radius: 2px;
       }
 
-      .bars {
-        display: flex;
-        align-items: center;
-        gap: 4px;
-
-        .bar {
-          width: 12px;
-          height: 12px;
-          border-radius: 2px;
+      &[data-index="1"],
+      &[data-index="2"] {
+        .rating-bar {
+          background-color: $color-red;
         }
-
-        &[data-index="1"],
-        &[data-index="2"] {
-          .bar {
-            background-color: $color-red;
-          }
+      }
+      &[data-index="3"] {
+        .rating-bar {
+          background-color: $color-yellow;
         }
-        &[data-index="3"] {
-          .bar {
-            background-color: $color-yellow;
-          }
-        }
-        &[data-index="4"],
-        &[data-index="5"] {
-          .bar {
-            background-color: $color-green;
-          }
+      }
+      &[data-index="4"],
+      &[data-index="5"] {
+        .rating-bar {
+          background-color: $color-green;
         }
       }
     }
 
-    .middle {
+    .rating-count {
+      color: $color-white-02;
+      margin-left: 8px;
+    }
+
+    .review-content {
       flex: 1;
       padding: 10px 0;
       cursor: pointer;
+    }
 
-      p {
-        font-size: 15px;
-        color: $color-white-03;
-        line-height: 24px;
-        white-space: pre-wrap;
-        z-index: 0;
+    .content {
+      font-size: 15px;
+      color: $color-white-03;
+      line-height: 24px;
+      white-space: pre-wrap;
+      z-index: 0;
 
-        // 5줄 이상일때 생략
-        display: -webkit-box;
-        -webkit-line-clamp: 5;
-        -webkit-box-orient: vertical;
-        overflow: hidden;
+      // 5줄 이상일때 생략
+      display: -webkit-box;
+      -webkit-line-clamp: 5;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
 
-        &.spoiler {
-          position: relative;
+      &.spoiler {
+        position: relative;
 
-          &[data-active="true"] {
-            &:hover {
-              &::before {
-                background-color: $color-white-07;
-              }
-            }
-
+        &[data-active="true"] {
+          &:hover {
             &::before {
-              content: "";
-              position: absolute;
-              top: 0;
-              left: 0;
-              width: 100%;
-              height: 100%;
-              border-radius: 6px;
-              background-color: $color-white-08;
-              z-index: 999;
-              cursor: pointer;
+              background-color: $color-white-07;
             }
+          }
+
+          &::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border-radius: 6px;
+            background-color: $color-white-08;
+            z-index: 999;
+            cursor: pointer;
           }
         }
       }
     }
 
-    .bottom {
+    .review-footer {
       display: flex;
       align-items: center;
       justify-content: space-between;
-
-      & > span {
-        font-size: 14px;
-        color: $color-white-06;
-      }
     }
 
-    .like {
+    .review-date {
+      font-size: 14px;
+      color: $color-white-06;
+    }
+
+    .review-like {
       display: flex;
       align-items: center;
       gap: 6px;
       padding: 10px 0;
+    }
 
-      span {
-        font-size: 14px;
-        color: $color-magenta-01;
-      }
+    .review-like-count {
+      font-size: 14px;
+      color: $color-magenta-01;
     }
   }
 }

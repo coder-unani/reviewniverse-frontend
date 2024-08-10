@@ -1,31 +1,26 @@
-.login-wrapper {
+.login-main-container {
   width: 100%;
   max-width: 720px;
   height: 100%;
-  min-height: 100vh;
-  padding: 32px 60px 16px;
+  min-height: calc(100vh - 80px);
+  padding: 60px;
   margin: 0 auto;
+}
 
-  .back {
-    position: absolute;
-    top: 0;
-    left: 0;
-    padding: 12px;
-    cursor: pointer;
+.back-button {
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: flex;
+  padding: 10px;
+  cursor: pointer;
 
-    // img {
-    //   width: 40px;
-    //   height: 40px;
-    //   object-fit: contain;
-    // }
+  svg {
+    width: 40px;
+    height: 40px;
 
-    svg {
-      width: 40px;
-      height: 40px;
-
-      path {
-        fill: $color-white;
-      }
+    path {
+      fill: $color-white;
     }
   }
 }
@@ -33,64 +28,69 @@
 .login-header {
   width: 100%;
   text-align: center;
+  padding: 32px 0 20px;
+}
 
-  .logo {
-    width: 200px;
-    height: auto;
+.login-header-logo {
+  width: 200px;
+  height: auto;
+}
+
+.login-header-title {
+  font-size: 17px;
+  color: $color-white-01;
+  margin: 24px 0 20px;
+}
+
+.login-button {
+  position: relative;
+  width: 100%;
+  height: 48px;
+  font-size: 14px;
+  font-weight: 500;
+  color: $color-white-01;
+  border-radius: 4px;
+
+  &:not(:last-child) {
+    margin-bottom: 12px;
   }
 
-  h2 {
-    font-size: 17px;
-    color: $color-white-01;
-    margin: 24px 0 20px;
+  &.kakao {
+    color: #191919;
+    background-color: #fee500;
+  }
+
+  &.naver {
+    background-color: #03c75a;
+  }
+
+  &.google {
+    border: 1px solid $border-color-02;
   }
 }
 
-.login-sns {
-  button {
-    position: relative;
-    width: 100%;
-    height: 48px;
-    font-size: 14px;
-    font-weight: 500;
-    color: $color-white-01;
-    border-radius: 4px;
-    margin-bottom: 12px;
-
-    &.kakao {
-      color: #191919;
-      background-color: #fee500;
-    }
-
-    &.naver {
-      background-color: #03c75a;
-    }
-
-    &.google {
-      border: 1px solid $border-color-02;
-    }
-
-    img {
-      position: absolute;
-      top: 50%;
-      left: 4px;
-      transform: translateY(-50%);
-      width: 40px;
-      height: 40px;
-      object-fit: contain;
-      padding: 10px;
-    }
-  }
+.login-button-image {
+  position: absolute;
+  top: 50%;
+  left: 4px;
+  transform: translateY(-50%);
+  width: 40px;
+  height: 40px;
+  object-fit: contain;
+  padding: 10px;
 }
 
 @media (max-width: 768px) {
-  .login-wrapper {
-    padding: 32px 30px 16px;
+  .login-main-container {
+    position: fixed;
+    background-color: $color-background;
+    padding: 60px 30px;
+    z-index: 200;
   }
 }
 
 @media (max-width: 576px) {
-  .login-wrapper {
-    padding: 64px 15px 16px;
+  .login-main-container {
+    padding: 60px 15px;
   }
 }

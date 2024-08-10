@@ -63,20 +63,22 @@ const Rating = ({ videoId, myInfo, toggleEnjoyModal }) => {
   }, [user, myInfo]);
 
   return (
-    <div className="bar-rating-wrapper">
-      <div className="right">
-        <figure className="bar-rating-image">
-          <img src={imgSrc} alt="평가 이미지" ref={ratingImgRef} />
+    <div className="video-rating-container">
+      <div className="video-rating-image-wrapper">
+        <figure className="rating-image-wrapper">
+          <img className="rating-image" src={imgSrc} alt="평가 이미지" ref={ratingImgRef} />
         </figure>
       </div>
-      <div className="left">
-        <span id="ratingText">{VIDEO_RATING_TEXT[0]}</span>
-        <div className="bar-rating" ref={ratingRef}>
-          <div className="bar" data-rating="1"></div>
-          <div className="bar" data-rating="2"></div>
-          <div className="bar" data-rating="3"></div>
-          <div className="bar" data-rating="4"></div>
-          <div className="bar" data-rating="5"></div>
+      <div className="video-rating-range-wrapper">
+        <span id="ratingText" className="video-rating-text">
+          {VIDEO_RATING_TEXT[0]}
+        </span>
+        <div className="video-rating-range" ref={ratingRef}>
+          <div className="rating-range" data-rating="1"></div>
+          <div className="rating-range" data-rating="2"></div>
+          <div className="rating-range" data-rating="3"></div>
+          <div className="rating-range" data-rating="4"></div>
+          <div className="rating-range" data-rating="5"></div>
         </div>
       </div>
     </div>

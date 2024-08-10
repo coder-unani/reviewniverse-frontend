@@ -9,15 +9,20 @@ const VideoItem = ({ video }) => {
   return (
     <article className="default-video-item">
       <Link to={`/contents/${video.id}`}>
-        <div className="img-wrapper">
-          <figure className="thumbnail">
-            <LazyLoadImage src={formatThumbnail(video.thumbnail)} alt="썸네일" effect="blur" />
+        <div className="default-thumbnail-container">
+          <figure className="default-thumbnail-wrapper">
+            <LazyLoadImage
+              className="default-thumbnail"
+              src={formatThumbnail(video.thumbnail)}
+              alt="썸네일"
+              effect="blur"
+            />
           </figure>
         </div>
-        <div className="info">
-          <div className="left">
-            <p className="title">{video.title}</p>
-            <div className="sub-title">
+        <div className="default-info-container">
+          <div className="default-title-wrapper">
+            <p className="default-title">{video.title}</p>
+            <div className="default-subtitle">
               <span>{formatYear(video.release)}</span>
               {video.country && (
                 <>
@@ -27,8 +32,8 @@ const VideoItem = ({ video }) => {
               )}
             </div>
           </div>
-          <div className="right">
-            <div className="code">{video.code_string}</div>
+          <div className="default-code-wrapper">
+            <div className="default-code">{video.code_string}</div>
           </div>
         </div>
       </Link>

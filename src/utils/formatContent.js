@@ -8,6 +8,11 @@ export const formatUserCode = (code) => {
   return userCode || "10";
 };
 
+// screens 데이터 포맷
+export const formatScreens = (screens, code) => {
+  return screens.find((screen) => screen.code === code);
+};
+
 // provider 포맷
 export const formatProvider = (provider) => {
   const providerCode = Object.keys(USER_CODE).find((key) => USER_CODE[key] === provider);

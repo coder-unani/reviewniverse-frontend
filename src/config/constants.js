@@ -37,6 +37,8 @@ export const DEFAULT_ICONS = {
   close: "/assets/button/close.svg",
 };
 
+export const VIDEO_ORDER_OPTIONS = "release_desc";
+/*
 export const VIDEO_ORDER_OPTIONS = [
   "new_desc",
   "view_desc",
@@ -45,6 +47,7 @@ export const VIDEO_ORDER_OPTIONS = [
   "rating_desc",
   "release_desc",
 ];
+*/
 
 export const VIDEO_RATING_TEXT = ["어떠셨나요?", "최악이에요!", "싫어요", "그냥 볼만했어요", "좋아요", "최고에요!"];
 

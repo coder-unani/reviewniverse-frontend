@@ -3,12 +3,9 @@ import React from "react";
 const Footer = () => {
   const year = new Date().getFullYear();
   return (
-    <footer className="footer-wrapper">
-      <div className="footer">
-        <div className="left">
-          <span>© {year}. Orbitcode Co. All rights reserved.</span>
-        </div>
-        <div className="right"></div>
+    <footer className="footer-container">
+      <div className="footer-wrapper">
+        <span className="footer-item">© {year}. Orbitcode Co. All rights reserved.</span>
       </div>
     </footer>
   );

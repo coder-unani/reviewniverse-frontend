@@ -7,6 +7,8 @@ import "/src/styles/SearchModal.css";
 
 /**
  * TODO:
+ * - 최근 검색어 표시
+ * - 인기 검색어 표시
  * - 연관 검색어 표시
  */
 
@@ -49,10 +51,7 @@ const SearchModal = () => {
   return (
     <Modal>
       <div className="search-modal">
-        <div className="search">
-          {!isEmpty(recent) && renderRecent()}
-          {/* 인기 검색어 */}
-        </div>
+        <div className="search">{!isEmpty(recent) && renderRecent()}</div>
       </div>
     </Modal>
   );

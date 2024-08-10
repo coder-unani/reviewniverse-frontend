@@ -33,9 +33,9 @@ const Videos = ({ videos, handlePage, children }) => {
   if (isEmpty(videos) || isEmpty(videos.data)) return null;
 
   return (
-    <section className="videos-wrapper">
+    <section className="vertical-videos-section">
       {children}
-      <div className="list-wrapper">
+      <div className="vertical-videos-wrapper">
         {videos.data.map((video, index) => (
           <VideoItem key={index} video={video} />
         ))}

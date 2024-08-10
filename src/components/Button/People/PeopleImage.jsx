@@ -8,8 +8,8 @@ const PeopleImage = ({ image, size }) => {
   const style = size ? { width: `${size}px`, height: `${size}px` } : {};
 
   return (
-    <figure className="people-image" style={style}>
-      <LazyLoadImage src={peopleImage} alt="프로필 이미지" effect="blur" />
+    <figure className="people-image-wrapper" style={style}>
+      <LazyLoadImage className="people-image" src={peopleImage} alt="프로필 이미지" effect="blur" />
     </figure>
   );
 };

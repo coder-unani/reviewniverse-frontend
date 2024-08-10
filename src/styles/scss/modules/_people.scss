@@ -1,47 +1,57 @@
-.people-main {
+.people-main-container {
   max-width: 1440px;
   min-height: calc(100vh - 80px);
+  // padding: 24px 60px;
   padding: 84px 60px 60px;
   margin: 0 auto;
+  // margin-top: 60px;
 }
 
-.people-wrapper {
+.people-section {
   width: 100%;
   margin-bottom: 8px;
 }
-.people-wrapper .people {
+
+.people-info-wrapper {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  border-bottom: 1px solid $border-color-01;
   padding-bottom: 20px;
 }
-.people-wrapper .people .name {
+
+.people-image-wrapper {
+  border-radius: 8px;
+
+  &::after {
+    border-radius: 8px;
+  }
+}
+
+.people-name {
   font-size: 30px;
   font-weight: 700;
+  color: $color-white-01;
   margin-top: 10px;
-}
-.people-wrapper .people .people-image {
-  border-radius: 8px;
-}
-.people-wrapper .people .people-image::after {
-  border-radius: 8px;
 }
 
 @media (max-width: 1024px) {
-  .people-main {
+  .people-main-container {
     padding: 84px 30px;
   }
 }
+
 @media (max-width: 576px) {
-  .people-main {
+  .people-main-container {
     padding: 84px 0;
   }
-  .people-wrapper {
+
+  .people-section {
     padding: 0 15px;
   }
-  .people-wrapper .people .name {
+
+  .people-name {
     font-size: 20px;
   }
 }

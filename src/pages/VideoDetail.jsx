@@ -432,9 +432,9 @@ const VideoDetail = () => {
           <section className="review-wrapper">
             <div className="title">
               <h4>리뷰</h4>
-              {content.data.review_count > 0 && <span>{content.data.review_count}</span>}
+              {reviews.total > 0 && <span>{reviews.total}</span>}
             </div>
-            {isEmpty(reviews) ? (
+            {isEmpty(reviews.data) ? (
               <div className="no-review">
                 <p>기록된 리뷰가 없습니다. 첫번째 리뷰를 남겨보세요!</p>
                 <button type="button" onClick={handleReviewCreate}>
@@ -443,7 +443,7 @@ const VideoDetail = () => {
               </div>
             ) : (
               <div className="reviews">
-                {reviews.map((review, index) => (
+                {reviews.data.map((review, index) => (
                   <Review
                     key={index}
                     review={review}

@@ -23,7 +23,8 @@ export const useReviewLike = () => {
           return updatedMyInfo;
         });
         queryClient.setQueryData(["videoReviews", variables.videoId], (prev) => {
-          const updatedReviews = prev.map((review) => {
+          const updatedReviews = { ...prev };
+          updatedReviews.data = updatedReviews.data.map((review) => {
             if (review.id === variables.reviewId) {
               return { ...review, like_count: res.data.data.like_count };
             }

@@ -8,7 +8,7 @@ import ArrowLeftIcon from "/src/assets/button/arrow-left.svg?react";
 import ArrowRightIcon from "/src/assets/button/arrow-right.svg?react";
 import { isEmpty } from "lodash";
 
-const HVideos = ({ children, content, template }) => {
+const HVideos = ({ content, template, title }) => {
   const [videos, setVideos] = useState([]);
   const [isBeginning, setIsBeginning] = useState(true);
   const [isEnd, setIsEnd] = useState(false);
@@ -59,26 +59,28 @@ const HVideos = ({ children, content, template }) => {
   if (isEmpty(videos)) return null;
 
   return (
-    <section className="horizontal-videos-wrapper">
-      {children}
-      <div className="swiper-container">
-        <Swiper {...swiperConfig}>
+    <section className="horizontal-videos-section">
+      <div className="horizontal-title-wrapper">
+        <h2 className="horizontal-title">{title}</h2>
+      </div>
+      <div className={`horizontal-videos-wrapper ${template}`}>
+        <Swiper className="horizontal-videos" {...swiperConfig}>
           {template === "default"
             ? videos.map((video, index) => (
-                <SwiperSlide key={index} virtualIndex={index}>
+                <SwiperSlide className="horizontal-video-item" key={index} virtualIndex={index}>
                   <VideoItem video={video} index={index} />
                 </SwiperSlide>
               ))
             : videos.map((video, index) => (
-                <SwiperSlide key={index} virtualIndex={index}>
+                <SwiperSlide className="horizontal-video-item" key={index} virtualIndex={index}>
                   <VideoRankItem video={video} index={index} />
                 </SwiperSlide>
               ))}
         </Swiper>
-        <button onClick={() => swiperRef.current.slidePrev()} className="swiper-button-prev" disabled={isBeginning}>
+        <button className="horizontal-prev-button" onClick={() => swiperRef.current.slidePrev()} disabled={isBeginning}>
           <ArrowLeftIcon />
         </button>
-        <button onClick={() => swiperRef.current.slideNext()} className="swiper-button-next" disabled={isEnd}>
+        <button className="horizontal-next-button" onClick={() => swiperRef.current.slideNext()} disabled={isEnd}>
           <ArrowRightIcon />
         </button>
       </div>

@@ -14,12 +14,19 @@
 @import "modules/hVideos";
 @import "modules/videos";
 @import "modules/rating";
+@import "modules/searchForm";
+@import "modules/loginLoading";
 @import "modules/peopleImage";
+@import "modules/confirmModal";
 
 // pages
 @import "modules/home";
 @import "modules/videoDetail";
-@import "modules/login";
+@import "modules/genre";
+@import "modules/people";
+@import "modules/production";
 @import "modules/search";
+@import "modules/socialJoin";
+@import "modules/login";
 @import "modules/notFound";
 @import "modules/error";

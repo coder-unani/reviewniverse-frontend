@@ -1,13 +1,16 @@
 import { AuthContextProvider } from "/src/context/AuthContext";
 import DefaultLayout from "/src/layouts/default";
 import Home from "/src/pages/Home";
-import Movie from "/src/pages/Movie";
-import Series from "/src/pages/Series";
+import Search from "/src/pages/Search";
 import VideoDetail from "/src/pages/VideoDetail";
 import People from "/src/pages/People";
 import Genre from "/src/pages/Genre";
 import Production from "/src/pages/Production";
 import SocialJoin from "/src/pages/SocialJoin";
+import Login from "/src/pages/Login";
+// import Join from "/src/pages/Join";
+// import UserFind from "/src/pages/UserFind";
+// import ResetPassword from "/src/pages/ResetPassword";
 import UserWatchType from "/src/pages/UserWatchType";
 import User from "/src/pages/User";
 import UserRatings from "/src/pages/UserRatings";
@@ -27,14 +30,6 @@ const MainRoutes = {
       element: <Home />,
     },
     {
-      path: "/movie",
-      element: <Movie />,
-    },
-    {
-      path: "/series",
-      element: <Series />,
-    },
-    {
       path: "contents/:videoId",
       element: <VideoDetail />,
     },
@@ -51,9 +46,29 @@ const MainRoutes = {
       element: <Production />,
     },
     {
+      path: "/search",
+      element: <Search />,
+    },
+    {
       path: "/user/auth/:provider/callback",
       element: <SocialJoin />,
     },
+    {
+      path: "/user/login",
+      element: <Login />,
+    },
+    // {
+    //   path: "/user/join",
+    //   element: <Join />,
+    // },
+    // {
+    //   path: "/user/find/:type",
+    //   element: <UserFind />,
+    // },
+    // {
+    //   path: "/user/reset/password",
+    //   element: <ResetPassword />,
+    // },
     {
       path: "/user/watchtype",
       element: <UserWatchType />,

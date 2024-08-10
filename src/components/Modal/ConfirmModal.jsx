@@ -1,6 +1,5 @@
 import React, { useRef } from "react";
 import Modal from "/src/components/Modal";
-import "/src/styles/ConfirmModal.css";
 
 const ConfirmModal = ({ onClose }) => {
   const modalRef = useRef();

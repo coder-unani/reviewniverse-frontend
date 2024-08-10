@@ -29,8 +29,8 @@ export const useVideoRating = () => {
             if (prevMyInfo.review && prevMyInfo.review.id) {
               // videoReviews 쿼리 키의 데이터를 업데이트
               queryClient.setQueryData(["videoReviews", variables.videoId], (prevReviews) => {
-                if (!prevReviews) return prevReviews;
-                const updatedReviews = prevReviews.map((review) =>
+                const updatedReviews = { ...prevReviews };
+                updatedReviews.data = updatedReviews.data.map((review) =>
                   review.id === prevMyInfo.review.id ? { ...review, rating: updatedRating } : review
                 );
                 return updatedReviews;
