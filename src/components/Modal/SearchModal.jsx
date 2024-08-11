@@ -26,7 +26,7 @@ const SearchModal = () => {
       <div className="recent">
         <div className="top">
           <p>최근 검색어</p>
-          <button className="clear" onClick={handleClear}>
+          <button type="button" className="clear" onClick={handleClear}>
             모두 삭제
           </button>
         </div>

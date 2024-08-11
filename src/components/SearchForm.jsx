@@ -146,7 +146,7 @@ const SearchForm = () => {
           onChange={handleSearchChange}
         />
         {inputValue && <ClearButton className="search-form-clear" onClear={handleSearchClear} />}
-        <button className="search-form-button" type="submit">
+        <button type="submit" className="search-form-button">
           <SearchIcon className="search-icon" />
         </button>
       </form>
@@ -158,7 +158,7 @@ const SearchForm = () => {
             <>
               <div className="search-header">
                 <p className="search-title">최근 검색어</p>
-                <button className="search-clear" onClick={handleRecentClear}>
+                <button type="button" className="search-clear" onClick={handleRecentClear}>
                   전체 삭제
                 </button>
               </div>
@@ -169,7 +169,7 @@ const SearchForm = () => {
                       <SearchIcon />
                       <p className="search-keyword">{keyword}</p>
                     </Link>
-                    <button className="search-remove" onClick={() => handleRecentRemove(keyword)}>
+                    <button type="button" className="search-remove" onClick={() => handleRecentRemove(keyword)}>
                       <CloseIcon />
                     </button>
                   </li>
@@ -178,8 +178,10 @@ const SearchForm = () => {
             </>
           )}
           <div className="search-footer">
-            <button className="search-autocomplete">자동저장 끄기</button>
-            <button className="search-close" onClick={handleSearchClose}>
+            <button type="button" className="search-autocomplete">
+              자동저장 끄기
+            </button>
+            <button type="button" className="search-close" onClick={handleSearchClose}>
               닫기
             </button>
           </div>

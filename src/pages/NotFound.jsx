@@ -17,7 +17,7 @@ const NotFound = () => {
             <br />
             입력하신 주소가 정확한지 다시 한번 확인해주세요.
           </p>
-          <button className="notfound-home-button" onClick={handleGoHome}>
+          <button type="button" className="notfound-home-button" onClick={handleGoHome}>
             리뷰니버스 홈
           </button>
         </div>

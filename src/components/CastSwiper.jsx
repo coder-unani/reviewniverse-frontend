@@ -61,10 +61,20 @@ const CastSwiper = ({ data }) => {
             </SwiperSlide>
           ))}
         </Swiper>
-        <button onClick={() => swiperRef.current.slidePrev()} className="swiper-button-prev" disabled={isBeginning}>
+        <button
+          type="button"
+          className="swiper-button-prev"
+          onClick={() => swiperRef.current.slidePrev()}
+          disabled={isBeginning}
+        >
           <ArrowLeftIcon />
         </button>
-        <button onClick={() => swiperRef.current.slideNext()} className="swiper-button-next" disabled={isEnd}>
+        <button
+          type="button"
+          className="swiper-button-next"
+          onClick={() => swiperRef.current.slideNext()}
+          disabled={isEnd}
+        >
           <ArrowRightIcon />
         </button>
       </div>

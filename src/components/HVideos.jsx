@@ -77,10 +77,20 @@ const HVideos = ({ content, template, title }) => {
                 </SwiperSlide>
               ))}
         </Swiper>
-        <button className="horizontal-prev-button" onClick={() => swiperRef.current.slidePrev()} disabled={isBeginning}>
+        <button
+          type="button"
+          className="horizontal-prev-button"
+          onClick={() => swiperRef.current.slidePrev()}
+          disabled={isBeginning}
+        >
           <ArrowLeftIcon />
         </button>
-        <button className="horizontal-next-button" onClick={() => swiperRef.current.slideNext()} disabled={isEnd}>
+        <button
+          type="button"
+          className="horizontal-next-button"
+          onClick={() => swiperRef.current.slideNext()}
+          disabled={isEnd}
+        >
           <ArrowRightIcon />
         </button>
       </div>

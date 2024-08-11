@@ -7,7 +7,7 @@ const BackButton = () => {
   };
 
   return (
-    <button className="back-button">
+    <button type="button" className="back-button">
       <ArrowLeftIcon className="back-icon" onClick={handleBack} />
     </button>
   );

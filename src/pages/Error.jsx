@@ -20,7 +20,7 @@ const Error = () => {
             <br />
             잠시 후 다시 이용 부탁드립니다.
           </p>
-          <button className="error-home-button" onClick={handleGoHome}>
+          <button type="button" className="error-home-button" onClick={handleGoHome}>
             리뷰니버스 홈
           </button>
         </div>

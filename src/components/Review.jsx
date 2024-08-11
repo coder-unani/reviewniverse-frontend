@@ -49,7 +49,7 @@ const Review = ({ review, isLike, onLikeClick }) => {
       </div>
       <div className="review-footer">
         <span className="review-date">{diffDate(review.created_at)}</span>
-        <button className="review-like" onClick={() => handleReviewLike(review.id)}>
+        <button type="button" className="review-like" onClick={() => handleReviewLike(review.id)}>
           <img src={isLike ? DEFAULT_ICONS.fillThumb2 : DEFAULT_ICONS.outlineThumb2} alt="좋아요" />
           <span className="review-like-count">{review.like_count}</span>
         </button>

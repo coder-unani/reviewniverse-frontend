@@ -52,16 +52,16 @@ const Login = () => {
         <h2 className="login-header-title">소셜 로그인</h2>
       </div>
       <div className="login-content">
-        <button className="login-button kakao" type="button" onClick={handleKakaoLogin}>
+        <button type="button" className="login-button kakao" onClick={handleKakaoLogin}>
           <img className="login-button-image" src={DEFAULT_IMAGES.kakao} alt="kakao" />
           카카오로 시작하기
         </button>
         <div id="naverIdLogin" style={{ display: "none" }} />
-        <button className="login-button naver" type="button" onClick={handleNaverLogin}>
+        <button type="button" className="login-button naver" onClick={handleNaverLogin}>
           <img className="login-button-image" src={DEFAULT_IMAGES.naver} alt="naver" />
           네이버로 시작하기
         </button>
-        <button className="login-button google" type="button" onClick={handleGoogleLogin}>
+        <button type="button" className="login-button google" onClick={handleGoogleLogin}>
           <img className="login-button-image" src={DEFAULT_IMAGES.google} alt="google" />
           구글로 시작하기
         </button>

@@ -88,7 +88,7 @@ const JoinAgree = ({ setIsAgree, setAgreeValues }) => {
             <span>[선택] 이벤트 및 기타 혜택 등에 대한 알림 수신에 동의합니다.</span>
           </label>
         </div>
-        <button className="join-agree-button" type="submit" disabled={!isValid}>
+        <button type="submit" className="join-agree-button" disabled={!isValid}>
           {/* 다음 */}
           완료
         </button>
