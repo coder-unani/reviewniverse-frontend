@@ -18,16 +18,16 @@ const Home = () => {
   // const [orderBy, setOrderBy] = useState(arrayRandomValue(VIDEO_ORDER_OPTIONS));
   const [videos, setVideos] = useState({ count: 0, page: 1, data: [] });
   const {
+    data: previews,
+    error: previewsError,
+    isLoading: previewsIsLoading,
+  } = useScreenVideos({ code: SCREEN_PREVIEW_ID, display: "detail" });
+  const {
     data: ranking,
     error: rankingError,
     isLoading: rankingIsLoading,
   } = useRankingVideos({ code: "20240808", count: 20 });
   const { data: screens, error: screensError, isLoading: screensIsLoading } = useScreenVideos({ code: SCREEN_MAIN_ID });
-  const {
-    data: previews,
-    error: previewsError,
-    isLoading: previewsIsLoading,
-  } = useScreenVideos({ code: SCREEN_PREVIEW_ID, display: "detail" });
   const {
     data: videosData,
     error: videosError,
@@ -96,7 +96,7 @@ const Home = () => {
 
   // TODO: 로딩중일때 표시할 화면 (스켈레톤 UI)
   // if (previewsIsLoading || screensIsLoading || rankingIsLoading || videosIsLoading) return null;
-  // if (previewsIsLoading || screensIsLoading || rankingIsLoading) return;
+  if (previewsIsLoading || screensIsLoading || rankingIsLoading) return;
 
   if (previewsError || screensError || rankingError || videosError) return navigate("/error");
 
@@ -105,7 +105,7 @@ const Home = () => {
       <section className="home-preview-section">{screensMA01 && <PreviewSwiper screensMA01={screensMA01} />}</section>
 
       <section className="home-main-section">
-        {ranking && <HVideos content={ranking} template="rank" title="🍿 리뷰니버스 TOP 20"></HVideos>}
+        {ranking.status && <HVideos content={ranking.data} template="rank" title="🍿 리뷰니버스 TOP 20"></HVideos>}
 
         {screensMA02 && (
           <HVideos
