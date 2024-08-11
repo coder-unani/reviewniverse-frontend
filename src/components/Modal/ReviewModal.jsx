@@ -8,7 +8,6 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm, Controller, useWatch } from "react-hook-form";
 import { RiCloseLine } from "@remixicon/react";
 import { isEmpty } from "lodash";
-import { showSuccessToast } from "/src/components/Toast";
 import "/src/styles/ReviewModal.css";
 
 /**
@@ -19,8 +18,8 @@ import "/src/styles/ReviewModal.css";
 const ReviewModal = ({ content, myReview, onClose }) => {
   const modalRef = useRef();
   const { user } = useAuthContext();
-  const { mutate: reviewCreate } = useReviewCreate();
-  const { mutate: reviewUpdate } = useReviewUpdate();
+  const { mutate: reviewCreate } = useReviewCreate(onClose);
+  const { mutate: reviewUpdate } = useReviewUpdate(onClose);
 
   const handleModalClose = (e) => {
     if (e.target === modalRef.current) onClose();
@@ -66,7 +65,6 @@ const ReviewModal = ({ content, myReview, onClose }) => {
 
   const onSubmit = handleSubmit(async (data) => {
     if (isEmpty(myReview)) {
-      // 리뷰 등록하기
       reviewCreate({
         videoId: content.id,
         title: data.title,
@@ -74,11 +72,7 @@ const ReviewModal = ({ content, myReview, onClose }) => {
         is_private: data.private,
         userId: user.id,
       });
-      // TODO: 리뷰가 등록되었습니다. 확인 버튼 클릭시 모달 닫기
-      showSuccessToast("리뷰가 등록되었습니다.");
-      onClose();
     } else {
-      // 리뷰 수정하기
       reviewUpdate({
         videoId: content.id,
         reviewId: myReview.id,
@@ -87,8 +81,6 @@ const ReviewModal = ({ content, myReview, onClose }) => {
         is_private: data.private,
         userId: user.id,
       });
-      // TODO: 리뷰가 수정되었습니다. 확인 버튼 클릭시 모달 닫기
-      onClose();
     }
   });
 
