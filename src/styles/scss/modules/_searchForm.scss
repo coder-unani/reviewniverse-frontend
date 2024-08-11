@@ -1,7 +1,7 @@
 .search-form {
   display: flex;
   align-items: center;
-  // width: 100%;
+  width: 100%;
   height: 40px;
   border-radius: 12px;
   border: 1px solid $border-color-02;
@@ -35,7 +35,7 @@
 }
 
 .search-input {
-  flex: 1 1;
+  flex: 1 1 auto;
   height: 100%;
   font-size: 14px;
   font-weight: 500;
