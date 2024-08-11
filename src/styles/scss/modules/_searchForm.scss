@@ -8,20 +8,25 @@
   background-color: $color-background;
   backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);
-  padding: 0 12px 0 14px;
+  padding: 0 8px 0 14px;
 
   &:focus-within {
     // border-color: rgba($color-primary, 0.7);
     border-color: $border-color-05;
   }
+}
 
-  svg {
-    width: 24px;
-    height: 24px;
+.search-form-button {
+  width: 30px;
+  height: 100%;
+}
 
-    path {
-      stroke: $color-white-01;
-    }
+.search-icon {
+  width: 18px;
+  object-fit: contain;
+
+  path {
+    stroke: $color-white-01;
   }
 }
 
@@ -36,7 +41,7 @@
   line-height: 1;
   letter-spacing: -0.2px;
   background-color: transparent;
-  margin-right: 16px;
+  // margin-right: 16px;
 
   &::placeholder {
     font-size: 14px;

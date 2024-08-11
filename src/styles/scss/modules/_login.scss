@@ -7,24 +7,6 @@
   margin: 0 auto;
 }
 
-.back-button {
-  position: absolute;
-  top: 0;
-  left: 0;
-  display: flex;
-  padding: 10px;
-  cursor: pointer;
-
-  svg {
-    width: 40px;
-    height: 40px;
-
-    path {
-      fill: $color-white;
-    }
-  }
-}
-
 .login-header {
   width: 100%;
   text-align: center;

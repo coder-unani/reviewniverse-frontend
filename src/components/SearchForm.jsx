@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import { Link, useLocation, useNavigate, useSearchParams } from "react-router-dom";
 import { useThemeContext } from "/src/context/ThemeContext";
+import ClearButton from "/src/components/Button/Clear";
 import {
   getStorageKeyword,
   setStorageKeyword,
@@ -8,7 +9,7 @@ import {
   clearStorageKeyword,
   removeStorageKeyword,
 } from "/src/utils/formatStorage";
-import { isEmpty } from "lodash";
+import { isEmpty, set } from "lodash";
 import SearchIcon from "/src/assets/button/search.svg?react";
 import CloseIcon from "/src/assets/button/close.svg?react";
 
@@ -28,16 +29,12 @@ const SearchForm = () => {
   const query = searchParams.get("query");
   const searchInputRef = useRef(null);
   const searchDropdownRef = useRef(null);
+  const [inputValue, setInputValue] = useState("");
 
   // 최근 검색어 저장 (최대 5개)
   const saveRecentKeywords = (keyword) => {
     setStorageKeyword(keyword);
     sliceStorageKeyword(5);
-  };
-
-  // 드롭다운 닫기
-  const handleSearchClose = () => {
-    setIsDropDown(false);
   };
 
   // 검색어 입력란 focus
@@ -52,14 +49,29 @@ const SearchForm = () => {
     setIsDropDown(true);
   };
 
+  // 드롭다운 닫기
+  const handleSearchClose = () => {
+    setIsDropDown(false);
+  };
+
+  const handleSearchChange = (e) => {
+    setInputValue(e.target.value);
+  };
+
+  // 검색어 입력란 clear
+  const handleSearchClear = () => {
+    if (searchInputRef.current) {
+      setInputValue("");
+    }
+  };
+
   // 검색어 입력란 submit
   const handleSearchSubmit = (e) => {
     e.preventDefault();
-    const searchQuery = searchInputRef.current.value;
-    if (!searchQuery || !searchQuery.trim()) return;
+    if (!inputValue || !inputValue.trim()) return;
     handleSearchClose();
-    saveRecentKeywords(searchQuery);
-    navigate(`/search?query=${searchQuery}`);
+    saveRecentKeywords(inputValue);
+    navigate(`/search?query=${inputValue}`);
   };
 
   // 최근 검색어 전체 삭제
@@ -85,11 +97,11 @@ const SearchForm = () => {
     if (!searchInputRef.current) return;
     // 검색 페이지가 아닌 경우 검색어 초기화
     if (path !== "/search") {
-      searchInputRef.current.value = "";
+      setInputValue("");
     } else if (query) {
       // 검색 쿼리가 있음에도 검색어 입력란에 값이 없는 경우
-      if (searchInputRef.current.value !== query) {
-        searchInputRef.current.value = query;
+      if (inputValue !== query) {
+        setInputValue(query);
         saveRecentKeywords(query);
       }
     } else {
@@ -125,8 +137,18 @@ const SearchForm = () => {
         onClick={handleSearchClick}
         onSubmit={handleSearchSubmit}
       >
-        <input className="search-input" type="text" placeholder="검색어를 입력하세요." ref={searchInputRef} />
-        <SearchIcon />
+        <input
+          className="search-input"
+          type="text"
+          placeholder="검색어를 입력하세요."
+          ref={searchInputRef}
+          value={inputValue}
+          onChange={handleSearchChange}
+        />
+        {inputValue && <ClearButton className="search-form-clear" onClear={handleSearchClear} />}
+        <button className="search-form-button" type="submit">
+          <SearchIcon className="search-icon" />
+        </button>
       </form>
       {!isMobile && isDropDown && (
         <div className="search-dropdown" tabIndex="0" ref={searchDropdownRef}>

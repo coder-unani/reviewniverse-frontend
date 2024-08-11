@@ -1,5 +1,5 @@
 import React from "react";
-import ArrowLeft from "/src/assets/button/arrow-left.svg?react";
+import ArrowLeftIcon from "/src/assets/button/arrow-left.svg?react";
 
 const BackButton = () => {
   const handleBack = () => {
@@ -8,7 +8,7 @@ const BackButton = () => {
 
   return (
     <button className="back-button">
-      <ArrowLeft onClick={handleBack} />
+      <ArrowLeftIcon className="back-icon" onClick={handleBack} />
     </button>
   );
 };
