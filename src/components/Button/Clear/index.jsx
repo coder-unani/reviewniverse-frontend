@@ -9,7 +9,7 @@ const ClearButton = ({ onClear }) => {
   };
 
   return (
-    <button className="clear-button" onClick={handleClick}>
+    <button className="clear-button" type="reset" onClick={handleClick}>
       <ClearIcon className="clear-icon" />
     </button>
   );

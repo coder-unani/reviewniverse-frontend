@@ -406,6 +406,7 @@ figure {
 }
 
 .clear-button {
+  flex: none;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -1138,6 +1139,10 @@ figure {
 }
 
 .search-form-button {
+  flex: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   width: 30px;
   height: 100%;
 }
