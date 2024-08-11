@@ -34,6 +34,7 @@ import {
   formatStaffRoleCode,
   formatRuntimeText,
 } from "/src/utils/formatContent";
+import { showSuccessToast } from "/src/components/Toast";
 import FillTrashIcon from "/src/assets/button/fill-trash.svg?react";
 import FillUpdateIcon from "/src/assets/button/fill-update.svg?react";
 
@@ -66,8 +67,8 @@ const VideoDetail = () => {
     isLoading: myInfoIsLoading,
   } = useVideoMyInfo({ videoId, userId: user?.id, enabled: user });
   const { mutate: videoLike } = useVideoLike();
-  const { mutate: reviewLike } = useReviewLike();
-  const { mutate: reviewDelete } = useReviewDelete();
+  const { mutateAsync: reviewLike } = useReviewLike();
+  const { mutateAsync: reviewDelete } = useReviewDelete();
 
   const [enjoyModal, setEnjoyModal] = useState(false);
   const [reviewModal, setReviewModal] = useState(false);
@@ -129,7 +130,10 @@ const VideoDetail = () => {
   const handleReviewDelete = async () => {
     // TODO: 삭제 확인 모달 추가
     // setConfirmModal(true);
-    reviewDelete({ videoId, reviewId: myInfo.review.id, userId: user.id });
+    const res = await reviewDelete({ videoId, reviewId: myInfo.review.id, userId: user.id });
+    if (res.status) {
+      showSuccessToast(res.code);
+    }
   };
 
   // 리뷰 좋아요
@@ -138,7 +142,7 @@ const VideoDetail = () => {
       toggleEnjoyModal();
       return;
     }
-    reviewLike({ videoId, reviewId, userId: user.id });
+    await reviewLike({ videoId, reviewId, userId: user.id });
   };
 
   useEffect(() => {

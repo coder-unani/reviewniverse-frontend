@@ -8,6 +8,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm, Controller, useWatch } from "react-hook-form";
 import { RiCloseLine } from "@remixicon/react";
 import { isEmpty } from "lodash";
+import { showSuccessToast } from "/src/components/Toast";
 import "/src/styles/ReviewModal.css";
 
 /**
@@ -18,8 +19,8 @@ import "/src/styles/ReviewModal.css";
 const ReviewModal = ({ content, myReview, onClose }) => {
   const modalRef = useRef();
   const { user } = useAuthContext();
-  const { mutate: reviewCreate } = useReviewCreate(onClose);
-  const { mutate: reviewUpdate } = useReviewUpdate(onClose);
+  const { mutateAsync: reviewCreate } = useReviewCreate();
+  const { mutateAsync: reviewUpdate } = useReviewUpdate();
 
   const handleModalClose = (e) => {
     if (e.target === modalRef.current) onClose();
@@ -65,15 +66,19 @@ const ReviewModal = ({ content, myReview, onClose }) => {
 
   const onSubmit = handleSubmit(async (data) => {
     if (isEmpty(myReview)) {
-      reviewCreate({
+      const res = await reviewCreate({
         videoId: content.id,
         title: data.title,
         is_spoiler: data.spoiler,
         is_private: data.private,
         userId: user.id,
       });
+      if (res.status) {
+        showSuccessToast(res.code);
+        onClose();
+      }
     } else {
-      reviewUpdate({
+      const res = await reviewUpdate({
         videoId: content.id,
         reviewId: myReview.id,
         title: data.title,
@@ -81,6 +86,10 @@ const ReviewModal = ({ content, myReview, onClose }) => {
         is_private: data.private,
         userId: user.id,
       });
+      if (res.status) {
+        showSuccessToast(res.code);
+        onClose();
+      }
     }
   });
 
