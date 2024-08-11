@@ -15,7 +15,7 @@ export const useRankingVideos = ({ code, count }) => {
       } else {
         return {
           status: false,
-          code: "랭킹 정보를 가져오는데 실패했습니다.",
+          code: "랭킹 비디오 정보를 가져오는데 실패했습니다.",
           data: null,
         };
       }

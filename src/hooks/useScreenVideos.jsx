@@ -5,12 +5,20 @@ export const useScreenVideos = ({ code, display = null }) => {
   return useQuery({
     queryKey: ["screenVideos", { code, ...(display && { display }) }],
     queryFn: async () => {
-      // API 호출
       const res = await fetchScreenVideos({ code, display });
-      /**
-       * API를 통해 넘겨받은 데이터 가공이 필요하면 여기서 처리
-       */
-      return res.status === 200 ? res.data.data : [];
+      if (res.status === 200) {
+        return {
+          status: true,
+          code: "",
+          data: res.data.data,
+        };
+      } else {
+        return {
+          status: false,
+          code: "스크린 비디오 정보를 가져오는데 실패했습니다.",
+          data: null,
+        };
+      }
     },
     staleTime: 1000 * 60 * 5,
     cacheTime: 1000 * 60 * 10,

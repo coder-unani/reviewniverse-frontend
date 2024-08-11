@@ -9,7 +9,6 @@ import { useVideos } from "/src/hooks/useVideos";
 import { SCREEN_PREVIEW_ID, SCREEN_MAIN_ID } from "/src/config/codes";
 import { VIDEO_ORDER_OPTIONS } from "/src/config/constants";
 import { formatScreens } from "/src/utils/formatContent";
-import { isEmpty } from "lodash";
 
 const Home = () => {
   const navigate = useNavigate();
@@ -69,12 +68,12 @@ const Home = () => {
 
   // TODO: 정리 필요
   useEffect(() => {
-    if (isEmpty(previews) || isEmpty(screens) || isEmpty(previews)) return;
-    setScreensMA01(formatScreens(previews, SCREEN_PREVIEW_ID));
-    setScreensMA02(formatScreens(screens, "MA02"));
-    setScreensMA03(formatScreens(screens, "MA03"));
-    setScreensMA04(formatScreens(screens, "MA04"));
-    setScreensMA05(formatScreens(screens, "MA05"));
+    if (previewsIsLoading || screensIsLoading || !previews.status || !screens.status) return;
+    setScreensMA01(formatScreens(previews.data, SCREEN_PREVIEW_ID));
+    setScreensMA02(formatScreens(screens.data, "MA02"));
+    setScreensMA03(formatScreens(screens.data, "MA03"));
+    setScreensMA04(formatScreens(screens.data, "MA04"));
+    setScreensMA05(formatScreens(screens.data, "MA05"));
   }, [previews, screens]);
 
   useEffect(() => {
