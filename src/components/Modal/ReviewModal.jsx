@@ -8,6 +8,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm, Controller, useWatch } from "react-hook-form";
 import { RiCloseLine } from "@remixicon/react";
 import { isEmpty } from "lodash";
+import { showSuccessToast } from "/src/components/Toast";
 import "/src/styles/ReviewModal.css";
 
 /**
@@ -18,18 +19,19 @@ import "/src/styles/ReviewModal.css";
 const ReviewModal = ({ content, myReview, onClose }) => {
   const modalRef = useRef();
   const { user } = useAuthContext();
-  // 리뷰 등록
   const { mutate: reviewCreate } = useReviewCreate();
-  // 리뷰 수정
   const { mutate: reviewUpdate } = useReviewUpdate();
 
-  // 리뷰 모달 바깥 영역 클릭시 모달 닫기
   const handleModalClose = (e) => {
     if (e.target === modalRef.current) onClose();
   };
 
   const handleCloseButton = () => {
     onClose();
+  };
+
+  const handlePaste = (e) => {
+    e.preventDefault();
   };
 
   const reviewSchema = Yup.object().shape({
@@ -73,6 +75,7 @@ const ReviewModal = ({ content, myReview, onClose }) => {
         userId: user.id,
       });
       // TODO: 리뷰가 등록되었습니다. 확인 버튼 클릭시 모달 닫기
+      showSuccessToast("리뷰가 등록되었습니다.");
       onClose();
     } else {
       // 리뷰 수정하기
@@ -114,7 +117,13 @@ const ReviewModal = ({ content, myReview, onClose }) => {
               name="title"
               control={control}
               render={({ field }) => (
-                <textarea {...field} id="title" placeholder="이 작품에 대한 리뷰를 남겨보세요." spellCheck="false" />
+                <textarea
+                  {...field}
+                  id="title"
+                  placeholder="이 작품에 대한 리뷰를 남겨보세요."
+                  spellCheck="false"
+                  onPaste={handlePaste}
+                />
               )}
             />
             <div className="button-wrapper">
