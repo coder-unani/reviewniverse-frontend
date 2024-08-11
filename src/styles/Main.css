@@ -1156,7 +1156,7 @@ figure {
 }
 
 .search-input {
-  flex: 1;
+  flex: 1 1;
   height: 100%;
   font-size: 14px;
   font-weight: 500;
