@@ -51,11 +51,6 @@ export const formatSlice = (text, length) => {
   return text.length > length ? text.slice(0, length) + "..." : text;
 };
 
-// 클릭한 input의 입력값 삭제
-export const clearInput = (e) => {
-  e.target.value = "";
-};
-
 // 배열의 랜덤 요소 가져오기
 export const arrayRandomValue = (array) => {
   if (isEmpty(array)) return false;
