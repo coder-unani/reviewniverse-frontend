@@ -1,6 +1,6 @@
 .user-main {
   min-height: calc(100vh - 80px);
-  background: rgb(248, 248, 248);
+  background-color: $color-white-09;
   padding-top: 60px;
 }
 
@@ -11,15 +11,14 @@
 }
 
 .user {
-  border-radius: 6px;
-  border: 1px solid rgba(0, 0, 0, 0.1);
+  border-radius: 14px;
+  border: 1px solid $border-color-01;
   overflow: hidden;
 
   .user-info {
     position: relative;
     width: 100%;
-    background-color: #fff;
-    // margin-bottom: 12px;
+    background-color: rgba($color-white-01, 0.1);
   }
 
   .settings {
@@ -30,16 +29,18 @@
     padding: 10px;
     cursor: pointer;
     z-index: 1;
+
+    svg {
+      path {
+        fill: $color-white;
+      }
+    }
   }
 
   .background {
     width: 100%;
     height: 130px;
-
-    .lazy-load-image-background {
-      width: 100%;
-      height: 100%;
-    }
+    opacity: 0.5;
 
     img {
       width: 100%;
@@ -54,6 +55,7 @@
 
     .nickname {
       font-size: 21px;
+      color: $color-white-01;
       line-height: 26px;
       word-break: break-all;
       margin-top: 7px;
@@ -62,7 +64,7 @@
     .introduction {
       font-size: 15px;
       line-height: 22px;
-      color: #7e7e7e;
+      color: $color-white-04;
       word-break: break-all;
       white-space: pre-wrap;
       margin-top: 10px;
@@ -73,7 +75,7 @@
     display: flex;
     align-items: center;
     height: 60px;
-    border-top: 1px solid rgba(0, 0, 0, 0.1);
+    border-top: 1px solid $border-color-01;
     padding: 0 15px;
 
     a {
@@ -93,20 +95,22 @@
         right: 0;
         transform: translateY(-50%);
         width: 1px;
-        height: 12px;
-        background: rgba(0, 0, 0, 0.1);
+        // height: 12px;
+        height: 100%;
+        background: rgba($color-white-01, 0.1);
       }
     }
 
     .count {
       font-size: 16px;
       font-weight: 900;
+      color: $color-white-01;
       line-height: 16px;
     }
 
     .count-label {
       font-size: 13px;
-      color: #777;
+      color: $color-white-04;
       line-height: 16px;
     }
   }
@@ -117,8 +121,8 @@
   top: 39px;
   right: 10px;
   min-width: 150px;
-  border-radius: 6px;
-  background-color: #ffffff;
+  border-radius: 12px;
+  background-color: $color-white-09;
   box-shadow: 0 0 4px 0 rgba(0, 0, 0, 0.2);
   padding: 5px 0;
   z-index: 10;
@@ -127,17 +131,17 @@
     li {
       font-size: 14px;
       font-weight: 500;
+      color: $color-white-01;
       padding: 8px 16px;
       cursor: pointer;
 
       &:not(:last-child) {
-        border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+        border-bottom: 1px solid $border-color-01;
       }
     }
 
     .delete {
-      color: red;
-      opacity: 0.5;
+      color: $color-red;
     }
   }
 }
@@ -152,6 +156,6 @@
   .user {
     border-radius: unset;
     border: none;
-    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+    border-bottom: 1px solid $border-color-01;
   }
 }

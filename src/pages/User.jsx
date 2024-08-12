@@ -9,7 +9,6 @@ import { formatNumber } from "/src/utils/format";
 import { DEFAULT_IMAGES } from "/src/config/constants";
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import "react-lazy-load-image-component/src/effects/blur.css";
-import "/src/styles/User.css";
 
 const User = () => {
   const navigate = useNavigate();

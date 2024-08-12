@@ -55,8 +55,8 @@ const UserRatings = () => {
         <strong className="ratings-content-title">
           <em>{nickname}</em> 님이 평가한 작품이 {videos.total} 개 있어요
         </strong>
+        {!isEmpty(videos) && <RatingVideos videos={videos} handlePage={handlePage} />}
       </section>
-      {!isEmpty(videos) && <RatingVideos videos={videos} handlePage={handlePage} />}
     </main>
   );
 };
