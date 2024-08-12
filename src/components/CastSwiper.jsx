@@ -7,7 +7,7 @@ import "swiper/css/grid";
 import ArrowLeftIcon from "/src/assets/button/arrow-left.svg?react";
 import ArrowRightIcon from "/src/assets/button/arrow-right.svg?react";
 
-const CastSwiper = ({ data }) => {
+const CastSwiper = ({ children, data }) => {
   const [isBeginning, setIsBeginning] = useState(true);
   const [isEnd, setIsEnd] = useState(false);
   const swiperRef = useRef(null);
@@ -51,10 +51,10 @@ const CastSwiper = ({ data }) => {
   };
 
   return (
-    <section className="cast-wrapper">
-      <h4>{data.title}</h4>
-      <div className="swiper-container" data-length={data.items.length}>
-        <Swiper {...castSwiperConfig}>
+    <section className="detail-cast-section">
+      {children}
+      <div className="detail-cast-wrapper" data-length={data.items.length}>
+        <Swiper className="detail-cast" {...castSwiperConfig}>
           {data.items.map((item, index) => (
             <SwiperSlide key={index}>
               <People crew={item} target={data.target} formatCode={data.formatCode} />
@@ -63,7 +63,7 @@ const CastSwiper = ({ data }) => {
         </Swiper>
         <button
           type="button"
-          className="swiper-button-prev"
+          className="cast-prev-button"
           onClick={() => swiperRef.current.slidePrev()}
           disabled={isBeginning}
         >
@@ -71,7 +71,7 @@ const CastSwiper = ({ data }) => {
         </button>
         <button
           type="button"
-          className="swiper-button-next"
+          className="cast-next-button"
           onClick={() => swiperRef.current.slideNext()}
           disabled={isEnd}
         >

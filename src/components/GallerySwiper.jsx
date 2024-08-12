@@ -9,7 +9,7 @@ import "react-lazy-load-image-component/src/effects/blur.css";
 import ArrowLeftIcon from "/src/assets/button/arrow-left.svg?react";
 import ArrowRightIcon from "/src/assets/button/arrow-right.svg?react";
 
-const GallerySwiper = ({ data }) => {
+const GallerySwiper = ({ children, data }) => {
   const [isBeginning, setIsBeginning] = useState(true);
   const [isEnd, setIsEnd] = useState(false);
   const swiperRef = useRef(null);
@@ -48,21 +48,26 @@ const GallerySwiper = ({ data }) => {
 
   return (
     <>
-      <section className="gallery-wrapper">
-        <h4>{data.title}</h4>
-        <div className="swiper-container">
-          <Swiper {...gallerySwiperConfig}>
+      <section className="detail-gallery-section">
+        {children}
+        <div className="detail-gallery-wrapper">
+          <Swiper className="detail-gallery" {...gallerySwiperConfig}>
             {data.items.map((image, index) => (
-              <SwiperSlide key={index} virtualIndex={index} onClick={() => togglePhotoModal(image)}>
-                <figure className="photo">
-                  <LazyLoadImage src={image} alt="갤러리 이미지" effect="blur" />
+              <SwiperSlide
+                className="detail-gallery-item"
+                key={index}
+                virtualIndex={index}
+                onClick={() => togglePhotoModal(image)}
+              >
+                <figure className="detail-photo-wrapper">
+                  <LazyLoadImage className="detail-photo" src={image} alt="갤러리 이미지" effect="blur" />
                 </figure>
               </SwiperSlide>
             ))}
           </Swiper>
           <button
             type="button"
-            className="swiper-button-prev"
+            className="gallery-prev-button"
             onClick={() => swiperRef.current.slidePrev()}
             disabled={isBeginning}
           >
@@ -70,7 +75,7 @@ const GallerySwiper = ({ data }) => {
           </button>
           <button
             type="button"
-            className="swiper-button-next"
+            className="gallery-next-button"
             onClick={() => swiperRef.current.slideNext()}
             disabled={isEnd}
           >

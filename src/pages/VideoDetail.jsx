@@ -1,14 +1,14 @@
 import React, { useState, useEffect } from "react";
-import Review from "/src/components/Review";
+import { useNavigate, useParams, Link } from "react-router-dom";
+import { Helmet } from "react-helmet-async";
+import VideoRating from "/src/components/VideoRating";
+import ProfileImage from "/src/components/Button/Profile/ProfileImage";
 import CastSwiper from "/src/components/CastSwiper";
 import GallerySwiper from "/src/components/GallerySwiper";
+import VideoReviewItem from "/src/components/VideoReviewItem";
 import EnjoyModal from "/src/components/Modal/EnjoyModal";
 import ReviewModal from "/src/components/Modal/ReviewModal";
 import ConfirmModal from "/src/components/Modal/ConfirmModal";
-import ProfileImage from "/src/components/Button/Profile/ProfileImage";
-import Rating from "/src/components/Rating";
-import { Helmet } from "react-helmet-async";
-import { useNavigate, useParams, Link } from "react-router-dom";
 import { useAuthContext } from "/src/context/AuthContext";
 import { useVideoDetail } from "/src/hooks/useVideoDetail";
 import { useVideoReviews } from "/src/hooks/useVideoReviews";
@@ -215,116 +215,124 @@ const VideoDetail = () => {
         <meta name="kakao:image" content={formatPoster(content.data.thumbnail)} data-rh="true" />
       </Helmet>
 
-      <main className="detail-main">
-        <section className="detail-info-wrapper">
-          <figure className="background-image">
-            <LazyLoadImage src={formatBackgroundImage(content.data.thumbnail)} alt="배경 이미지" effect="blur" />
+      <main className="detail-main-container">
+        <section className="detail-main-section">
+          <figure className="detail-background-wrapper">
+            <div
+              className="detail-background"
+              style={{ backgroundImage: `url(${formatBackgroundImage(content.data.thumbnail)})` }}
+            />
           </figure>
 
-          <div className="main-info-wrapper">
-            <div className="main-info">
-              <div className="info-right">
-                <div className="info-title">
-                  <p className="title-og">{content.data.title_og || content.data.title}</p>
-                  <h2 className="title-kr">{content.data.title}</h2>
+          <div className="detail-main-info-container">
+            <div className="detail-main-info-wrapper">
+              <div className="detail-title-container">
+                <div className="detail-title-wrapper">
+                  <p className="detail-title-og">{content.data.title_og || content.data.title}</p>
+                  <h2 className="detail-title-kr">{content.data.title}</h2>
                 </div>
-                <ul className="info-genre">
+                <ul className="detail-genre-wrapper">
                   {content.data.genre.map((genre, index) => (
                     <li key={index}>
-                      <Link to={`/genre?genre=${formatGenreArray(genre.name)}`}>{genre.name}</Link>
+                      <Link to={`/genre?genre=${formatGenreArray(genre.name)}`} className="detail-genre-link">
+                        {genre.name}
+                      </Link>
                     </li>
                   ))}
                 </ul>
               </div>
-              <div className="info-left">
-                <div className="info-button">
-                  <button type="button" className="like" onClick={handleLikeButton}>
-                    <span className={`button-icon ${myInfo && myInfo.is_like ? "active" : ""}`}></span>
+              <div className="detail-control-container">
+                <div className="detail-control-wrapper">
+                  <button type="button" className="detail-control like" onClick={handleLikeButton}>
+                    <span className={`detail-control-icon ${myInfo && myInfo.is_like ? "active" : ""}`}></span>
                   </button>
-                  <button type="button" className="collection">
-                    <span className="button-icon"></span>
+                  <button type="button" className="detail-control collection">
+                    <span className="detail-control-icon"></span>
                   </button>
-                  <button type="button" className="review" onClick={handleReviewCreate}>
-                    <span className="button-icon"></span>
+                  <button type="button" className="detail-control review" onClick={handleReviewCreate}>
+                    <span className="detail-control-icon"></span>
                   </button>
                 </div>
               </div>
             </div>
           </div>
 
-          <div className="sub-info-wrapper">
-            <Swiper {...subInfoSwiperConfig} className="sub-info">
+          <div className="detail-sub-info-container">
+            <Swiper className="detail-sub-info-wrapper" {...subInfoSwiperConfig}>
               <SwiperSlide
-                className="info-rating"
+                className="detail-sub-info-item rating"
                 data-index={content.data.rating > 0 ? Math.floor(formatRating(content.data.rating)) : 0}
               >
-                <p className="sub-title">평점</p>
-                <div className="sub-contents">
-                  <p className="sub-content">{content.data.rating > 0 ? formatRating(content.data.rating) : "-"}</p>
+                <p className="detail-sub-title">평점</p>
+                <div className="detail-sub-content-wrapper">
+                  <p className="detail-sub-content">
+                    {content.data.rating > 0 ? formatRating(content.data.rating) : "-"}
+                  </p>
                 </div>
               </SwiperSlide>
 
-              <SwiperSlide className="info-notice-age">
-                <p className="sub-title">관람등급</p>
-                <div className="sub-contents">
-                  <p className="sub-content">{formatUpperCase(content.data.notice_age)}</p>
+              <SwiperSlide className="detail-sub-info-item notice-age">
+                <p className="detail-sub-title">관람등급</p>
+                <div className="detail-sub-content-wrapper">
+                  <p className="detail-sub-content">{formatUpperCase(content.data.notice_age)}</p>
                 </div>
               </SwiperSlide>
 
-              <SwiperSlide className="info-release">
-                <p className="sub-title">{formatReleaseText(content.data.code)}</p>
-                <div className="sub-contents">
-                  <p className="sub-content year">{formatYear(content.data.release)}</p>
+              <SwiperSlide className="detail-sub-info-item release">
+                <p className="detail-sub-title">{formatReleaseText(content.data.code)}</p>
+                <div className="detail-sub-content-wrapper">
+                  <p className="detail-sub-content year">{formatYear(content.data.release)}</p>
                   {formatReleaseDate(content.data.release) && (
-                    <p className="sub-content date">{formatReleaseDate(content.data.release)}</p>
+                    <p className="detail-sub-content date">{formatReleaseDate(content.data.release)}</p>
                   )}
                 </div>
               </SwiperSlide>
 
-              <SwiperSlide className="info-country" data-index={content.data.country ? content.data.country.length : 0}>
-                <p className="sub-title">제작국가</p>
-                <div className="sub-contents">
+              <SwiperSlide
+                className="detail-sub-info-item country"
+                data-index={content.data.country ? content.data.country.length : 0}
+              >
+                <p className="detail-sub-title">제작국가</p>
+                <div className="detail-sub-content-wrapper">
                   {content.data.country ? (
                     content.data.country.map((country, index) => (
-                      <p className="sub-content" key={index} data-indx={index + 1}>
+                      <p className="detail-sub-content" key={index} data-indx={index + 1}>
                         {country.name_ko}
                       </p>
                     ))
                   ) : (
-                    <p className="sub-content" data-index="0">
-                      -
-                    </p>
+                    <p className="detail-sub-content">-</p>
                   )}
                 </div>
               </SwiperSlide>
 
               <SwiperSlide
-                className="info-production"
+                className="detail-sub-info-item production"
                 data-index={content.data.production ? content.data.production.length : 0}
               >
-                <p className="sub-title">제작사</p>
-                <div className="sub-contents">
+                <p className="detail-sub-title">제작사</p>
+                <div className="detail-sub-content-wrapper">
                   {content.data.production ? (
                     content.data.production.map((prodn, index) => (
                       <Link
                         to={`/production/${prodn.id}`}
                         state={{ name: prodn.name }}
-                        className="sub-content"
+                        className="detail-sub-content"
                         key={index}
                       >
                         {prodn.name}
                       </Link>
                     ))
                   ) : (
-                    <p className="sub-content">-</p>
+                    <p className="detail-sub-content">-</p>
                   )}
                 </div>
               </SwiperSlide>
 
-              <SwiperSlide className="info-runtime">
-                <p className="sub-title">{formatRuntimeText(content.data.code)}</p>
-                <div className="sub-contents">
-                  <p className="sub-content">{content.data.runtime}</p>
+              <SwiperSlide className="detail-sub-info-item runtime">
+                <p className="detail-sub-title">{formatRuntimeText(content.data.code)}</p>
+                <div className="detail-sub-content-wrapper">
+                  <p className="detail-sub-content">{content.data.runtime}</p>
                 </div>
               </SwiperSlide>
             </Swiper>
@@ -332,67 +340,80 @@ const VideoDetail = () => {
         </section>
 
         <div className="detail-main-wrapper">
-          <section className="detail-content-wrapper">
-            <div className="poster-wrapper">
-              <figure className="poster">
-                <LazyLoadImage src={formatPoster(content.data.thumbnail)} alt="포스터" effect="blur" />
+          <section className="detail-sub-section">
+            <div className="detail-poster-container">
+              <figure className="detail-poster-wrapper">
+                <LazyLoadImage
+                  className="detail-poster"
+                  src={formatPoster(content.data.thumbnail)}
+                  alt="포스터"
+                  effect="blur"
+                />
               </figure>
             </div>
 
-            <div className="content-wrapper">
+            <div className="detail-content-container">
               {myInfo && !isEmpty(myInfo.review) && (
-                <div className="my-review-wrapper">
-                  <h4>내가 쓴 리뷰</h4>
-                  <div className="my-review">
+                <div className="detail-my-review-wrapper">
+                  <h4 className="detail-main-title">내가 쓴 리뷰</h4>
+                  <div className="detail-my-review">
                     <ProfileImage image={user.profile_image} size={45} />
-                    <div className="content" onClick={handleReviewCreate}>
-                      <p>{myInfo.review.title}</p>
+                    <div className="my-review-title-wrapper" onClick={handleReviewCreate}>
+                      <p className="my-review-title">{myInfo.review.title}</p>
                     </div>
-                    <div className="button-wrapper">
-                      <button type="button" className="delete" onClick={handleReviewDelete}>
-                        <FillTrashIcon />
-                        <span>삭제</span>
+                    <div className="my-review-button-wrapper">
+                      <button type="button" className="my-review-delete-button" onClick={handleReviewDelete}>
+                        <FillTrashIcon className="my-review-button-icon" />
+                        삭제
                       </button>
                       |
-                      <button type="button" className="update" onClick={handleReviewUpdate}>
-                        <FillUpdateIcon />
-                        <span>수정</span>
+                      <button type="button" className="my-review-update-button" onClick={handleReviewUpdate}>
+                        <FillUpdateIcon className="my-review-button-icon" />
+                        수정
                       </button>
                     </div>
                   </div>
                 </div>
               )}
 
-              <div className="synopsis-wrapper">
-                <h4>작품 소개</h4>
-                <p>{content.data.synopsis}</p>
+              <div className="detail-synopsis-wrapper">
+                <h4 className="detail-main-title">작품 소개</h4>
+                <p className="detail-synopsis">{content.data.synopsis}</p>
               </div>
             </div>
 
-            <div className="more-wrapper">
-              <div className="rating-wrapper">
-                <h4>평가하기</h4>
-                <div className="my-rating">
-                  <span className="number" data-index={myInfo && myInfo.rating ? Math.floor(myInfo.rating / 2) : 0}>
+            <div className="detail-more-container">
+              <div className="detail-my-rating-wrapper">
+                <h4 className="detail-main-title">평가하기</h4>
+                <div className="detail-my-rating">
+                  <span
+                    className="my-rating-text number"
+                    data-index={myInfo && myInfo.rating ? Math.floor(myInfo.rating / 2) : 0}
+                  >
                     {myInfo && myInfo.rating ? Math.floor(myInfo.rating / 2) : "-"}
                   </span>
-                  <span>/</span>
-                  <span>5</span>
+                  <span className="my-rating-text">/</span>
+                  <span className="my-rating-text">5</span>
                 </div>
-                <Rating videoId={videoId} myInfo={myInfo} toggleEnjoyModal={toggleEnjoyModal} />
+                <VideoRating videoId={videoId} myInfo={myInfo} toggleEnjoyModal={toggleEnjoyModal} />
               </div>
 
               {!isEmpty(content.data.platform) && (
-                <div className="platform-wrapper">
-                  <h4>보러가기</h4>
-                  <div className="platforms">
+                <div className="detail-platform-wrapper">
+                  <h4 className="detail-main-title">보러가기</h4>
+                  <div className="detail-platform">
                     {content.data.platform.map((platform, index) => {
                       if (parseInt(platform.code) >= 50) {
                         return null;
                       }
                       return (
-                        <button type="button" onClick={() => window.open(platform.url)} key={index}>
-                          <img src={`/assets/platform/${platform.code}.png`} alt="플랫폼" />
+                        <button
+                          type="button"
+                          className="platform-button"
+                          onClick={() => window.open(platform.url)}
+                          key={index}
+                        >
+                          <img className="platform-image" src={`/assets/platform/${platform.code}.png`} alt="플랫폼" />
                         </button>
                       );
                     })}
@@ -410,45 +431,51 @@ const VideoDetail = () => {
                 target: "actor",
                 formatCode: formatActorRoleCode,
               }}
-            />
+            >
+              <h4 className="detail-main-title">출연진</h4>
+            </CastSwiper>
           )}
 
           {!isEmpty(content.data.staff) && (
             <CastSwiper
               data={{
-                title: "제작진",
                 items: content.data.staff,
                 target: "staff",
                 formatCode: formatStaffRoleCode,
               }}
-            />
+            >
+              <h4 className="detail-main-title">제작진</h4>
+            </CastSwiper>
           )}
 
           {!isEmpty(content.data.thumbnail) && (
             <GallerySwiper
               data={{
-                title: "갤러리",
                 items: content.data.thumbnail,
               }}
-            />
+            >
+              <h4 className="detail-main-title">갤러리</h4>
+            </GallerySwiper>
           )}
 
-          <section className="review-wrapper">
-            <div className="title">
-              <h4>리뷰</h4>
-              {reviews.total > 0 && <span>{reviews.total}</span>}
+          <section className="detail-review-section">
+            <div className="detail-reiview-title-wrapper">
+              <h4 className="detail-main-title">리뷰</h4>
+              {reviews.total > 0 && (
+                <span className="detail-review-total">{reviews.total > 999 ? "999+" : reviews.total}</span>
+              )}
             </div>
             {isEmpty(reviews.data) ? (
-              <div className="no-review">
-                <p>기록된 리뷰가 없습니다. 첫번째 리뷰를 남겨보세요!</p>
-                <button type="button" onClick={handleReviewCreate}>
+              <div className="detail-no-review-wrapper">
+                <p className="no-review-text">기록된 리뷰가 없습니다. 첫번째 리뷰를 남겨보세요!</p>
+                <button type="button" className="no-review-button" onClick={handleReviewCreate}>
                   리뷰 쓰기
                 </button>
               </div>
             ) : (
-              <div className="reviews">
+              <div className="detail-review-wrapper">
                 {reviews.data.map((review, index) => (
-                  <Review
+                  <VideoReviewItem
                     key={index}
                     review={review}
                     isLike={myInfo && includes(myInfo.review_like, review.id)}

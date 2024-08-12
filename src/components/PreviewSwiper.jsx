@@ -56,9 +56,8 @@ const PreviewSwiper = React.memo(({ screensMA01 }) => {
       <figure className="preview-background-wrapper">
         {previewVideo && (
           <div
-            className="preview-background-image"
+            className="preview-background"
             style={{ backgroundImage: `url(${formatPreviewThumbnail(previewVideo.thumbnail)})` }}
-            alt="배경 이미지"
           />
         )}
       </figure>

@@ -3,7 +3,7 @@ import { useAuthContext } from "/src/context/AuthContext";
 import { useVideoRating } from "/src/hooks/useVideoRating";
 import { VIDEO_RATING_TEXT } from "/src/config/constants";
 
-const Rating = ({ videoId, myInfo, toggleEnjoyModal }) => {
+const VideoRating = ({ videoId, myInfo, toggleEnjoyModal }) => {
   const { user } = useAuthContext();
   const [imgSrc, setImgSrc] = useState("/assets/rating/0.png");
   const ratingRef = useRef(null);
@@ -64,25 +64,23 @@ const Rating = ({ videoId, myInfo, toggleEnjoyModal }) => {
 
   return (
     <div className="video-rating-container">
-      <div className="video-rating-image-wrapper">
-        <figure className="rating-image-wrapper">
-          <img className="rating-image" src={imgSrc} alt="평가 이미지" ref={ratingImgRef} />
-        </figure>
-      </div>
+      <figure className="video-rating-image-wrapper">
+        <img className="video-rating-image" src={imgSrc} alt="평가 이미지" ref={ratingImgRef} />
+      </figure>
       <div className="video-rating-range-wrapper">
         <span id="ratingText" className="video-rating-text">
           {VIDEO_RATING_TEXT[0]}
         </span>
         <div className="video-rating-range" ref={ratingRef}>
-          <div className="rating-range" data-rating="1"></div>
-          <div className="rating-range" data-rating="2"></div>
-          <div className="rating-range" data-rating="3"></div>
-          <div className="rating-range" data-rating="4"></div>
-          <div className="rating-range" data-rating="5"></div>
+          <div className="video-rating-fill" data-rating="1"></div>
+          <div className="video-rating-fill" data-rating="2"></div>
+          <div className="video-rating-fill" data-rating="3"></div>
+          <div className="video-rating-fill" data-rating="4"></div>
+          <div className="video-rating-fill" data-rating="5"></div>
         </div>
       </div>
     </div>
   );
 };
 
-export default Rating;
+export default VideoRating;

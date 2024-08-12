@@ -1,0 +1,40 @@
+.review-rating-wrapper {
+  display: flex;
+  align-items: center;
+  margin-left: 12px;
+}
+
+.review-rating-range {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+
+  &[data-index="1"],
+  &[data-index="2"] {
+    .review-rating-fill {
+      background-color: $color-red;
+    }
+  }
+  &[data-index="3"] {
+    .review-rating-fill {
+      background-color: $color-yellow;
+    }
+  }
+  &[data-index="4"],
+  &[data-index="5"] {
+    .review-rating-fill {
+      background-color: $color-green;
+    }
+  }
+}
+
+.review-rating-fill {
+  width: 12px;
+  height: 12px;
+  border-radius: 2px;
+}
+
+.review-rating-count {
+  color: $color-white-02;
+  margin-left: 8px;
+}

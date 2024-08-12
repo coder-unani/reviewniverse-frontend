@@ -17,24 +17,24 @@
   letter-spacing: -0.2px;
 }
 
-.horizontal-more {
-  display: flex;
-  align-items: center;
-  font-size: 15px;
-  color: $color-white-04;
-  line-height: 1;
-  letter-spacing: -0.2px;
-  margin-right: -8px;
+// .horizontal-more {
+//   display: flex;
+//   align-items: center;
+//   font-size: 15px;
+//   color: $color-white-04;
+//   line-height: 1;
+//   letter-spacing: -0.2px;
+//   margin-right: -8px;
 
-  svg {
-    width: 24px;
-    height: 24px;
+//   svg {
+//     width: 24px;
+//     height: 24px;
 
-    path {
-      fill: $color-white-04;
-    }
-  }
-}
+//     path {
+//       fill: $color-white-04;
+//     }
+//   }
+// }
 
 .horizontal-videos-wrapper {
   position: relative;
@@ -115,9 +115,9 @@
     font-size: 17px;
   }
 
-  .horizontal-more {
-    font-size: 13px;
-  }
+  // .horizontal-more {
+  //   font-size: 13px;
+  // }
 
   .horizontal-videos {
     padding: 0 15px;
