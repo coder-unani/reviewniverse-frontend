@@ -1586,6 +1586,11 @@ figure {
   .home-preview-section {
     height: 500px;
   }
+  .preview-background-wrapper::after {
+    height: calc(50% + 75px);
+    background: linear-gradient(180deg, rgba(5, 21, 30, 0) 0%, #05151e 78%);
+    margin-bottom: -75px;
+  }
   .preview-background {
     height: 500px;
   }

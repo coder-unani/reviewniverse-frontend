@@ -23,9 +23,9 @@
     bottom: 0;
     left: 0;
     width: 100%;
-    height: calc(50% + 87.5px);
+    height: calc(50% + (175px / 2));
     background: linear-gradient(180deg, rgba($color-background, 0) 0%, rgba($color-background, 1) 80%);
-    margin-bottom: -87.5px;
+    margin-bottom: calc(-175px / 2);
     pointer-events: none;
   }
 }
@@ -226,6 +226,14 @@
 @media (max-width: 576px) {
   .home-preview-section {
     height: 500px;
+  }
+
+  .preview-background-wrapper {
+    &::after {
+      height: calc(50% + (150px / 2));
+      background: linear-gradient(180deg, rgba($color-background, 0) 0%, rgba($color-background, 1) 78%);
+      margin-bottom: calc(-150px / 2);
+    }
   }
 
   .preview-background {
