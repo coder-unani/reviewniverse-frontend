@@ -2814,6 +2814,43 @@ figure {
     margin-top: 60px;
   }
 }
+.ratings-main-container {
+  min-height: calc(100vh - 80px);
+  padding: 60px 0;
+}
+.ratings-main-container .review-rating-wrapper {
+  margin-left: 0;
+}
+
+.ratings-content-section {
+  max-width: 1440px;
+  padding: 12px 0;
+  margin: 0 auto;
+}
+
+.ratings-content-title {
+  display: block;
+  font-size: 16px;
+  font-weight: 600;
+  color: #93a8b4;
+  line-height: 20px;
+  padding: 15px 60px 0;
+}
+.ratings-content-title em {
+  font-weight: 800;
+  color: #eef7fc;
+}
+
+@media (max-width: 1024px) {
+  .ratings-content-title {
+    padding: 15px 30px 0;
+  }
+}
+@media (max-width: 576px) {
+  .ratings-content-title {
+    padding: 15px 15px 0;
+  }
+}
 .join-main-container {
   width: 100%;
   max-width: 720px;

@@ -17,15 +17,19 @@ const User = () => {
   const { userId: id } = useParams();
   const userId = parseInt(id);
   const { user, handleSetUser } = useAuthContext();
+  const { mutateAsync: userFetch } = useUser();
   const [isLogin, setIsLogin] = useState(false);
   const [profile, setProfile] = useState(null);
 
   useEffect(() => {
     const { isUserUpdate } = location.state || false;
+
     const getUser = async () => {
-      const res = await useUser({ userId });
+      const res = await userFetch({ userId });
       if (res.status) {
         setProfile(res.data);
+
+        // TODO: 고도화 필요
         if (isUserUpdate) {
           handleSetUser({ user: res.data });
           navigate(location.pathname, { replace: true, state: {} });
@@ -45,7 +49,7 @@ const User = () => {
     } else {
       setIsLogin(false);
     }
-  }, [user, userId]);
+  }, [location, user, userId]);
 
   return (
     <main className="user-main">
@@ -63,7 +67,7 @@ const User = () => {
                 {profile.profile_text && <p className="introduction">{profile.profile_text}</p>}
               </div>
               <div className="user-contents">
-                <Link to="">
+                <Link to={`/user/${userId}/contents/ratings`} state={{ nickname: profile.nickname }}>
                   <p className="count">{formatNumber(profile.rating_count)}</p>
                   <p className="count-label">평가</p>
                 </Link>

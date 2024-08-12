@@ -11,12 +11,17 @@
 // components
 @import "modules/videoItem";
 @import "modules/videoRankItem";
+
 @import "modules/hVideos";
 @import "modules/videos";
+
 @import "modules/videoRating";
 @import "modules/reviewRating";
+
 @import "modules/searchForm";
+
 @import "modules/loginLoading";
+
 @import "modules/peopleImage";
 @import "modules/confirmModal";
 
@@ -27,7 +32,11 @@
 @import "modules/people";
 @import "modules/production";
 @import "modules/search";
+
+@import "modules/userRatings";
+
 @import "modules/socialJoin";
 @import "modules/login";
+
 @import "modules/notFound";
 @import "modules/error";

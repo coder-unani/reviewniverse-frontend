@@ -1,10 +1,17 @@
-import React, { useState } from "react";
-import Videos from "/src/components/Videos";
+import React, { useState, useEffect } from "react";
+import RatingVideos from "/src/components/RatingVideos";
+import { useNavigate, useLocation, useParams, Link } from "react-router-dom";
 import { useAuthContext } from "/src/context/AuthContext";
+import { useUser } from "/src/hooks/useUser";
 import { useVideos } from "/src/hooks/useVideos";
 import { isEmpty } from "lodash";
 
 const UserRatings = () => {
+  const navigate = useNavigate();
+  const location = useLocation();
+  const { userId: id } = useParams();
+  const userId = parseInt(id);
+  const { nickname } = location.state || "";
   const { user } = useAuthContext();
   const [page, setPage] = useState(1);
   const [hasMore, setHasMore] = useState(true);
@@ -16,7 +23,7 @@ const UserRatings = () => {
     isLoading: videosIsLoading,
   } = useVideos({
     page,
-    orderBy,
+    orderBy: "new_desc",
     enabled: hasMore,
   });
 
@@ -43,10 +50,13 @@ const UserRatings = () => {
   }, [videosData, hasMore, page]);
 
   return (
-    <main className="ratings-main">
-      <div className="ratings-wrapper">
-        <div className="ratings">{!isEmpty(videos) && <Videos videos={videos} handlePage={handlePage} />}</div>
-      </div>
+    <main className="ratings-main-container">
+      <section className="ratings-content-section">
+        <strong className="ratings-content-title">
+          <em>{nickname}</em> 님이 평가한 작품이 {videos.total} 개 있어요
+        </strong>
+      </section>
+      {!isEmpty(videos) && <RatingVideos videos={videos} handlePage={handlePage} />}
     </main>
   );
 };
