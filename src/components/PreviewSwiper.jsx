@@ -55,11 +55,10 @@ const PreviewSwiper = React.memo(({ screensMA01 }) => {
     <>
       <figure className="preview-background-wrapper">
         {previewVideo && (
-          <LazyLoadImage
+          <div
             className="preview-background-image"
-            src={formatPreviewThumbnail(previewVideo.thumbnail)}
+            style={{ backgroundImage: `url(${formatPreviewThumbnail(previewVideo.thumbnail)})` }}
             alt="배경 이미지"
-            effect="blur"
           />
         )}
       </figure>
