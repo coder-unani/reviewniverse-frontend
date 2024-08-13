@@ -7,14 +7,14 @@ import { useUser } from "/src/hooks/useUser";
 import { showErrorToast } from "/src/components/Toast";
 import { formatNumber } from "/src/utils/format";
 import { DEFAULT_IMAGES } from "/src/config/constants";
+import { MESSAGES } from "/src/config/messages";
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import "react-lazy-load-image-component/src/effects/blur.css";
 
 const User = () => {
   const navigate = useNavigate();
   const location = useLocation();
-  const { userId: id } = useParams();
-  const userId = parseInt(id);
+  const { userId } = useParams();
   const { user, handleSetUser } = useAuthContext();
   const { mutateAsync: userFetch } = useUser();
   const [isLogin, setIsLogin] = useState(false);
@@ -24,17 +24,23 @@ const User = () => {
     const { isUserUpdate } = location.state || false;
 
     const getUser = async () => {
-      const res = await userFetch({ userId });
-      if (res.status) {
-        setProfile(res.data);
+      try {
+        const userId2Int = parseInt(userId);
+        const res = await userFetch({ userId: userId2Int });
+        if (res.status) {
+          setProfile(res.data);
 
-        // TODO: 고도화 필요
-        if (isUserUpdate) {
-          handleSetUser({ user: res.data });
-          navigate(location.pathname, { replace: true, state: {} });
+          // TODO: 고도화 필요
+          if (isUserUpdate) {
+            handleSetUser({ user: res.data });
+            navigate(location.pathname, { replace: true, state: {} });
+          }
+        } else {
+          showErrorToast(res.code);
+          navigate(-1);
         }
-      } else {
-        showErrorToast(res.code);
+      } catch (error) {
+        showErrorToast(MESSAGES.U006);
         navigate(-1);
       }
     };
@@ -42,8 +48,10 @@ const User = () => {
   }, [userId]);
 
   useEffect(() => {
+    // TODO: 고도화 필요
     // 로그인한 유저가 있다면 userId와 로그인한 유저가 같은지 확인
-    if (user && user.id === userId) {
+    const userId2Int = parseInt(userId);
+    if (user && user.id === userId2Int) {
       setIsLogin(true);
     } else {
       setIsLogin(false);

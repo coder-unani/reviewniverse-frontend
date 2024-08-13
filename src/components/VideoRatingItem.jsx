@@ -34,9 +34,9 @@ const VideoRatingItem = ({ video }) => {
               )} */}
             </div>
           </div>
-          <div className="default-code-wrapper">
+          {/* <div className="default-code-wrapper">
             <div className="default-code">{video.code_string}</div>
-          </div>
+          </div> */}
         </div>
       </Link>
     </article>

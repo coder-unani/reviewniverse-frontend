@@ -106,6 +106,10 @@
 }
 
 .detail-control {
+  width: 45px;
+  height: 45px;
+  padding: 7px;
+
   &.like {
     .detail-control-icon {
       background-image: url("/assets/button/outline-heart.svg");
@@ -138,10 +142,11 @@
 
 .detail-control-icon {
   display: block;
-  width: 45px;
-  height: 45px;
+  width: 100%;
+  height: 25px;
   background-repeat: no-repeat;
   background-size: contain;
+  background-position: center;
 }
 
 .detail-sub-info-container {
@@ -330,34 +335,39 @@
 .detail-main-title {
   font-size: 16px;
   font-weight: 600;
-  color: $color-white-06;
+  color: $color-white-02;
   margin-bottom: 15px;
 }
 
 .detail-my-review-wrapper {
-  padding-bottom: 30px;
-}
-
-.detail-my-review {
   display: flex;
   align-items: center;
-  // border-radius: 6px;
+  max-height: 110px;
   border-radius: 14px;
-  background-color: $color-white-09;
-  padding: 20px;
+  border: 1px solid $border-color-01;
+  padding: 10px 15px;
+
+  &:hover {
+    background-color: $color-white-09;
+    border-color: $border-color-03;
+  }
 }
 
 .my-review-title-wrapper {
-  flex: 1;
+  display: flex;
+  align-items: flex-start;
+  width: 100%;
   cursor: pointer;
 }
 
 .my-review-title {
+  flex: 1;
   font-size: 15px;
   color: $color-white-02;
   line-height: 24px;
   white-space: pre-wrap;
-  margin: 0 16px;
+  padding-top: 4px;
+  margin: 0 10px;
 
   // 3줄 이상일때 생략
   display: -webkit-box;
@@ -376,21 +386,22 @@
 .my-review-update-button {
   display: flex;
   align-items: center;
-  gap: 3px;
-  font-size: 15px;
-  color: $color-white-06;
-  line-height: 18px;
   padding: 15px 12px;
 
   &:hover {
-    color: $color-white-01;
-
     .my-review-button-icon {
       path {
         fill: $color-white-01;
       }
     }
   }
+}
+
+.my-reivew-delete-tooltip,
+.my-reivew-update-tooltip {
+  font-size: 14px !important;
+  border-radius: 6px !important;
+  background-color: $color-white-08 !important;
 }
 
 .my-review-button-icon {
@@ -416,7 +427,14 @@
   font-size: 14px;
   color: $color-white-03;
   line-height: 24px;
+  // line-height: 22px;
   white-space: pre-wrap;
+
+  // 5줄 이상일때 생략
+  // display: -webkit-box;
+  // -webkit-line-clamp: 5;
+  // -webkit-box-orient: vertical;
+  // overflow: hidden;
 }
 
 .detail-my-rating-wrapper {
@@ -714,37 +732,46 @@
 
 .detail-review-total {
   font-size: 15px;
-  color: $color-magenta-01;
+  color: $color-magenta;
   line-height: 16px;
 }
 
 .detail-no-review-wrapper {
   text-align: center;
-  padding: 20px 0;
+  border-radius: 14px;
+  border: 1px solid $border-color-01;
+  padding: 20px 15px;
 }
 
 .no-review-text {
   font-size: 15px;
   color: $color-white-03;
-  margin-bottom: 16px;
+  line-height: 20px;
+  margin-bottom: 14px;
+
+  em {
+    font-weight: 600;
+    color: $color-white-01;
+  }
 }
 
 .no-review-button {
-  font-size: 16px;
+  font-size: 14px;
   font-weight: 600;
   color: $color-white-01;
-  line-height: 1.2;
+  line-height: 34px;
   border-radius: 8px;
-  background: $color-magenta-02;
-  background: -webkit-linear-gradient(to right, rgba($color-cyan-02, 0.75), rgba($color-magenta-02, 0.75));
-  background: linear-gradient(to right, rgba($color-cyan-02, 0.75), rgba($color-magenta-02, 0.75));
-  padding: 10px 20px;
+  background: $color-magenta;
+  background: -webkit-linear-gradient(to right, rgba($color-cyan, 0.75), rgba($color-magenta, 0.75));
+  background: linear-gradient(to right, rgba($color-cyan, 0.75), rgba($color-magenta, 0.75));
+  padding: 0 15px;
 }
 
 .detail-review-wrapper {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: 12px;
+  margin-top: 15px;
 }
 
 .detail-review-item {
@@ -753,7 +780,7 @@
   width: 100%;
   background-color: $color-white-09;
   border-radius: 14px;
-  padding: 0 12px;
+  padding: 0 15px;
 
   .profile-nickname {
     flex: 1;
@@ -841,7 +868,12 @@
 
 .review-like-count {
   font-size: 14px;
-  color: $color-magenta-01;
+  font-weight: 600;
+  color: $color-white-06;
+
+  &[data-like="true"] {
+    color: $color-magenta;
+  }
 }
 
 // 반응형
@@ -905,13 +937,13 @@
     padding: 20px 30px;
   }
 
-  .detail-poster-wrapper {
+  .detail-poster-container {
     grid-column: 1;
-    grid-row: 1;
+    grid-row: 1 / 3;
   }
 
   .detail-content-container {
-    grid-column: 1 / 3;
+    grid-column: 2;
     grid-row: 2;
   }
 
@@ -1033,7 +1065,7 @@
     grid-template-columns: 1fr;
   }
 
-  .detail-poster-wrapper {
+  .detail-poster-container {
     grid-column: 1;
     grid-row: 3;
     margin: 0 auto;
@@ -1162,13 +1194,18 @@
     padding: 20px 15px;
   }
 
-  .detail-my-review {
+  .detail-my-review-wrapper {
     flex-direction: column;
     gap: 10px;
+    max-height: unset;
   }
 
   .my-review-title {
-    margin: 0;
+    margin-right: 0;
+  }
+
+  .my-review-button-wrapper {
+    margin: 0 -15px 0 auto;
   }
 
   .my-review-delete-button,

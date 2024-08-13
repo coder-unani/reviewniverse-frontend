@@ -35,6 +35,7 @@ import {
   formatRuntimeText,
 } from "/src/utils/formatContent";
 import { showSuccessToast } from "/src/components/Toast";
+import { Tooltip } from "react-tooltip";
 import FillTrashIcon from "/src/assets/button/fill-trash.svg?react";
 import FillUpdateIcon from "/src/assets/button/fill-update.svg?react";
 
@@ -182,6 +183,69 @@ const VideoDetail = () => {
   if (contentError || reviewsError || myInfoError) return navigate("/error");
 
   if (!content.status) return null;
+
+  const NoReviewWrapper = ({ message }) => {
+    return (
+      <div className="detail-no-review-wrapper">
+        <p className="no-review-text">{message}</p>
+        <button type="button" className="no-review-button" onClick={handleReviewCreate}>
+          리뷰 쓰기
+        </button>
+      </div>
+    );
+  };
+
+  const ReviewWrapper = () => {
+    let message = "";
+
+    if (!myInfo) {
+      // 내 비디오 정보가 없을 때 (로그인X)
+      message = "로그인 후 리뷰를 기록할 수 있어요!";
+    } else if (isEmpty(reviews.data)) {
+      // 리뷰 데이터가 없을 떄
+      message = (
+        <>
+          기록된 리뷰가 없습니다. <em>첫번째</em> 리뷰를 남겨보세요!
+        </>
+      );
+    } else if (isEmpty(myInfo.review)) {
+      // 내 비디오 정보의 리뷰가 없을 때 (로그인O)
+      message = "기록된 리뷰가 없습니다. 리뷰를 남겨보세요!";
+    }
+
+    if (message) return <NoReviewWrapper message={message} />;
+
+    return (
+      <div className="detail-my-review-wrapper">
+        <div className="my-review-title-wrapper" onClick={handleReviewCreate}>
+          <ProfileImage image={user.profile_image} size={36} />
+          <p className="my-review-title">{myInfo.review.title}</p>
+        </div>
+        <div className="my-review-button-wrapper">
+          <button
+            type="button"
+            data-tooltip-id="myReviewDeleteButton"
+            data-tooltip-content="삭제"
+            className="my-review-delete-button"
+            onClick={handleReviewDelete}
+          >
+            <FillTrashIcon className="my-review-button-icon" />
+          </button>
+          <button
+            type="button"
+            className="my-review-update-button"
+            data-tooltip-id="myReviewUpdateButton"
+            data-tooltip-content="수정"
+            onClick={handleReviewUpdate}
+          >
+            <FillUpdateIcon className="my-review-button-icon" />
+          </button>
+        </div>
+        <Tooltip id="myReviewDeleteButton" className="my-reivew-delete-tooltip" place="bottom" effect="solid" />
+        <Tooltip id="myReviewUpdateButton" className="my-reivew-update-tooltip" place="bottom" effect="solid" />
+      </div>
+    );
+  };
 
   return (
     <>
@@ -353,7 +417,7 @@ const VideoDetail = () => {
             </div>
 
             <div className="detail-content-container">
-              {myInfo && !isEmpty(myInfo.review) && (
+              {/* {myInfo && !isEmpty(myInfo.review) && (
                 <div className="detail-my-review-wrapper">
                   <h4 className="detail-main-title">내가 쓴 리뷰</h4>
                   <div className="detail-my-review">
@@ -374,7 +438,7 @@ const VideoDetail = () => {
                     </div>
                   </div>
                 </div>
-              )}
+              )} */}
 
               <div className="detail-synopsis-wrapper">
                 <h4 className="detail-main-title">작품 소개</h4>
@@ -465,14 +529,10 @@ const VideoDetail = () => {
                 <span className="detail-review-total">{reviews.total > 999 ? "999+" : reviews.total}</span>
               )}
             </div>
-            {isEmpty(reviews.data) ? (
-              <div className="detail-no-review-wrapper">
-                <p className="no-review-text">기록된 리뷰가 없습니다. 첫번째 리뷰를 남겨보세요!</p>
-                <button type="button" className="no-review-button" onClick={handleReviewCreate}>
-                  리뷰 쓰기
-                </button>
-              </div>
-            ) : (
+            {/* 리뷰가 없고, 로그인도 안되어 있을 때 */}
+            <ReviewWrapper />
+            {/* 리뷰 리스트 */}
+            {!isEmpty(reviews.data) && (
               <div className="detail-review-wrapper">
                 {reviews.data.map((review, index) => (
                   <VideoReviewItem

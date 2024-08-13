@@ -41,7 +41,9 @@ const VideoReviewItem = ({ review, isLike, onLikeClick }) => {
         <span className="detail-review-date">{diffDate(review.created_at)}</span>
         <button type="button" className="review-like-button" onClick={() => handleReviewLike(review.id)}>
           <img src={isLike ? DEFAULT_ICONS.fillThumb2 : DEFAULT_ICONS.outlineThumb2} alt="좋아요" />
-          <span className="review-like-count">{review.like_count}</span>
+          <span className="review-like-count" data-like={isLike}>
+            {review.like_count}
+          </span>
         </button>
       </div>
     </div>
