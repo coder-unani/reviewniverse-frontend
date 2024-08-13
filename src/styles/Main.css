@@ -1923,7 +1923,6 @@ figure {
   display: flex;
   align-items: flex-start;
   width: 100%;
-  cursor: pointer;
 }
 
 .my-review-title {
@@ -1934,6 +1933,7 @@ figure {
   white-space: pre-wrap;
   padding-top: 4px;
   margin: 0 10px;
+  cursor: pointer;
   display: -webkit-box;
   -webkit-line-clamp: 3;
   -webkit-box-orient: vertical;

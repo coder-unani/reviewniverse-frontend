@@ -199,17 +199,14 @@ const VideoDetail = () => {
     let message = "";
 
     if (!myInfo) {
-      // 내 비디오 정보가 없을 때 (로그인X)
       message = "로그인 후 리뷰를 기록할 수 있어요!";
     } else if (isEmpty(reviews.data)) {
-      // 리뷰 데이터가 없을 떄
       message = (
         <>
           기록된 리뷰가 없습니다. <em>첫번째</em> 리뷰를 남겨보세요!
         </>
       );
     } else if (isEmpty(myInfo.review)) {
-      // 내 비디오 정보의 리뷰가 없을 때 (로그인O)
       message = "기록된 리뷰가 없습니다. 리뷰를 남겨보세요!";
     }
 
@@ -217,9 +214,11 @@ const VideoDetail = () => {
 
     return (
       <div className="detail-my-review-wrapper">
-        <div className="my-review-title-wrapper" onClick={handleReviewCreate}>
+        <div className="my-review-title-wrapper">
           <ProfileImage image={user.profile_image} size={36} />
-          <p className="my-review-title">{myInfo.review.title}</p>
+          <p className="my-review-title" onClick={handleReviewCreate}>
+            {myInfo.review.title}
+          </p>
         </div>
         <div className="my-review-button-wrapper">
           <button
