@@ -1389,7 +1389,7 @@ figure {
   left: 0;
   width: 100%;
   height: 100%;
-  clip: rect(0, auto, auto, 0);
+  clip-path: inset(0 0 0 0);
 }
 .preview-background-wrapper::after {
   content: "";
@@ -1639,7 +1639,7 @@ figure {
   left: 0;
   width: 100%;
   height: 100%;
-  clip: rect(0, auto, auto, 0);
+  clip-path: inset(0 0 0 0);
 }
 .detail-background-wrapper::after {
   content: "";
@@ -2426,7 +2426,6 @@ figure {
 @media (max-width: 768px) {
   .detail-background-wrapper::after {
     height: calc(50% + 50px);
-    background: linear-gradient(180deg, rgba(5, 21, 30, 0) 0%, #05151e 88%);
     margin-bottom: -50px;
   }
   .detail-main-info-container {
@@ -2501,7 +2500,6 @@ figure {
   }
   .detail-background-wrapper::after {
     height: calc(50% + 37px);
-    background: linear-gradient(180deg, rgba(5, 21, 30, 0) 0%, #05151e 90%);
     margin-bottom: -37px;
   }
   .detail-background {
