@@ -89,7 +89,7 @@
 .detail-genre-link {
   flex: none;
   display: block;
-  font-size: 12px;
+  font-size: 13px;
   font-weight: 600;
   color: $color-white-02;
   border-radius: 6px;
@@ -334,7 +334,7 @@
 
 .detail-main-title {
   font-size: 16px;
-  font-weight: 600;
+  font-weight: 700;
   color: $color-white-02;
   margin-bottom: 15px;
 }
@@ -426,8 +426,7 @@
 .detail-synopsis {
   font-size: 14px;
   color: $color-white-03;
-  line-height: 24px;
-  // line-height: 22px;
+  line-height: 22px;
   white-space: pre-wrap;
 
   // 5줄 이상일때 생략
@@ -608,7 +607,8 @@
 }
 
 .detail-people-name {
-  font-size: 16px;
+  font-size: 15px;
+  font-weight: 500;
   color: $color-white-02;
   margin-bottom: 4px;
 }
@@ -724,16 +724,9 @@
   margin: 0 auto;
 }
 
-.detail-reiview-title-wrapper {
-  display: flex;
-  align-items: baseline;
-  gap: 8px;
-}
-
 .detail-review-total {
-  font-size: 15px;
   color: $color-magenta;
-  line-height: 16px;
+  margin-left: 4px;
 }
 
 .detail-no-review-wrapper {
@@ -784,8 +777,8 @@
 
   .profile-nickname {
     flex: 1;
-    // 1줄 이상일때 생략
     color: $color-white-02;
+    // 1줄 이상일때 생략
     display: -webkit-box;
     -webkit-line-clamp: 1;
     overflow: hidden;
@@ -1121,6 +1114,10 @@
 
   .detail-title-kr {
     font-size: 36px;
+  }
+
+  .detail-genre-link {
+    font-size: 12px;
   }
 
   .detail-sub-info-wrapper {

@@ -219,6 +219,12 @@ const VideoDetail = () => {
           <p className="my-review-title" onClick={handleReviewCreate}>
             {myInfo.review.title}
           </p>
+          {/* <div className="my-review-content-wrapper">
+            <p className="my-review-title" onClick={handleReviewCreate}>
+              {myInfo.review.title}
+            </p>
+            <p>{myInfo.review.created_at}</p>
+          </div> */}
         </div>
         <div className="my-review-button-wrapper">
           <button
@@ -416,29 +422,6 @@ const VideoDetail = () => {
             </div>
 
             <div className="detail-content-container">
-              {/* {myInfo && !isEmpty(myInfo.review) && (
-                <div className="detail-my-review-wrapper">
-                  <h4 className="detail-main-title">내가 쓴 리뷰</h4>
-                  <div className="detail-my-review">
-                    <ProfileImage image={user.profile_image} size={45} />
-                    <div className="my-review-title-wrapper" onClick={handleReviewCreate}>
-                      <p className="my-review-title">{myInfo.review.title}</p>
-                    </div>
-                    <div className="my-review-button-wrapper">
-                      <button type="button" className="my-review-delete-button" onClick={handleReviewDelete}>
-                        <FillTrashIcon className="my-review-button-icon" />
-                        삭제
-                      </button>
-                      |
-                      <button type="button" className="my-review-update-button" onClick={handleReviewUpdate}>
-                        <FillUpdateIcon className="my-review-button-icon" />
-                        수정
-                      </button>
-                    </div>
-                  </div>
-                </div>
-              )} */}
-
               <div className="detail-synopsis-wrapper">
                 <h4 className="detail-main-title">작품 소개</h4>
                 <p className="detail-synopsis">{content.data.synopsis}</p>
@@ -522,13 +505,12 @@ const VideoDetail = () => {
           )}
 
           <section className="detail-review-section">
-            <div className="detail-reiview-title-wrapper">
-              <h4 className="detail-main-title">리뷰</h4>
+            <h4 className="detail-main-title">
+              리뷰
               {reviews.total > 0 && (
                 <span className="detail-review-total">{reviews.total > 999 ? "999+" : reviews.total}</span>
               )}
-            </div>
-            {/* 리뷰가 없고, 로그인도 안되어 있을 때 */}
+            </h4>
             <ReviewWrapper />
             {/* 리뷰 리스트 */}
             {!isEmpty(reviews.data) && (

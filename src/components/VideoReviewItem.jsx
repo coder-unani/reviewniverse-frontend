@@ -22,10 +22,7 @@ const VideoReviewItem = ({ review, isLike, onLikeClick }) => {
   return (
     <div className="detail-review-item">
       <div className="detail-review-header">
-        <ProfileButton
-          image={review.user_profile_image}
-          user={{ id: review.user_id, nickname: review.user_nickname }}
-        />
+        <ProfileButton user={review.user} size={28} />
         {review.rating && <ReviewRating rating={review.rating} />}
       </div>
       <div className="detail-review-body" data-spoiler={review.is_spoiler}>

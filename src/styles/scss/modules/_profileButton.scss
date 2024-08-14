@@ -3,9 +3,16 @@
   align-items: center;
   padding: 10px 0;
   cursor: pointer;
+
+  &[data-active="false"] {
+    pointer-events: none;
+    opacity: 0.5;
+  }
 }
-.profile .profile-nickname {
+
+.profile-nickname {
   flex: none;
   font-size: 15px;
+  font-weight: 500;
   margin-left: 8px;
 }

@@ -28,13 +28,7 @@ const MenuModal = ({ onClose }) => {
 
   // 로그인 여부에 따라 프로필 또는 로그인 버튼 렌더링
   const renderProfileButton = () => {
-    return (
-      <ProfileButton
-        image={user.profile_image}
-        user={{ id: user.id, nickname: user.nickname }}
-        onClose={handleCloseButton}
-      />
-    );
+    return <ProfileButton user={user} size={28} onClose={handleCloseButton} />;
   };
 
   const renderLoginButton = () => {

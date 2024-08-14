@@ -1,3 +1,4 @@
+@charset "UTF-8";
 @import url(https://cdn.jsdelivr.net/gh/sun-typeface/SUIT/fonts/variable/woff2/SUIT-Variable.css);
 /*! normalize.css v8.0.1 | MIT License | github.com/necolas/normalize.css */
 /* Document
@@ -331,7 +332,7 @@ html {
 }
 
 body {
-  font-family: "SUIT Variable", sans-serif;
+  font-family: "SUIT Variable", "Apple SD Gothic NEO", "Helvetica Neue", Helvetica, 나눔고딕, NanumGothic, "Malgun Gothic", "맑은 고딕", 굴림, gulim, 새굴림, "noto sans", 돋움, Dotum, sans-serif;
   background-color: #05151e;
   margin: 0;
   padding: 0;
@@ -1348,6 +1349,49 @@ figure {
     margin-top: 60px;
   }
 }
+.profile-image-wrapper {
+  flex: none;
+  position: relative;
+  border-radius: 50%;
+  overflow: hidden;
+}
+.profile-image-wrapper::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  z-index: 10;
+  pointer-events: none;
+}
+
+.profile-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.profile {
+  display: flex;
+  align-items: center;
+  padding: 10px 0;
+  cursor: pointer;
+}
+.profile[data-active=false] {
+  pointer-events: none;
+  opacity: 0.5;
+}
+
+.profile-nickname {
+  flex: none;
+  font-size: 15px;
+  font-weight: 500;
+  margin-left: 8px;
+}
+
 .people-image-wrapper {
   position: relative;
   background-size: cover;
@@ -1711,7 +1755,7 @@ figure {
 .detail-genre-link {
   flex: none;
   display: block;
-  font-size: 12px;
+  font-size: 13px;
   font-weight: 600;
   color: #d5dde2;
   border-radius: 6px;
@@ -1901,7 +1945,7 @@ figure {
 
 .detail-main-title {
   font-size: 16px;
-  font-weight: 600;
+  font-weight: 700;
   color: #d5dde2;
   margin-bottom: 15px;
 }
@@ -1985,7 +2029,7 @@ figure {
 .detail-synopsis {
   font-size: 14px;
   color: #b4c5cf;
-  line-height: 24px;
+  line-height: 22px;
   white-space: pre-wrap;
 }
 
@@ -2134,7 +2178,8 @@ figure {
 }
 
 .detail-people-name {
-  font-size: 16px;
+  font-size: 15px;
+  font-weight: 500;
   color: #d5dde2;
   margin-bottom: 4px;
 }
@@ -2236,16 +2281,9 @@ figure {
   margin: 0 auto;
 }
 
-.detail-reiview-title-wrapper {
-  display: flex;
-  align-items: baseline;
-  gap: 8px;
-}
-
 .detail-review-total {
-  font-size: 15px;
   color: #fc00ff;
-  line-height: 16px;
+  margin-left: 4px;
 }
 
 .detail-no-review-wrapper {
@@ -2538,6 +2576,9 @@ figure {
   }
   .detail-title-kr {
     font-size: 36px;
+  }
+  .detail-genre-link {
+    font-size: 12px;
   }
   .detail-sub-info-wrapper {
     padding: 0 15px;

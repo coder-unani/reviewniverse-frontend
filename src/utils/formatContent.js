@@ -7,7 +7,6 @@ export const formatUserCode = (code) => {
   const userCode = USER_CODE[code];
   return userCode || "10";
 };
-
 // screens 데이터 포맷
 export const formatScreens = (screens, code) => {
   return screens.find((screen) => screen.code === code);
