@@ -14,6 +14,8 @@ import Login from "/src/pages/Login";
 import UserWatchType from "/src/pages/UserWatchType";
 import User from "/src/pages/User";
 import UserRatings from "/src/pages/UserRatings";
+import UserReviews from "/src/pages/UserReviews";
+import UserLikes from "/src/pages/UserLikes";
 import Error from "/src/pages/Error";
 import NotFound from "/src/pages/NotFound";
 
@@ -80,6 +82,14 @@ const MainRoutes = {
     {
       path: "/user/:userId/contents/ratings",
       element: <UserRatings />,
+    },
+    {
+      path: "/user/:userId/contents/reviews",
+      element: <UserReviews />,
+    },
+    {
+      path: "/user/:userId/contents/likes",
+      element: <UserLikes />,
     },
     {
       path: "/error",

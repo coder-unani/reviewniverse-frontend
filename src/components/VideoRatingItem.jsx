@@ -9,12 +9,12 @@ import { formatThumbnail, formatCountry } from "/src/utils/formatContent";
 const VideoRatingItem = ({ video }) => {
   return (
     <article className="default-video-item">
-      <Link to={`/contents/${video.id}`}>
+      <Link to={`/contents/${video.video.id}`}>
         <div className="default-thumbnail-container">
           <figure className="default-thumbnail-wrapper">
             <LazyLoadImage
               className="default-thumbnail"
-              src={formatThumbnail(video.thumbnail)}
+              src={formatThumbnail(video.video.thumbnail)}
               alt="썸네일"
               effect="blur"
             />
@@ -22,9 +22,9 @@ const VideoRatingItem = ({ video }) => {
         </div>
         <div className="default-info-container">
           <div className="default-title-wrapper">
-            <p className="default-title">{video.title}</p>
+            <p className="default-title">{video.video.title}</p>
             <div className="default-subtitle">
-              <ReviewRating rating={10} />
+              <ReviewRating rating={video.rating} />
               {/* <span>{formatYear(video.release)}</span>
               {video.country && (
                 <>

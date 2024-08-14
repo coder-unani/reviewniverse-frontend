@@ -26,6 +26,11 @@ const User = () => {
     const getUser = async () => {
       try {
         const userId2Int = parseInt(userId);
+
+        if (isNaN(userId2Int)) {
+          throw new Error(MESSAGES.U006);
+        }
+
         const res = await userFetch({ userId: userId2Int });
         if (res.status) {
           setProfile(res.data);
@@ -40,7 +45,7 @@ const User = () => {
           navigate(-1);
         }
       } catch (error) {
-        showErrorToast(MESSAGES.U006);
+        showErrorToast(error.message);
         navigate(-1);
       }
     };
@@ -74,15 +79,15 @@ const User = () => {
                 {profile.profile_text && <p className="introduction">{profile.profile_text}</p>}
               </div>
               <div className="user-contents">
-                <Link to={`/user/${userId}/contents/ratings`} state={{ nickname: profile.nickname }}>
+                <Link to={`/user/${userId}/contents/ratings`}>
                   <p className="count">{formatNumber(profile.rating_count)}</p>
                   <p className="count-label">평가</p>
                 </Link>
-                <Link to="">
+                <Link to={`/user/${userId}/contents/reviews`}>
                   <p className="count">{formatNumber(profile.review_count)}</p>
                   <p className="count-label">리뷰</p>
                 </Link>
-                <Link to="">
+                <Link to={`/user/${userId}/contents/likes`}>
                   <p className="count">{formatNumber(profile.like_count)}</p>
                   <p className="count-label">좋아요</p>
                 </Link>

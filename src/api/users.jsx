@@ -10,6 +10,10 @@ const endpoints = {
   user: baseURL + "/v1/users/:userId",
   validateEmail: baseURL + "/v1/users/validate/email",
   validateNickname: baseURL + "/v1/users/validate/nickname",
+  userReviews: baseURL + "/v1/users/:userId/reviews",
+  userReviewLikes: baseURL + "/v1/users/:userId/reviews/likes",
+  userRatings: baseURL + "/v1/users/:userId/videos/ratings",
+  userLikes: baseURL + "/v1/users/:userId/videos/likes",
 };
 
 // 로그인
@@ -100,6 +104,66 @@ export const fetchValidateNickname = async ({ nickname }) => {
   try {
     const client = new HttpClient();
     const res = await client.get(endpoints.validateNickname, { nickname });
+    return res;
+  } catch (error) {
+    cError(error);
+  }
+};
+
+// 사용자 리뷰 리스트
+export const fetchUserReviews = async ({ userId, page = null, pageSize = null, orderBy = null }) => {
+  try {
+    const client = new HttpClient();
+    const res = await client.get(endpoints.userReviews.replace(":userId", userId), {
+      ...(page && { page: page }),
+      ...(pageSize && { page_size: pageSize }),
+      ...(orderBy && { order_by: orderBy }),
+    });
+    return res;
+  } catch (error) {
+    cError(error);
+  }
+};
+
+// 사용자 리뷰 좋아요 리스트
+export const fetchUserReviewLikes = async ({ userId, page = null, pageSize = null, orderBy = null }) => {
+  try {
+    const client = new HttpClient();
+    const res = await client.get(endpoints.userReviewLikes.replace(":userId", userId), {
+      ...(page && { page: page }),
+      ...(pageSize && { page_size: pageSize }),
+      ...(orderBy && { order_by: orderBy }),
+    });
+    return res;
+  } catch (error) {
+    cError(error);
+  }
+};
+
+// 사용자 비디오 좋아요 리스트
+export const fetchUserLikes = async ({ userId, page = null, pageSize = null, orderBy = null }) => {
+  try {
+    const client = new HttpClient();
+    const res = await client.get(endpoints.userLikes.replace(":userId", userId), {
+      ...(page && { page: page }),
+      ...(pageSize && { page_size: pageSize }),
+      ...(orderBy && { order_by: orderBy }),
+    });
+    return res;
+  } catch (error) {
+    cError(error);
+  }
+};
+
+// 사용자 비디오 평점 리스트
+export const fetchUserRatings = async ({ userId, page = null, pageSize = null, orderBy = null }) => {
+  try {
+    const client = new HttpClient();
+    const res = await client.get(endpoints.userRatings.replace(":userId", userId), {
+      ...(page && { page: page }),
+      ...(pageSize && { page_size: pageSize }),
+      ...(orderBy && { order_by: orderBy }),
+    });
     return res;
   } catch (error) {
     cError(error);

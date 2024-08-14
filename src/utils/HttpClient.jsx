@@ -22,10 +22,10 @@ class HttpClient {
     Object.assign(this.client.defaults.headers.common, headers);
   }
 
-  async get(url, data = null) {
+  async get(url, params = null) {
     try {
       return await this.client
-        .get(url, { params: data ? data : {} })
+        .get(url, { params: params ? params : {} })
         .then((response) => {
           return this.responseHandler(response);
         })
