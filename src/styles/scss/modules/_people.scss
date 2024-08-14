@@ -2,13 +2,14 @@
   max-width: 1440px;
   min-height: calc(100vh - 80px);
   // padding: 24px 60px;
-  padding: 84px 60px 60px;
+  padding: 84px 0 60px;
   margin: 0 auto;
   // margin-top: 60px;
 }
 
 .people-section {
   width: 100%;
+  padding: 0 60px;
   margin-bottom: 8px;
 }
 
@@ -37,16 +38,12 @@
 }
 
 @media (max-width: 1024px) {
-  .people-main-container {
-    padding: 84px 30px;
+  .people-section {
+    padding: 0 30px;
   }
 }
 
 @media (max-width: 576px) {
-  .people-main-container {
-    padding: 84px 0;
-  }
-
   .people-section {
     padding: 0 15px;
   }

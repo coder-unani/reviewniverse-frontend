@@ -2,13 +2,14 @@
   max-width: 1440px;
   min-height: calc(100vh - 80px);
   // padding: 24px 60px;
-  padding: 84px 60px 60px;
+  padding: 84px 0 60px;
   margin: 0 auto;
   // margin-top: 60px;
 }
 
 .production-section {
   width: 100%;
+  padding: 0 60px;
   margin-bottom: 8px;
 }
 
@@ -28,16 +29,12 @@
 }
 
 @media (max-width: 1024px) {
-  .production-main-container {
-    padding: 84px 30px;
+  .production-section {
+    padding: 0 30px;
   }
 }
 
 @media (max-width: 576px) {
-  .production-main-container {
-    padding: 84px 0;
-  }
-
   .production-section {
     padding: 0 15px;
   }
