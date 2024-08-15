@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate, useLocation, useParams, Link } from "react-router-dom";
-import ProfileImage from "/src/components/Button/Profile/ProfileImage";
+import ProfileImage from "/src/components/Button/Profile/Image";
 import SettingButton from "/src/components/Button/Setting";
 import { useAuthContext } from "/src/context/AuthContext";
 import { useUser } from "/src/hooks/useUser";
 import { showErrorToast } from "/src/components/Toast";
-import { formatNumber } from "/src/utils/format";
+import { fNumberWithCommas } from "/src/utils/format";
 import { DEFAULT_IMAGES } from "/src/config/constants";
 import { MESSAGES } from "/src/config/messages";
 import { LazyLoadImage } from "react-lazy-load-image-component";
@@ -80,15 +80,15 @@ const User = () => {
               </div>
               <div className="user-contents">
                 <Link to={`/user/${userId}/contents/ratings`}>
-                  <p className="count">{formatNumber(profile.rating_count)}</p>
+                  <p className="count">{fNumberWithCommas(profile.rating_count)}</p>
                   <p className="count-label">평가</p>
                 </Link>
                 <Link to={`/user/${userId}/contents/reviews`}>
-                  <p className="count">{formatNumber(profile.review_count)}</p>
+                  <p className="count">{fNumberWithCommas(profile.review_count)}</p>
                   <p className="count-label">리뷰</p>
                 </Link>
                 <Link to={`/user/${userId}/contents/likes`}>
-                  <p className="count">{formatNumber(profile.like_count)}</p>
+                  <p className="count">{fNumberWithCommas(profile.like_count)}</p>
                   <p className="count-label">좋아요</p>
                 </Link>
               </div>

@@ -16,7 +16,6 @@ import {
 } from "/src/config/constants";
 import { isValidFileSize, isValidFileType } from "/src/utils/validation";
 import { RiImageEditFill } from "@remixicon/react";
-import "/src/styles/UserProfile.css";
 
 /**
  * TODO:

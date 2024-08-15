@@ -5,7 +5,6 @@ import { useAuthContext } from "/src/context/AuthContext";
 import { Link } from "react-router-dom";
 import { RiCloseLine, RiArrowRightSLine } from "@remixicon/react";
 import { DEFAULT_IMAGES } from "/src/config/constants";
-import "/src/styles/MenuModal.css";
 
 /**
  * TODO:

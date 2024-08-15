@@ -8,7 +8,7 @@ import { cLog, cError } from "/src/utils/test";
  * 2. 비밀번호 확인 값 전달
  */
 
-const CheckForm = ({ setIsPasswordConfirmed }) => {
+const PasswordCheckForm = ({ setIsPasswordConfirmed }) => {
   const {
     register,
     handleSubmit,
@@ -46,4 +46,4 @@ const CheckForm = ({ setIsPasswordConfirmed }) => {
   );
 };
 
-export default CheckForm;
+export default PasswordCheckForm;

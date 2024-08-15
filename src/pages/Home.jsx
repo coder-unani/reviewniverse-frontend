@@ -1,32 +1,32 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import PreviewSwiper from "/src/components/PreviewSwiper";
-import HVideos from "/src/components/HVideos";
+import SwiperPreview from "/src/components/SwiperPreview";
+import VideosHorizontal from "/src/components/VideosHorizontal";
 import Videos from "/src/components/Videos";
 import { useScreenVideos } from "/src/hooks/useScreenVideos";
 import { useRankingVideos } from "/src/hooks/useRankingVideos";
 import { useVideos } from "/src/hooks/useVideos";
-import { SCREEN_PREVIEW_ID, SCREEN_MAIN_ID } from "/src/config/codes";
+import { SCREEN_MAIN_ID } from "/src/config/codes";
 import { VIDEO_ORDER_OPTIONS } from "/src/config/constants";
-import { formatScreens } from "/src/utils/formatContent";
+import { fArrayRandomValue } from "/src/utils/format";
+import { fScreenCode } from "/src/utils/formatContent";
 
 const Home = () => {
   const navigate = useNavigate();
   const [page, setPage] = useState(1);
   const [hasMore, setHasMore] = useState(true);
-  // const [orderBy, setOrderBy] = useState(arrayRandomValue(VIDEO_ORDER_OPTIONS));
+  // const [orderBy, setOrderBy] = useState(fArrayRandomValue(VIDEO_ORDER_OPTIONS));
   const [videos, setVideos] = useState({ count: 0, page: 1, data: [] });
-  const {
-    data: previews,
-    error: previewsError,
-    isLoading: previewsIsLoading,
-  } = useScreenVideos({ code: SCREEN_PREVIEW_ID, display: "detail" });
   const {
     data: ranking,
     error: rankingError,
     isLoading: rankingIsLoading,
   } = useRankingVideos({ code: "20240808", count: 20 });
-  const { data: screens, error: screensError, isLoading: screensIsLoading } = useScreenVideos({ code: SCREEN_MAIN_ID });
+  const {
+    data: screens,
+    error: screensError,
+    isLoading: screensIsLoading,
+  } = useScreenVideos({ code: SCREEN_MAIN_ID, display: "detail" });
   const {
     data: videosData,
     error: videosError,
@@ -68,13 +68,13 @@ const Home = () => {
 
   // TODO: 정리 필요
   useEffect(() => {
-    if (previewsIsLoading || screensIsLoading || !previews.status || !screens.status) return;
-    setScreensMA01(formatScreens(previews.data, SCREEN_PREVIEW_ID));
-    setScreensMA02(formatScreens(screens.data, "MA02"));
-    setScreensMA03(formatScreens(screens.data, "MA03"));
-    setScreensMA04(formatScreens(screens.data, "MA04"));
-    setScreensMA05(formatScreens(screens.data, "MA05"));
-  }, [previews, screens]);
+    if (screensIsLoading || !screens.status) return;
+    setScreensMA01(fScreenCode(screens.data, "MA01"));
+    setScreensMA02(fScreenCode(screens.data, "MA02"));
+    setScreensMA03(fScreenCode(screens.data, "MA03"));
+    setScreensMA04(fScreenCode(screens.data, "MA04"));
+    setScreensMA05(fScreenCode(screens.data, "MA05"));
+  }, [screens]);
 
   useEffect(() => {
     if (!videosData || !hasMore) return;
@@ -94,47 +94,49 @@ const Home = () => {
   }, [videosData, hasMore, page]);
 
   // TODO: 로딩중일때 표시할 화면 (스켈레톤 UI)
-  // if (previewsIsLoading || screensIsLoading || rankingIsLoading || videosIsLoading) return null;
-  if (previewsIsLoading || screensIsLoading || rankingIsLoading) return;
+  // if (screensIsLoading || rankingIsLoading || videosIsLoading) return null;
+  if (screensIsLoading || rankingIsLoading) return;
 
-  if (previewsError || screensError || rankingError || videosError) return navigate("/error");
+  if (screensError || rankingError || videosError) return navigate("/error");
 
   return (
     <main className="home-main-container">
-      <section className="home-preview-section">{screensMA01 && <PreviewSwiper screensMA01={screensMA01} />}</section>
+      <section className="home-preview-section">{screensMA01 && <SwiperPreview screensMA01={screensMA01} />}</section>
 
       <section className="home-main-section">
-        {ranking.status && <HVideos content={ranking.data} template="rank" title="🍿 리뷰니버스 TOP 20"></HVideos>}
+        {ranking.status && (
+          <VideosHorizontal content={ranking.data} template="rank" title="🍿 리뷰니버스 TOP 20"></VideosHorizontal>
+        )}
 
         {screensMA02 && (
-          <HVideos
+          <VideosHorizontal
             content={screensMA02.content.list}
             template={screensMA02.content.template}
             title={screensMA02.title}
-          ></HVideos>
+          ></VideosHorizontal>
         )}
 
         {screensMA03 && (
-          <HVideos
+          <VideosHorizontal
             content={screensMA03.content.list}
             template={screensMA03.content.template}
             title={screensMA03.title}
-          ></HVideos>
+          ></VideosHorizontal>
         )}
         {screensMA04 && (
-          <HVideos
+          <VideosHorizontal
             content={screensMA04.content.list}
             template={screensMA04.content.template}
             title={screensMA04.title}
-          ></HVideos>
+          ></VideosHorizontal>
         )}
 
         {screensMA05 && (
-          <HVideos
+          <VideosHorizontal
             content={screensMA05.content.list}
             template={screensMA05.content.template}
             title={screensMA05.title}
-          ></HVideos>
+          ></VideosHorizontal>
         )}
 
         {videos && (

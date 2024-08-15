@@ -1,5 +1,5 @@
 import { USER_CODE } from "/src/config/codes";
-import { formatFileSize } from "/src/utils/format";
+import { fFileSize } from "/src/utils/format";
 
 export const validateUser = (user) => {
   if (!USER_CODE.hasOwnProperty(user.code)) {
@@ -51,7 +51,7 @@ export const isValidEmail = (email) => {
 
 // 파일 사이즈 유효성 검증 함수
 export const isValidFileSize = (file, maxSize) => {
-  const maxSizeBytes = formatFileSize(maxSize);
+  const maxSizeBytes = fFileSize(maxSize);
   return file.size <= maxSizeBytes;
 };
 

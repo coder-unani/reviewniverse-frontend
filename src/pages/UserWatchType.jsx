@@ -5,7 +5,6 @@ import { useWatchTypeCreate } from "/src/hooks/useWatchTypeCreate";
 import { USER_WATCH_TYPE } from "/src/config/codes";
 import { showSuccessToast, showErrorToast } from "/src/components/Toast";
 import { isEmpty } from "lodash";
-import "/src/styles/UserWatchType.css";
 
 const UserFavorite = () => {
   const navigate = useNavigate();

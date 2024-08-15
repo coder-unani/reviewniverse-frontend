@@ -28,7 +28,7 @@ export const useReviewDelete = () => {
           review: {},
         }));
 
-        queryClient.setQueryData(["videoReviews", variables.videoId], (prev) => {
+        queryClient.setQueriesData({ queryKey: ["videoReviews", variables.videoId], exact: false }, (prev) => {
           if (!prev) return prev;
           const updatedReviews = { ...prev };
           updatedReviews.data = updatedReviews.data.filter((review) => review.id !== variables.reviewId);

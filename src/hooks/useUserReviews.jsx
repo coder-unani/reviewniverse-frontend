@@ -1,12 +1,12 @@
 import { useQuery } from "@tanstack/react-query";
 import { fetchUserReviews } from "/src/api/users";
 
-export const useUserReviews = ({ userId, page = null, pageSize = null, orderBy = null }) => {
+export const useUserReviews = ({ userId, page = null, pageSize = null, orderBy = null, enabled }) => {
   return useQuery({
     queryKey: [
-      "userRatings",
+      "userReviews",
+      userId,
       {
-        userId,
         ...(page !== null && { page }),
         ...(pageSize !== null && { pageSize }),
         ...(orderBy !== null && { orderBy }),
@@ -14,7 +14,6 @@ export const useUserReviews = ({ userId, page = null, pageSize = null, orderBy =
     ],
     queryFn: async () => {
       const res = await fetchUserReviews({ userId, page, pageSize, orderBy });
-      console.log(res);
       if (res.status === 200) {
         return {
           status: true,
@@ -29,6 +28,7 @@ export const useUserReviews = ({ userId, page = null, pageSize = null, orderBy =
         };
       }
     },
+    enabled: !!enabled,
     staleTime: 1000 * 60 * 5,
     cacheTime: 1000 * 60 * 10,
     retry: 1,

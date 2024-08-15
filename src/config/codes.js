@@ -1,5 +1,4 @@
-export const SCREEN_PREVIEW_ID = "MA01";
-export const SCREEN_MAIN_ID = "MA02,MA03,MA04,MA05";
+export const SCREEN_MAIN_ID = "MA01,MA02,MA03,MA04,MA05";
 export const SCREEN_MOVIE_ID = "MA01,MA02,MA03,MA04,MA05";
 export const SCREEN_SERIES_ID = "MA01,MA02,MA03,MA04,MA05";
 
@@ -79,6 +78,7 @@ export const VIDEO_ACTOR_CODE = {
   16: "카메오",
   17: "우정출연",
   18: "성우",
+  19: "진행자",
 };
 
 export const VIDEO_STAFF_CODE = {

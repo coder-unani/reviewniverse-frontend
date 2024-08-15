@@ -92,12 +92,13 @@
   font-size: 13px;
   font-weight: 600;
   color: $color-white-02;
+  line-height: 26px;
   border-radius: 6px;
   border: 1px solid $border-color-04;
   background-color: rgba($color-white-02, 0.1);
   backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);
-  padding: 6px 8px;
+  padding: 0 8px;
 }
 
 .detail-control-wrapper {
@@ -799,7 +800,7 @@
   cursor: pointer;
 
   &[data-spoiler="true"] {
-    .review-content {
+    .detail-review-content {
       position: relative;
 
       &[data-active="true"] {
@@ -1118,6 +1119,7 @@
 
   .detail-genre-link {
     font-size: 12px;
+    line-height: 25px;
   }
 
   .detail-sub-info-wrapper {

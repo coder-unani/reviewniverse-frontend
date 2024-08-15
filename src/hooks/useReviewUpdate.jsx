@@ -26,7 +26,11 @@ export const useReviewUpdate = () => {
         queryClient.invalidateQueries({
           queryKey: ["videoMyInfo", { videoId: variables.videoId, userId: variables.userId }],
         });
-        queryClient.invalidateQueries({ queryKey: ["videoReviews", variables.videoId] });
+
+        queryClient.invalidateQueries({
+          queryKey: ["videoReviews", variables.videoId],
+          exact: false,
+        });
       }
     },
     onError: (error) => {

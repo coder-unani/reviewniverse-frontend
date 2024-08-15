@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import LoginLoading from "/src/components/LoginLoading";
 import { useAuthContext } from "/src/context/AuthContext";
-import { formatProvider } from "/src/utils/formatContent";
+import { fProviderCode } from "/src/utils/formatContent";
 import { SETTINGS } from "/src/config/settings";
 import { MESSAGES } from "/src/config/messages";
 import { showSuccessToast, showErrorToast } from "/src/components/Toast";
@@ -29,7 +29,7 @@ const NaverCallback = () => {
             const naverUser = naverLogin.user;
 
             const loginUser = {
-              code: formatProvider("naver"),
+              code: fProviderCode("naver"),
               email: naverUser.email,
               sns_id: naverUser.id,
             };

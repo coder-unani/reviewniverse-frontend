@@ -1,19 +1,30 @@
 import { isEmpty } from "lodash";
 
+// 숫자인지 확인
+export const fParseInt = (value) => {
+  const value2Int = Number(value);
+  return isNaN(value2Int) ? 0 : value2Int;
+};
+
+// 숫자 포맷: 1000단위 콤마 추가
+export const fNumberWithCommas = (number) => {
+  return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+};
+
 // 날짜 포맷: 어떤 날짜 형식이 들어와도 년도만 반환
-export const formatYear = (date) => {
+export const fYear = (date) => {
   // date null 일 경우
   if (!date) return "";
   return date.split("-")[0];
 };
 
 // 날짜 포맷: YYYY-MM-DD를 YYYY.MM.DD로 변경
-export const formatDate = (date) => {
+export const fDate = (date) => {
   return date.replace(/-/g, ".");
 };
 
 // 날짜 포맷: {}일 전, {}시간 전, {}분 전, 방금 전으로 변경, 하루 이상이면 날짜로 변경
-export const diffDate = (date) => {
+export const fDiffDate = (date) => {
   const now = new Date();
   const target = new Date(date);
   const diff = now - target;
@@ -36,30 +47,25 @@ export const diffDate = (date) => {
   }
 };
 
-// 숫자 포맷: 1000단위 콤마 추가
-export const formatNumber = (number) => {
-  return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-};
-
 // 문자 포맷: 대문자로 변경
-export const formatUpperCase = (text) => {
+export const fUpperCase = (text) => {
   return text.toUpperCase();
 };
 
 // 문자 포맷: 주어진 자릿수만큼 문자열 자르기
-export const formatSlice = (text, length) => {
+export const fTruncateText = (text, length) => {
   return text.length > length ? text.slice(0, length) + "..." : text;
 };
 
 // 배열의 랜덤 요소 가져오기
-export const arrayRandomValue = (array) => {
+export const fArrayRandomValue = (array) => {
   if (isEmpty(array)) return false;
   const randomNum = Math.floor(Math.random() * array.length);
   return array[randomNum];
 };
 
 // TODO: 파일 사이즈 포맷(고도화필요)
-export const formatFileSize = (size) => {
+export const fFileSize = (size) => {
   // MB를 바이트로 변경
   return size * 1024 * 1024;
 };

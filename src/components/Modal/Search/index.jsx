@@ -3,7 +3,6 @@ import Modal from "/src/components/Modal";
 import { Link } from "react-router-dom";
 import { isEmpty } from "lodash";
 import { getStorageKeyword, removeStorageKeyword } from "/src/utils/formatStorage";
-import "/src/styles/SearchModal.css";
 
 /**
  * TODO:

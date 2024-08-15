@@ -1,12 +1,11 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import RatingReview from "/src/components/RatingReview";
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import "react-lazy-load-image-component/src/effects/blur.css";
 import { fYear } from "/src/utils/format";
 import { fVideoCode, fThumbnail, fCountry } from "/src/utils/formatContent";
 
-const VideoRatingItem = ({ video }) => {
+const VideoLikeItem = ({ video }) => {
   return (
     <article className="default-video-item">
       <Link to={`/contents/${video.video.id}`}>
@@ -24,23 +23,22 @@ const VideoRatingItem = ({ video }) => {
           <div className="default-title-wrapper">
             <p className="default-title">{video.video.title}</p>
             <div className="default-subtitle">
-              <RatingReview rating={video.rating} />
-              {/* <span>{fYear(video.release)}</span>
-              {video.country && (
+              <span>{fYear(video.video.release)}</span>
+              {/* {video.video.country && (
                 <>
                   <span>|</span>
-                  <span>{fCountry(video.country)}</span>
+                  <span>{fCountry(video.video.country)}</span>
                 </>
               )} */}
             </div>
           </div>
-          {/* <div className="default-code-wrapper">
+          <div className="default-code-wrapper">
             <div className="default-code">{fVideoCode(video.code)}</div>
-          </div> */}
+          </div>
         </div>
       </Link>
     </article>
   );
 };
 
-export default VideoRatingItem;
+export default VideoLikeItem;

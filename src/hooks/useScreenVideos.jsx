@@ -3,7 +3,7 @@ import { fetchScreenVideos } from "/src/api/screens";
 
 export const useScreenVideos = ({ code, display = null }) => {
   return useQuery({
-    queryKey: ["screenVideos", { code, ...(display && { display }) }],
+    queryKey: ["screenVideos", { code, ...(display !== null && { display }) }],
     queryFn: async () => {
       const res = await fetchScreenVideos({ code, display });
       if (res.status === 200) {

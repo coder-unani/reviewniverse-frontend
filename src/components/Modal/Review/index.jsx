@@ -9,7 +9,6 @@ import { useForm, Controller, useWatch } from "react-hook-form";
 import { RiCloseLine } from "@remixicon/react";
 import { isEmpty } from "lodash";
 import { showSuccessToast } from "/src/components/Toast";
-import "/src/styles/ReviewModal.css";
 
 /**
  * TODO:

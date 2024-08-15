@@ -1,4 +1,6 @@
+import React from "react";
 import { AuthContextProvider } from "/src/context/AuthContext";
+import { ModalContextProvider } from "/src/context/ModalContext";
 import DefaultLayout from "/src/layouts/default";
 import Home from "/src/pages/Home";
 import Search from "/src/pages/Search";
@@ -23,7 +25,9 @@ const MainRoutes = {
   path: "/",
   element: (
     <AuthContextProvider>
-      <DefaultLayout />
+      <ModalContextProvider>
+        <DefaultLayout />
+      </ModalContextProvider>
     </AuthContextProvider>
   ),
   children: [

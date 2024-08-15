@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import CheckForm from "/src/components/CheckForm";
+import PasswordCheckForm from "/src/components/PasswordCheckForm";
 import * as Yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm, useWatch } from "react-hook-form";
@@ -284,7 +284,7 @@ const UserProfile = () => {
     <main className="edit-main">
       <div className="edit-wrapper">
         {!isPasswordConfirmed ? (
-          <CheckForm setIsPasswordConfirmed={setIsPasswordConfirmed} />
+          <PasswordCheckForm setIsPasswordConfirmed={setIsPasswordConfirmed} />
         ) : (
           <form method={methods} onSubmit={onSubmit} className="edit-form" encType="multipart/form-data">
             <div className="input-wrapper image">

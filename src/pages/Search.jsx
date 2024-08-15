@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import Videos from "/src/components/Videos";
-import SearchModal from "/src/components/Modal/SearchModal";
+import SearchModal from "/src/components/Modal/Search";
 import { useSearchParams } from "react-router-dom";
 import { useVideos } from "/src/hooks/useVideos";
 import { useThemeContext } from "/src/context/ThemeContext";

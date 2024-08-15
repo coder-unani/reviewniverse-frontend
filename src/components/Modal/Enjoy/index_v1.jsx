@@ -3,7 +3,6 @@ import Modal from "/src/components/Modal";
 import { Link } from "react-router-dom";
 import { RiCloseLine } from "@remixicon/react";
 import Enjoy from "/assets/enjoy.png";
-import "/src/styles/EnjoyModal.css";
 
 const EnjoyModal = ({ onClose }) => {
   const modalRef = useRef();

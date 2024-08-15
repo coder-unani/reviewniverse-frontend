@@ -1,5 +1,5 @@
 import React, { useState, useRef } from "react";
-import People from "/src/components/People";
+import PeopleItem from "/src/components/PeopleItem";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Grid } from "swiper/modules";
 import "swiper/css";
@@ -7,7 +7,7 @@ import "swiper/css/grid";
 import ArrowLeftIcon from "/src/assets/button/arrow-left.svg?react";
 import ArrowRightIcon from "/src/assets/button/arrow-right.svg?react";
 
-const CastSwiper = ({ children, data }) => {
+const SwiperCast = ({ children, data }) => {
   const [isBeginning, setIsBeginning] = useState(true);
   const [isEnd, setIsEnd] = useState(false);
   const swiperRef = useRef(null);
@@ -57,7 +57,7 @@ const CastSwiper = ({ children, data }) => {
         <Swiper className="detail-cast" {...castSwiperConfig}>
           {data.items.map((item, index) => (
             <SwiperSlide key={index}>
-              <People crew={item} target={data.target} formatCode={data.formatCode} />
+              <PeopleItem crew={item} target={data.target} formatCode={data.formatCode} />
             </SwiperSlide>
           ))}
         </Swiper>
@@ -82,4 +82,4 @@ const CastSwiper = ({ children, data }) => {
   );
 };
 
-export default CastSwiper;
+export default SwiperCast;

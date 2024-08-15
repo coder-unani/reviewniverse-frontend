@@ -11,12 +11,11 @@
 // components
 @import "modules/videoItem";
 @import "modules/videoRankItem";
-
-@import "modules/hVideos";
 @import "modules/videos";
+@import "modules/videosHorizontal";
 
-@import "modules/videoRating";
-@import "modules/reviewRating";
+@import "modules/ratingVideo";
+@import "modules/ratingReview";
 
 @import "modules/searchForm";
 
@@ -25,7 +24,13 @@
 @import "modules/profileImage";
 @import "modules/profileButton";
 @import "modules/peopleImage";
+
 @import "modules/confirmModal";
+@import "modules/enjoyModal";
+@import "modules/menuModal";
+@import "modules/searchModal";
+@import "modules/photoModal";
+@import "modules/reviewModal";
 
 // pages
 @import "modules/home";
@@ -36,7 +41,12 @@
 @import "modules/search";
 
 @import "modules/user";
+@import "modules/userProfile";
+@import "modules/userWatchType";
 @import "modules/userRatings";
+@import "modules/userReviews";
+@import "modules/userLikes";
+@import "modules/userDelete";
 
 @import "modules/socialJoin";
 @import "modules/login";

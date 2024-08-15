@@ -1,38 +1,36 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import { useNavigate, useParams, Link } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
-import VideoRating from "/src/components/VideoRating";
-import ProfileImage from "/src/components/Button/Profile/ProfileImage";
-import CastSwiper from "/src/components/CastSwiper";
-import GallerySwiper from "/src/components/GallerySwiper";
+import RatingVideo from "/src/components/RatingVideo";
+import ProfileImage from "/src/components/Button/Profile/Image";
+import SwiperCast from "/src/components/SwiperCast";
+import SwiperGallery from "/src/components/SwiperGallery";
 import VideoReviewItem from "/src/components/VideoReviewItem";
-import EnjoyModal from "/src/components/Modal/EnjoyModal";
-import ReviewModal from "/src/components/Modal/ReviewModal";
-import ConfirmModal from "/src/components/Modal/ConfirmModal";
+import ReviewModal from "/src/components/Modal/Review";
 import { useAuthContext } from "/src/context/AuthContext";
+import { useModalContext } from "/src/context/ModalContext";
 import { useVideoDetail } from "/src/hooks/useVideoDetail";
 import { useVideoReviews } from "/src/hooks/useVideoReviews";
 import { useVideoMyInfo } from "/src/hooks/useVideoMyInfo";
 import { useVideoLike } from "/src/hooks/useVideoLike";
 import { useReviewDelete } from "/src/hooks/useReviewDelete";
-import { useReviewLike } from "/src/hooks/useReviewLike";
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import "react-lazy-load-image-component/src/effects/blur.css";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import { SETTINGS } from "/src/config/settings";
 import { isEmpty, includes } from "lodash";
-import { formatYear, formatUpperCase } from "/src/utils/format";
+import { fYear, fUpperCase } from "/src/utils/format";
 import {
-  formatBackgroundImage,
-  formatPoster,
-  formatReleaseText,
-  formatReleaseDate,
-  formatGenreArray,
-  formatRating,
-  formatActorRoleCode,
-  formatStaffRoleCode,
-  formatRuntimeText,
+  fBackgroundImage,
+  fThumbnail,
+  fReleaseText,
+  fReleaseDate,
+  fGenres,
+  fRating,
+  fActorCode,
+  fStaffCode,
+  fRuntimeText,
 } from "/src/utils/formatContent";
 import { showSuccessToast } from "/src/components/Toast";
 import { Tooltip } from "react-tooltip";
@@ -43,7 +41,6 @@ import FillUpdateIcon from "/src/assets/button/fill-update.svg?react";
  * TODO:
  * - 반응형 레이아웃
  * - 리뷰 무한 스크롤 (스와이퍼 삭제)
- * - 리뷰 없을 때 스타일 디벨롭
  * - 리뷰 스포일러 기능
  * - 리뷰 자세히 보기 (리뷰 모달?)
  * - react modal 라이브러리 사용하기 (갤러리 등)
@@ -68,12 +65,10 @@ const VideoDetail = () => {
     isLoading: myInfoIsLoading,
   } = useVideoMyInfo({ videoId, userId: user?.id, enabled: user });
   const { mutate: videoLike } = useVideoLike();
-  const { mutateAsync: reviewLike } = useReviewLike();
   const { mutateAsync: reviewDelete } = useReviewDelete();
 
-  const [enjoyModal, setEnjoyModal] = useState(false);
-  const [reviewModal, setReviewModal] = useState(false);
-  const [confirmModal, setConfirmModal] = useState(false);
+  const { enjoyModal, reviewModal, confirmModal, toggleEnjoyModal, toggleReviewModal, toggleConfirmModal } =
+    useModalContext();
 
   // 비디오 정보 스와이퍼 설정
   const subInfoSwiperConfig = {
@@ -87,21 +82,6 @@ const VideoDetail = () => {
         spaceBetween: 12,
       },
     },
-  };
-
-  // 로그인 필요 모달창 토글
-  const toggleEnjoyModal = () => {
-    setEnjoyModal(!enjoyModal);
-  };
-
-  // 리뷰 모달창 토글
-  const toggleReviewModal = () => {
-    setReviewModal(!reviewModal);
-  };
-
-  // 확인 모달창 토글
-  const toggleConfirmModal = () => {
-    setConfirmModal(!confirmModal);
   };
 
   // 비디오 좋아요
@@ -135,15 +115,6 @@ const VideoDetail = () => {
     if (res.status) {
       showSuccessToast(res.code);
     }
-  };
-
-  // 리뷰 좋아요
-  const handleReviewLike = async (reviewId) => {
-    if (!user) {
-      toggleEnjoyModal();
-      return;
-    }
-    await reviewLike({ videoId, reviewId, userId: user.id });
   };
 
   useEffect(() => {
@@ -256,32 +227,29 @@ const VideoDetail = () => {
     <>
       <Helmet>
         <title>
-          {content.data.title} ({formatYear(content.data.release)}) - 리뷰니버스
+          {content.data.title} ({fYear(content.data.release)}) - 리뷰니버스
         </title>
         <meta name="keywords" content={content.data.tag || ""} data-rh="true" />
         <meta name="description" content={content.data.synopsis} />
-        <meta
-          property="og:title"
-          content={`${content.data.title} (${formatYear(content.data.release)}) - 리뷰니버스`}
-        />
+        <meta property="og:title" content={`${content.data.title} (${fYear(content.data.release)}) - 리뷰니버스`} />
         <meta property="og:description" content={content.data.synopsis} />
-        <meta property="og:image" content={formatPoster(content.data.thumbnail)} />
+        <meta property="og:image" content={fThumbnail(content.data.thumbnail)} />
         <meta property="og:url" content={`${SETTINGS.DOMAIN_URL}/content/${videoId}`} />
         <meta name="twitter:card" content="summary_large_image" data-rh="true" />
         <meta
           name="twitter:title"
-          content={`${content.data.title} (${formatYear(content.data.release)}) - 리뷰니버스`}
+          content={`${content.data.title} (${fYear(content.data.release)}) - 리뷰니버스`}
           data-rh="true"
         />
         <meta name="twitter:description" content={content.data.synopsis} data-rh="true" />
-        <meta name="twitter:image" content={formatPoster(content.data.thumbnail)} data-rh="true" />
+        <meta name="twitter:image" content={fThumbnail(content.data.thumbnail)} data-rh="true" />
         <meta
           name="kakao:title"
-          content={`${content.data.title} (${formatYear(content.data.release)}) - 리뷰니버스`}
+          content={`${content.data.title} (${fYear(content.data.release)}) - 리뷰니버스`}
           data-rh="true"
         />
         <meta name="kakao:description" content={content.data.synopsis} data-rh="true" />
-        <meta name="kakao:image" content={formatPoster(content.data.thumbnail)} data-rh="true" />
+        <meta name="kakao:image" content={fThumbnail(content.data.thumbnail)} data-rh="true" />
       </Helmet>
 
       <main className="detail-main-container">
@@ -289,7 +257,7 @@ const VideoDetail = () => {
           <figure className="detail-background-wrapper">
             <div
               className="detail-background"
-              style={{ backgroundImage: `url(${formatBackgroundImage(content.data.thumbnail)})` }}
+              style={{ backgroundImage: `url(${fBackgroundImage(content.data.thumbnail)})` }}
             />
           </figure>
 
@@ -303,7 +271,7 @@ const VideoDetail = () => {
                 <ul className="detail-genre-wrapper">
                   {content.data.genre.map((genre, index) => (
                     <li key={index}>
-                      <Link to={`/genre?genre=${formatGenreArray(genre.name)}`} className="detail-genre-link">
+                      <Link to={`/genre?genre=${fGenres(genre.name)}`} className="detail-genre-link">
                         {genre.name}
                       </Link>
                     </li>
@@ -330,29 +298,27 @@ const VideoDetail = () => {
             <Swiper className="detail-sub-info-wrapper" {...subInfoSwiperConfig}>
               <SwiperSlide
                 className="detail-sub-info-item rating"
-                data-index={content.data.rating > 0 ? Math.floor(formatRating(content.data.rating)) : 0}
+                data-index={content.data.rating > 0 ? Math.floor(fRating(content.data.rating)) : 0}
               >
                 <p className="detail-sub-title">평점</p>
                 <div className="detail-sub-content-wrapper">
-                  <p className="detail-sub-content">
-                    {content.data.rating > 0 ? formatRating(content.data.rating) : "-"}
-                  </p>
+                  <p className="detail-sub-content">{content.data.rating > 0 ? fRating(content.data.rating) : "-"}</p>
                 </div>
               </SwiperSlide>
 
               <SwiperSlide className="detail-sub-info-item notice-age">
                 <p className="detail-sub-title">관람등급</p>
                 <div className="detail-sub-content-wrapper">
-                  <p className="detail-sub-content">{formatUpperCase(content.data.notice_age)}</p>
+                  <p className="detail-sub-content">{fUpperCase(content.data.notice_age)}</p>
                 </div>
               </SwiperSlide>
 
               <SwiperSlide className="detail-sub-info-item release">
-                <p className="detail-sub-title">{formatReleaseText(content.data.code)}</p>
+                <p className="detail-sub-title">{fReleaseText(content.data.code)}</p>
                 <div className="detail-sub-content-wrapper">
-                  <p className="detail-sub-content year">{formatYear(content.data.release)}</p>
-                  {formatReleaseDate(content.data.release) && (
-                    <p className="detail-sub-content date">{formatReleaseDate(content.data.release)}</p>
+                  <p className="detail-sub-content year">{fYear(content.data.release)}</p>
+                  {fReleaseDate(content.data.release) && (
+                    <p className="detail-sub-content date">{fReleaseDate(content.data.release)}</p>
                   )}
                 </div>
               </SwiperSlide>
@@ -399,7 +365,7 @@ const VideoDetail = () => {
               </SwiperSlide>
 
               <SwiperSlide className="detail-sub-info-item runtime">
-                <p className="detail-sub-title">{formatRuntimeText(content.data.code)}</p>
+                <p className="detail-sub-title">{fRuntimeText(content.data.code)}</p>
                 <div className="detail-sub-content-wrapper">
                   <p className="detail-sub-content">{content.data.runtime}</p>
                 </div>
@@ -414,7 +380,7 @@ const VideoDetail = () => {
               <figure className="detail-poster-wrapper">
                 <LazyLoadImage
                   className="detail-poster"
-                  src={formatPoster(content.data.thumbnail)}
+                  src={fThumbnail(content.data.thumbnail)}
                   alt="포스터"
                   effect="blur"
                 />
@@ -441,7 +407,7 @@ const VideoDetail = () => {
                   <span className="my-rating-text">/</span>
                   <span className="my-rating-text">5</span>
                 </div>
-                <VideoRating videoId={videoId} myInfo={myInfo} toggleEnjoyModal={toggleEnjoyModal} />
+                <RatingVideo videoId={videoId} myInfo={myInfo} toggleEnjoyModal={toggleEnjoyModal} />
               </div>
 
               {!isEmpty(content.data.platform) && (
@@ -470,38 +436,38 @@ const VideoDetail = () => {
           </section>
 
           {!isEmpty(content.data.actor) && (
-            <CastSwiper
+            <SwiperCast
               data={{
                 title: "출연진",
                 items: content.data.actor,
                 target: "actor",
-                formatCode: formatActorRoleCode,
+                formatCode: fActorCode,
               }}
             >
               <h4 className="detail-main-title">출연진</h4>
-            </CastSwiper>
+            </SwiperCast>
           )}
 
           {!isEmpty(content.data.staff) && (
-            <CastSwiper
+            <SwiperCast
               data={{
                 items: content.data.staff,
                 target: "staff",
-                formatCode: formatStaffRoleCode,
+                formatCode: fStaffCode,
               }}
             >
               <h4 className="detail-main-title">제작진</h4>
-            </CastSwiper>
+            </SwiperCast>
           )}
 
           {!isEmpty(content.data.thumbnail) && (
-            <GallerySwiper
+            <SwiperGallery
               data={{
                 items: content.data.thumbnail,
               }}
             >
               <h4 className="detail-main-title">갤러리</h4>
-            </GallerySwiper>
+            </SwiperGallery>
           )}
 
           <section className="detail-review-section">
@@ -512,25 +478,17 @@ const VideoDetail = () => {
               )}
             </h4>
             <ReviewWrapper />
-            {/* 리뷰 리스트 */}
             {!isEmpty(reviews.data) && (
               <div className="detail-review-wrapper">
                 {reviews.data.map((review, index) => (
-                  <VideoReviewItem
-                    key={index}
-                    review={review}
-                    isLike={myInfo && includes(myInfo.review_like, review.id)}
-                    onLikeClick={handleReviewLike}
-                  />
+                  <VideoReviewItem key={index} videoId={videoId} review={review} />
                 ))}
               </div>
             )}
           </section>
         </div>
 
-        {enjoyModal && <EnjoyModal onClose={toggleEnjoyModal} />}
         {reviewModal && <ReviewModal content={content.data} myReview={myInfo.review} onClose={toggleReviewModal} />}
-        {confirmModal && <ConfirmModal onClose={toggleConfirmModal} />}
       </main>
     </>
   );

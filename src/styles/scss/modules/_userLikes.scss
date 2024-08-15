@@ -1,0 +1,112 @@
+.default-thumbnail-container {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 2 / 3;
+}
+
+.default-thumbnail-wrapper {
+  position: absolute;
+  display: flex;
+  width: 100%;
+  height: 100%;
+  background-color: transparent;
+
+  &::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border-radius: 14px;
+    border: 1px solid $border-color-01;
+  }
+}
+
+.default-thumbnail {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 14px;
+}
+
+.default-info-container {
+  display: flex;
+  align-items: flex-end;
+  margin-top: 16px;
+}
+
+.default-title-wrapper {
+  flex: 1;
+}
+
+.default-title {
+  font-size: 15px;
+  font-weight: 600;
+  color: $color-white-01;
+  line-height: 20px;
+  letter-spacing: -0.2px;
+
+  // 1줄 이상일 경우 생략 부분 처리
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  overflow: hidden;
+  -webkit-box-orient: vertical;
+}
+
+.default-subtitle {
+  font-size: 13px;
+  font-weight: 600;
+  color: $color-white-04;
+  letter-spacing: -0.2px;
+  margin-top: 6px;
+
+  & > span:not(:last-child) {
+    margin-right: 8px;
+  }
+}
+
+.default-code-wrapper {
+  flex: none;
+  margin-left: 10px;
+}
+
+.default-code {
+  font-size: 14px;
+  font-weight: 600;
+  color: $color-white-04;
+  border-radius: 6px;
+  background-color: $color-white-09;
+  padding: 6px 8px;
+}
+
+@media (max-width: 576px) {
+  .default-thumbnail-wrapper {
+    &::after {
+      border-radius: 8px;
+    }
+  }
+
+  .default-thumbnail {
+    border-radius: 8px;
+  }
+
+  .default-info-container {
+    flex-direction: column;
+    align-items: flex-start;
+    margin-top: 12px;
+  }
+
+  .default-subtitle {
+    margin-top: 4px;
+  }
+
+  .default-code-wrapper {
+    display: none;
+  }
+
+  .default-code {
+    font-size: 13px;
+  }
+}

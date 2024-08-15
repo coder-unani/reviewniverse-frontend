@@ -1,8 +1,8 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import PeopleImage from "/src/components/Button/People/PeopleImage";
+import PeopleImage from "/src/components/Button/People/Image";
 
-const People = ({ crew, target, formatCode }) => {
+const PeopleItem = ({ crew, target, formatCode }) => {
   return (
     <Link to={`/people/${crew.id}`} state={{ people: crew, target }} className="detail-people-link" key={crew.id}>
       <PeopleImage image={crew.picture} size={60} />
@@ -22,4 +22,4 @@ const People = ({ crew, target, formatCode }) => {
   );
 };
 
-export default People;
+export default PeopleItem;

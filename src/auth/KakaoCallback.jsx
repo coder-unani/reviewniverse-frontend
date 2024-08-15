@@ -3,7 +3,7 @@ import { useLocation, useNavigate, useSearchParams } from "react-router-dom";
 import LoginLoading from "/src/components/LoginLoading";
 import HttpClient from "/src/utils/HttpClient";
 import { useAuthContext } from "/src/context/AuthContext";
-import { formatProvider } from "/src/utils/formatContent";
+import { fProviderCode } from "/src/utils/formatContent";
 import { SETTINGS } from "/src/config/settings";
 import { MESSAGES } from "/src/config/messages";
 import { showSuccessToast, showErrorToast } from "/src/components/Toast";
@@ -34,7 +34,7 @@ const KakaoCallback = () => {
           const kakaoUser = userRes.data;
 
           const loginUser = {
-            code: formatProvider("kakao"),
+            code: fProviderCode("kakao"),
             email: kakaoUser.kakao_account.email,
             sns_id: kakaoUser.id.toString(),
           };

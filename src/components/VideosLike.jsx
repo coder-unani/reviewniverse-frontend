@@ -1,8 +1,8 @@
 import React, { useState, useRef, useCallback, useEffect } from "react";
-import VideoRatingItem from "/src/components/VideoRatingItem";
+import VideoLikeItem from "/src/components/VideoLikeItem";
 import { isEmpty } from "lodash";
 
-const RatingVideos = ({ videos, handlePage, children }) => {
+const VideosLike = ({ videos, handlePage, children }) => {
   const [hasMore, setHasMore] = useState(true);
   const observer = useRef();
 
@@ -37,7 +37,7 @@ const RatingVideos = ({ videos, handlePage, children }) => {
       {children}
       <div className="vertical-videos-wrapper">
         {videos.data.map((video, index) => (
-          <VideoRatingItem key={index} video={video} />
+          <VideoLikeItem key={index} video={video} />
         ))}
         {hasMore && <article ref={lastItemRef}></article>}
       </div>
@@ -45,4 +45,4 @@ const RatingVideos = ({ videos, handlePage, children }) => {
   );
 };
 
-export default RatingVideos;
+export default VideosLike;

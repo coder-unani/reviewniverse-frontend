@@ -1,6 +1,5 @@
 import React, { useRef } from "react";
 import Modal from "/src/components/Modal";
-import "/src/styles/PhotoModal.css";
 
 const PhotoModal = ({ url, onClose }) => {
   const modalRef = useRef();

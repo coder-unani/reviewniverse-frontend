@@ -3,7 +3,7 @@ import { useAuthContext } from "/src/context/AuthContext";
 import { useVideoRating } from "/src/hooks/useVideoRating";
 import { VIDEO_RATING_TEXT } from "/src/config/constants";
 
-const VideoRating = ({ videoId, myInfo, toggleEnjoyModal }) => {
+const RatingVideo = ({ videoId, myInfo, toggleEnjoyModal }) => {
   const { user } = useAuthContext();
   const [imgSrc, setImgSrc] = useState("/assets/rating/0.png");
   const ratingRef = useRef(null);
@@ -83,4 +83,4 @@ const VideoRating = ({ videoId, myInfo, toggleEnjoyModal }) => {
   );
 };
 
-export default VideoRating;
+export default RatingVideo;

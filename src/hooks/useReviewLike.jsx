@@ -38,12 +38,26 @@ export const useReviewLike = () => {
           return updatedMyInfo;
         });
 
-        queryClient.setQueryData(["videoReviews", variables.videoId], (prev) => {
+        // videoReviews 캐시 업데이트
+        queryClient.setQueriesData({ queryKey: ["videoReviews", variables.videoId], exact: false }, (prev) => {
           if (!prev) return prev;
           const updatedReviews = { ...prev };
           updatedReviews.data = updatedReviews.data.map((review) => {
             if (review.id === variables.reviewId) {
-              return { ...review, like_count: res.data.like_count };
+              return { ...review, like_count: res.data.like_count, my_info: { is_like: res.data.is_like } };
+            }
+            return review;
+          });
+          return updatedReviews;
+        });
+
+        // userReviews 캐시 업데이트
+        queryClient.setQueriesData({ queryKey: ["userReviews", variables.userId], exact: false }, (prev) => {
+          if (!prev) return prev;
+          const updatedReviews = { ...prev };
+          updatedReviews.data.data = updatedReviews.data.data.map((review) => {
+            if (review.id === variables.reviewId) {
+              return { ...review, like_count: res.data.like_count, my_info: { is_like: res.data.is_like } };
             }
             return review;
           });

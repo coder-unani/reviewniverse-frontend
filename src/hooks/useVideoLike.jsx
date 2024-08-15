@@ -14,6 +14,11 @@ export const useVideoLike = () => {
           ...prev,
           is_like: res.data.data.is_like,
         }));
+
+        queryClient.invalidateQueries({
+          queryKey: ["userLikes", variables.userId],
+          exact: false,
+        });
       } else {
         cLog("비디오 좋아요 상태 변경에 실패했습니다.");
       }

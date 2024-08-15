@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import PeopleImage from "/src/components/Button/People/PeopleImage";
+import PeopleImage from "/src/components/Button/People/Image";
 import Videos from "/src/components/Videos";
 import { Helmet } from "react-helmet-async";
 import { useParams, useLocation, useNavigate } from "react-router-dom";

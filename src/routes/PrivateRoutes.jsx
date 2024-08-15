@@ -1,5 +1,6 @@
 import React from "react";
 import { AuthContextProvider } from "/src/context/AuthContext";
+import { ModalContextProvider } from "/src/context/ModalContext";
 import PrivateRoute from "/src/auth/privateRoute";
 import DefaultLayout from "/src/layouts/default";
 import UserProfile from "/src/pages/UserProfile";
@@ -9,9 +10,11 @@ const PrivateRoutes = {
   path: "/",
   element: (
     <AuthContextProvider>
-      <PrivateRoute>
-        <DefaultLayout />
-      </PrivateRoute>
+      <ModalContextProvider>
+        <PrivateRoute>
+          <DefaultLayout />
+        </PrivateRoute>
+      </ModalContextProvider>
     </AuthContextProvider>
   ),
   children: [

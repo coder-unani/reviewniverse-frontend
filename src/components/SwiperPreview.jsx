@@ -1,14 +1,14 @@
 import React, { useState, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
-import { formatDate } from "/src/utils/format";
-import { formatPreviewThumbnail, formatBackgroundImage, formatReleaseText } from "/src/utils/formatContent";
+import { fDate } from "/src/utils/format";
+import { fPreviewThumbnail, fBackgroundImage, fReleaseText } from "/src/utils/formatContent";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay } from "swiper/modules";
 import "swiper/css";
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import "react-lazy-load-image-component/src/effects/blur.css";
 
-const PreviewSwiper = React.memo(({ screensMA01 }) => {
+const SwiperPreview = React.memo(({ screensMA01 }) => {
   const [previewVideo, setPreviewVideo] = useState("");
   const swiperRef = useRef(null);
 
@@ -57,7 +57,7 @@ const PreviewSwiper = React.memo(({ screensMA01 }) => {
         {previewVideo && (
           <div
             className="preview-background"
-            style={{ backgroundImage: `url(${formatPreviewThumbnail(previewVideo.thumbnail)})` }}
+            style={{ backgroundImage: `url(${fPreviewThumbnail(previewVideo.thumbnail)})` }}
           />
         )}
       </figure>
@@ -74,9 +74,9 @@ const PreviewSwiper = React.memo(({ screensMA01 }) => {
             </div>
             <div className="preview-release-wrapper">
               <div className="preview-release">
-                <span>{formatReleaseText(previewVideo.code)}</span>
+                <span>{fReleaseText(previewVideo.code)}</span>
                 <span>|</span>
-                <span>{formatDate(previewVideo.release)}</span>
+                <span>{fDate(previewVideo.release)}</span>
               </div>
             </div>
           </div>
@@ -94,7 +94,7 @@ const PreviewSwiper = React.memo(({ screensMA01 }) => {
                       <figure className={`preview-thumbnail-wrapper ${isActive ? "active" : ""}`}>
                         <LazyLoadImage
                           className="preview-thumbnail-image"
-                          src={formatBackgroundImage(video.thumbnail)}
+                          src={fBackgroundImage(video.thumbnail)}
                           alt={video.title}
                           effect="blur"
                         />
@@ -114,4 +114,4 @@ const PreviewSwiper = React.memo(({ screensMA01 }) => {
   );
 });
 
-export default PreviewSwiper;
+export default SwiperPreview;

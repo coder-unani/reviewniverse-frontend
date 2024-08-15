@@ -1,24 +1,33 @@
 import React, { useState, useEffect } from "react";
-import VideoReviewItem from "/src/components/VideoReviewItem";
-import { useNavigate, useLocation, useParams } from "react-router-dom";
-import { useVideoReviews } from "/src/hooks/useVideoReviews";
+import { useNavigate, useParams } from "react-router-dom";
+import ReviewItem from "/src/components/ReviewItem";
+import { useUserReviews } from "/src/hooks/useUserReviews";
+import { showErrorToast } from "/src/components/Toast";
+import { MESSAGES } from "/src/config/messages";
+import { fParseInt } from "/src/utils/format";
 import { isEmpty } from "lodash";
 
 const UserReviews = () => {
   const navigate = useNavigate();
-  const location = useLocation();
-  const { userId: id } = useParams();
-  const userId = parseInt(id);
-  const { nickname } = location.state || "";
+  const { userId } = useParams();
+  const [reviews, setReviews] = useState({ count: 0, page: 1, total: 0, data: [], user: {} });
   const [page, setPage] = useState(1);
-  const [hasMore, setHasMore] = useState(true);
-  const [reviews, setReviews] = useState({ count: 0, page: 1, data: [] });
+  const pageSize = 20;
+
+  const userId2Int = fParseInt(userId);
+
   // 리뷰 리스트
   const {
     data: reviewsData,
     error: reviewsError,
     isLoading: reviewsIsLoading,
-  } = useVideoReviews({ videoId: 10710, page: 1, pageSize: 8 });
+  } = useUserReviews({
+    userId: userId2Int,
+    page,
+    pageSize,
+    // orderBy: "created_at_desc",
+    enabled: userId2Int,
+  });
 
   // 페이지 변경
   const handlePage = (page) => {
@@ -26,30 +35,41 @@ const UserReviews = () => {
   };
 
   useEffect(() => {
-    // if (reviewsIsLoading || !hasMore) return;
-    if (!reviewsData || !hasMore) return;
+    if (userId2Int === 0) {
+      showErrorToast(MESSAGES.U006);
+      navigate("/404-not-found");
+    }
+  }, [userId2Int, navigate]);
+
+  useEffect(() => {
+    if (reviewsIsLoading || !reviewsData || !reviewsData.status) return;
     if (page === 1) {
-      setReviews(reviewsData);
+      setReviews(reviewsData.data);
     } else {
-      if (page === 5) setHasMore(false);
       setReviews((prev) => {
         return {
           ...prev,
-          count: reviewsData.count,
-          page: reviewsData.page,
-          data: [...prev.data, ...reviewsData.data],
+          count: reviewsData.data.count,
+          page: reviewsData.data.page,
+          data: [...prev.data, ...reviewsData.data.data],
         };
       });
     }
-  }, [reviewsData, hasMore, page]);
+  }, [reviewsData, reviewsIsLoading, page]);
+
+  if (reviewsIsLoading) return null;
+  if (reviewsError) return navigate("/error");
 
   return (
-    <main className="ratings-main-container">
-      <section className="ratings-content-section">
-        <strong className="ratings-content-title">
-          <em>{nickname}</em> 님이 평가한 작품이 {reviews.total} 개 있어요
+    <main className="reviews-main-container">
+      <section className="reviews-title-section">
+        <strong className="reviews-title">
+          <em>{reviews.user.nickname}</em> 님이 기록한 리뷰가 {reviews.total} 개 있어요
         </strong>
-        {!isEmpty(reviews.data) && reviews.data.map((review) => <VideoReviewItem key={review.id} review={review} />)}
+      </section>
+      <section className="reviews-content-section">
+        {!isEmpty(reviews.data) &&
+          reviews.data.map((review) => <ReviewItem key={review.id} user={reviews.user} review={review} />)}
       </section>
     </main>
   );

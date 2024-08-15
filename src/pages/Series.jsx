@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from "react";
-import HVideos from "/src/components/HVideos";
+import VideosHorizontal from "/src/components/VideosHorizontal";
 import Videos from "/src/components/Videos";
 import { useAuthContext } from "/src/context/AuthContext";
 import { useScreenVideos } from "/src/hooks/useScreenVideos";
 import { useVideos } from "/src/hooks/useVideos";
 import { SCREEN_SERIES_ID } from "/src/config/codes";
 import { VIDEO_ORDER_OPTIONS } from "/src/config/constants";
-import { arrayRandomValue } from "/src/utils/format";
+import { fArrayRandomValue } from "/src/utils/format";
 import { isEmpty } from "lodash";
 
 const Series = () => {
@@ -14,7 +14,7 @@ const Series = () => {
   const code = 11;
   const [page, setPage] = useState(1);
   const [hasMore, setHasMore] = useState(true);
-  const [orderBy, setOrderBy] = useState(arrayRandomValue(VIDEO_ORDER_OPTIONS));
+  const [orderBy, setOrderBy] = useState(fArrayRandomValue(VIDEO_ORDER_OPTIONS));
   const [videos, setVideos] = useState({ count: 0, page: 1, data: [] });
   // 스크린 데이터
   const {
@@ -66,7 +66,7 @@ const Series = () => {
   // 데이터 props로 하위 컴포넌트에 전달
   return (
     <main className="main">
-      {!isEmpty(screens) && screens.map((content, index) => <HVideos key={index} content={content} />)}
+      {!isEmpty(screens) && screens.map((content, index) => <VideosHorizontal key={index} content={content} />)}
       {!isEmpty(videos) && (
         <Videos videos={videos} handlePage={handlePage}>
           <div className="title-wrapper">

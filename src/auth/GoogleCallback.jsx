@@ -4,7 +4,7 @@ import LoginLoading from "/src/components/LoginLoading";
 import { useAuthContext } from "/src/context/AuthContext";
 import { signInWithPopup } from "firebase/auth";
 import { auth, provider } from "/src/auth/firebase";
-import { formatProvider } from "/src/utils/formatContent";
+import { fProviderCode } from "/src/utils/formatContent";
 import { MESSAGES } from "/src/config/messages";
 import { showSuccessToast, showErrorToast } from "/src/components/Toast";
 
@@ -20,7 +20,7 @@ const GoogleCallback = () => {
         const googleUser = googleRes.user;
 
         const loginUser = {
-          code: formatProvider("google"),
+          code: fProviderCode("google"),
           email: googleUser.email,
           sns_id: googleUser.uid,
         };

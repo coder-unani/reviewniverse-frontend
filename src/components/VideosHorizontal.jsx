@@ -8,7 +8,7 @@ import ArrowLeftIcon from "/src/assets/button/arrow-left.svg?react";
 import ArrowRightIcon from "/src/assets/button/arrow-right.svg?react";
 import { isEmpty } from "lodash";
 
-const HVideos = ({ content, template, title }) => {
+const VideosHorizontal = ({ content, template, title }) => {
   const [videos, setVideos] = useState([]);
   const [isBeginning, setIsBeginning] = useState(true);
   const [isEnd, setIsEnd] = useState(false);
@@ -98,4 +98,4 @@ const HVideos = ({ content, template, title }) => {
   );
 };
 
-export default HVideos;
+export default VideosHorizontal;

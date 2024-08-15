@@ -1,47 +1,32 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import RatingVideos from "/src/components/RatingVideos";
+import VideosRating from "/src/components/VideosRating";
 import { useUserRatings } from "/src/hooks/useUserRatings";
+import { showErrorToast } from "/src/components/Toast";
 import { MESSAGES } from "/src/config/messages";
+import { fParseInt } from "/src/utils/format";
 import { isEmpty } from "lodash";
-
-const fetchVideosData = ({ userId, page, pageSize, navigate }) => {
-  try {
-    const userId2Int = parseInt(userId);
-
-    if (isNaN(userId2Int)) {
-      throw new Error(MESSAGES.U006);
-    }
-
-    const { data, error, isLoading } = useUserRatings({
-      userId: userId2Int,
-      page,
-      pageSize,
-      orderBy: "rating_desc",
-    });
-
-    return { data, error, isLoading };
-  } catch (error) {
-    navigate("/404-not-found");
-  }
-};
 
 const UserRatings = () => {
   const navigate = useNavigate();
   const { userId } = useParams();
+  const [videos, setVideos] = useState({ count: 0, page: 1, total: 0, data: [], user: {} });
   const [page, setPage] = useState(1);
   const pageSize = 20;
-  const [videos, setVideos] = useState({ count: 0, page: 1, data: [], user: {} });
+
+  const userId2Int = fParseInt(userId);
+
   // 비디오 리스트
   const {
     data: videosData,
     error: videosError,
     isLoading: videosIsLoading,
-  } = fetchVideosData({
-    userId,
+  } = useUserRatings({
+    userId: userId2Int,
     page,
     pageSize,
-    navigate,
+    orderBy: "rating_desc",
+    enabled: userId2Int,
   });
 
   // 페이지 변경
@@ -50,16 +35,23 @@ const UserRatings = () => {
   };
 
   useEffect(() => {
-    if (videosIsLoading || !videosData.status) return;
+    if (userId2Int === 0) {
+      showErrorToast(MESSAGES.U006);
+      navigate("/404-not-found");
+    }
+  }, [userId2Int, navigate]);
+
+  useEffect(() => {
+    if (videosIsLoading || !videosData || !videosData.status) return;
     if (page === 1) {
       setVideos(videosData.data);
     } else {
       setVideos((prev) => {
         return {
           ...prev,
-          count: videosData.count,
-          page: videosData.page,
-          data: [...prev.data, ...videosData.data],
+          count: videosData.data.count,
+          page: videosData.data.page,
+          data: [...prev.data, ...videosData.data.data],
         };
       });
     }
@@ -74,7 +66,7 @@ const UserRatings = () => {
         <strong className="ratings-content-title">
           <em>{videos.user.nickname}</em> 님이 평가한 작품이 {videos.total} 개 있어요
         </strong>
-        {!isEmpty(videos) && !isEmpty(videos.data) && <RatingVideos videos={videos} handlePage={handlePage} />}
+        {!isEmpty(videos.data) && <VideosRating videos={videos} handlePage={handlePage} />}
       </section>
     </main>
   );

@@ -1,15 +1,20 @@
 import { useQuery } from "@tanstack/react-query";
 import { fetchVideoReviews } from "/src/api/videos";
 
+// TODO: queryKey page, pageSize 추가
+
 export const useVideoReviews = ({ videoId, page = null, pageSize = null }) => {
   return useQuery({
-    queryKey: ["videoReviews", videoId],
-    queryFn: async () => {
-      const res = await fetchVideoReviews({
-        videoId,
+    queryKey: [
+      "videoReviews",
+      videoId,
+      {
         ...(page !== null && { page }),
         ...(pageSize !== null && { pageSize }),
-      });
+      },
+    ],
+    queryFn: async () => {
+      const res = await fetchVideoReviews({ videoId, page, pageSize });
       return res.status === 200 ? res.data : [];
     },
     // TODO: staleTime, cacheTime 변경 (staleTime: 5분, cacheTime: 10분)

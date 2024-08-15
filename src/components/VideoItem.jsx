@@ -2,8 +2,8 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import "react-lazy-load-image-component/src/effects/blur.css";
-import { formatYear } from "/src/utils/format";
-import { formatThumbnail, formatCountry } from "/src/utils/formatContent";
+import { fYear } from "/src/utils/format";
+import { fThumbnail, fCountry } from "/src/utils/formatContent";
 
 const VideoItem = ({ video }) => {
   return (
@@ -11,23 +11,18 @@ const VideoItem = ({ video }) => {
       <Link to={`/contents/${video.id}`}>
         <div className="default-thumbnail-container">
           <figure className="default-thumbnail-wrapper">
-            <LazyLoadImage
-              className="default-thumbnail"
-              src={formatThumbnail(video.thumbnail)}
-              alt="썸네일"
-              effect="blur"
-            />
+            <LazyLoadImage className="default-thumbnail" src={fThumbnail(video.thumbnail)} alt="썸네일" effect="blur" />
           </figure>
         </div>
         <div className="default-info-container">
           <div className="default-title-wrapper">
             <p className="default-title">{video.title}</p>
             <div className="default-subtitle">
-              <span>{formatYear(video.release)}</span>
+              <span>{fYear(video.release)}</span>
               {video.country && (
                 <>
                   <span>|</span>
-                  <span>{formatCountry(video.country)}</span>
+                  <span>{fCountry(video.country)}</span>
                 </>
               )}
             </div>

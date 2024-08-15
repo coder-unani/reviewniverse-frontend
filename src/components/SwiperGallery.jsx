@@ -1,5 +1,5 @@
 import React, { useState, useRef } from "react";
-import PhotoModal from "/src/components/Modal/PhotoModal";
+import PhotoModal from "/src/components/Modal/Photo";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Virtual } from "swiper/modules";
 import "swiper/css";
@@ -9,7 +9,7 @@ import "react-lazy-load-image-component/src/effects/blur.css";
 import ArrowLeftIcon from "/src/assets/button/arrow-left.svg?react";
 import ArrowRightIcon from "/src/assets/button/arrow-right.svg?react";
 
-const GallerySwiper = ({ children, data }) => {
+const SwiperGallery = ({ children, data }) => {
   const [isBeginning, setIsBeginning] = useState(true);
   const [isEnd, setIsEnd] = useState(false);
   const swiperRef = useRef(null);
@@ -89,4 +89,4 @@ const GallerySwiper = ({ children, data }) => {
   );
 };
 
-export default GallerySwiper;
+export default SwiperGallery;
