@@ -18,8 +18,12 @@ class HttpClient {
     }
   }
 
-  setHeader(headers) {
-    Object.assign(this.client.defaults.headers.common, headers);
+  setHeader(header) {
+    Object.assign(this.client.defaults.headers.common, header);
+  }
+
+  unsetHeader(header) {
+    delete this.client.defaults.headers.common[header];
   }
 
   async get(url, params = null) {

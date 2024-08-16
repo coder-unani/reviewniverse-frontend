@@ -20,7 +20,7 @@ const KakaoCallback = () => {
         const code = searchParams.get("code");
         if (code) {
           const client = new HttpClient();
-          // client.removeHeader("X-Device-Identifier");
+          client.unsetHeader("X-Device-Identifier");
           const tokenRes = await client.post(`https://kauth.kakao.com/oauth/token`, null, {
             grant_type: "authorization_code",
             client_id: SETTINGS.KAKAO_API_KEY,
