@@ -9,7 +9,6 @@ class HttpClient {
     this.client = axios.create();
     this.client.defaults.headers.common["Content-Type"] = "application/json";
     this.client.defaults.headers.common["Accept"] = "application/json";
-    this.client.defaults.headers.common["X-Device-Identifier"] = SETTINGS.DEVICE_IDENTIFIER;
     if (!token && getStorageAccessToken()) {
       token = getStorageAccessToken();
     }
@@ -28,6 +27,10 @@ class HttpClient {
 
   async get(url, params = null) {
     try {
+      if (url.includes(SETTINGS.API_BASE_URL)) {
+        this.setHeader({ "X-Device-Identifier": SETTINGS.DEVICE_IDENTIFIER });
+      }
+
       return await this.client
         .get(url, { params: params ? params : {} })
         .then((response) => {
@@ -43,6 +46,10 @@ class HttpClient {
 
   async post(url, data = null, params = null) {
     try {
+      if (url.includes(SETTINGS.API_BASE_URL)) {
+        this.setHeader({ "X-Device-Identifier": SETTINGS.DEVICE_IDENTIFIER });
+      }
+
       return await this.client
         .post(url, data ? data : {}, params ? { params } : {})
         .then((response) => {
@@ -58,6 +65,10 @@ class HttpClient {
 
   async put(url, data = null) {
     try {
+      if (url.includes(SETTINGS.API_BASE_URL)) {
+        this.setHeader({ "X-Device-Identifier": SETTINGS.DEVICE_IDENTIFIER });
+      }
+
       return await this.client
         .put(url, data ? data : {})
         .then((response) => {
@@ -73,6 +84,10 @@ class HttpClient {
 
   async delete(url, data = null) {
     try {
+      if (url.includes(SETTINGS.API_BASE_URL)) {
+        this.setHeader({ "X-Device-Identifier": SETTINGS.DEVICE_IDENTIFIER });
+      }
+
       return await this.client
         .delete(url, data ? data : {})
         .then((response) => {
@@ -88,6 +103,10 @@ class HttpClient {
 
   async patch(url, data = null) {
     try {
+      if (url.includes(SETTINGS.API_BASE_URL)) {
+        this.setHeader({ "X-Device-Identifier": SETTINGS.DEVICE_IDENTIFIER });
+      }
+
       return await this.client
         .patch(url, data ? data : {})
         .then((response) => {
