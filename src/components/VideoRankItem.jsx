@@ -20,9 +20,9 @@ const VideoRankItem = ({ video, index }) => {
     <article className="rank-video-item">
       <Link to={`/contents/${video.id}`}>
         <div className="rank-thumbnail-container">
-          <figure className="rank-thumbnail-wrapper">
+          <picture className="rank-thumbnail-wrapper">
             <LazyLoadImage className="rank-thumbnail" src={fThumbnail(video.thumbnail)} alt="썸네일" effect="blur" />
-          </figure>
+          </picture>
           <div className="rank-number-wrapper">{fRankingNumber(index + 1)}</div>
         </div>
         <div className="rank-info-container">

@@ -59,9 +59,9 @@ const SwiperGallery = ({ children, data }) => {
                 virtualIndex={index}
                 onClick={() => togglePhotoModal(image)}
               >
-                <figure className="detail-photo-wrapper">
+                <picture className="detail-photo-wrapper">
                   <LazyLoadImage className="detail-photo" src={image} alt="갤러리 이미지" effect="blur" />
-                </figure>
+                </picture>
               </SwiperSlide>
             ))}
           </Swiper>

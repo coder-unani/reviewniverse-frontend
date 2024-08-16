@@ -288,7 +288,7 @@ const UserProfile = () => {
         ) : (
           <form method={methods} onSubmit={onSubmit} className="edit-form" encType="multipart/form-data">
             <div className="input-wrapper image">
-              <figure className="profile-image edit">
+              <div className="profile-image edit">
                 <img src={previewImage} alt="프로필 이미지" />
                 <input
                   type="file"
@@ -301,7 +301,7 @@ const UserProfile = () => {
                 <label htmlFor="profile_image">
                   <RiImageEditFill size={24} />
                 </label>
-              </figure>
+              </div>
               {errors.profile_image && <p className="error">{errors.profile_image.message}</p>}
             </div>
             <div className="input-wrapper">

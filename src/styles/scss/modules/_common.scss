@@ -54,6 +54,14 @@ a {
   color: inherit;
 }
 
+summary {
+  list-style-type: none;
+
+  &::-webkit-details-marker {
+    display: none;
+  }
+}
+
 h1,
 h2,
 h3,
@@ -68,10 +76,6 @@ span {
 
 em {
   font-style: normal;
-}
-
-figure {
-  margin: 0;
 }
 
 .lazy-load-image-background {

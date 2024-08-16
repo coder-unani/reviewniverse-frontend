@@ -64,9 +64,9 @@ const RatingVideo = ({ videoId, myInfo, toggleEnjoyModal }) => {
 
   return (
     <div className="video-rating-container">
-      <figure className="video-rating-image-wrapper">
+      <div className="video-rating-image-wrapper">
         <img className="video-rating-image" src={imgSrc} alt="평가 이미지" ref={ratingImgRef} />
-      </figure>
+      </div>
       <div className="video-rating-range-wrapper">
         <span id="ratingText" className="video-rating-text">
           {VIDEO_RATING_TEXT[0]}

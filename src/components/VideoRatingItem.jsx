@@ -11,14 +11,14 @@ const VideoRatingItem = ({ video }) => {
     <article className="default-video-item">
       <Link to={`/contents/${video.video.id}`}>
         <div className="default-thumbnail-container">
-          <figure className="default-thumbnail-wrapper">
+          <picture className="default-thumbnail-wrapper">
             <LazyLoadImage
               className="default-thumbnail"
               src={fThumbnail(video.video.thumbnail)}
               alt="썸네일"
               effect="blur"
             />
-          </figure>
+          </picture>
         </div>
         <div className="default-info-container">
           <div className="default-title-wrapper">

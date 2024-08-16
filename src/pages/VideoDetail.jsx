@@ -254,12 +254,12 @@ const VideoDetail = () => {
 
       <main className="detail-main-container">
         <section className="detail-main-section">
-          <figure className="detail-background-wrapper">
+          <picture className="detail-background-wrapper">
             <div
               className="detail-background"
               style={{ backgroundImage: `url(${fBackgroundImage(content.data.thumbnail)})` }}
             />
-          </figure>
+          </picture>
 
           <div className="detail-main-info-container">
             <div className="detail-main-info-wrapper">
@@ -376,25 +376,25 @@ const VideoDetail = () => {
 
         <div className="detail-main-wrapper">
           <section className="detail-sub-section">
-            <div className="detail-poster-container">
-              <figure className="detail-poster-wrapper">
+            <article className="detail-poster-container">
+              <picture className="detail-poster-wrapper">
                 <LazyLoadImage
                   className="detail-poster"
                   src={fThumbnail(content.data.thumbnail)}
                   alt="포스터"
                   effect="blur"
                 />
-              </figure>
-            </div>
+              </picture>
+            </article>
 
-            <div className="detail-content-container">
+            <article className="detail-content-container">
               <div className="detail-synopsis-wrapper">
                 <h4 className="detail-main-title">작품 소개</h4>
-                <p className="detail-synopsis">{content.data.synopsis}</p>
+                <summary className="detail-synopsis">{content.data.synopsis}</summary>
               </div>
-            </div>
+            </article>
 
-            <div className="detail-more-container">
+            <article className="detail-more-container">
               <div className="detail-my-rating-wrapper">
                 <h4 className="detail-main-title">평가하기</h4>
                 <div className="detail-my-rating">
@@ -411,7 +411,7 @@ const VideoDetail = () => {
               </div>
 
               {!isEmpty(content.data.platform) && (
-                <div className="detail-platform-wrapper">
+                <article className="detail-platform-wrapper">
                   <h4 className="detail-main-title">보러가기</h4>
                   <div className="detail-platform">
                     {content.data.platform.map((platform, index) => {
@@ -430,9 +430,9 @@ const VideoDetail = () => {
                       );
                     })}
                   </div>
-                </div>
+                </article>
               )}
-            </div>
+            </article>
           </section>
 
           {!isEmpty(content.data.actor) && (

@@ -53,14 +53,14 @@ const SwiperPreview = React.memo(({ screensMA01 }) => {
 
   return (
     <>
-      <figure className="preview-background-wrapper">
+      <picture className="preview-background-wrapper">
         {previewVideo && (
           <div
             className="preview-background"
             style={{ backgroundImage: `url(${fPreviewThumbnail(previewVideo.thumbnail)})` }}
           />
         )}
-      </figure>
+      </picture>
 
       <div className="preview-info-container">
         {previewVideo && (
@@ -91,14 +91,14 @@ const SwiperPreview = React.memo(({ screensMA01 }) => {
                 <SwiperSlide className="preview-video-item" key={index}>
                   {({ isActive }) => (
                     <Link to={`/contents/${video.id}`} className="preview-video-link">
-                      <figure className={`preview-thumbnail-wrapper ${isActive ? "active" : ""}`}>
+                      <picture className={`preview-thumbnail-wrapper ${isActive ? "active" : ""}`}>
                         <LazyLoadImage
                           className="preview-thumbnail-image"
                           src={fBackgroundImage(video.thumbnail)}
                           alt={video.title}
                           effect="blur"
                         />
-                      </figure>
+                      </picture>
                       {/* <div className="preview-card">
                         <span className="new">NEW</span>
                       </div> */}

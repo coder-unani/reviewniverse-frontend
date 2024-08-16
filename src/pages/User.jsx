@@ -70,9 +70,9 @@ const User = () => {
           <div className="user">
             <section className="user-info">
               {isLogin && <SettingButton />}
-              <figure className="background">
+              <div className="background">
                 <LazyLoadImage src={DEFAULT_IMAGES.noImage} alt="배경 이미지" effect="blur" />
-              </figure>
+              </div>
               <div className="user-profile">
                 <ProfileImage image={profile.profile_image} size={100} />
                 <h1 className="nickname">{profile.nickname}</h1>
