@@ -11,17 +11,16 @@ const UserFavorite = () => {
   const { user } = useAuthContext();
   const [selectedFavorites, setSelectedFavorites] = useState([]);
 
-  const handleFavorite = useCallback((id) => {
+  const handleFavorite = (id) => {
     setSelectedFavorites((prev) => {
       if (prev.includes(id)) {
         return prev.filter((favoriteId) => favoriteId !== id);
       } else if (prev.length < 3) {
-        // 일단 3개까지만
         return [...prev, id];
       }
       return prev;
     });
-  }, []);
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -59,7 +58,14 @@ const UserFavorite = () => {
                   <p className="subtitle">{watchtype.subtitle}</p>
                   <p className="title">{watchtype.title}</p>
                 </div>
-                <button type="button" className="check" onClick={() => handleFavorite(watchtype.id)}>
+                <button
+                  type="button"
+                  className="check"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    handleFavorite(watchtype.id);
+                  }}
+                >
                   <img src="/assets/check.svg" alt="체크" />
                 </button>
               </section>
