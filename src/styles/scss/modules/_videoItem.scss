@@ -52,7 +52,7 @@
 
 .default-info-container {
   display: flex;
-  align-items: flex-end;
+  flex-direction: column;
   margin-top: 16px;
 }
 
@@ -147,6 +147,7 @@
 .default-rating {
   font-size: 13px;
   font-weight: 700;
+  line-height: 1;
 }
 
 @media (max-width: 576px) {
@@ -188,5 +189,14 @@
   .default-rating-wrapper {
     margin-top: 4px;
     margin-left: 0;
+  }
+
+  .default-rating-square {
+    width: 10px;
+    height: 10px;
+  }
+
+  .default-rating {
+    font-size: 11px;
   }
 }

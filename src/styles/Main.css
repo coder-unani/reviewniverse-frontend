@@ -682,7 +682,7 @@ em {
 
 .default-info-container {
   display: flex;
-  align-items: flex-end;
+  flex-direction: column;
   margin-top: 16px;
 }
 
@@ -763,6 +763,7 @@ em {
 .default-rating {
   font-size: 13px;
   font-weight: 700;
+  line-height: 1;
 }
 
 @media (max-width: 576px) {
@@ -795,6 +796,13 @@ em {
   .default-rating-wrapper {
     margin-top: 4px;
     margin-left: 0;
+  }
+  .default-rating-square {
+    width: 10px;
+    height: 10px;
+  }
+  .default-rating {
+    font-size: 11px;
   }
 }
 .rank-video-item {
@@ -871,7 +879,7 @@ em {
 
 .rank-info-container {
   display: flex;
-  align-items: flex-end;
+  flex-direction: column;
   margin-top: 24px;
 }
 
@@ -952,6 +960,7 @@ em {
 .rank-rating {
   font-size: 13px;
   font-weight: 700;
+  line-height: 1;
 }
 
 @media (max-width: 576px) {
@@ -998,6 +1007,13 @@ em {
   .rank-rating-wrapper {
     margin-top: 4px;
     margin-left: 0;
+  }
+  .rank-rating-square {
+    width: 10px;
+    height: 10px;
+  }
+  .rank-rating {
+    font-size: 11px;
   }
 }
 .vertical-videos-section {

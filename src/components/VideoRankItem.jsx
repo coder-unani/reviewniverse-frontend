@@ -37,20 +37,20 @@ const VideoRankItem = ({ video, index }) => {
         <div className="rank-info-container">
           <div className="rank-title-wrapper">
             <p className="rank-title">{video.title}</p>
-            <div className="rank-subtitle-wrapper">
-              <div className="rank-subtitle">
-                <span>{fYear(video.release)}</span>
-                {video.country && (
-                  <>
-                    <span>|</span>
-                    <span>{fCountry(video.country)}</span>
-                  </>
-                )}
-              </div>
-              <div className="rank-rating-wrapper" data-rating={Math.floor(fRating(video.rating))}>
-                <div className="rank-rating-square"></div>
-                <span className="rank-rating">{video.rating ? fRating(video.rating) : "-"}</span>
-              </div>
+          </div>
+          <div className="rank-subtitle-wrapper">
+            <div className="rank-subtitle">
+              <span>{fYear(video.release)}</span>
+              {video.country && (
+                <>
+                  <span>|</span>
+                  <span>{fCountry(video.country)}</span>
+                </>
+              )}
+            </div>
+            <div className="rank-rating-wrapper" data-rating={Math.floor(fRating(video.rating))}>
+              <div className="rank-rating-square"></div>
+              <span className="rank-rating">{video.rating ? fRating(video.rating) : "-"}</span>
             </div>
           </div>
         </div>

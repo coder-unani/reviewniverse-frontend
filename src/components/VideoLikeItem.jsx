@@ -31,21 +31,21 @@ const VideoLikeItem = ({ video }) => {
         <div className="default-info-container">
           <div className="default-title-wrapper">
             <p className="default-title">{video.video.title}</p>
-            <div className="default-subtitle-wrapper">
-              <div className="default-subtitle">
-                <span>{fYear(video.video.release)}</span>
-                {/* {video.country && (
+          </div>
+          <div className="default-subtitle-wrapper">
+            <div className="default-subtitle">
+              <span>{fYear(video.video.release)}</span>
+              {/* {video.country && (
                   <>
                     <span>|</span>
                     <span>{fCountry(video.country)}</span>
                   </>
                 )} */}
-              </div>
-              {/* <div className="default-rating-wrapper" data-rating={Math.floor(fRating(video.video.rating))}>
+            </div>
+            {/* <div className="default-rating-wrapper" data-rating={Math.floor(fRating(video.video.rating))}>
                 <div className="default-rating-square"></div>
                 <span className="default-rating">{video.video.rating ? fRating(video.video.rating) : "-"}</span>
               </div> */}
-            </div>
           </div>
         </div>
       </a>

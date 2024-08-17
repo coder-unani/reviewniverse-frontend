@@ -32,6 +32,8 @@ const VideoRatingItem = ({ video }) => {
         <div className="default-info-container">
           <div className="default-title-wrapper">
             <p className="default-title">{video.video.title}</p>
+          </div>
+          <div className="default-subtitle-wrapper">
             <div className="default-subtitle">
               <RatingReview rating={video.rating} />
               {/* <span>{fYear(video.release)}</span>
