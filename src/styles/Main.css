@@ -675,9 +675,10 @@ em {
   font-size: 13px;
   font-weight: 600;
   color: #93a8b4;
+  line-height: 25px;
   border-radius: 8px;
   background-color: #12222b;
-  padding: 6px 8px;
+  padding: 0 8px;
 }
 
 .default-info-container {
@@ -782,13 +783,14 @@ em {
     margin-top: 4px;
   }
   .default-code-wrapper {
-    top: 2px;
-    left: 2px;
+    top: 4px;
+    left: 4px;
   }
   .default-code {
     font-size: 12px;
+    line-height: 22px;
     border-radius: 6px;
-    padding: 5px 7px;
+    padding: 0 7px;
   }
   .default-subtitle-wrapper {
     flex-direction: column;
@@ -845,9 +847,10 @@ em {
   font-size: 13px;
   font-weight: 600;
   color: #93a8b4;
+  line-height: 25px;
   border-radius: 8px;
   background-color: #12222b;
-  padding: 6px 8px;
+  padding: 0 8px;
 }
 
 .rank-number-wrapper {
@@ -987,13 +990,14 @@ em {
     margin-top: 4px;
   }
   .rank-code-wrapper {
-    top: 2px;
-    left: 2px;
+    top: 4px;
+    left: 4px;
   }
   .rank-code {
     font-size: 12px;
+    line-height: 22px;
     border-radius: 6px;
-    padding: 5px 7px;
+    padding: 0 7px;
   }
   .rank-subtitle-wrapper {
     flex-direction: column;
