@@ -7,7 +7,7 @@ import "swiper/css/grid";
 import ArrowLeftIcon from "/src/assets/button/arrow-left.svg?react";
 import ArrowRightIcon from "/src/assets/button/arrow-right.svg?react";
 
-const SwiperCast = ({ children, data }) => {
+const SwiperCast = ({ items, target, formatCode }) => {
   const [isBeginning, setIsBeginning] = useState(true);
   const [isEnd, setIsEnd] = useState(false);
   const swiperRef = useRef(null);
@@ -51,34 +51,26 @@ const SwiperCast = ({ children, data }) => {
   };
 
   return (
-    <section className="detail-cast-section">
-      {children}
-      <div className="detail-cast-wrapper" data-length={data.items.length}>
-        <Swiper className="detail-cast" {...castSwiperConfig}>
-          {data.items.map((item, index) => (
-            <SwiperSlide key={index}>
-              <PeopleItem crew={item} target={data.target} formatCode={data.formatCode} />
-            </SwiperSlide>
-          ))}
-        </Swiper>
-        <button
-          type="button"
-          className="cast-prev-button"
-          onClick={() => swiperRef.current.slidePrev()}
-          disabled={isBeginning}
-        >
-          <ArrowLeftIcon />
-        </button>
-        <button
-          type="button"
-          className="cast-next-button"
-          onClick={() => swiperRef.current.slideNext()}
-          disabled={isEnd}
-        >
-          <ArrowRightIcon />
-        </button>
-      </div>
-    </section>
+    <article className="detail-cast-wrapper" data-length={items.length}>
+      <Swiper className="detail-cast" {...castSwiperConfig}>
+        {items.map((item, index) => (
+          <SwiperSlide key={index}>
+            <PeopleItem crew={item} target={target} formatCode={formatCode} />
+          </SwiperSlide>
+        ))}
+      </Swiper>
+      <button
+        type="button"
+        className="cast-prev-button"
+        onClick={() => swiperRef.current.slidePrev()}
+        disabled={isBeginning}
+      >
+        <ArrowLeftIcon />
+      </button>
+      <button type="button" className="cast-next-button" onClick={() => swiperRef.current.slideNext()} disabled={isEnd}>
+        <ArrowRightIcon />
+      </button>
+    </article>
   );
 };
 

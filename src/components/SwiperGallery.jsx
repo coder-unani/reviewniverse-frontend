@@ -9,7 +9,7 @@ import "react-lazy-load-image-component/src/effects/blur.css";
 import ArrowLeftIcon from "/src/assets/button/arrow-left.svg?react";
 import ArrowRightIcon from "/src/assets/button/arrow-right.svg?react";
 
-const SwiperGallery = ({ children, data }) => {
+const SwiperGallery = ({ items }) => {
   const [isBeginning, setIsBeginning] = useState(true);
   const [isEnd, setIsEnd] = useState(false);
   const swiperRef = useRef(null);
@@ -48,41 +48,38 @@ const SwiperGallery = ({ children, data }) => {
 
   return (
     <>
-      <section className="detail-gallery-section">
-        {children}
-        <div className="detail-gallery-wrapper">
-          <Swiper className="detail-gallery" {...gallerySwiperConfig}>
-            {data.items.map((image, index) => (
-              <SwiperSlide
-                className="detail-gallery-item"
-                key={index}
-                virtualIndex={index}
-                onClick={() => togglePhotoModal(image)}
-              >
-                <picture className="detail-photo-wrapper">
-                  <LazyLoadImage className="detail-photo" src={image} alt="갤러리 이미지" effect="blur" />
-                </picture>
-              </SwiperSlide>
-            ))}
-          </Swiper>
-          <button
-            type="button"
-            className="gallery-prev-button"
-            onClick={() => swiperRef.current.slidePrev()}
-            disabled={isBeginning}
-          >
-            <ArrowLeftIcon />
-          </button>
-          <button
-            type="button"
-            className="gallery-next-button"
-            onClick={() => swiperRef.current.slideNext()}
-            disabled={isEnd}
-          >
-            <ArrowRightIcon />
-          </button>
-        </div>
-      </section>
+      <article className="detail-gallery-wrapper">
+        <Swiper className="detail-gallery" {...gallerySwiperConfig}>
+          {items.map((image, index) => (
+            <SwiperSlide
+              className="detail-gallery-item"
+              key={index}
+              virtualIndex={index}
+              onClick={() => togglePhotoModal(image)}
+            >
+              <picture className="detail-photo-wrapper">
+                <LazyLoadImage className="detail-photo" src={image} alt="갤러리 이미지" effect="blur" />
+              </picture>
+            </SwiperSlide>
+          ))}
+        </Swiper>
+        <button
+          type="button"
+          className="gallery-prev-button"
+          onClick={() => swiperRef.current.slidePrev()}
+          disabled={isBeginning}
+        >
+          <ArrowLeftIcon />
+        </button>
+        <button
+          type="button"
+          className="gallery-next-button"
+          onClick={() => swiperRef.current.slideNext()}
+          disabled={isEnd}
+        >
+          <ArrowRightIcon />
+        </button>
+      </article>
 
       {photoModal.isOpen && <PhotoModal url={photoModal.url} onClose={togglePhotoModal} />}
     </>

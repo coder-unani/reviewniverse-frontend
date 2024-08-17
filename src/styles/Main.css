@@ -2268,7 +2268,7 @@ em {
   padding: 20px 60px;
 }
 
-.detail-poster-container {
+.detail-poster-section {
   grid-column: 1;
 }
 
@@ -2286,11 +2286,11 @@ em {
   border-radius: 14px;
 }
 
-.detail-content-container {
+.detail-synopsis-section {
   grid-column: 2;
 }
 
-.detail-more-container {
+.detail-more-wrapper {
   grid-column: 3;
 }
 
@@ -2367,14 +2367,10 @@ em {
   fill: #5a7687;
 }
 
-.detail-content-container,
-.detail-more-container {
+.detail-synopsis-section,
+.detail-more-wrapper {
   display: flex;
   flex-direction: column;
-}
-
-.detail-my-review-wrapper ~ .detail-synopsis-wrapper {
-  padding-top: 20px;
 }
 
 .detail-synopsis {
@@ -2384,7 +2380,7 @@ em {
   white-space: pre-wrap;
 }
 
-.detail-my-rating-wrapper {
+.detail-my-rating-section {
   position: relative;
   display: flex;
   flex-direction: column;
@@ -2420,17 +2416,19 @@ em {
   color: #00ce7a;
 }
 
-.detail-platform-wrapper {
+.detail-platform-section {
+  display: flex;
+  flex-direction: column;
   padding-top: 20px;
 }
 
-.detail-platform {
+.detail-platform-wrapper {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 10px;
 }
 
-.platform-button {
+.detail-platform {
   position: relative;
   width: 67px;
   height: 67px;
@@ -2802,19 +2800,19 @@ em {
     grid-template-rows: auto 1fr;
     padding: 20px 30px;
   }
-  .detail-poster-container {
+  .detail-poster-section {
     grid-column: 1;
     grid-row: 1/3;
   }
-  .detail-content-container {
+  .detail-synopsis-section {
     grid-column: 2;
     grid-row: 2;
   }
-  .detail-more-container {
+  .detail-more-wrapper {
     grid-column: 2;
     grid-row: 1;
   }
-  .detail-platform {
+  .detail-platform-wrapper {
     display: flex;
     flex-wrap: wrap;
   }
@@ -2884,20 +2882,20 @@ em {
   .detail-sub-section {
     grid-template-columns: 1fr;
   }
-  .detail-poster-container {
+  .detail-poster-section {
     grid-column: 1;
     grid-row: 3;
     margin: 0 auto;
   }
-  .detail-content-container {
+  .detail-synopsis-section {
     grid-column: 1;
     grid-row: 2;
   }
-  .detail-more-container {
+  .detail-more-wrapper {
     grid-column: 1;
     grid-row: 1;
   }
-  .platform-button {
+  .detail-platform {
     width: 60px;
     height: 60px;
   }

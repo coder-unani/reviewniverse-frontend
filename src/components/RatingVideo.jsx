@@ -63,7 +63,7 @@ const RatingVideo = ({ videoId, myInfo, toggleEnjoyModal }) => {
   }, [user, myInfo]);
 
   return (
-    <div className="video-rating-container">
+    <article className="video-rating-container">
       <div className="video-rating-image-wrapper">
         <img className="video-rating-image" src={imgSrc} alt="평가 이미지" ref={ratingImgRef} />
       </div>
@@ -79,7 +79,7 @@ const RatingVideo = ({ videoId, myInfo, toggleEnjoyModal }) => {
           <div className="video-rating-fill" data-rating="5"></div>
         </div>
       </div>
-    </div>
+    </article>
   );
 };
 

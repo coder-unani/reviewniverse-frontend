@@ -28,6 +28,7 @@ import {
   fReleaseDate,
   fGenres,
   fRating,
+  fPlatformFilter,
   fActorCode,
   fStaffCode,
   fRuntimeText,
@@ -53,6 +54,8 @@ const VideoDetail = () => {
   const { videoId: id } = useParams();
   const videoId = parseInt(id);
   const { user } = useAuthContext();
+  const { enjoyModal, reviewModal, confirmModal, toggleEnjoyModal, toggleReviewModal, toggleConfirmModal } =
+    useModalContext();
   const { data: content, error: contentError, isLoading: contentIsLoading } = useVideoDetail({ videoId });
   const {
     data: reviews,
@@ -67,8 +70,30 @@ const VideoDetail = () => {
   const { mutate: videoLike } = useVideoLike();
   const { mutateAsync: reviewDelete } = useReviewDelete();
 
-  const { enjoyModal, reviewModal, confirmModal, toggleEnjoyModal, toggleReviewModal, toggleConfirmModal } =
-    useModalContext();
+  useEffect(() => {
+    const header = document.querySelector("header");
+    const handleScroll = () => {
+      if (window.scrollY > 100 && header.classList.contains("transparent")) {
+        header.classList.remove("transparent");
+      } else if (window.scrollY <= 100 && !header.classList.contains("transparent")) {
+        header.classList.add("transparent");
+      }
+    };
+    window.addEventListener("scroll", handleScroll);
+    header.classList.add("transparent");
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+      header.classList.remove("transparent");
+    };
+  }, []);
+
+  useEffect(() => {
+    if (!content) return;
+    if (!content.status) {
+      const path = content.code === "V002" ? "/404-not-found" : "/error";
+      navigate(path);
+    }
+  }, [content, navigate]);
 
   // 비디오 정보 스와이퍼 설정
   const subInfoSwiperConfig = {
@@ -117,74 +142,155 @@ const VideoDetail = () => {
     }
   };
 
-  useEffect(() => {
-    const header = document.querySelector("header");
+  const MetaSection = () => {
+    const title = `${content.data.title} (${fYear(content.data.release)}) - 리뷰니버스`;
+    const description = content.data.synopsis;
+    const imageUrl = fThumbnail(content.data.thumbnail);
+    const url = `${SETTINGS.DOMAIN_URL}/content/${videoId}`;
+    const keywords = content.data.tag || "";
 
-    const handleScroll = () => {
-      if (window.scrollY > 100 && header.classList.contains("transparent")) {
-        header.classList.remove("transparent");
-      } else if (window.scrollY <= 100 && !header.classList.contains("transparent")) {
-        header.classList.add("transparent");
-      }
-    };
-
-    window.addEventListener("scroll", handleScroll);
-    header.classList.add("transparent");
-
-    return () => {
-      window.removeEventListener("scroll", handleScroll);
-      header.classList.remove("transparent");
-    };
-  }, []);
-
-  useEffect(() => {
-    if (!content) return;
-    if (!content.status) {
-      if (content.code === "V002") {
-        navigate("/404-not-found");
-      } else {
-        navigate("/error");
-      }
-      return;
-    }
-  }, [content]);
-
-  // TODO: 고도화 필요
-  if (contentIsLoading || reviewsIsLoading || myInfoIsLoading) return <main className="detail-main"></main>;
-  if (contentError || reviewsError || myInfoError) return navigate("/error");
-
-  if (!content.status) return null;
-
-  const NoReviewWrapper = ({ message }) => {
     return (
-      <div className="detail-no-review-wrapper">
+      <Helmet>
+        <title>{title}</title>
+        <meta name="keywords" content={keywords} data-rh="true" />
+        <meta name="description" content={description} />
+        <meta property="og:title" content={title} />
+        <meta property="og:description" content={description} />
+        <meta property="og:image" content={imageUrl} />
+        <meta property="og:url" content={url} />
+        <meta name="twitter:card" content="summary_large_image" data-rh="true" />
+        <meta name="twitter:title" content={title} data-rh="true" />
+        <meta name="twitter:description" content={description} data-rh="true" />
+        <meta name="twitter:image" content={imageUrl} data-rh="true" />
+        <meta name="kakao:title" content={title} data-rh="true" />
+        <meta name="kakao:description" content={description} data-rh="true" />
+        <meta name="kakao:image" content={imageUrl} data-rh="true" />
+      </Helmet>
+    );
+  };
+
+  const PosterSection = () => {
+    const thumbnail = fThumbnail(content.data.thumbnail);
+
+    return (
+      <section className="detail-poster-section">
+        <picture className="detail-poster-wrapper">
+          <LazyLoadImage className="detail-poster" src={thumbnail} alt="포스터" effect="blur" />
+        </picture>
+      </section>
+    );
+  };
+
+  const SynopsisSection = () => {
+    const renderSynopsis = () => (
+      <section className="detail-synopsis-section">
+        <h4 className="detail-main-title">작품 소개</h4>
+        <summary className="detail-synopsis">{content.data.synopsis}</summary>
+      </section>
+    );
+
+    return isEmpty(content.data.synopsis) ? null : renderSynopsis();
+  };
+
+  const MyRatingSection = () => {
+    const rating = myInfo && myInfo.rating ? Math.floor(myInfo.rating / 2) : 0;
+    const ratingText = rating > 0 ? rating : "-";
+
+    return (
+      <section className="detail-my-rating-section">
+        <h4 className="detail-main-title">평가하기</h4>
+        <div className="detail-my-rating">
+          <span className="my-rating-text number" data-index={rating}>
+            {ratingText}
+          </span>
+          <span className="my-rating-text">/</span>
+          <span className="my-rating-text">5</span>
+        </div>
+        <RatingVideo videoId={videoId} myInfo={myInfo} toggleEnjoyModal={toggleEnjoyModal} />
+      </section>
+    );
+  };
+
+  const PlatformSection = () => {
+    const platforms = fPlatformFilter(content.data.platform);
+
+    const renderPlatform = () => (
+      <section className="detail-platform-section">
+        <h4 className="detail-main-title">보러가기</h4>
+        <article className="detail-platform-wrapper">
+          {platforms.map((platform, index) => (
+            <button type="button" className="detail-platform" onClick={() => window.open(platform.url)} key={index}>
+              <img className="platform-image" src={`/assets/platform/${platform.code}.png`} alt="플랫폼" />
+            </button>
+          ))}
+        </article>
+      </section>
+    );
+
+    return isEmpty(platforms) ? null : renderPlatform();
+  };
+
+  const ActorSection = () => {
+    const renderActor = () => (
+      <section className="detail-cast-section">
+        <h4 className="detail-main-title">출연진</h4>
+        <SwiperCast items={content.data.actor} target={"actor"} formatCode={fActorCode} />
+      </section>
+    );
+
+    return isEmpty(content.data.actor) ? null : renderActor();
+  };
+
+  const StaffSection = () => {
+    const renderStaff = () => (
+      <section className="detail-cast-section">
+        <h4 className="detail-main-title">제작진</h4>
+        <SwiperCast items={content.data.staff} target={"staff"} formatCode={fStaffCode} />
+      </section>
+    );
+
+    return isEmpty(content.data.staff) ? null : renderStaff();
+  };
+
+  const GallerySection = () => {
+    const renderGallery = () => (
+      <section className="detail-gallery-section">
+        <h4 className="detail-main-title">갤러리</h4>
+        <SwiperGallery items={content.data.thumbnail} />
+      </section>
+    );
+
+    return isEmpty(content.data.thumbnail) ? null : renderGallery();
+  };
+
+  const MyReviewWrapper = () => {
+    const getMessage = () => {
+      let message = "";
+      if (!myInfo) {
+        message = "로그인 후 리뷰를 기록할 수 있어요!";
+      } else if (isEmpty(reviews.data)) {
+        message = (
+          <>
+            기록된 리뷰가 없습니다. <em>첫번째</em> 리뷰를 남겨보세요!
+          </>
+        );
+      } else if (isEmpty(myInfo.review)) {
+        message = "기록된 리뷰가 없습니다. 리뷰를 남겨보세요!";
+      }
+      return message;
+    };
+
+    const renderNoReview = (message) => (
+      <article className="detail-no-review-wrapper">
         <p className="no-review-text">{message}</p>
         <button type="button" className="no-review-button" onClick={handleReviewCreate}>
           리뷰 쓰기
         </button>
-      </div>
+      </article>
     );
-  };
 
-  const ReviewWrapper = () => {
-    let message = "";
-
-    if (!myInfo) {
-      message = "로그인 후 리뷰를 기록할 수 있어요!";
-    } else if (isEmpty(reviews.data)) {
-      message = (
-        <>
-          기록된 리뷰가 없습니다. <em>첫번째</em> 리뷰를 남겨보세요!
-        </>
-      );
-    } else if (isEmpty(myInfo.review)) {
-      message = "기록된 리뷰가 없습니다. 리뷰를 남겨보세요!";
-    }
-
-    if (message) return <NoReviewWrapper message={message} />;
-
-    return (
-      <div className="detail-my-review-wrapper">
+    const renderMyReview = () => (
+      <article className="detail-my-review-wrapper">
         <div className="my-review-title-wrapper">
           <ProfileImage image={user.profile_image} size={36} />
           <p className="my-review-title" onClick={handleReviewCreate}>
@@ -200,7 +306,7 @@ const VideoDetail = () => {
         <div className="my-review-button-wrapper">
           <button
             type="button"
-            data-tooltip-id="myReviewDeleteButton"
+            data-tooltip-id="myReviewDeleteTooltip"
             data-tooltip-content="삭제"
             className="my-review-delete-button"
             onClick={handleReviewDelete}
@@ -210,47 +316,61 @@ const VideoDetail = () => {
           <button
             type="button"
             className="my-review-update-button"
-            data-tooltip-id="myReviewUpdateButton"
+            data-tooltip-id="myReviewUpdateTooltip"
             data-tooltip-content="수정"
             onClick={handleReviewUpdate}
           >
             <FillUpdateIcon className="my-review-button-icon" />
           </button>
         </div>
-        <Tooltip id="myReviewDeleteButton" className="my-reivew-delete-tooltip" place="bottom" effect="solid" />
-        <Tooltip id="myReviewUpdateButton" className="my-reivew-update-tooltip" place="bottom" effect="solid" />
-      </div>
+        <Tooltip id="myReviewDeleteTooltip" className="my-reivew-delete-tooltip" place="bottom" effect="solid" />
+        <Tooltip id="myReviewUpdateTooltip" className="my-reivew-update-tooltip" place="bottom" effect="solid" />
+      </article>
+    );
+
+    const message = getMessage();
+    return message ? renderNoReview(message) : renderMyReview();
+  };
+
+  const ReviewSection = () => {
+    const renderReviewTotal = () => {
+      if (reviews.total <= 0) return null;
+      const total = reviews.total > 999 ? "999+" : reviews.total;
+      return <span className="detail-review-total">{total}</span>;
+    };
+
+    const renderReviews = () => {
+      if (isEmpty(reviews.data)) return null;
+      return (
+        <article className="detail-review-wrapper">
+          {reviews.data.map((review) => (
+            <VideoReviewItem key={review.id} videoId={videoId} review={review} />
+          ))}
+        </article>
+      );
+    };
+
+    return (
+      <section className="detail-review-section">
+        <h4 className="detail-main-title">
+          리뷰
+          {renderReviewTotal()}
+        </h4>
+        <MyReviewWrapper />
+        {renderReviews()}
+      </section>
     );
   };
 
+  // TODO: 고도화 필요
+  if (contentIsLoading || reviewsIsLoading || myInfoIsLoading) return <main className="detail-main"></main>;
+  if (contentError || reviewsError || myInfoError) return navigate("/error");
+
+  if (!content.status) return null;
+
   return (
     <>
-      <Helmet>
-        <title>
-          {content.data.title} ({fYear(content.data.release)}) - 리뷰니버스
-        </title>
-        <meta name="keywords" content={content.data.tag || ""} data-rh="true" />
-        <meta name="description" content={content.data.synopsis} />
-        <meta property="og:title" content={`${content.data.title} (${fYear(content.data.release)}) - 리뷰니버스`} />
-        <meta property="og:description" content={content.data.synopsis} />
-        <meta property="og:image" content={fThumbnail(content.data.thumbnail)} />
-        <meta property="og:url" content={`${SETTINGS.DOMAIN_URL}/content/${videoId}`} />
-        <meta name="twitter:card" content="summary_large_image" data-rh="true" />
-        <meta
-          name="twitter:title"
-          content={`${content.data.title} (${fYear(content.data.release)}) - 리뷰니버스`}
-          data-rh="true"
-        />
-        <meta name="twitter:description" content={content.data.synopsis} data-rh="true" />
-        <meta name="twitter:image" content={fThumbnail(content.data.thumbnail)} data-rh="true" />
-        <meta
-          name="kakao:title"
-          content={`${content.data.title} (${fYear(content.data.release)}) - 리뷰니버스`}
-          data-rh="true"
-        />
-        <meta name="kakao:description" content={content.data.synopsis} data-rh="true" />
-        <meta name="kakao:image" content={fThumbnail(content.data.thumbnail)} data-rh="true" />
-      </Helmet>
+      <MetaSection />
 
       <main className="detail-main-container">
         <section className="detail-main-section">
@@ -263,11 +383,11 @@ const VideoDetail = () => {
 
           <div className="detail-main-info-container">
             <div className="detail-main-info-wrapper">
-              <div className="detail-title-container">
-                <div className="detail-title-wrapper">
+              <article className="detail-title-container">
+                <article className="detail-title-wrapper">
                   <p className="detail-title-og">{content.data.title_og || content.data.title}</p>
                   <h2 className="detail-title-kr">{content.data.title}</h2>
-                </div>
+                </article>
                 <ul className="detail-genre-wrapper">
                   {content.data.genre.map((genre, index) => (
                     <li key={index}>
@@ -277,9 +397,9 @@ const VideoDetail = () => {
                     </li>
                   ))}
                 </ul>
-              </div>
-              <div className="detail-control-container">
-                <div className="detail-control-wrapper">
+              </article>
+              <article className="detail-control-container">
+                <article className="detail-control-wrapper">
                   <button type="button" className="detail-control like" onClick={handleLikeButton}>
                     <span className={`detail-control-icon ${myInfo && myInfo.is_like ? "active" : ""}`}></span>
                   </button>
@@ -289,8 +409,8 @@ const VideoDetail = () => {
                   <button type="button" className="detail-control review" onClick={handleReviewCreate}>
                     <span className="detail-control-icon"></span>
                   </button>
-                </div>
-              </div>
+                </article>
+              </article>
             </div>
           </div>
 
@@ -376,116 +496,17 @@ const VideoDetail = () => {
 
         <div className="detail-main-wrapper">
           <section className="detail-sub-section">
-            <article className="detail-poster-container">
-              <picture className="detail-poster-wrapper">
-                <LazyLoadImage
-                  className="detail-poster"
-                  src={fThumbnail(content.data.thumbnail)}
-                  alt="포스터"
-                  effect="blur"
-                />
-              </picture>
-            </article>
-
-            <article className="detail-content-container">
-              <div className="detail-synopsis-wrapper">
-                <h4 className="detail-main-title">작품 소개</h4>
-                <summary className="detail-synopsis">{content.data.synopsis}</summary>
-              </div>
-            </article>
-
-            <article className="detail-more-container">
-              <div className="detail-my-rating-wrapper">
-                <h4 className="detail-main-title">평가하기</h4>
-                <div className="detail-my-rating">
-                  <span
-                    className="my-rating-text number"
-                    data-index={myInfo && myInfo.rating ? Math.floor(myInfo.rating / 2) : 0}
-                  >
-                    {myInfo && myInfo.rating ? Math.floor(myInfo.rating / 2) : "-"}
-                  </span>
-                  <span className="my-rating-text">/</span>
-                  <span className="my-rating-text">5</span>
-                </div>
-                <RatingVideo videoId={videoId} myInfo={myInfo} toggleEnjoyModal={toggleEnjoyModal} />
-              </div>
-
-              {!isEmpty(content.data.platform) && (
-                <article className="detail-platform-wrapper">
-                  <h4 className="detail-main-title">보러가기</h4>
-                  <div className="detail-platform">
-                    {content.data.platform.map((platform, index) => {
-                      if (parseInt(platform.code) >= 50) {
-                        return null;
-                      }
-                      return (
-                        <button
-                          type="button"
-                          className="platform-button"
-                          onClick={() => window.open(platform.url)}
-                          key={index}
-                        >
-                          <img className="platform-image" src={`/assets/platform/${platform.code}.png`} alt="플랫폼" />
-                        </button>
-                      );
-                    })}
-                  </div>
-                </article>
-              )}
-            </article>
+            <PosterSection />
+            <SynopsisSection />
+            <div className="detail-more-wrapper">
+              <MyRatingSection />
+              <PlatformSection />
+            </div>
           </section>
-
-          {!isEmpty(content.data.actor) && (
-            <SwiperCast
-              data={{
-                title: "출연진",
-                items: content.data.actor,
-                target: "actor",
-                formatCode: fActorCode,
-              }}
-            >
-              <h4 className="detail-main-title">출연진</h4>
-            </SwiperCast>
-          )}
-
-          {!isEmpty(content.data.staff) && (
-            <SwiperCast
-              data={{
-                items: content.data.staff,
-                target: "staff",
-                formatCode: fStaffCode,
-              }}
-            >
-              <h4 className="detail-main-title">제작진</h4>
-            </SwiperCast>
-          )}
-
-          {!isEmpty(content.data.thumbnail) && (
-            <SwiperGallery
-              data={{
-                items: content.data.thumbnail,
-              }}
-            >
-              <h4 className="detail-main-title">갤러리</h4>
-            </SwiperGallery>
-          )}
-
-          <section className="detail-review-section">
-            <h4 className="detail-main-title">
-              리뷰
-              {reviews.total > 0 && (
-                <span className="detail-review-total">{reviews.total > 999 ? "999+" : reviews.total}</span>
-              )}
-            </h4>
-            <ReviewWrapper />
-            {!isEmpty(reviews.data) && (
-              <div className="detail-review-wrapper">
-                {reviews.data.map((review, index) => (
-                  <VideoReviewItem key={index} videoId={videoId} review={review} />
-                ))}
-              </div>
-            )}
-          </section>
+          <ActorSection />
+          <StaffSection />
+          <GallerySection />
+          <ReviewSection />
         </div>
 
         {reviewModal && <ReviewModal content={content.data} myReview={myInfo.review} onClose={toggleReviewModal} />}
