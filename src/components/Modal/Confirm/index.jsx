@@ -1,7 +1,7 @@
 import React, { useRef } from "react";
 import Modal from "/src/components/Modal";
 
-const ConfirmModal = ({ onClose }) => {
+const ConfirmModal = React.memo(({ onClose }) => {
   const modalRef = useRef();
 
   // 리뷰 모달 바깥 영역 클릭시 모달 닫기
@@ -20,6 +20,6 @@ const ConfirmModal = ({ onClose }) => {
       </div>
     </Modal>
   );
-};
+});
 
 export default ConfirmModal;

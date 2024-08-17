@@ -10,12 +10,7 @@ import { RiCloseLine } from "@remixicon/react";
 import { isEmpty } from "lodash";
 import { showSuccessToast } from "/src/components/Toast";
 
-/**
- * TODO:
- * 1. 리뷰 등록/수정 성공 후 리뷰 업데이트는 어떻게 할 것인지
- */
-
-const ReviewModal = ({ content, myReview, onClose }) => {
+const ReviewModal = React.memo(({ content, myReview, onClose }) => {
   const modalRef = useRef();
   const { user } = useAuthContext();
   const { mutateAsync: reviewCreate } = useReviewCreate();
@@ -151,6 +146,6 @@ const ReviewModal = ({ content, myReview, onClose }) => {
       </div>
     </Modal>
   );
-};
+});
 
 export default ReviewModal;

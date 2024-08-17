@@ -8,7 +8,7 @@ const ReviewLikeButton = ({ videoId, review, setReview = null }) => {
   const { toggleEnjoyModal } = useModalContext();
   const { user } = useAuthContext();
   const { mutateAsync: reviewLike } = useReviewLike();
-  const isLike = review.my_info ? review.my_info.is_like : false;
+  const isLike = user && review.my_info ? review.my_info.is_like : false;
 
   const handleReviewLike = async () => {
     if (!user) {

@@ -1,10 +1,14 @@
 import React, { useRef, useEffect, useState } from "react";
 import { useAuthContext } from "/src/context/AuthContext";
+import { useModalContext } from "/src/context/ModalContext";
+import { useVideoDetailContext } from "/src/context/VideoDetailContext";
 import { useVideoRating } from "/src/hooks/useVideoRating";
 import { VIDEO_RATING_TEXT } from "/src/config/constants";
 
-const RatingVideo = ({ videoId, myInfo, toggleEnjoyModal }) => {
+const RatingVideo = () => {
   const { user } = useAuthContext();
+  const { toggleEnjoyModal } = useModalContext();
+  const { videoId, myInfo } = useVideoDetailContext();
   const [imgSrc, setImgSrc] = useState("/assets/rating/0.png");
   const ratingRef = useRef(null);
   const ratingImgRef = useRef(null);

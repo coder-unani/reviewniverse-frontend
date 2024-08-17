@@ -27,16 +27,16 @@ export const useReviewLike = () => {
         // 응답값: like_count, is_like
         // 1. myInfo: review_like 배열에 해당 review id값 업데이트
         // 2. reviews: 해당 review id값의 like_count 업데이트
-        queryClient.setQueryData(["videoMyInfo", { videoId: variables.videoId, userId: variables.userId }], (prev) => {
-          if (!prev) return prev;
-          const updatedMyInfo = { ...prev };
-          if (res.data.is_like) {
-            updatedMyInfo.review_like = [...updatedMyInfo.review_like, variables.reviewId];
-          } else {
-            updatedMyInfo.review_like = updatedMyInfo.review_like.filter((id) => id !== variables.reviewId);
-          }
-          return updatedMyInfo;
-        });
+        // queryClient.setQueryData(["videoMyInfo", { videoId: variables.videoId, userId: variables.userId }], (prev) => {
+        //   if (!prev) return prev;
+        //   const updatedMyInfo = { ...prev };
+        //   if (res.data.is_like) {
+        //     updatedMyInfo.review_like = [...updatedMyInfo.review_like, variables.reviewId];
+        //   } else {
+        //     updatedMyInfo.review_like = updatedMyInfo.review_like.filter((id) => id !== variables.reviewId);
+        //   }
+        //   return updatedMyInfo;
+        // });
 
         // videoReviews 캐시 업데이트
         queryClient.setQueriesData({ queryKey: ["videoReviews", variables.videoId], exact: false }, (prev) => {

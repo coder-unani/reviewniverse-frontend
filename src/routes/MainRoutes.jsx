@@ -1,6 +1,7 @@
 import React from "react";
 import { AuthContextProvider } from "/src/context/AuthContext";
 import { ModalContextProvider } from "/src/context/ModalContext";
+import { VideoDetailProvider } from "/src/context/VideoDetailContext";
 import DefaultLayout from "/src/layouts/default";
 import Home from "/src/pages/Home";
 import Search from "/src/pages/Search";
@@ -37,7 +38,11 @@ const MainRoutes = {
     },
     {
       path: "contents/:videoId",
-      element: <VideoDetail />,
+      element: (
+        <VideoDetailProvider>
+          <VideoDetail />
+        </VideoDetailProvider>
+      ),
     },
     {
       path: "/people/:peopleId",

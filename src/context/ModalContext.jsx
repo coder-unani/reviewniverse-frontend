@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useEffect, useState } from "react";
+import React, { createContext, useContext, useEffect, useMemo, useState } from "react";
 import { useLocation } from "react-router-dom";
 import EnjoyModal from "/src/components/Modal/Enjoy";
 import ConfirmModal from "/src/components/Modal/Confirm";
@@ -32,14 +32,17 @@ const ModalContextProvider = ({ children }) => {
     setConfirmModal(!confirmModal);
   };
 
-  const values = {
-    enjoyModal,
-    reviewModal,
-    confirmModal,
-    toggleEnjoyModal,
-    toggleReviewModal,
-    toggleConfirmModal,
-  };
+  const values = useMemo(
+    () => ({
+      enjoyModal,
+      reviewModal,
+      confirmModal,
+      toggleEnjoyModal,
+      toggleReviewModal,
+      toggleConfirmModal,
+    }),
+    [enjoyModal, reviewModal, confirmModal]
+  );
 
   return (
     <ModalContext.Provider value={values}>

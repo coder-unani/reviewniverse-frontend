@@ -1,8 +1,11 @@
 import React, { useState, useEffect } from "react";
-import ProfileButton from "/src/components/Button/Profile";
+import { Link } from "react-router-dom";
+import ProfileImage from "/src/components/Button/Profile/Image";
 import RatingReview from "/src/components/RatingReview";
 import ReviewLikeButton from "/src/components/Button/ReviewLike";
 import { fDiffDate } from "/src/utils/format";
+import { DEFAULT_IMAGES } from "/src/config/constants";
+import { isEmpty } from "lodash";
 
 /**
  * TODO:
@@ -11,11 +14,12 @@ import { fDiffDate } from "/src/utils/format";
  */
 
 const VideoReviewItem = ({ videoId, review }) => {
-  const [data, setData] = useState(review);
   const [active, setActive] = useState(review.is_spoiler);
+  const profileLink = review.user ? `/user/${review.user.id}` : "";
+  const profileImage = review.user ? review.user.profile_image : DEFAULT_IMAGES.noActor;
+  const profileNickname = review.user ? review.user.nickname : "탈퇴한 회원 입니다.";
 
   useEffect(() => {
-    setData(review);
     setActive(review.is_spoiler);
   }, [review]);
 
@@ -24,28 +28,35 @@ const VideoReviewItem = ({ videoId, review }) => {
     setActive(!active);
   };
 
-  if (!data) return null;
-
   return (
-    <div className="detail-review-item">
-      <div className="detail-review-header">
-        <ProfileButton user={data.user} size={36} />
-        {data.rating && <RatingReview rating={data.rating} />}
+    <article className="detail-review-item">
+      <div className="detail-review-profile-wrapper">
+        <Link className="detail-review-profile-link" data-active={!isEmpty(review.user)} to={profileLink}>
+          <ProfileImage image={profileImage} size={36} />
+        </Link>
       </div>
-      <div className="detail-review-body" data-spoiler={data.is_spoiler}>
-        {data.is_spoiler ? (
-          <p className="detail-review-content" data-active={active} onClick={handleSpoiler}>
-            {data.title}
-          </p>
-        ) : (
-          <p className="detail-review-content">{data.title}</p>
-        )}
+      <div className="detail-review-content-wrapper">
+        <div className="detail-review-header">
+          <Link className="detail-review-nickname-link" data-active={!isEmpty(review.user)} to={profileLink}>
+            <p className="profile-nickname">{profileNickname}</p>
+          </Link>
+          {review.rating && <RatingReview rating={review.rating} />}
+        </div>
+        <div className="detail-review-body" data-spoiler={review.is_spoiler}>
+          {review.is_spoiler ? (
+            <p className="detail-review-content" data-active={active} onClick={handleSpoiler}>
+              {review.title}
+            </p>
+          ) : (
+            <p className="detail-review-content">{review.title}</p>
+          )}
+        </div>
+        <div className="detail-review-footer">
+          <span className="detail-review-date">{fDiffDate(review.created_at)}</span>
+          <ReviewLikeButton videoId={videoId} review={review} />
+        </div>
       </div>
-      <div className="detail-review-footer">
-        <span className="detail-review-date">{fDiffDate(data.created_at)}</span>
-        <ReviewLikeButton videoId={videoId} review={data} setReview={setData} />
-      </div>
-    </div>
+    </article>
   );
 };
 

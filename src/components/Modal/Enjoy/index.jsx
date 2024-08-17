@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import { RiCloseLine } from "@remixicon/react";
 import { DEFAULT_IMAGES } from "/src/config/constants";
 
-const EnjoyModal = ({ onClose }) => {
+const EnjoyModal = React.memo(({ onClose }) => {
   const modalRef = useRef();
 
   // 모달 바깥 영역 클릭시 모달 닫기
@@ -34,6 +34,6 @@ const EnjoyModal = ({ onClose }) => {
       </div>
     </Modal>
   );
-};
+});
 
 export default EnjoyModal;
