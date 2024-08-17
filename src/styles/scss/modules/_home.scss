@@ -97,7 +97,6 @@
   bottom: 0;
   transform: translateY(50%);
   width: 100%;
-  cursor: pointer;
 }
 
 .preview-videos-wrapper {
@@ -119,6 +118,7 @@
   justify-content: center;
   min-width: calc(25% - 18px);
   height: 175px;
+  cursor: pointer;
 }
 
 .preview-video-link {

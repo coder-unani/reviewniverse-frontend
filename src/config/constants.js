@@ -40,10 +40,8 @@ export const DEFAULT_ICONS = {
 export const VIDEO_ORDER_OPTIONS = "release_desc";
 /*
 export const VIDEO_ORDER_OPTIONS = [
-  "new_desc",
   "view_desc",
   "like_desc",
-  "updated_desc",
   "rating_desc",
   "release_desc",
 ];

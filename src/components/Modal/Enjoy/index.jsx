@@ -1,10 +1,11 @@
 import React, { useRef } from "react";
 import Modal from "/src/components/Modal";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { RiCloseLine } from "@remixicon/react";
 import { DEFAULT_IMAGES } from "/src/config/constants";
 
 const EnjoyModal = React.memo(({ onClose }) => {
+  const navigate = useNavigate();
   const modalRef = useRef();
 
   // 모달 바깥 영역 클릭시 모달 닫기
@@ -14,6 +15,10 @@ const EnjoyModal = React.memo(({ onClose }) => {
 
   const handleCloseButton = () => {
     onClose();
+  };
+
+  const handleLoginButton = () => {
+    navigate("/user/login");
   };
 
   return (
@@ -26,9 +31,9 @@ const EnjoyModal = React.memo(({ onClose }) => {
             <p>로그인 후 이용할 수 있어요!</p>
           </div>
           <div className="button-wrapper">
-            <Link to="/user/login" className="login">
+            <button className="login" onClick={handleLoginButton}>
               로그인
-            </Link>
+            </button>
           </div>
         </div>
       </div>

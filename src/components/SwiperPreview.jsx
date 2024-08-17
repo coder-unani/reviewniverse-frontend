@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { fDate } from "/src/utils/format";
 import { fPreviewThumbnail, fBackgroundImage, fReleaseText } from "/src/utils/formatContent";
 import { Swiper, SwiperSlide } from "swiper/react";
@@ -9,8 +9,15 @@ import { LazyLoadImage } from "react-lazy-load-image-component";
 import "react-lazy-load-image-component/src/effects/blur.css";
 
 const SwiperPreview = React.memo(({ screensMA01 }) => {
+  const navigate = useNavigate();
   const [previewVideo, setPreviewVideo] = useState("");
   const swiperRef = useRef(null);
+
+  useEffect(() => {
+    if (screensMA01 && screensMA01.content.list.length > 0) {
+      setPreviewVideo(screensMA01.content.list[0]);
+    }
+  }, [screensMA01]);
 
   const previewSwiperConfig = {
     modules: [Autoplay],
@@ -45,11 +52,9 @@ const SwiperPreview = React.memo(({ screensMA01 }) => {
     },
   };
 
-  useEffect(() => {
-    if (screensMA01 && screensMA01.content.list.length > 0) {
-      setPreviewVideo(screensMA01.content.list[0]);
-    }
-  }, [screensMA01]);
+  const handleLinkClick = (videoId) => {
+    navigate(`/contents/${videoId}`);
+  };
 
   return (
     <>
@@ -89,7 +94,7 @@ const SwiperPreview = React.memo(({ screensMA01 }) => {
               {screensMA01.content.list.map((video, index) => (
                 <SwiperSlide className="preview-video-item" key={index}>
                   {({ isActive }) => (
-                    <Link to={`/contents/${video.id}`} className="preview-video-link">
+                    <a className="preview-video-link" onClick={handleLinkClick} role="button" aria-label={video.title}>
                       <picture className={`preview-thumbnail-wrapper ${isActive ? "active" : ""}`}>
                         <LazyLoadImage
                           className="preview-thumbnail-image"
@@ -101,7 +106,7 @@ const SwiperPreview = React.memo(({ screensMA01 }) => {
                       {/* <div className="preview-card">
                         <span className="new">NEW</span>
                       </div> */}
-                    </Link>
+                    </a>
                   )}
                 </SwiperSlide>
               ))}

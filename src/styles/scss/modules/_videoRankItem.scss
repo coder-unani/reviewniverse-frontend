@@ -1,3 +1,7 @@
+.rank-video-item {
+  cursor: pointer;
+}
+
 .rank-thumbnail-container {
   position: relative;
   width: 100%;
@@ -29,6 +33,21 @@
   height: 100%;
   object-fit: cover;
   border-radius: 14px;
+}
+
+.rank-code-wrapper {
+  position: absolute;
+  top: 6px;
+  left: 6px;
+}
+
+.rank-code {
+  font-size: 13px;
+  font-weight: 600;
+  color: $color-white-04;
+  border-radius: 8px;
+  background-color: $color-white-09;
+  padding: 6px 8px;
 }
 
 .rank-number-wrapper {
@@ -80,30 +99,79 @@
   -webkit-box-orient: vertical;
 }
 
+.rank-subtitle-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 6px;
+}
+
 .rank-subtitle {
   font-size: 13px;
   font-weight: 600;
   color: $color-white-04;
   letter-spacing: -0.2px;
-  margin-top: 6px;
 
   & > span:not(:last-child) {
     margin-right: 8px;
   }
 }
 
-.rank-code-wrapper {
-  flex: none;
-  margin-left: 10px;
+.rank-rating-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  margin-left: 8px;
+
+  &[data-rating="0"] {
+    .rank-rating-square {
+      background-color: $color-white-08;
+    }
+    .rank-rating {
+      color: $color-white-08;
+    }
+  }
+  &[data-rating="1"],
+  &[data-rating="2"] {
+    .rank-rating-square {
+      background-color: $color-red;
+    }
+    .rank-rating {
+      color: $color-red;
+    }
+  }
+  &[data-rating="3"] {
+    .rank-rating-square {
+      background-color: $color-yellow;
+    }
+    .rank-rating {
+      color: $color-yellow;
+    }
+  }
+  &[data-rating="4"],
+  &[data-rating="5"] {
+    .rank-rating-square {
+      background-color: $color-green;
+    }
+    .rank-rating {
+      color: $color-green;
+    }
+  }
 }
 
-.rank-code {
-  font-size: 14px;
-  font-weight: 600;
-  color: $color-white-04;
-  border-radius: 6px;
-  background-color: $color-white-09;
-  padding: 6px 8px;
+.rank-rating-square {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 12px;
+  height: 12px;
+  border-radius: 2px;
+}
+
+.rank-rating {
+  font-size: 13px;
+  font-weight: 700;
 }
 
 @media (max-width: 576px) {
@@ -143,15 +211,27 @@
     margin-top: 20px;
   }
 
-  .rank-subtitle {
+  .rank-subtitle-wrapper {
     margin-top: 4px;
   }
 
   .rank-code-wrapper {
-    display: none;
+    top: 2px;
+    left: 2px;
   }
 
   .rank-code {
-    font-size: 13px;
+    font-size: 12px;
+    border-radius: 6px;
+  }
+
+  .rank-subtitle-wrapper {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .rank-rating-wrapper {
+    margin-top: 4px;
+    margin-left: 0;
   }
 }

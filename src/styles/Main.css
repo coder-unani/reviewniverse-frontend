@@ -629,6 +629,10 @@ em {
   margin: 0 auto;
 }
 
+.default-video-item {
+  cursor: pointer;
+}
+
 .default-thumbnail-container {
   position: relative;
   width: 100%;
@@ -636,7 +640,7 @@ em {
 }
 
 .default-thumbnail-wrapper {
-  position: absolute;
+  position: relative;
   display: flex;
   width: 100%;
   height: 100%;
@@ -661,6 +665,21 @@ em {
   border-radius: 14px;
 }
 
+.default-code-wrapper {
+  position: absolute;
+  top: 6px;
+  left: 6px;
+}
+
+.default-code {
+  font-size: 13px;
+  font-weight: 600;
+  color: #93a8b4;
+  border-radius: 8px;
+  background-color: #12222b;
+  padding: 6px 8px;
+}
+
 .default-info-container {
   display: flex;
   align-items: flex-end;
@@ -683,29 +702,67 @@ em {
   -webkit-box-orient: vertical;
 }
 
+.default-subtitle-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 6px;
+}
+
 .default-subtitle {
   font-size: 13px;
   font-weight: 600;
   color: #93a8b4;
   letter-spacing: -0.2px;
-  margin-top: 6px;
 }
 .default-subtitle > span:not(:last-child) {
   margin-right: 8px;
 }
 
-.default-code-wrapper {
-  flex: none;
-  margin-left: 10px;
+.default-rating-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  margin-left: 8px;
+}
+.default-rating-wrapper[data-rating="0"] .default-rating-square {
+  background-color: #263d4b;
+}
+.default-rating-wrapper[data-rating="0"] .default-rating {
+  color: #263d4b;
+}
+.default-rating-wrapper[data-rating="1"] .default-rating-square, .default-rating-wrapper[data-rating="2"] .default-rating-square {
+  background-color: #ff6874;
+}
+.default-rating-wrapper[data-rating="1"] .default-rating, .default-rating-wrapper[data-rating="2"] .default-rating {
+  color: #ff6874;
+}
+.default-rating-wrapper[data-rating="3"] .default-rating-square {
+  background-color: #ffbd3f;
+}
+.default-rating-wrapper[data-rating="3"] .default-rating {
+  color: #ffbd3f;
+}
+.default-rating-wrapper[data-rating="4"] .default-rating-square, .default-rating-wrapper[data-rating="5"] .default-rating-square {
+  background-color: #00ce7a;
+}
+.default-rating-wrapper[data-rating="4"] .default-rating, .default-rating-wrapper[data-rating="5"] .default-rating {
+  color: #00ce7a;
 }
 
-.default-code {
-  font-size: 14px;
-  font-weight: 600;
-  color: #93a8b4;
-  border-radius: 6px;
-  background-color: #12222b;
-  padding: 6px 8px;
+.default-rating-square {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 12px;
+  height: 12px;
+  border-radius: 2px;
+}
+
+.default-rating {
+  font-size: 13px;
+  font-weight: 700;
 }
 
 @media (max-width: 576px) {
@@ -720,16 +777,30 @@ em {
     align-items: flex-start;
     margin-top: 12px;
   }
-  .default-subtitle {
+  .default-subtitle-wrapper {
     margin-top: 4px;
   }
   .default-code-wrapper {
-    display: none;
+    top: 2px;
+    left: 2px;
   }
   .default-code {
-    font-size: 13px;
+    font-size: 12px;
+    border-radius: 6px;
+  }
+  .default-subtitle-wrapper {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .default-rating-wrapper {
+    margin-top: 4px;
+    margin-left: 0;
   }
 }
+.rank-video-item {
+  cursor: pointer;
+}
+
 .rank-thumbnail-container {
   position: relative;
   width: 100%;
@@ -760,6 +831,21 @@ em {
   height: 100%;
   object-fit: cover;
   border-radius: 14px;
+}
+
+.rank-code-wrapper {
+  position: absolute;
+  top: 6px;
+  left: 6px;
+}
+
+.rank-code {
+  font-size: 13px;
+  font-weight: 600;
+  color: #93a8b4;
+  border-radius: 8px;
+  background-color: #12222b;
+  padding: 6px 8px;
 }
 
 .rank-number-wrapper {
@@ -805,29 +891,67 @@ em {
   -webkit-box-orient: vertical;
 }
 
+.rank-subtitle-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 6px;
+}
+
 .rank-subtitle {
   font-size: 13px;
   font-weight: 600;
   color: #93a8b4;
   letter-spacing: -0.2px;
-  margin-top: 6px;
 }
 .rank-subtitle > span:not(:last-child) {
   margin-right: 8px;
 }
 
-.rank-code-wrapper {
-  flex: none;
-  margin-left: 10px;
+.rank-rating-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  margin-left: 8px;
+}
+.rank-rating-wrapper[data-rating="0"] .rank-rating-square {
+  background-color: #263d4b;
+}
+.rank-rating-wrapper[data-rating="0"] .rank-rating {
+  color: #263d4b;
+}
+.rank-rating-wrapper[data-rating="1"] .rank-rating-square, .rank-rating-wrapper[data-rating="2"] .rank-rating-square {
+  background-color: #ff6874;
+}
+.rank-rating-wrapper[data-rating="1"] .rank-rating, .rank-rating-wrapper[data-rating="2"] .rank-rating {
+  color: #ff6874;
+}
+.rank-rating-wrapper[data-rating="3"] .rank-rating-square {
+  background-color: #ffbd3f;
+}
+.rank-rating-wrapper[data-rating="3"] .rank-rating {
+  color: #ffbd3f;
+}
+.rank-rating-wrapper[data-rating="4"] .rank-rating-square, .rank-rating-wrapper[data-rating="5"] .rank-rating-square {
+  background-color: #00ce7a;
+}
+.rank-rating-wrapper[data-rating="4"] .rank-rating, .rank-rating-wrapper[data-rating="5"] .rank-rating {
+  color: #00ce7a;
 }
 
-.rank-code {
-  font-size: 14px;
-  font-weight: 600;
-  color: #93a8b4;
-  border-radius: 6px;
-  background-color: #12222b;
-  padding: 6px 8px;
+.rank-rating-square {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 12px;
+  height: 12px;
+  border-radius: 2px;
+}
+
+.rank-rating {
+  font-size: 13px;
+  font-weight: 700;
 }
 
 @media (max-width: 576px) {
@@ -856,14 +980,24 @@ em {
     align-items: flex-start;
     margin-top: 20px;
   }
-  .rank-subtitle {
+  .rank-subtitle-wrapper {
     margin-top: 4px;
   }
   .rank-code-wrapper {
-    display: none;
+    top: 2px;
+    left: 2px;
   }
   .rank-code {
-    font-size: 13px;
+    font-size: 12px;
+    border-radius: 6px;
+  }
+  .rank-subtitle-wrapper {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .rank-rating-wrapper {
+    margin-top: 4px;
+    margin-left: 0;
   }
 }
 .vertical-videos-section {
@@ -1864,7 +1998,6 @@ em {
   bottom: 0;
   transform: translateY(50%);
   width: 100%;
-  cursor: pointer;
 }
 
 .preview-videos-wrapper {
@@ -1886,6 +2019,7 @@ em {
   justify-content: center;
   min-width: calc(25% - 18px);
   height: 175px;
+  cursor: pointer;
 }
 
 .preview-video-link {
@@ -3868,107 +4002,6 @@ em {
   }
   .reviews-content-section {
     padding: 20px 15px;
-  }
-}
-.default-thumbnail-container {
-  position: relative;
-  width: 100%;
-  aspect-ratio: 2/3;
-}
-
-.default-thumbnail-wrapper {
-  position: absolute;
-  display: flex;
-  width: 100%;
-  height: 100%;
-  background-color: transparent;
-}
-.default-thumbnail-wrapper::after {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  border-radius: 14px;
-  border: 1px solid rgba(213, 221, 226, 0.1);
-}
-
-.default-thumbnail {
-  display: flex;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  border-radius: 14px;
-}
-
-.default-info-container {
-  display: flex;
-  align-items: flex-end;
-  margin-top: 16px;
-}
-
-.default-title-wrapper {
-  flex: 1;
-}
-
-.default-title {
-  font-size: 15px;
-  font-weight: 600;
-  color: #eef7fc;
-  line-height: 20px;
-  letter-spacing: -0.2px;
-  display: -webkit-box;
-  -webkit-line-clamp: 1;
-  overflow: hidden;
-  -webkit-box-orient: vertical;
-}
-
-.default-subtitle {
-  font-size: 13px;
-  font-weight: 600;
-  color: #93a8b4;
-  letter-spacing: -0.2px;
-  margin-top: 6px;
-}
-.default-subtitle > span:not(:last-child) {
-  margin-right: 8px;
-}
-
-.default-code-wrapper {
-  flex: none;
-  margin-left: 10px;
-}
-
-.default-code {
-  font-size: 14px;
-  font-weight: 600;
-  color: #93a8b4;
-  border-radius: 6px;
-  background-color: #12222b;
-  padding: 6px 8px;
-}
-
-@media (max-width: 576px) {
-  .default-thumbnail-wrapper::after {
-    border-radius: 8px;
-  }
-  .default-thumbnail {
-    border-radius: 8px;
-  }
-  .default-info-container {
-    flex-direction: column;
-    align-items: flex-start;
-    margin-top: 12px;
-  }
-  .default-subtitle {
-    margin-top: 4px;
-  }
-  .default-code-wrapper {
-    display: none;
-  }
-  .default-code {
-    font-size: 13px;
   }
 }
 .delete-main {

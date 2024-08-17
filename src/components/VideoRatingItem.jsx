@@ -1,5 +1,5 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import RatingReview from "/src/components/RatingReview";
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import "react-lazy-load-image-component/src/effects/blur.css";
@@ -7,9 +7,15 @@ import { fYear } from "/src/utils/format";
 import { fVideoCode, fThumbnail, fCountry } from "/src/utils/formatContent";
 
 const VideoRatingItem = ({ video }) => {
+  const navigate = useNavigate();
+
+  const handleLinkClick = (videoId) => {
+    navigate(`/contents/${videoId}`);
+  };
+
   return (
     <article className="default-video-item">
-      <Link to={`/contents/${video.video.id}`}>
+      <a onClick={() => handleLinkClick(video.video.id)} role="button" aria-label={video.video.title}>
         <div className="default-thumbnail-container">
           <picture className="default-thumbnail-wrapper">
             <LazyLoadImage
@@ -19,6 +25,9 @@ const VideoRatingItem = ({ video }) => {
               effect="blur"
             />
           </picture>
+          <div className="default-code-wrapper">
+            <div className="default-code">{fVideoCode(video.code)}</div>
+          </div>
         </div>
         <div className="default-info-container">
           <div className="default-title-wrapper">
@@ -34,11 +43,8 @@ const VideoRatingItem = ({ video }) => {
               )} */}
             </div>
           </div>
-          {/* <div className="default-code-wrapper">
-            <div className="default-code">{fVideoCode(video.code)}</div>
-          </div> */}
         </div>
-      </Link>
+      </a>
     </article>
   );
 };
