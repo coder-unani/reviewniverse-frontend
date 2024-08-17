@@ -17,7 +17,7 @@ const STORAGE_KEYS = {
 // 유저 정보 설정
 export const setStorageUser = (user) => {
   if (isEmpty(user)) return;
-  setCookie(STORAGE_KEYS.USER, JSON.stringify(user), { path: "/" });
+  setCookie(STORAGE_KEYS.USER, JSON.stringify(user), { path: "/", expires: 30, sameSite: "Strict" });
 };
 
 // 유저 정보 조회
@@ -28,13 +28,13 @@ export const getStorageUser = () => {
 
 // 유저 정보 삭제
 export const removeStorageUser = () => {
-  removeCookie(STORAGE_KEYS.USER, { path: "/" });
+  removeCookie(STORAGE_KEYS.USER, { path: "/", sameSite: "Strict" });
 };
 
 // 액세스 토큰 설정
 export const setStorageAccessToken = (access_token) => {
   if (!access_token) return;
-  setCookie(STORAGE_KEYS.ACCESS_TOKEN, access_token, { path: "/" });
+  setCookie(STORAGE_KEYS.ACCESS_TOKEN, access_token, { path: "/", expires: 30, sameSite: "Strict" });
 };
 
 // 액세스 토큰 조회
@@ -44,7 +44,7 @@ export const getStorageAccessToken = () => {
 
 // 액세스 토큰 삭제
 export const removeStorageAccessToken = () => {
-  removeCookie(STORAGE_KEYS.ACCESS_TOKEN, { path: "/" });
+  removeCookie(STORAGE_KEYS.ACCESS_TOKEN, { path: "/", sameSite: "Strict" });
 };
 
 // 최근 검색어 설정
