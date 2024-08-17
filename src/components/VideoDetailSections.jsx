@@ -54,7 +54,7 @@ const MyRatingSection = React.memo(() => {
 
 const PlatformSection = React.memo(() => {
   const { content } = useVideoDetailContext();
-  const platforms = fPlatformFilter(content.data.platforms);
+  const platforms = fPlatformFilter(content.data.platform);
   const renderPlatform = () => (
     <section className="detail-platform-section">
       <h4 className="detail-main-title">보러가기</h4>
