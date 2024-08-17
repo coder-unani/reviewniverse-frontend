@@ -788,6 +788,7 @@ em {
   .default-code {
     font-size: 12px;
     border-radius: 6px;
+    padding: 5px 7px;
   }
   .default-subtitle-wrapper {
     flex-direction: column;
@@ -796,13 +797,6 @@ em {
   .default-rating-wrapper {
     margin-top: 4px;
     margin-left: 0;
-  }
-  .default-rating-square {
-    width: 10px;
-    height: 10px;
-  }
-  .default-rating {
-    font-size: 11px;
   }
 }
 .rank-video-item {
@@ -999,6 +993,7 @@ em {
   .rank-code {
     font-size: 12px;
     border-radius: 6px;
+    padding: 5px 7px;
   }
   .rank-subtitle-wrapper {
     flex-direction: column;
@@ -1007,13 +1002,6 @@ em {
   .rank-rating-wrapper {
     margin-top: 4px;
     margin-left: 0;
-  }
-  .rank-rating-square {
-    width: 10px;
-    height: 10px;
-  }
-  .rank-rating {
-    font-size: 11px;
   }
 }
 .vertical-videos-section {

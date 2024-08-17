@@ -224,6 +224,7 @@
   .rank-code {
     font-size: 12px;
     border-radius: 6px;
+    padding: 5px 7px;
   }
 
   .rank-subtitle-wrapper {
@@ -234,14 +235,5 @@
   .rank-rating-wrapper {
     margin-top: 4px;
     margin-left: 0;
-  }
-
-  .rank-rating-square {
-    width: 10px;
-    height: 10px;
-  }
-
-  .rank-rating {
-    font-size: 11px;
   }
 }

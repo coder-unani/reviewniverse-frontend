@@ -179,6 +179,7 @@
   .default-code {
     font-size: 12px;
     border-radius: 6px;
+    padding: 5px 7px;
   }
 
   .default-subtitle-wrapper {
@@ -189,14 +190,5 @@
   .default-rating-wrapper {
     margin-top: 4px;
     margin-left: 0;
-  }
-
-  .default-rating-square {
-    width: 10px;
-    height: 10px;
-  }
-
-  .default-rating {
-    font-size: 11px;
   }
 }
