@@ -12,6 +12,7 @@ import { fArrayRandomValue } from "/src/utils/format";
 import { fScreenCode } from "/src/utils/formatContent";
 
 const Home = () => {
+  const today = new Date().toISOString().slice(0, 10).replace(/-/g, "");
   const navigate = useNavigate();
   const [page, setPage] = useState(1);
   const [hasMore, setHasMore] = useState(true);
@@ -21,7 +22,7 @@ const Home = () => {
     data: ranking,
     error: rankingError,
     isLoading: rankingIsLoading,
-  } = useRankingVideos({ code: "20240808", count: 20 });
+  } = useRankingVideos({ code: today, count: 20 });
   const {
     data: screens,
     error: screensError,
