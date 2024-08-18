@@ -1,17 +1,28 @@
 import React, { useEffect } from "react";
-import BackButton from "/src/components/Button/Back";
 import { useNavigate } from "react-router-dom";
+import BackButton from "/src/components/Button/Back";
 import { useAuthContext } from "/src/context/AuthContext";
 import { useThemeContext } from "/src/context/ThemeContext";
 import { SETTINGS } from "/src/config/settings";
 import { DEFAULT_IMAGES } from "/src/config/constants";
 
-// TODO: 네이버 로그인 SDK 사용하지 않기
+/**
+ * TODO:
+ * - 네이버 로그인 SDK 사용하지 않기
+ * - 페이스북 로그인 연동
+ * - Apple 로그인 연동
+ */
 
 const Login = () => {
+  const navigate = useNavigate();
   const { user } = useAuthContext();
   const { isMobile } = useThemeContext();
-  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (user) {
+      navigate("/");
+    }
+  }, [user]);
 
   const handleKakaoLogin = () => {
     window.location.href = `https://kauth.kakao.com/oauth/authorize?client_id=${SETTINGS.KAKAO_API_KEY}&redirect_uri=${SETTINGS.KAKAO_CALLBACK_URL}&response_type=code`;
@@ -37,12 +48,6 @@ const Login = () => {
       loginButton.click();
     }
   };
-
-  useEffect(() => {
-    if (user) {
-      navigate("/");
-    }
-  }, [user]);
 
   return (
     <main className="login-main-container">

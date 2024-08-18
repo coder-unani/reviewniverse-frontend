@@ -2,9 +2,17 @@ import React, { useState, useRef, useCallback, useEffect } from "react";
 import VideoItem from "/src/components/VideoItem";
 import { isEmpty } from "lodash";
 
-const Videos = ({ videos, handlePage, children }) => {
+const Videos = ({ children, videos, handlePage }) => {
   const [hasMore, setHasMore] = useState(true);
   const observer = useRef();
+
+  useEffect(() => {
+    if (videos.data && videos.total <= videos.data.length) {
+      setHasMore(false);
+    } else {
+      setHasMore(true);
+    }
+  }, [videos]);
 
   const lastItemRef = useCallback(
     (node) => {
@@ -22,15 +30,9 @@ const Videos = ({ videos, handlePage, children }) => {
     [hasMore]
   );
 
-  useEffect(() => {
-    if (videos.data && videos.total <= videos.data.length) {
-      setHasMore(false);
-    } else {
-      setHasMore(true);
-    }
-  }, [videos]);
-
-  if (isEmpty(videos) || isEmpty(videos.data)) return null;
+  // if (isEmpty(videos) || isEmpty(videos.data)) {
+  //   return null;
+  // }
 
   return (
     <section className="vertical-videos-section">

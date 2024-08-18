@@ -24,6 +24,34 @@ const Genre = () => {
     orderBy: "view_desc",
   });
 
+  // TODO: searchParams가 없을 경우는?(임시조치)
+  useEffect(() => {
+    if (!query) {
+      return navigate("/404-not-found");
+    }
+  }, [query, navigate]);
+
+  useEffect(() => {
+    if (videosIsLoading || !videosData) {
+      return;
+    }
+    if (!videosData.status) {
+      return navigate("/error");
+    }
+    if (page === 1) {
+      setVideos(videosData.data);
+    } else {
+      setVideos((prev) => {
+        return {
+          ...prev,
+          count: videosData.data.count,
+          page: videosData.data.page,
+          data: [...prev.data, ...videosData.data.data],
+        };
+      });
+    }
+  }, [videosIsLoading, videosData, page]);
+
   const formatQuery = (query) => {
     // , 구분으로 array로 변환
     const genre = query.split(",");
@@ -36,33 +64,14 @@ const Genre = () => {
     setPage(page);
   };
 
-  // TODO: searchParams가 없을 경우는?(임시조치)
-  useEffect(() => {
-    if (!query) navigate("/404-not-found");
-  }, [query]);
-
-  useEffect(() => {
-    if (!videosData) return;
-    if (page === 1) {
-      setVideos(videosData);
-    } else {
-      setVideos((prev) => {
-        return {
-          ...prev,
-          count: videosData.count,
-          page: videosData.page,
-          data: [...prev.data, ...videosData.data],
-        };
-      });
-    }
-  }, [videosData, page]);
-
-  if (isEmpty(videos) || !query) return;
+  if (videosError) {
+    return navigate("/error");
+  }
 
   return (
     <>
       <Helmet>
-        <title>{query}의 검색결과 - 리뷰니버스</title>
+        <title>{`${query}의 검색결과 - 리뷰니버스`}</title>
         {/* noindex, noimageindex */}
         {/* <meta content="noindex, noimageindex" name="robots" data-rh="true" /> */}
         <meta name="description" content={`${query}의 검색결과 - 리뷰니버스`} />

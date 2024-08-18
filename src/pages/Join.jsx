@@ -1,8 +1,8 @@
 import React, { useState } from "react";
-import { useThemeContext } from "/src/context/ThemeContext";
 import JoinAgree from "/src/components/JoinAgree";
 import JoinForm from "/src/components/JoinForm";
 import BackButton from "/src/components/Button/Back";
+import { useThemeContext } from "/src/context/ThemeContext";
 import Logo from "/assets/logo.svg";
 import "/src/styles/Join_v1.css";
 

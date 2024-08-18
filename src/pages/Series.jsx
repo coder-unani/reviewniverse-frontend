@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import VideosHorizontal from "/src/components/VideosHorizontal";
 import Videos from "/src/components/Videos";
-import { useAuthContext } from "/src/context/AuthContext";
 import { useScreenVideos } from "/src/hooks/useScreenVideos";
 import { useVideos } from "/src/hooks/useVideos";
 import { SCREEN_SERIES_ID } from "/src/config/codes";
@@ -10,60 +10,56 @@ import { fArrayRandomValue } from "/src/utils/format";
 import { isEmpty } from "lodash";
 
 const Series = () => {
-  const { user } = useAuthContext();
+  const navigate = useNavigate();
   const code = 11;
   const [page, setPage] = useState(1);
   const [hasMore, setHasMore] = useState(true);
   const [orderBy, setOrderBy] = useState(fArrayRandomValue(VIDEO_ORDER_OPTIONS));
   const [videos, setVideos] = useState({ count: 0, page: 1, data: [] });
-  // 스크린 데이터
   const {
     data: screens,
     error: screensError,
     isLoading: screensIsLoading,
   } = useScreenVideos({ code: SCREEN_SERIES_ID });
-  // 비디오 리스트
   const {
     data: videosData,
     error: videosError,
     isLoading: videosIsLoading,
   } = useVideos({ page, orderBy, code, enabled: hasMore });
 
-  // 페이지 변경
-  const handlePage = (page) => {
-    setPage(page);
-  };
-
   useEffect(() => {
-    if (!videosData || !hasMore) return;
+    if (videosIsLoading || !videosData || !hasMore) {
+      return;
+    }
+    if (!videosData.status) {
+      return navigate("/error");
+    }
     if (page === 1) {
-      setVideos(videosData);
+      setVideos(videosData.data);
     } else {
       if (page === 5) setHasMore(false);
       setVideos((prev) => {
         return {
           ...prev,
-          count: videosData.count,
-          page: videosData.page,
-          data: [...prev.data, ...videosData.data],
+          count: videosData.data.count,
+          page: videosData.data.page,
+          data: [...prev.data, ...videosData.data.data],
         };
       });
     }
-  }, [videosData, hasMore, page]);
+  }, [videosIsLoading, videosData, hasMore, page]);
 
-  // 로딩중일때 표시할 화면 (스켈레톤 UI)
-  if (videosIsLoading || screensIsLoading) {
+  const handlePage = (page) => {
+    setPage(page);
+  };
+
+  if (screensIsLoading) {
   }
 
-  // 에러일때 표시할 화면
-  if (videosError) {
-  }
-  if (screensError) {
+  if (screensError || videosError) {
+    return navigate("/error");
   }
 
-  if (isEmpty(screens) || isEmpty(videos)) return null;
-
-  // 데이터 props로 하위 컴포넌트에 전달
   return (
     <main className="main">
       {!isEmpty(screens) && screens.map((content, index) => <VideosHorizontal key={index} content={content} />)}

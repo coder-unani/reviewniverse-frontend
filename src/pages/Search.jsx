@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from "react";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import Videos from "/src/components/Videos";
 import SearchModal from "/src/components/Modal/Search";
-import { useSearchParams } from "react-router-dom";
-import { useVideos } from "/src/hooks/useVideos";
 import { useThemeContext } from "/src/context/ThemeContext";
-import { isEmpty } from "lodash";
+import { useVideos } from "/src/hooks/useVideos";
 import { DEFAULT_IMAGES } from "/src/config/constants";
+import { isEmpty } from "lodash";
 
 /**
  * TODO:
@@ -14,6 +14,7 @@ import { DEFAULT_IMAGES } from "/src/config/constants";
  */
 
 const Search = () => {
+  const navigate = useNavigate();
   const { isMobile } = useThemeContext();
   const [searchParams] = useSearchParams();
   const query = searchParams.get("query");
@@ -29,33 +30,42 @@ const Search = () => {
     enabled: query,
   });
 
-  const handlePage = (page) => {
-    setPage(page);
-  };
-
   useEffect(() => {
-    if (!query) return;
+    if (!query) {
+      return;
+    }
     setPage(1);
     setVideos({ count: 0, page: 1, data: [] });
   }, [query]);
 
   useEffect(() => {
-    if (!videosData) return;
+    if (videosIsLoading || !videosData) {
+      return;
+    }
+    if (!videosData.status) {
+      return navigate("/error");
+    }
     if (page === 1) {
-      setVideos(videosData);
+      setVideos(videosData.data);
     } else {
       setVideos((prev) => {
         return {
           ...prev,
-          count: videosData.count,
-          page: videosData.page,
-          data: [...prev.data, ...videosData.data],
+          count: videosData.data.count,
+          page: videosData.data.page,
+          data: [...prev.data, ...videosData.data.data],
         };
       });
     }
-  }, [videosData, page]);
+  }, [videosIsLoading, videosData, page]);
 
-  // if (isEmpty(videos)) return;
+  const handlePage = (page) => {
+    setPage(page);
+  };
+
+  if (videosError) {
+    return navigate("/error");
+  }
 
   return (
     <main className="search-main-container">

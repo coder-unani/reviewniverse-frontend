@@ -106,7 +106,7 @@ const SearchForm = () => {
       }
     } else {
       // 검색어 입력란에 포커스
-      searchInputRef.current.focus();
+      // searchInputRef.current.focus();
     }
   }, [location, query]);
 

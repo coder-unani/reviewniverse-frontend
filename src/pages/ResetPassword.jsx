@@ -1,16 +1,13 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { useNavigate } from "react-router-dom";
+import BackButton from "/src/components/Button/Back";
 import { useThemeContext } from "/src/context/ThemeContext";
 import * as Yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm } from "react-hook-form";
-import BackButton from "/src/components/Button/Back";
-import HttpClient from "/src/utils/HttpClient";
+import { cLog, cError } from "/src/utils/test";
 import Logo from "/assets/logo.svg";
 import "/src/styles/ResetPassword.css";
-import { cLog, cError } from "/src/utils/test";
-
-const API_BASE_URL = "https://comet.reviewniverse.net/v1";
 
 const ResetPassword = () => {
   const { isMobile } = useThemeContext();

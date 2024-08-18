@@ -4,9 +4,7 @@ import { fDate } from "/src/utils/format";
 import { fPreviewThumbnail, fBackgroundImage, fReleaseText } from "/src/utils/formatContent";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay } from "swiper/modules";
-import "swiper/css";
 import { LazyLoadImage } from "react-lazy-load-image-component";
-import "react-lazy-load-image-component/src/effects/blur.css";
 
 const SwiperPreview = React.memo(({ screensMA01 }) => {
   const navigate = useNavigate();
@@ -94,7 +92,12 @@ const SwiperPreview = React.memo(({ screensMA01 }) => {
               {screensMA01.content.list.map((video, index) => (
                 <SwiperSlide className="preview-video-item" key={index}>
                   {({ isActive }) => (
-                    <a className="preview-video-link" onClick={handleLinkClick} role="button" aria-label={video.title}>
+                    <a
+                      className="preview-video-link"
+                      onClick={() => handleLinkClick(video.id)}
+                      role="button"
+                      aria-label={video.title}
+                    >
                       <picture className={`preview-thumbnail-wrapper ${isActive ? "active" : ""}`}>
                         <LazyLoadImage
                           className="preview-thumbnail-image"

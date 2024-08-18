@@ -1,16 +1,16 @@
-import React, { useEffect, useState } from "react";
+import React, { Suspense, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import SwiperPreview from "/src/components/SwiperPreview";
-import VideosHorizontal from "/src/components/VideosHorizontal";
-import Videos from "/src/components/Videos";
+import SkeletonHome from "/src/components/Skeleton/Home";
 import { useScreenVideos } from "/src/hooks/useScreenVideos";
 import { useRankingVideos } from "/src/hooks/useRankingVideos";
 import { useVideos } from "/src/hooks/useVideos";
 import { SCREEN_MAIN_ID } from "/src/config/codes";
 import { VIDEO_ORDER_OPTIONS } from "/src/config/constants";
 import { fScreenCode } from "/src/utils/formatContent";
-import SkeletonHome from "/src/components/Skeleton/Home";
-import { isEmpty } from "lodash";
+
+const SwiperPreview = React.lazy(() => import("/src/components/SwiperPreview"));
+const VideosHorizontal = React.lazy(() => import("/src/components/VideosHorizontal"));
+const Videos = React.lazy(() => import("/src/components/Videos"));
 
 const Home = () => {
   const today = new Date().toISOString().slice(0, 10).replace(/-/g, "");
@@ -43,10 +43,6 @@ const Home = () => {
   const [screensMA04, setScreensMA04] = useState(null);
   const [screensMA05, setScreensMA05] = useState(null);
 
-  const handlePage = (page) => {
-    setPage(page);
-  };
-
   useEffect(() => {
     const header = document.querySelector("header");
 
@@ -78,76 +74,90 @@ const Home = () => {
   }, [screens]);
 
   useEffect(() => {
-    if (!videosData || !hasMore) return;
-    // TODO: 정리 필요
-    if (isEmpty(videosData.data)) return;
+    if (videosIsLoading || !videosData || !hasMore) {
+      return;
+    }
+    if (!videosData.status) {
+      return navigate("/error");
+    }
     if (page === 1) {
-      setVideos(videosData);
+      setVideos(videosData.data);
     } else {
-      if (page === 5) setHasMore(false);
+      // if (page === 5) setHasMore(false);
       setVideos((prev) => {
         return {
           ...prev,
-          count: videosData.count,
-          page: videosData.page,
-          data: [...prev.data, ...videosData.data],
+          count: videosData.data.count,
+          page: videosData.data.page,
+          data: [...prev.data, ...videosData.data.data],
         };
       });
     }
-  }, [videosData, hasMore, page]);
+  }, [videosIsLoading, videosData, hasMore, page]);
 
-  if (screensIsLoading || rankingIsLoading) return <SkeletonHome />;
-  if (screensError || rankingError || videosError) return navigate("/error");
+  const handlePage = (page) => {
+    setPage(page);
+  };
+
+  if (screensIsLoading || rankingIsLoading) {
+    return <SkeletonHome />;
+  }
+
+  if (screensError || rankingError || videosError) {
+    return navigate("/error");
+  }
 
   return (
-    <main className="home-main-container">
-      <section className="home-preview-section">{screensMA01 && <SwiperPreview screensMA01={screensMA01} />}</section>
+    <Suspense fallback={<SkeletonHome />}>
+      <main className="home-main-container">
+        <section className="home-preview-section">{screensMA01 && <SwiperPreview screensMA01={screensMA01} />}</section>
 
-      <section className="home-main-section">
-        {ranking.status && (
-          <VideosHorizontal content={ranking.data} template="rank" title="🍿 리뷰니버스 TOP 20"></VideosHorizontal>
-        )}
+        <section className="home-main-section">
+          {ranking.status && (
+            <VideosHorizontal content={ranking.data} template="rank" title="🍿 리뷰니버스 TOP 20"></VideosHorizontal>
+          )}
 
-        {screensMA02 && (
-          <VideosHorizontal
-            content={screensMA02.content.list}
-            template={screensMA02.content.template}
-            title={screensMA02.title}
-          ></VideosHorizontal>
-        )}
+          {screensMA02 && (
+            <VideosHorizontal
+              content={screensMA02.content.list}
+              template={screensMA02.content.template}
+              title={screensMA02.title}
+            ></VideosHorizontal>
+          )}
 
-        {screensMA03 && (
-          <VideosHorizontal
-            content={screensMA03.content.list}
-            template={screensMA03.content.template}
-            title={screensMA03.title}
-          ></VideosHorizontal>
-        )}
-        {screensMA04 && (
-          <VideosHorizontal
-            content={screensMA04.content.list}
-            template={screensMA04.content.template}
-            title={screensMA04.title}
-          ></VideosHorizontal>
-        )}
+          {screensMA03 && (
+            <VideosHorizontal
+              content={screensMA03.content.list}
+              template={screensMA03.content.template}
+              title={screensMA03.title}
+            ></VideosHorizontal>
+          )}
+          {screensMA04 && (
+            <VideosHorizontal
+              content={screensMA04.content.list}
+              template={screensMA04.content.template}
+              title={screensMA04.title}
+            ></VideosHorizontal>
+          )}
 
-        {screensMA05 && (
-          <VideosHorizontal
-            content={screensMA05.content.list}
-            template={screensMA05.content.template}
-            title={screensMA05.title}
-          ></VideosHorizontal>
-        )}
+          {screensMA05 && (
+            <VideosHorizontal
+              content={screensMA05.content.list}
+              template={screensMA05.content.template}
+              title={screensMA05.title}
+            ></VideosHorizontal>
+          )}
 
-        {videos && (
-          <Videos videos={videos} handlePage={handlePage}>
-            <div className="vertical-title-wrapper">
-              <h2 className="vertical-title">🍟 이건 어때요?</h2>
-            </div>
-          </Videos>
-        )}
-      </section>
-    </main>
+          {videos && (
+            <Videos videos={videos} handlePage={handlePage}>
+              <div className="vertical-title-wrapper">
+                <h2 className="vertical-title">🍟 이건 어때요?</h2>
+              </div>
+            </Videos>
+          )}
+        </section>
+      </main>
+    </Suspense>
   );
 };
 

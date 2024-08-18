@@ -3,7 +3,6 @@ import VideoRankItem from "/src/components/VideoRankItem";
 import VideoItem from "/src/components/VideoItem";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation, Virtual } from "swiper/modules";
-import "swiper/css";
 import ArrowLeftIcon from "/src/assets/button/arrow-left.svg?react";
 import ArrowRightIcon from "/src/assets/button/arrow-right.svg?react";
 import { isEmpty } from "lodash";

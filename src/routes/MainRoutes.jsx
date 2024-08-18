@@ -3,24 +3,22 @@ import { AuthContextProvider } from "/src/context/AuthContext";
 import { ModalContextProvider } from "/src/context/ModalContext";
 import { VideoDetailProvider } from "/src/context/VideoDetailContext";
 import DefaultLayout from "/src/layouts/default";
-import Home from "/src/pages/Home";
-import Search from "/src/pages/Search";
-import VideoDetail from "/src/pages/VideoDetail";
-import People from "/src/pages/People";
-import Genre from "/src/pages/Genre";
-import Production from "/src/pages/Production";
-import SocialJoin from "/src/pages/SocialJoin";
-import Login from "/src/pages/Login";
-// import Join from "/src/pages/Join";
-// import UserFind from "/src/pages/UserFind";
-// import ResetPassword from "/src/pages/ResetPassword";
-import UserWatchType from "/src/pages/UserWatchType";
-import User from "/src/pages/User";
-import UserRatings from "/src/pages/UserRatings";
-import UserReviews from "/src/pages/UserReviews";
-import UserLikes from "/src/pages/UserLikes";
-import Error from "/src/pages/Error";
-import NotFound from "/src/pages/NotFound";
+
+const Home = React.lazy(() => import("/src/pages/Home"));
+const VideoDetail = React.lazy(() => import("/src/pages/VideoDetail"));
+const People = React.lazy(() => import("/src/pages/People"));
+const Genre = React.lazy(() => import("/src/pages/Genre"));
+const Production = React.lazy(() => import("/src/pages/Production"));
+const Search = React.lazy(() => import("/src/pages/Search"));
+const SocialJoin = React.lazy(() => import("/src/pages/SocialJoin"));
+const Login = React.lazy(() => import("/src/pages/Login"));
+const UserWatchType = React.lazy(() => import("/src/pages/UserWatchType"));
+const User = React.lazy(() => import("/src/pages/User"));
+const UserRatings = React.lazy(() => import("/src/pages/UserRatings"));
+const UserReviews = React.lazy(() => import("/src/pages/UserReviews"));
+const UserLikes = React.lazy(() => import("/src/pages/UserLikes"));
+const Error = React.lazy(() => import("/src/pages/Error"));
+const NotFound = React.lazy(() => import("/src/pages/NotFound"));
 
 const MainRoutes = {
   path: "/",
@@ -34,6 +32,10 @@ const MainRoutes = {
   children: [
     {
       index: true,
+      element: <Home />,
+    },
+    {
+      path: "index.html",
       element: <Home />,
     },
     {

@@ -3,8 +3,9 @@ import { AuthContextProvider } from "/src/context/AuthContext";
 import { ModalContextProvider } from "/src/context/ModalContext";
 import PrivateRoute from "/src/auth/privateRoute";
 import DefaultLayout from "/src/layouts/default";
-import UserProfile from "/src/pages/UserProfile";
-import UserDelete from "/src/pages/UserDelete";
+
+const UserProfile = React.lazy(() => import("/src/pages/UserProfile"));
+const UserDelete = React.lazy(() => import("/src/pages/UserDelete"));
 
 const PrivateRoutes = {
   path: "/",

@@ -5,14 +5,13 @@ import * as Yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm, useWatch } from "react-hook-form";
 import HttpClient from "/src/utils/HttpClient";
-import { isEmpty } from "lodash";
 import { formatUser } from "/src/utils/formatUser";
-import { RiImageEditFill } from "@remixicon/react";
+import { SETTINGS } from "/src/config/settings";
 import { DEFAULT_IMAGES } from "/src/config/constants";
-import "/src/styles/UserProfile.css";
 import { cLog, cError } from "/src/utils/test";
-
-const API_BASE_URL = "https://comet.reviewniverse.net/v1";
+import { isEmpty } from "lodash";
+import { RiImageEditFill } from "@remixicon/react";
+import "/src/styles/UserProfile.css";
 
 /**
  * TODO:
@@ -22,6 +21,7 @@ const API_BASE_URL = "https://comet.reviewniverse.net/v1";
 
 const UserProfile = () => {
   const navigate = useNavigate();
+  const baseURL = SETTINGS.API_BASE_URL;
   // 비밀번호 확인 상태
   const [isPasswordConfirmed, setIsPasswordConfirmed] = useState(false);
   const [user, setUser] = useState(() => {
@@ -29,6 +29,66 @@ const UserProfile = () => {
     return storedUser ? JSON.parse(storedUser) : null;
   });
   const [previewImage, setPreviewImage] = useState(user?.profile_image || DEFAULT_IMAGES.noProfile);
+
+  useEffect(() => {
+    // 로그인한 유저가 없을 경우 로그인 페이지로 이동
+    tokenValidation().then((isValid) => {
+      if (!isValid) {
+        navigate("/user/login");
+        return;
+      }
+    });
+
+    setValue("profile_image", user.profile_image);
+    setValue("nickname", user.nickname);
+    setValue("profile_text", user.profile_text);
+    setValue("is_marketing_agree", user.is_marketing_agree);
+
+    trigger();
+  }, []);
+
+  // TODO: URL 변수화 필요
+  // input 값 변경 시 유효성 검사
+  useEffect(() => {
+    const subscription = watch((value, { name }) => {
+      if (name === "nickname") {
+        trigger("nickname").then((isValid) => {
+          if (value.nickname === user.nickname) return;
+          if (isValid) {
+            // 닉네임 중복 체크
+            // TODO: 한글 입력시 글자가 완성되면 두번 호출되는 이슈 해결 필요
+            const client = new HttpClient();
+            client
+              .get(`${baseURL}/validation/users/nickname`, {
+                nickname: value.nickname,
+              })
+              .then((res) => {
+                if (res.status === 204 && res.code === "VALID_NICK_SUCC") {
+                  // 성공
+                  // TODO: 존재하지 않는 닉네임일 경우 input check 표시
+                  clearErrors("nickname");
+                } else {
+                  // 실패
+                  // 존재하는 닉네임일 경우 에러 메시지 출력
+                  setError("nickname", {
+                    type: "manual",
+                    message: "이미 사용중인 닉네임입니다.",
+                  });
+                }
+              })
+              .catch((error) => {
+                cError(error);
+                reset();
+              });
+          }
+        });
+      } else if (name === "password_origin" || name === "password_new") {
+        trigger(name);
+      }
+    });
+
+    return () => subscription.unsubscribe();
+  }, [watch, trigger, setError, clearErrors]);
 
   // 토큰 검증
   const tokenValidation = async () => {
@@ -38,7 +98,7 @@ const UserProfile = () => {
     const client = new HttpClient(access_token);
 
     try {
-      const res = await client.get(`${API_BASE_URL}/token`);
+      const res = await client.get(`${baseURL}/token`);
       if (res.status === 200) {
         return true;
       } else {
@@ -143,7 +203,7 @@ const UserProfile = () => {
       // 현재 비밀번호가 맞는지 확인
       try {
         const client = new HttpClient();
-        const res = await client.patch(`${API_BASE_URL}/users/${user.id}/password`, {
+        const res = await client.patch(`${baseURL}/users/${user.id}/password`, {
           password_origin: data.password_origin,
           password_new: data.password_new,
         });
@@ -176,7 +236,7 @@ const UserProfile = () => {
       const headers = {
         "Content-Type": "multipart/form-data",
       };
-      const res = await profileClient.put(`${API_BASE_URL}/users/${user.id}`, updateData, headers);
+      const res = await profileClient.put(`${baseURL}/users/${user.id}`, updateData, headers);
       if (res.status === 200) {
         cLog("프로필이 수정되었습니다.");
         sessionStorage.setItem("user", JSON.stringify(formatUser(res.data.user)));
@@ -218,67 +278,9 @@ const UserProfile = () => {
     clearErrors("profile_image");
   };
 
-  useEffect(() => {
-    // 로그인한 유저가 없을 경우 로그인 페이지로 이동
-    tokenValidation().then((isValid) => {
-      if (!isValid) {
-        navigate("/user/login");
-        return;
-      }
-    });
-
-    setValue("profile_image", user.profile_image);
-    setValue("nickname", user.nickname);
-    setValue("profile_text", user.profile_text);
-    setValue("is_marketing_agree", user.is_marketing_agree);
-
-    trigger();
-  }, []);
-
-  // TODO: URL 변수화 필요
-  // input 값 변경 시 유효성 검사
-  useEffect(() => {
-    const subscription = watch((value, { name }) => {
-      if (name === "nickname") {
-        trigger("nickname").then((isValid) => {
-          if (value.nickname === user.nickname) return;
-          if (isValid) {
-            // 닉네임 중복 체크
-            // TODO: 한글 입력시 글자가 완성되면 두번 호출되는 이슈 해결 필요
-            const client = new HttpClient();
-            client
-              .get(`${API_BASE_URL}/validation/users/nickname`, {
-                nickname: value.nickname,
-              })
-              .then((res) => {
-                if (res.status === 204 && res.code === "VALID_NICK_SUCC") {
-                  // 성공
-                  // TODO: 존재하지 않는 닉네임일 경우 input check 표시
-                  clearErrors("nickname");
-                } else {
-                  // 실패
-                  // 존재하는 닉네임일 경우 에러 메시지 출력
-                  setError("nickname", {
-                    type: "manual",
-                    message: "이미 사용중인 닉네임입니다.",
-                  });
-                }
-              })
-              .catch((error) => {
-                cError(error);
-                reset();
-              });
-          }
-        });
-      } else if (name === "password_origin" || name === "password_new") {
-        trigger(name);
-      }
-    });
-
-    return () => subscription.unsubscribe();
-  }, [watch, trigger, setError, clearErrors]);
-
-  if (isEmpty(user)) return null;
+  if (isEmpty(user)) {
+    return null;
+  }
 
   return (
     <main className="edit-main">

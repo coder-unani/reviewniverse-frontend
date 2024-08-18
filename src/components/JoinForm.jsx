@@ -4,9 +4,8 @@ import * as Yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm } from "react-hook-form";
 import HttpClient from "/src/utils/HttpClient";
+import { SETTINGS } from "/src/config/settings";
 import { cLog, cError } from "/src/utils/test";
-
-const API_BASE_URL = "https://comet.reviewniverse.net/v1";
 
 /**
  * TODO:
@@ -25,6 +24,7 @@ const API_BASE_URL = "https://comet.reviewniverse.net/v1";
 
 const JoinForm = ({ agreeValues }) => {
   const navigate = useNavigate();
+  const baseURL = SETTINGS.API_BASE_URL;
 
   // 회원가입 유효성 검사
   const JoinSchema = Yup.object().shape({
@@ -75,7 +75,7 @@ const JoinForm = ({ agreeValues }) => {
     try {
       // 회원가입 처리
       const client = new HttpClient();
-      const res = await client.post(`${API_BASE_URL}/users`, {
+      const res = await client.post(`${baseURL}/users`, {
         code: "10",
         email: data.email,
         password: data.password,
@@ -114,7 +114,7 @@ const JoinForm = ({ agreeValues }) => {
             // TODO: 한글 입력시 글자가 완성되면 두번 호출되는 이슈 해결 필요
             const client = new HttpClient();
             client
-              .get(`${API_BASE_URL}/validation/users/nickname`, {
+              .get(`${baseURL}/validation/users/nickname`, {
                 nickname: value.nickname,
               })
               .then((res) => {
@@ -143,7 +143,7 @@ const JoinForm = ({ agreeValues }) => {
             // 이메일 중복 체크
             const client = new HttpClient();
             client
-              .get(`${API_BASE_URL}/validation/users/email`, {
+              .get(`${baseURL}/validation/users/email`, {
                 email: value.email,
               })
               .then((res) => {

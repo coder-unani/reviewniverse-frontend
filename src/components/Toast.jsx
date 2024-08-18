@@ -1,5 +1,4 @@
 import { ToastContainer, toast, Slide } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
 
 export const showToast = (message) => {
   toast(message);

@@ -2,8 +2,6 @@ import React, { useState, useRef } from "react";
 import PeopleItem from "/src/components/PeopleItem";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Grid } from "swiper/modules";
-import "swiper/css";
-import "swiper/css/grid";
 import ArrowLeftIcon from "/src/assets/button/arrow-left.svg?react";
 import ArrowRightIcon from "/src/assets/button/arrow-right.svg?react";
 

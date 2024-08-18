@@ -1,6 +1,7 @@
 .detail-main-container {
   min-height: 100vh;
   // min-height: calc(100vh - 80px);
+  padding-bottom: 60px;
   overflow: hidden;
 }
 
@@ -646,7 +647,7 @@
 .detail-review-section {
   width: 100%;
   max-width: 1440px;
-  padding: 30px 60px 60px;
+  padding: 20px 60px;
   margin: 0 auto;
 }
 

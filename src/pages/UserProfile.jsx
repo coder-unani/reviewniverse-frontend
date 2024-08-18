@@ -7,7 +7,6 @@ import { showSuccessToast, showErrorToast } from "/src/components/Toast";
 import * as Yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm, useWatch } from "react-hook-form";
-import { isEmpty } from "lodash";
 import {
   DEFAULT_IMAGES,
   PROFILE_IMAGE_FILE_SIZE,
@@ -15,6 +14,7 @@ import {
   PROFILE_TEXT_MAX_LENGTH,
 } from "/src/config/constants";
 import { isValidFileSize, isValidFileType } from "/src/utils/validation";
+import { isEmpty } from "lodash";
 import { RiImageEditFill } from "@remixicon/react";
 
 /**
@@ -27,6 +27,20 @@ const UserProfile = () => {
   const navigate = useNavigate();
   const { user } = useAuthContext();
   const [previewImage, setPreviewImage] = useState(user?.profile_image || DEFAULT_IMAGES.noProfile);
+
+  useEffect(() => {
+    setValue("profile_image", user.profile_image);
+    setValue("nickname", user.nickname);
+    setValue("profile_text", user.profile_text || "");
+    setValue("is_marketing_agree", user.is_marketing_agree);
+    trigger();
+  }, []);
+
+  useEffect(() => {
+    if (watchIntroduction.length > PROFILE_TEXT_MAX_LENGTH) {
+      setValue("profile_text", watchIntroduction.slice(0, PROFILE_TEXT_MAX_LENGTH));
+    }
+  }, [watchIntroduction, setValue]);
 
   // 개인정보 수정 유효성 검사
   const EditSchema = Yup.object().shape({
@@ -131,21 +145,9 @@ const UserProfile = () => {
     clearErrors("profile_image");
   };
 
-  useEffect(() => {
-    setValue("profile_image", user.profile_image);
-    setValue("nickname", user.nickname);
-    setValue("profile_text", user.profile_text || "");
-    setValue("is_marketing_agree", user.is_marketing_agree);
-    trigger();
-  }, []);
-
-  useEffect(() => {
-    if (watchIntroduction.length > PROFILE_TEXT_MAX_LENGTH) {
-      setValue("profile_text", watchIntroduction.slice(0, PROFILE_TEXT_MAX_LENGTH));
-    }
-  }, [watchIntroduction, setValue]);
-
-  if (isEmpty(user)) return null;
+  if (isEmpty(user)) {
+    return null;
+  }
 
   return (
     <main className="edit-main">

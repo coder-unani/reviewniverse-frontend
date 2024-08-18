@@ -8,13 +8,14 @@ import BackButton from "/src/components/Button/Back";
 import { useAuthContext } from "/src/context/AuthContext";
 import { useThemeContext } from "/src/context/ThemeContext";
 import { isValidProvider } from "/src/utils/validation";
-import { isEmpty } from "lodash";
-import { MESSAGES } from "/src/config/messages";
 import { DEFAULT_IMAGES } from "/src/config/constants";
+import { MESSAGES } from "/src/config/messages";
 import { showSuccessToast, showErrorToast } from "/src/components/Toast";
+import { isEmpty } from "lodash";
 
 /**
  * TODO:
+ * - 회원가입 로직 재정리
  * - 성향 등록 추가
  * - 회원가입 성공 시 모달창 띄우기
  */
@@ -26,6 +27,22 @@ const SocialJoin = () => {
   const { isMobile } = useThemeContext();
   const [isAgree, setIsAgree] = useState(false);
   const [agreeValues, setAgreeValues] = useState({});
+
+  useEffect(() => {
+    if (!provider || !isValidProvider(provider)) {
+      return navigate("/404-not-found");
+    }
+    if (user) {
+      setSnsUser(null);
+    }
+  }, [provider, user, setSnsUser]);
+
+  useEffect(() => {
+    if (!snsUser || !isAgree || isEmpty(agreeValues)) {
+      return;
+    }
+    handleSocialJoin(snsUser, agreeValues);
+  }, [snsUser, isAgree, agreeValues]);
 
   const renderCallback = () => {
     switch (provider) {
@@ -78,20 +95,6 @@ const SocialJoin = () => {
       navigate("/user/login");
     }
   };
-
-  useEffect(() => {
-    if (!provider || !isValidProvider(provider)) {
-      navigate("/404-not-found");
-    }
-    if (user) {
-      setSnsUser(null);
-    }
-  }, [provider, user, setSnsUser]);
-
-  useEffect(() => {
-    if (!snsUser || !isAgree || isEmpty(agreeValues)) return;
-    handleSocialJoin(snsUser, agreeValues);
-  }, [snsUser, isAgree, agreeValues]);
 
   return (
     <>

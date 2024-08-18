@@ -12,7 +12,7 @@ import { isEmpty } from "lodash";
 import FillUpdateIcon from "/src/assets/button/fill-update.svg?react";
 import FillTrashIcon from "/src/assets/button/fill-trash.svg?react";
 
-const VideoReviews = () => {
+const VideoSectionReview = () => {
   const { user } = useAuthContext();
   const { videoId, myInfo } = useVideoDetailContext();
   const {
@@ -148,4 +148,4 @@ const VideoReviews = () => {
   );
 };
 
-export default VideoReviews;
+export default VideoSectionReview;

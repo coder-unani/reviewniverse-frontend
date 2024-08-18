@@ -17,7 +17,7 @@ export const useUser = () => {
           if (res.message.detail === "USER_NOT_FOUND") {
             return {
               status: false,
-              code: "탈퇴한 회원입니다.",
+              code: "회원정보를 찾을 수 없습니다.",
               data: null,
             };
           } else {

@@ -1,9 +1,9 @@
-import React, { useState, useCallback } from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuthContext } from "/src/context/AuthContext";
 import { useWatchTypeCreate } from "/src/hooks/useWatchTypeCreate";
-import { USER_WATCH_TYPE } from "/src/config/codes";
 import { showSuccessToast, showErrorToast } from "/src/components/Toast";
+import { USER_WATCH_TYPE } from "/src/config/codes";
 import { isEmpty } from "lodash";
 
 const UserFavorite = () => {

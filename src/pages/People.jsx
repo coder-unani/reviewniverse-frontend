@@ -1,16 +1,17 @@
 import React, { useState, useEffect } from "react";
+import { useParams, useLocation, useNavigate } from "react-router-dom";
+import { Helmet } from "react-helmet-async";
 import PeopleImage from "/src/components/Button/People/Image";
 import Videos from "/src/components/Videos";
-import { Helmet } from "react-helmet-async";
-import { useParams, useLocation, useNavigate } from "react-router-dom";
 import { useVideos } from "/src/hooks/useVideos";
 import { SETTINGS } from "/src/config/settings";
+import { fParseInt } from "/src/utils/format";
 import { isEmpty } from "lodash";
 
 const People = () => {
   const navigate = useNavigate();
-  const { peopleId: id } = useParams();
-  const peopleId = parseInt(id);
+  const { peopleId } = useParams();
+  const peopleId2Int = fParseInt(peopleId);
   const location = useLocation();
   // TODO: 고도화 필요
   const people = location.state && location.state.people ? location.state.people : {};
@@ -22,49 +23,58 @@ const People = () => {
     error: videosError,
     isLoading: videosIsLoading,
   } = useVideos({
-    query: peopleId,
+    query: peopleId2Int,
     page,
     mode: "id",
     target,
     orderBy: "release_desc",
-    enabled: !isEmpty(people) || !isEmpty(target),
+    enabled: !isEmpty(people) || !isEmpty(target) || peopleId2Int,
   });
+
+  useEffect(() => {
+    if (peopleId2Int === 0 || isEmpty(people) || isEmpty(target)) {
+      return navigate("/404-not-found");
+    }
+  }, [peopleId2Int, people, target, navigate]);
+
+  useEffect(() => {
+    if (videosIsLoading || !videosData) {
+      return;
+    }
+    if (!videosData.status) {
+      return navigate("/error");
+    }
+    if (page === 1) {
+      setVideos(videosData.data);
+    } else {
+      setVideos((prev) => {
+        return {
+          ...prev,
+          count: videosData.data.count,
+          page: videosData.data.page,
+          data: [...prev.data, ...videosData.data.data],
+        };
+      });
+    }
+  }, [videosIsLoading, videosData, page]);
 
   const handlePage = (page) => {
     setPage(page);
   };
 
-  useEffect(() => {
-    if (isNaN(peopleId) || isEmpty(people) || isEmpty(target)) navigate("/404-not-found");
-  }, []);
-
-  useEffect(() => {
-    if (!videosData) return;
-    if (page === 1) {
-      setVideos(videosData);
-    } else {
-      setVideos((prev) => {
-        return {
-          ...prev,
-          count: videosData.count,
-          page: videosData.page,
-          data: [...prev.data, ...videosData.data],
-        };
-      });
-    }
-  }, [videosData, page]);
-
-  if (isEmpty(videos)) return;
+  if (videosError) {
+    return navigate("/error");
+  }
 
   return (
     <>
       <Helmet>
-        <title>{people.name} - 리뷰니버스</title>
+        <title>{`${people.name} - 리뷰니버스`}</title>
         <meta name="description" content={`${people.name}의 ${videos.total}개 작품`} />
         <meta property="og:title" content={`${people.name} - 리뷰니버스`} />
         <meta property="og:description" content={`${people.name}의 ${videos.total}개 작품`} />
         <meta property="og:image" content={people.picture} />
-        <meta property="og:url" content={`${SETTINGS.DOMAIN_URL}/people/${peopleId}`} />
+        <meta property="og:url" content={`${SETTINGS.DOMAIN_URL}/people/${peopleId2Int}`} />
       </Helmet>
 
       <main className="people-main-container">

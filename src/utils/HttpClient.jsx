@@ -25,11 +25,15 @@ class HttpClient {
     delete this.client.defaults.headers.common[header];
   }
 
+  setDeviceIdentifierHeader(url) {
+    if (url.includes(SETTINGS.API_BASE_URL)) {
+      this.setHeader({ "X-Device-Identifier": SETTINGS.DEVICE_IDENTIFIER });
+    }
+  }
+
   async get(url, params = null) {
     try {
-      if (url.includes(SETTINGS.API_BASE_URL)) {
-        this.setHeader({ "X-Device-Identifier": SETTINGS.DEVICE_IDENTIFIER });
-      }
+      this.setDeviceIdentifierHeader(url);
 
       return await this.client
         .get(url, { params: params ? params : {} })
@@ -46,9 +50,7 @@ class HttpClient {
 
   async post(url, data = null, params = null) {
     try {
-      if (url.includes(SETTINGS.API_BASE_URL)) {
-        this.setHeader({ "X-Device-Identifier": SETTINGS.DEVICE_IDENTIFIER });
-      }
+      this.setDeviceIdentifierHeader(url);
 
       return await this.client
         .post(url, data ? data : {}, params ? { params } : {})
@@ -65,9 +67,7 @@ class HttpClient {
 
   async put(url, data = null) {
     try {
-      if (url.includes(SETTINGS.API_BASE_URL)) {
-        this.setHeader({ "X-Device-Identifier": SETTINGS.DEVICE_IDENTIFIER });
-      }
+      this.setDeviceIdentifierHeader(url);
 
       return await this.client
         .put(url, data ? data : {})
@@ -84,9 +84,7 @@ class HttpClient {
 
   async delete(url, data = null) {
     try {
-      if (url.includes(SETTINGS.API_BASE_URL)) {
-        this.setHeader({ "X-Device-Identifier": SETTINGS.DEVICE_IDENTIFIER });
-      }
+      this.setDeviceIdentifierHeader(url);
 
       return await this.client
         .delete(url, data ? data : {})
@@ -103,9 +101,7 @@ class HttpClient {
 
   async patch(url, data = null) {
     try {
-      if (url.includes(SETTINGS.API_BASE_URL)) {
-        this.setHeader({ "X-Device-Identifier": SETTINGS.DEVICE_IDENTIFIER });
-      }
+      this.setDeviceIdentifierHeader(url);
 
       return await this.client
         .patch(url, data ? data : {})

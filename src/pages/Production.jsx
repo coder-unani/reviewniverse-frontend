@@ -1,16 +1,17 @@
 import React, { useState, useEffect } from "react";
-import Videos from "/src/components/Videos";
+import { useNavigate, useLocation, useParams } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
-import { useParams, useLocation, useNavigate } from "react-router-dom";
+import Videos from "/src/components/Videos";
 import { useVideos } from "/src/hooks/useVideos";
 import { SETTINGS } from "/src/config/settings";
 import { DEFAULT_IMAGES } from "/src/config/constants";
+import { fParseInt } from "/src/utils/format";
 import { isEmpty } from "lodash";
 
 const Production = () => {
   const navigate = useNavigate();
-  const { productionId: id } = useParams();
-  const productionId = parseInt(id);
+  const { productionId } = useParams();
+  const productionId2Int = fParseInt(productionId);
   const location = useLocation();
   // TODO: 고도화 필요
   const name = location.state?.name;
@@ -21,44 +22,53 @@ const Production = () => {
     error: videosError,
     isLoading: videosIsLoading,
   } = useVideos({
-    query: productionId,
+    query: productionId2Int,
     page,
     mode: "id",
     target: "production",
     orderBy: "release_desc",
+    enabled: !isEmpty(name) || productionId2Int,
   });
+
+  useEffect(() => {
+    if (productionId2Int === 0 || isEmpty(name)) {
+      return navigate("/404-not-found");
+    }
+  }, [productionId2Int, name, navigate]);
+
+  useEffect(() => {
+    if (videosIsLoading || !videosData) {
+      return;
+    }
+    if (!videosData.status) {
+      return navigate("/error");
+    }
+    if (page === 1) {
+      setVideos(videosData.data);
+    } else {
+      setVideos((prev) => {
+        return {
+          ...prev,
+          count: videosData.data.count,
+          page: videosData.data.page,
+          data: [...prev.data, ...videosData.data.data],
+        };
+      });
+    }
+  }, [videosIsLoading, videosData, page]);
 
   const handlePage = (page) => {
     setPage(page);
   };
 
-  useEffect(() => {
-    if (isNaN(productionId) || !name) navigate("/404-not-found");
-  }, []);
-
-  useEffect(() => {
-    if (!videosData) return;
-    if (page === 1) {
-      setVideos(videosData);
-    } else {
-      setVideos((prev) => {
-        return {
-          ...prev,
-          count: videosData.count,
-          page: videosData.page,
-          data: [...prev.data, ...videosData.data],
-        };
-      });
-    }
-  }, [videosData, page]);
-
-  // TODO: videos가 없으면 not found 페이지로 이동
-  if (isEmpty(videos)) return;
+  if (videosError) {
+    return navigate("/error");
+  }
 
   return (
     <>
       <Helmet>
-        <title>{name} - 리뷰니버스</title>
+        <title>{`${name} - 리뷰니버스`}</title>
         <meta name="description" content={`${name}의 ${videos.total}개 작품`} />
         <meta property="og:title" content={`${name} - 리뷰니버스`} />
         <meta property="og:description" content={`${name}의 ${videos.total}개 작품`} />

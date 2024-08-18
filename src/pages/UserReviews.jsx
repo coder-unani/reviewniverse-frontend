@@ -2,21 +2,16 @@ import React, { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import ReviewItem from "/src/components/ReviewItem";
 import { useUserReviews } from "/src/hooks/useUserReviews";
-import { showErrorToast } from "/src/components/Toast";
-import { MESSAGES } from "/src/config/messages";
 import { fParseInt } from "/src/utils/format";
 import { isEmpty } from "lodash";
 
 const UserReviews = () => {
   const navigate = useNavigate();
   const { userId } = useParams();
+  const userId2Int = fParseInt(userId);
   const [reviews, setReviews] = useState({ count: 0, page: 1, total: 0, data: [], user: {} });
   const [page, setPage] = useState(1);
   const pageSize = 20;
-
-  const userId2Int = fParseInt(userId);
-
-  // 리뷰 리스트
   const {
     data: reviewsData,
     error: reviewsError,
@@ -29,20 +24,19 @@ const UserReviews = () => {
     enabled: userId2Int,
   });
 
-  // 페이지 변경
-  const handlePage = (page) => {
-    setPage(page);
-  };
-
   useEffect(() => {
     if (userId2Int === 0) {
-      showErrorToast(MESSAGES.U006);
-      navigate("/404-not-found");
+      return navigate("/404-not-found");
     }
   }, [userId2Int, navigate]);
 
   useEffect(() => {
-    if (reviewsIsLoading || !reviewsData || !reviewsData.status) return;
+    if (reviewsIsLoading || !reviewsData) {
+      return;
+    }
+    if (!reviewsData.status) {
+      return navigate("/error");
+    }
     if (page === 1) {
       setReviews(reviewsData.data);
     } else {
@@ -55,10 +49,15 @@ const UserReviews = () => {
         };
       });
     }
-  }, [reviewsData, reviewsIsLoading, page]);
+  }, [reviewsIsLoading, reviewsData, page]);
 
-  if (reviewsIsLoading) return null;
-  if (reviewsError) return navigate("/error");
+  const handlePage = (page) => {
+    setPage(page);
+  };
+
+  if (reviewsError) {
+    return navigate("/error");
+  }
 
   return (
     <main className="reviews-main-container">

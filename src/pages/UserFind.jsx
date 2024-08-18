@@ -1,13 +1,13 @@
 import React, { useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
+import BackButton from "/src/components/Button/Back";
 import { useThemeContext } from "/src/context/ThemeContext";
 import * as Yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm } from "react-hook-form";
-import BackButton from "/src/components/Button/Back";
+import { cLog, cError } from "/src/utils/test";
 import Logo from "/assets/logo.svg";
 import "/src/styles/UserFind.css";
-import { cLog, cError } from "/src/utils/test";
 
 const UserFind = () => {
   const navigate = useNavigate();
@@ -16,7 +16,12 @@ const UserFind = () => {
   const titleType = type === "id" ? "아이디" : "비밀번호";
   const mailType = type === "id" ? "확인" : "비밀번호 변경";
 
-  // 이메일 유효성 검사
+  useEffect(() => {
+    if (type !== "id" && type !== "password") {
+      return navigate("/404-not-found");
+    }
+  }, [type]);
+
   const FindSchema = Yup.object().shape({
     email: Yup.string().required("이메일을 입력해주세요.").email("이메일 형식이 아닙니다."),
   });
@@ -48,12 +53,6 @@ const UserFind = () => {
       reset();
     }
   });
-
-  useEffect(() => {
-    if (type !== "id" && type !== "password") {
-      navigate("/404-not-found");
-    }
-  }, [type]);
 
   return (
     <div className="find-wrapper">

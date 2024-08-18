@@ -1,29 +1,28 @@
 import React from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
+import BackButton from "/src/components/Button/Back";
 import { useThemeContext } from "/src/context/ThemeContext";
-import { Link } from "react-router-dom";
 import * as Yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm } from "react-hook-form";
 import HttpClient from "/src/utils/HttpClient";
 import { formatUser } from "/src/utils/formatUser";
-import { getAuth, signInWithPopup } from "firebase/auth";
+import { signInWithPopup } from "firebase/auth";
 import { auth, provider } from "/src/auth/firebase";
-import BackButton from "/src/components/Button/Back";
+import { SETTINGS } from "/src/config/settings";
+import { cLog, cError } from "/src/utils/test";
 import Logo from "/assets/logo.svg";
 import KaKao from "/assets/kakao.png";
 import Naver from "/assets/naver.png";
 import Google from "/assets/google.png";
 import "/src/styles/Login_v1.css";
-import { cLog, cError } from "/src/utils/test";
-
-const API_BASE_URL = "https://comet.reviewniverse.net";
 
 // TODO: authContext 사용하여 로그인 처리
 
 const Login = () => {
-  const { isMobile } = useThemeContext();
   const navigate = useNavigate();
+  const { isMobile } = useThemeContext();
+  const baseURL = SETTINGS.API_BASE_URL;
 
   // 로그인 유효성 검사
   const LoginSchema = Yup.object().shape({
@@ -54,7 +53,7 @@ const Login = () => {
     try {
       // TODO: URL 변수화 필요
       const client = new HttpClient();
-      const res = await client.post(`${API_BASE_URL}/users/login`, {
+      const res = await client.post(`${baseURL}/users/login`, {
         code: "10",
         email: data.email,
         password: data.password,
@@ -100,7 +99,7 @@ const Login = () => {
 
       // 응답받은 유저 정보로 가입되어 있는지 확인
       const client = new HttpClient();
-      const res = client.post(`${API_BASE_URL}/users/sns/signin`, {
+      const res = client.post(`${baseURL}/users/sns/signin`, {
         code: "11",
         email: googleUser.email,
         sns_id: googleUser.uid,

@@ -5,57 +5,48 @@ import SettingButton from "/src/components/Button/Setting";
 import { useAuthContext } from "/src/context/AuthContext";
 import { useUser } from "/src/hooks/useUser";
 import { showErrorToast } from "/src/components/Toast";
-import { fNumberWithCommas } from "/src/utils/format";
+import { fParseInt, fNumberWithCommas } from "/src/utils/format";
 import { DEFAULT_IMAGES } from "/src/config/constants";
-import { MESSAGES } from "/src/config/messages";
 import { LazyLoadImage } from "react-lazy-load-image-component";
-import "react-lazy-load-image-component/src/effects/blur.css";
 
 const User = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const { userId } = useParams();
+  const userId2Int = fParseInt(userId);
   const { user, handleSetUser } = useAuthContext();
   const { mutateAsync: userFetch } = useUser();
   const [isLogin, setIsLogin] = useState(false);
   const [profile, setProfile] = useState(null);
 
   useEffect(() => {
+    if (userId2Int === 0) {
+      return navigate("/404-not-found");
+    }
+
     const { isUserUpdate } = location.state || false;
 
     const getUser = async () => {
-      try {
-        const userId2Int = parseInt(userId);
+      const res = await userFetch({ userId: userId2Int });
+      if (res.status) {
+        setProfile(res.data);
 
-        if (isNaN(userId2Int)) {
-          throw new Error(MESSAGES.U006);
+        // TODO: 고도화 필요
+        if (isUserUpdate) {
+          handleSetUser({ user: res.data });
+          navigate(location.pathname, { replace: true, state: {} });
         }
-
-        const res = await userFetch({ userId: userId2Int });
-        if (res.status) {
-          setProfile(res.data);
-
-          // TODO: 고도화 필요
-          if (isUserUpdate) {
-            handleSetUser({ user: res.data });
-            navigate(location.pathname, { replace: true, state: {} });
-          }
-        } else {
-          showErrorToast(res.code);
-          navigate(-1);
-        }
-      } catch (error) {
-        showErrorToast(error.message);
-        navigate(-1);
+      } else {
+        showErrorToast(res.code);
       }
     };
+
     getUser();
-  }, [userId]);
+  }, [userId2Int]);
 
   useEffect(() => {
     // TODO: 고도화 필요
     // 로그인한 유저가 있다면 userId와 로그인한 유저가 같은지 확인
-    const userId2Int = parseInt(userId);
     if (user && user.id === userId2Int) {
       setIsLogin(true);
     } else {

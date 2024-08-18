@@ -10,7 +10,6 @@ export const useVideoMyInfo = ({ videoId, userId, enabled }) => {
       // TODO: res.status === 400 && res.message.detail === "ACCESS_TOKEN_NOT_FOUND" 에러 처리
     },
     enabled: !!enabled,
-    // TODO: staleTime, cacheTime 변경 (staleTime: 5분, cacheTime: 10분)
     staleTime: 1000 * 60 * 5,
     cacheTime: 1000 * 60 * 10,
     retry: 1,

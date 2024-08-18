@@ -51,11 +51,29 @@ export const useVideos = ({
        * API를 통해 넘겨받은 데이터 가공이 필요하면 여기서 처리
        */
       if (res.status === 200) {
-        return res.data;
+        return {
+          status: true,
+          code: "",
+          data: res.data,
+        };
       } else if (res.status === 204) {
-        return [];
+        return {
+          status: true,
+          code: "",
+          data: [],
+        };
+      } else if (res.status === 429) {
+        return {
+          status: false,
+          code: "잠시 후 다시 시도해주세요.",
+          data: [],
+        };
       } else {
-        return [];
+        return {
+          status: false,
+          code: "비디오 리스트를 가져오는데 실패했습니다.",
+          data: [],
+        };
       }
     },
     /**

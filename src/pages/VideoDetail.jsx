@@ -1,24 +1,14 @@
-import React, { useEffect } from "react";
-import { Link } from "react-router-dom";
+import React, { Suspense, useEffect } from "react";
+import { useNavigate, Link } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
+import SkeletonVideoDetail from "/src/components/Skeleton/VideoDetail";
 import VideoLikeButton from "/src/components/Button/VideoLike";
 import CollectionButton from "/src/components/Button/Collection";
 import ReviewButton from "/src/components/Button/Review";
 import ReviewModal from "/src/components/Modal/Review";
-import {
-  PosterSection,
-  SynopsisSection,
-  MyRatingSection,
-  PlatformSection,
-  ActorSection,
-  StaffSection,
-  GallerySection,
-  ReviewSection,
-} from "/src/components/VideoDetailSections";
 import { useModalContext } from "/src/context/ModalContext";
 import { useVideoDetailContext } from "/src/context/VideoDetailContext";
 import { Swiper, SwiperSlide } from "swiper/react";
-import "swiper/css";
 import { SETTINGS } from "/src/config/settings";
 import { fYear, fUpperCase } from "/src/utils/format";
 import {
@@ -42,7 +32,17 @@ import {
  * - 줄거리 더보기 기능
  */
 
+const PosterSection = React.lazy(() => import("/src/components/VideoSectionPoster"));
+const SynopsisSection = React.lazy(() => import("/src/components/VideoSectionSynopsis"));
+const MyRatingSection = React.lazy(() => import("/src/components/VideoSectionMyRating"));
+const PlatformSection = React.lazy(() => import("/src/components/VideoSectionPlatform"));
+const ActorSection = React.lazy(() => import("/src/components/VideoSectionActor"));
+const StaffSection = React.lazy(() => import("/src/components/VideoSectionStaff"));
+const GallerySection = React.lazy(() => import("/src/components/VideoSectionGallery"));
+const ReviewSection = React.lazy(() => import("/src/components/VideoSectionReview"));
+
 const VideoDetail = () => {
+  const navigate = useNavigate();
   const { reviewModal, toggleReviewModal } = useModalContext();
   const { videoId, content, contentIsLoading, contentError, myInfo, myInfoIsLoading, myInfoError } =
     useVideoDetailContext();
@@ -77,8 +77,13 @@ const VideoDetail = () => {
     },
   };
 
-  // TODO: 고도화 필요
-  if (contentIsLoading || myInfoIsLoading) return <main className="detail-main-container"></main>;
+  if (contentIsLoading || myInfoIsLoading) {
+    return <SkeletonVideoDetail />;
+  }
+
+  if (contentError || myInfoError) {
+    return navigate("/error");
+  }
 
   const title = `${content.data.title} (${fYear(content.data.release)}) - 리뷰니버스`;
   const description = content.data.synopsis;
@@ -105,138 +110,140 @@ const VideoDetail = () => {
         <meta name="kakao:image" content={imageUrl} data-rh="true" />
       </Helmet>
 
-      <main className="detail-main-container">
-        <section className="detail-main-section">
-          <picture className="detail-background-wrapper">
-            <div
-              className="detail-background"
-              style={{ backgroundImage: `url(${fBackgroundImage(content.data.thumbnail)})` }}
-            />
-          </picture>
+      <Suspense fallback={<SkeletonVideoDetail />}>
+        <main className="detail-main-container">
+          <section className="detail-main-section">
+            <picture className="detail-background-wrapper">
+              <div
+                className="detail-background"
+                style={{ backgroundImage: `url(${fBackgroundImage(content.data.thumbnail)})` }}
+              />
+            </picture>
 
-          <div className="detail-main-info-container">
-            <div className="detail-main-info-wrapper">
-              <article className="detail-title-container">
-                <article className="detail-title-wrapper">
-                  <p className="detail-title-og">{content.data.title_og || content.data.title}</p>
-                  <h2 className="detail-title-kr">{content.data.title}</h2>
+            <div className="detail-main-info-container">
+              <div className="detail-main-info-wrapper">
+                <article className="detail-title-container">
+                  <article className="detail-title-wrapper">
+                    <p className="detail-title-og">{content.data.title_og || content.data.title}</p>
+                    <h2 className="detail-title-kr">{content.data.title}</h2>
+                  </article>
+                  <ul className="detail-genre-wrapper">
+                    {content.data.genre.map((genre, index) => (
+                      <li key={index}>
+                        <Link to={`/genre?genre=${fGenres(genre.name)}`} className="detail-genre-link">
+                          {genre.name}
+                        </Link>
+                      </li>
+                    ))}
+                  </ul>
                 </article>
-                <ul className="detail-genre-wrapper">
-                  {content.data.genre.map((genre, index) => (
-                    <li key={index}>
-                      <Link to={`/genre?genre=${fGenres(genre.name)}`} className="detail-genre-link">
-                        {genre.name}
-                      </Link>
-                    </li>
-                  ))}
-                </ul>
-              </article>
 
-              <article className="detail-control-container">
-                <article className="detail-control-wrapper">
-                  <VideoLikeButton />
-                  <CollectionButton />
-                  <ReviewButton />
+                <article className="detail-control-container">
+                  <article className="detail-control-wrapper">
+                    <VideoLikeButton />
+                    <CollectionButton />
+                    <ReviewButton />
+                  </article>
                 </article>
-              </article>
+              </div>
             </div>
-          </div>
 
-          <div className="detail-sub-info-container">
-            <Swiper className="detail-sub-info-wrapper" {...subInfoSwiperConfig}>
-              <SwiperSlide
-                className="detail-sub-info-item rating"
-                data-index={content.data.rating > 0 ? Math.floor(fRating(content.data.rating)) : 0}
-              >
-                <p className="detail-sub-title">평점</p>
-                <div className="detail-sub-content-wrapper">
-                  <p className="detail-sub-content">{content.data.rating > 0 ? fRating(content.data.rating) : "-"}</p>
-                </div>
-              </SwiperSlide>
+            <div className="detail-sub-info-container">
+              <Swiper className="detail-sub-info-wrapper" {...subInfoSwiperConfig}>
+                <SwiperSlide
+                  className="detail-sub-info-item rating"
+                  data-index={content.data.rating > 0 ? Math.floor(fRating(content.data.rating)) : 0}
+                >
+                  <p className="detail-sub-title">평점</p>
+                  <div className="detail-sub-content-wrapper">
+                    <p className="detail-sub-content">{content.data.rating > 0 ? fRating(content.data.rating) : "-"}</p>
+                  </div>
+                </SwiperSlide>
 
-              <SwiperSlide className="detail-sub-info-item notice-age">
-                <p className="detail-sub-title">관람등급</p>
-                <div className="detail-sub-content-wrapper">
-                  <p className="detail-sub-content">{fUpperCase(content.data.notice_age)}</p>
-                </div>
-              </SwiperSlide>
+                <SwiperSlide className="detail-sub-info-item notice-age">
+                  <p className="detail-sub-title">관람등급</p>
+                  <div className="detail-sub-content-wrapper">
+                    <p className="detail-sub-content">{fUpperCase(content.data.notice_age)}</p>
+                  </div>
+                </SwiperSlide>
 
-              <SwiperSlide className="detail-sub-info-item release">
-                <p className="detail-sub-title">{fReleaseText(content.data.code)}</p>
-                <div className="detail-sub-content-wrapper">
-                  <p className="detail-sub-content year">{fYear(content.data.release)}</p>
-                  {fReleaseDate(content.data.release) && (
-                    <p className="detail-sub-content date">{fReleaseDate(content.data.release)}</p>
-                  )}
-                </div>
-              </SwiperSlide>
+                <SwiperSlide className="detail-sub-info-item release">
+                  <p className="detail-sub-title">{fReleaseText(content.data.code)}</p>
+                  <div className="detail-sub-content-wrapper">
+                    <p className="detail-sub-content year">{fYear(content.data.release)}</p>
+                    {fReleaseDate(content.data.release) && (
+                      <p className="detail-sub-content date">{fReleaseDate(content.data.release)}</p>
+                    )}
+                  </div>
+                </SwiperSlide>
 
-              <SwiperSlide
-                className="detail-sub-info-item country"
-                data-index={content.data.country ? content.data.country.length : 0}
-              >
-                <p className="detail-sub-title">제작국가</p>
-                <div className="detail-sub-content-wrapper">
-                  {content.data.country ? (
-                    content.data.country.map((country, index) => (
-                      <p className="detail-sub-content" key={index} data-indx={index + 1}>
-                        {country.name_ko}
-                      </p>
-                    ))
-                  ) : (
-                    <p className="detail-sub-content">-</p>
-                  )}
-                </div>
-              </SwiperSlide>
+                <SwiperSlide
+                  className="detail-sub-info-item country"
+                  data-index={content.data.country ? content.data.country.length : 0}
+                >
+                  <p className="detail-sub-title">제작국가</p>
+                  <div className="detail-sub-content-wrapper">
+                    {content.data.country ? (
+                      content.data.country.map((country, index) => (
+                        <p className="detail-sub-content" key={index} data-indx={index + 1}>
+                          {country.name_ko}
+                        </p>
+                      ))
+                    ) : (
+                      <p className="detail-sub-content">-</p>
+                    )}
+                  </div>
+                </SwiperSlide>
 
-              <SwiperSlide
-                className="detail-sub-info-item production"
-                data-index={content.data.production ? content.data.production.length : 0}
-              >
-                <p className="detail-sub-title">제작사</p>
-                <div className="detail-sub-content-wrapper">
-                  {content.data.production ? (
-                    content.data.production.map((prodn, index) => (
-                      <Link
-                        to={`/production/${prodn.id}`}
-                        state={{ name: prodn.name }}
-                        className="detail-sub-content"
-                        key={index}
-                      >
-                        {prodn.name}
-                      </Link>
-                    ))
-                  ) : (
-                    <p className="detail-sub-content">-</p>
-                  )}
-                </div>
-              </SwiperSlide>
+                <SwiperSlide
+                  className="detail-sub-info-item production"
+                  data-index={content.data.production ? content.data.production.length : 0}
+                >
+                  <p className="detail-sub-title">제작사</p>
+                  <div className="detail-sub-content-wrapper">
+                    {content.data.production ? (
+                      content.data.production.map((prodn, index) => (
+                        <Link
+                          to={`/production/${prodn.id}`}
+                          state={{ name: prodn.name }}
+                          className="detail-sub-content"
+                          key={index}
+                        >
+                          {prodn.name}
+                        </Link>
+                      ))
+                    ) : (
+                      <p className="detail-sub-content">-</p>
+                    )}
+                  </div>
+                </SwiperSlide>
 
-              <SwiperSlide className="detail-sub-info-item runtime">
-                <p className="detail-sub-title">{fRuntimeText(content.data.code)}</p>
-                <div className="detail-sub-content-wrapper">
-                  <p className="detail-sub-content">{content.data.runtime}</p>
-                </div>
-              </SwiperSlide>
-            </Swiper>
-          </div>
-        </section>
-
-        <div className="detail-main-wrapper">
-          <section className="detail-sub-section">
-            <PosterSection />
-            <SynopsisSection />
-            <div className="detail-more-wrapper">
-              <MyRatingSection />
-              <PlatformSection />
+                <SwiperSlide className="detail-sub-info-item runtime">
+                  <p className="detail-sub-title">{fRuntimeText(content.data.code)}</p>
+                  <div className="detail-sub-content-wrapper">
+                    <p className="detail-sub-content">{content.data.runtime}</p>
+                  </div>
+                </SwiperSlide>
+              </Swiper>
             </div>
           </section>
-          <ActorSection />
-          <StaffSection />
-          <GallerySection />
-          <ReviewSection />
-        </div>
-      </main>
+
+          <div className="detail-main-wrapper">
+            <section className="detail-sub-section">
+              <PosterSection />
+              <SynopsisSection />
+              <div className="detail-more-wrapper">
+                <MyRatingSection />
+                <PlatformSection />
+              </div>
+            </section>
+            <ActorSection />
+            <StaffSection />
+            <GallerySection />
+            <ReviewSection />
+          </div>
+        </main>
+      </Suspense>
 
       {reviewModal && <ReviewModal content={content.data} myReview={myInfo.review} onClose={toggleReviewModal} />}
     </>

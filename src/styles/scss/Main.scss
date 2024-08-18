@@ -1,3 +1,4 @@
+// base
 @import "base/fonts";
 @import "base/normalize";
 @import "base/variables";
@@ -16,7 +17,6 @@
 
 @import "modules/ratingVideo";
 @import "modules/ratingReview";
-
 @import "modules/searchForm";
 
 @import "modules/loginLoading";
@@ -34,6 +34,7 @@
 
 // skeleton
 @import "modules/skeletonHome";
+@import "modules/skeletonVideoDetail";
 
 // pages
 @import "modules/home";
@@ -43,6 +44,8 @@
 @import "modules/production";
 @import "modules/search";
 
+@import "modules/socialJoin";
+@import "modules/login";
 @import "modules/user";
 @import "modules/userProfile";
 @import "modules/userWatchType";
@@ -51,8 +54,5 @@
 @import "modules/userLikes";
 @import "modules/userDelete";
 
-@import "modules/socialJoin";
-@import "modules/login";
-
-@import "modules/notFound";
 @import "modules/error";
+@import "modules/notFound";

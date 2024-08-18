@@ -9,9 +9,9 @@ const VideoDetailContext = createContext();
 
 export const VideoDetailProvider = ({ children }) => {
   const navigate = useNavigate();
+  const { user } = useAuthContext();
   const { videoId } = useParams();
   const videoId2Int = fParseInt(videoId);
-  const { user } = useAuthContext();
   const {
     data: content,
     error: contentError,
@@ -21,11 +21,11 @@ export const VideoDetailProvider = ({ children }) => {
     data: myInfo,
     error: myInfoError,
     isLoading: myInfoIsLoading,
-  } = useVideoMyInfo({ videoId: videoId2Int, userId: user?.id, enabled: user });
+  } = useVideoMyInfo({ videoId: videoId2Int, userId: user ? user.id : null, enabled: user && videoId2Int });
 
   useEffect(() => {
     if (videoId2Int === 0) {
-      navigate("/404-not-found");
+      return navigate("/404-not-found");
     }
   }, [videoId2Int, navigate]);
 

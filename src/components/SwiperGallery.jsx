@@ -2,10 +2,7 @@ import React, { useState, useRef } from "react";
 import PhotoModal from "/src/components/Modal/Photo";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Virtual } from "swiper/modules";
-import "swiper/css";
-import "swiper/css/grid";
 import { LazyLoadImage } from "react-lazy-load-image-component";
-import "react-lazy-load-image-component/src/effects/blur.css";
 import ArrowLeftIcon from "/src/assets/button/arrow-left.svg?react";
 import ArrowRightIcon from "/src/assets/button/arrow-right.svg?react";
 
