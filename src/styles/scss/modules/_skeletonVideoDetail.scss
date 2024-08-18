@@ -139,12 +139,49 @@
 }
 
 @media (max-width: 768px) {
+  .skeleton-detail-title-og {
+    height: 20px;
+  }
+
+  .skeleton-detail-title-kr {
+    height: 46px;
+  }
+
+  .skeleton-detail-sub-info-item {
+    min-width: 160px;
+    height: 100px;
+    border-radius: 21px;
+  }
+
   .skeleton-detail-gallery-wrapper {
     gap: 10px;
+  }
+
+  .skeleton-detail-platform {
+    width: 60px;
+    height: 60px;
+  }
+
+  .skeleton-detail-photo {
+    border-radius: 12px;
   }
 }
 
 @media (max-width: 576px) {
+  .skeleton-detail-title-og {
+    height: 16px;
+  }
+
+  .skeleton-detail-title-kr {
+    height: 40px;
+  }
+
+  .skeleton-detail-sub-info-item {
+    min-width: 120px;
+    height: 74px;
+    border-radius: 18px;
+  }
+
   .skeleton-detail-cast-section {
     padding: 20px 15px;
   }

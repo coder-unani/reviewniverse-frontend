@@ -975,7 +975,7 @@
   }
 
   .detail-review-section {
-    padding: 20px 30px 60px;
+    padding: 20px 30px;
   }
 }
 
@@ -1196,25 +1196,6 @@
     padding: 20px 15px;
   }
 
-  .detail-my-review-wrapper {
-    flex-direction: column;
-    gap: 10px;
-    max-height: unset;
-  }
-
-  .my-review-title {
-    margin-right: 0;
-  }
-
-  .my-review-button-wrapper {
-    margin: 0 -15px 0 auto;
-  }
-
-  .my-review-delete-button,
-  .my-review-update-button {
-    padding: 5px 15px;
-  }
-
   .detail-cast-section {
     padding: 20px 0;
 
@@ -1258,6 +1239,25 @@
   }
 
   .detail-review-section {
-    padding: 20px 15px 60px;
+    padding: 20px 15px;
+  }
+
+  .detail-my-review-wrapper {
+    flex-direction: column;
+    gap: 10px;
+    max-height: unset;
+  }
+
+  .my-review-title {
+    margin-right: 0;
+  }
+
+  .my-review-button-wrapper {
+    margin: 0 -15px 0 auto;
+  }
+
+  .my-review-delete-button,
+  .my-review-update-button {
+    padding: 5px 15px;
   }
 }
