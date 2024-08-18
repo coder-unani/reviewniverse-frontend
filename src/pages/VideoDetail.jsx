@@ -77,6 +77,7 @@ const VideoDetail = () => {
     },
   };
 
+  return <SkeletonVideoDetail />;
   if (contentIsLoading || myInfoIsLoading) {
     return <SkeletonVideoDetail />;
   }

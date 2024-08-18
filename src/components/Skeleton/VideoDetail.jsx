@@ -43,13 +43,11 @@ const SkeletonVideoDetail = () => {
                   <Skeleton className="skeleton-detail-title-og" />
                   <Skeleton className="skeleton-detail-title-kr" />
                 </article>
-                <ul className="detail-genre-wrapper">
+                <div className="detail-genre-wrapper">
                   {new Array(4).fill(0).map((_, index) => (
-                    <li key={index}>
-                      <Skeleton className="skeleton-detail-genre-link" />
-                    </li>
+                    <Skeleton className="skeleton-detail-genre-link" key={index} />
                   ))}
-                </ul>
+                </div>
               </article>
             </div>
           </div>
