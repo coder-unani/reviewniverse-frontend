@@ -96,8 +96,7 @@ const Home = () => {
     }
   }, [videosData, hasMore, page]);
 
-  return <SkeletonHome />;
-  // if (screensIsLoading || rankingIsLoading) return <SkeletonHome />;
+  if (screensIsLoading || rankingIsLoading) return <SkeletonHome />;
   if (screensError || rankingError || videosError) return navigate("/error");
 
   return (
