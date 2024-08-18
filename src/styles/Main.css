@@ -2195,6 +2195,9 @@ em {
   .skeleton-detail-title-kr {
     height: 40px;
   }
+  .skeleton-detail-genre-link {
+    height: 27px;
+  }
   .skeleton-detail-sub-info-item {
     min-width: 120px;
     height: 74px;
