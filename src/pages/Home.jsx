@@ -8,15 +8,15 @@ import { useRankingVideos } from "/src/hooks/useRankingVideos";
 import { useVideos } from "/src/hooks/useVideos";
 import { SCREEN_MAIN_ID } from "/src/config/codes";
 import { VIDEO_ORDER_OPTIONS } from "/src/config/constants";
-import { fArrayRandomValue } from "/src/utils/format";
 import { fScreenCode } from "/src/utils/formatContent";
+import SkeletonHome from "/src/components/Skeleton/Home";
+import { isEmpty } from "lodash";
 
 const Home = () => {
   const today = new Date().toISOString().slice(0, 10).replace(/-/g, "");
   const navigate = useNavigate();
   const [page, setPage] = useState(1);
   const [hasMore, setHasMore] = useState(true);
-  // const [orderBy, setOrderBy] = useState(fArrayRandomValue(VIDEO_ORDER_OPTIONS));
   const [videos, setVideos] = useState({ count: 0, page: 1, data: [] });
   const {
     data: ranking,
@@ -79,10 +79,12 @@ const Home = () => {
 
   useEffect(() => {
     if (!videosData || !hasMore) return;
+    // TODO: 정리 필요
+    if (isEmpty(videosData.data)) return;
     if (page === 1) {
       setVideos(videosData);
     } else {
-      // if (page === 5) setHasMore(false);
+      if (page === 5) setHasMore(false);
       setVideos((prev) => {
         return {
           ...prev,
@@ -94,10 +96,7 @@ const Home = () => {
     }
   }, [videosData, hasMore, page]);
 
-  // TODO: 로딩중일때 표시할 화면 (스켈레톤 UI)
-  // if (screensIsLoading || rankingIsLoading || videosIsLoading) return null;
-  if (screensIsLoading || rankingIsLoading) return;
-
+  if (screensIsLoading || rankingIsLoading) return <SkeletonHome />;
   if (screensError || rankingError || videosError) return navigate("/error");
 
   return (

@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
 import VideoLikeButton from "/src/components/Button/VideoLike";
+import CollectionButton from "/src/components/Button/Collection";
 import ReviewButton from "/src/components/Button/Review";
 import ReviewModal from "/src/components/Modal/Review";
 import {
@@ -133,10 +134,8 @@ const VideoDetail = () => {
 
               <article className="detail-control-container">
                 <article className="detail-control-wrapper">
-                  <VideoLikeButton videoId={videoId} myInfo={myInfo} />
-                  <button type="button" className="detail-control collection">
-                    <span className="detail-control-icon"></span>
-                  </button>
+                  <VideoLikeButton />
+                  <CollectionButton />
                   <ReviewButton />
                 </article>
               </article>

@@ -1,11 +1,13 @@
 import React from "react";
 import { useAuthContext } from "/src/context/AuthContext";
 import { useModalContext } from "/src/context/ModalContext";
+import { useVideoDetailContext } from "/src/context/VideoDetailContext";
 import { useVideoLike } from "/src/hooks/useVideoLike";
 
-const VideoLikeButton = ({ videoId, myInfo }) => {
+const VideoLikeButton = () => {
   const { user } = useAuthContext();
   const { toggleEnjoyModal } = useModalContext();
+  const { videoId, myInfo } = useVideoDetailContext();
   const { mutate: videoLike } = useVideoLike();
 
   const handleLikeButton = async () => {
