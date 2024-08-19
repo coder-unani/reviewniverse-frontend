@@ -9,9 +9,9 @@ const UserReviews = () => {
   const navigate = useNavigate();
   const { userId } = useParams();
   const userId2Int = fParseInt(userId);
-  const [reviews, setReviews] = useState({ count: 0, page: 1, total: 0, data: [], user: {} });
+  const [reviews, setReviews] = useState(null);
   const [page, setPage] = useState(1);
-  const pageSize = 20;
+  const pageSize = 8;
   const {
     data: reviewsData,
     error: reviewsError,
@@ -45,18 +45,22 @@ const UserReviews = () => {
           ...prev,
           count: reviewsData.data.count,
           page: reviewsData.data.page,
-          data: [...prev.data, ...reviewsData.data.data],
+          data: prev.data ? [...prev.data, ...reviewsData.data.data] : [],
         };
       });
     }
   }, [reviewsIsLoading, reviewsData, page]);
 
-  const handlePage = (page) => {
-    setPage(page);
+  const handlePage = (newPage) => {
+    setPage(newPage);
   };
 
   if (reviewsError) {
     return navigate("/error");
+  }
+
+  if (isEmpty(reviews)) {
+    return;
   }
 
   return (

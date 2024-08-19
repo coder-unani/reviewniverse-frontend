@@ -9,7 +9,7 @@ const UserLikes = () => {
   const navigate = useNavigate();
   const { userId } = useParams();
   const userId2Int = fParseInt(userId);
-  const [videos, setVideos] = useState({ count: 0, page: 1, total: 0, data: [], user: {} });
+  const [videos, setVideos] = useState(null);
   const [page, setPage] = useState(1);
   const pageSize = 20;
   const {
@@ -38,25 +38,29 @@ const UserLikes = () => {
       return navigate("/error");
     }
     if (page === 1) {
-      setVideos(videosData.data);
+      setVideos({ ...videosData.data });
     } else {
       setVideos((prev) => {
         return {
           ...prev,
           count: videosData.data.count,
           page: videosData.data.page,
-          data: [...prev.data, ...videosData.data.data],
+          data: prev.data ? [...prev.data, ...videosData.data.data] : [],
         };
       });
     }
   }, [videosIsLoading, videosData, page]);
 
-  const handlePage = (page) => {
-    setPage(page);
+  const handlePage = (newPage) => {
+    setPage(newPage);
   };
 
   if (videosError) {
     return navigate("/error");
+  }
+
+  if (isEmpty(videos)) {
+    return;
   }
 
   return (

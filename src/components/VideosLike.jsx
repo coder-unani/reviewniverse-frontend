@@ -6,6 +6,14 @@ const VideosLike = ({ videos, handlePage, children }) => {
   const [hasMore, setHasMore] = useState(true);
   const observer = useRef();
 
+  useEffect(() => {
+    if (videos.data && videos.total <= videos.data.length) {
+      setHasMore(false);
+    } else {
+      setHasMore(true);
+    }
+  }, [videos]);
+
   const lastItemRef = useCallback(
     (node) => {
       if (!hasMore) return;
@@ -22,15 +30,9 @@ const VideosLike = ({ videos, handlePage, children }) => {
     [hasMore]
   );
 
-  useEffect(() => {
-    if (videos.data && videos.total <= videos.data.length) {
-      setHasMore(false);
-    } else {
-      setHasMore(true);
-    }
-  }, [videos]);
-
-  if (isEmpty(videos) || isEmpty(videos.data)) return null;
+  if (isEmpty(videos.data)) {
+    return;
+  }
 
   return (
     <section className="vertical-videos-section">

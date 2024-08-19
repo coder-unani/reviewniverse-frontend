@@ -16,7 +16,7 @@ const Production = () => {
   // TODO: 고도화 필요
   const name = location.state?.name;
   const [page, setPage] = useState(1);
-  const [videos, setVideos] = useState({ count: 0, page: 1, data: [] });
+  const [videos, setVideos] = useState(null);
   const {
     data: videosData,
     error: videosError,
@@ -27,7 +27,7 @@ const Production = () => {
     mode: "id",
     target: "production",
     orderBy: "release_desc",
-    enabled: !isEmpty(name) || productionId2Int,
+    enabled: productionId2Int || !isEmpty(name),
   });
 
   useEffect(() => {
@@ -44,36 +44,45 @@ const Production = () => {
       return navigate("/error");
     }
     if (page === 1) {
-      setVideos(videosData.data);
+      setVideos({ ...videosData.data });
     } else {
       setVideos((prev) => {
         return {
           ...prev,
           count: videosData.data.count,
           page: videosData.data.page,
-          data: [...prev.data, ...videosData.data.data],
+          data: prev.data ? [...prev.data, ...videosData.data.data] : [],
         };
       });
     }
   }, [videosIsLoading, videosData, page]);
 
-  const handlePage = (page) => {
-    setPage(page);
+  const handlePage = (newPage) => {
+    setPage(newPage);
   };
 
   if (videosError) {
     return navigate("/error");
   }
 
+  if (isEmpty(videos)) {
+    return;
+  }
+
+  const title = `${name} - 리뷰니버스`;
+  const description = `${name}의 ${videos.total}개 작품`;
+  const imageUrl = DEFAULT_IMAGES.logo;
+  const url = `${SETTINGS.DOMAIN_URL}/genre/${productionId}`;
+
   return (
     <>
       <Helmet>
-        <title>{`${name} - 리뷰니버스`}</title>
-        <meta name="description" content={`${name}의 ${videos.total}개 작품`} />
-        <meta property="og:title" content={`${name} - 리뷰니버스`} />
-        <meta property="og:description" content={`${name}의 ${videos.total}개 작품`} />
-        <meta property="og:image" content={DEFAULT_IMAGES.logo} />
-        <meta property="og:url" content={`${SETTINGS.DOMAIN_URL}/genre/${productionId}`} />
+        <title>{title}</title>
+        <meta name="description" content={description} />
+        <meta property="og:title" content={title} />
+        <meta property="og:description" content={description} />
+        <meta property="og:image" content={imageUrl} />
+        <meta property="og:url" content={url} />
       </Helmet>
 
       <main className="production-main-container">

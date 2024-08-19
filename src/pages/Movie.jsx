@@ -15,7 +15,7 @@ const Movie = () => {
   const [page, setPage] = useState(1);
   const [hasMore, setHasMore] = useState(true);
   const [orderBy, setOrderBy] = useState(fArrayRandomValue(VIDEO_ORDER_OPTIONS));
-  const [videos, setVideos] = useState({ count: 0, page: 1, data: [] });
+  const [videos, setVideos] = useState(null);
   const {
     data: screens,
     error: screensError,
@@ -35,7 +35,7 @@ const Movie = () => {
       return navigate("/error");
     }
     if (page === 1) {
-      setVideos(videosData).data;
+      setVideos({ ...videosData.data });
     } else {
       if (page === 5) setHasMore(false);
       setVideos((prev) => {
@@ -43,14 +43,14 @@ const Movie = () => {
           ...prev,
           count: videosData.data.count,
           page: videosData.data.page,
-          data: [...prev.data, ...videosData.data.data],
+          data: prev.data ? [...prev.data, ...videosData.data.data] : [],
         };
       });
     }
   }, [videosIsLoading, videosData, hasMore, page]);
 
-  const handlePage = (page) => {
-    setPage(page);
+  const handlePage = (newPage) => {
+    setPage(newPage);
   };
 
   if (screensIsLoading) {
@@ -63,8 +63,8 @@ const Movie = () => {
 
   return (
     <main className="main">
-      {!isEmpty(screens) && screens.map((content, index) => <VideosHorizontal key={index} content={content} />)}
-      {!isEmpty(videos) && (
+      {screens && screens.map((content, index) => <VideosHorizontal key={index} content={content} />)}
+      {videos && (
         <Videos videos={videos} handlePage={handlePage}>
           <div className="title-wrapper">
             <h2 className="title">주인님 내 새끼 구경 좀 해봐요 🦦</h2>

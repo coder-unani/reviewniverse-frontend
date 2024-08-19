@@ -30,9 +30,9 @@ const Videos = ({ children, videos, handlePage }) => {
     [hasMore]
   );
 
-  // if (isEmpty(videos) || isEmpty(videos.data)) {
-  //   return null;
-  // }
+  if (isEmpty(videos.data)) {
+    return;
+  }
 
   return (
     <section className="vertical-videos-section">

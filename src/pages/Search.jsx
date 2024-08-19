@@ -19,7 +19,7 @@ const Search = () => {
   const [searchParams] = useSearchParams();
   const query = searchParams.get("query");
   const [page, setPage] = useState(1);
-  const [videos, setVideos] = useState({ count: 0, page: 1, data: [] });
+  const [videos, setVideos] = useState(null);
   const {
     data: videosData,
     error: videosError,
@@ -35,7 +35,7 @@ const Search = () => {
       return;
     }
     setPage(1);
-    setVideos({ count: 0, page: 1, data: [] });
+    setVideos(null);
   }, [query]);
 
   useEffect(() => {
@@ -46,25 +46,29 @@ const Search = () => {
       return navigate("/error");
     }
     if (page === 1) {
-      setVideos(videosData.data);
+      setVideos({ ...videosData.data });
     } else {
       setVideos((prev) => {
         return {
           ...prev,
           count: videosData.data.count,
           page: videosData.data.page,
-          data: [...prev.data, ...videosData.data.data],
+          data: prev.data ? [...prev.data, ...videosData.data.data] : [],
         };
       });
     }
   }, [videosIsLoading, videosData, page]);
 
-  const handlePage = (page) => {
-    setPage(page);
+  const handlePage = (newPage) => {
+    setPage(newPage);
   };
 
   if (videosError) {
     return navigate("/error");
+  }
+
+  if (isEmpty(videos)) {
+    return;
   }
 
   return (

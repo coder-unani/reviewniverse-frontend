@@ -15,7 +15,7 @@ const Series = () => {
   const [page, setPage] = useState(1);
   const [hasMore, setHasMore] = useState(true);
   const [orderBy, setOrderBy] = useState(fArrayRandomValue(VIDEO_ORDER_OPTIONS));
-  const [videos, setVideos] = useState({ count: 0, page: 1, data: [] });
+  const [videos, setVideos] = useState(null);
   const {
     data: screens,
     error: screensError,
@@ -35,7 +35,7 @@ const Series = () => {
       return navigate("/error");
     }
     if (page === 1) {
-      setVideos(videosData.data);
+      setVideos({ ...videosData.data });
     } else {
       if (page === 5) setHasMore(false);
       setVideos((prev) => {
@@ -43,14 +43,14 @@ const Series = () => {
           ...prev,
           count: videosData.data.count,
           page: videosData.data.page,
-          data: [...prev.data, ...videosData.data.data],
+          data: prev.data ? [...prev.data, ...videosData.data.data] : [],
         };
       });
     }
   }, [videosIsLoading, videosData, hasMore, page]);
 
-  const handlePage = (page) => {
-    setPage(page);
+  const handlePage = (newPage) => {
+    setPage(newPage);
   };
 
   if (screensIsLoading) {

@@ -1,12 +1,15 @@
 import React, { useState, useRef } from "react";
 import PhotoModal from "/src/components/Modal/Photo";
+import { useVideoDetailContext } from "/src/context/VideoDetailContext";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Virtual } from "swiper/modules";
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import ArrowLeftIcon from "/src/assets/button/arrow-left.svg?react";
 import ArrowRightIcon from "/src/assets/button/arrow-right.svg?react";
 
-const SwiperGallery = ({ items }) => {
+const SwiperGallery = () => {
+  const { content } = useVideoDetailContext();
+  const items = content.data.thumbnail;
   const [isBeginning, setIsBeginning] = useState(true);
   const [isEnd, setIsEnd] = useState(false);
   const swiperRef = useRef(null);

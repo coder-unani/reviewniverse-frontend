@@ -10,7 +10,7 @@ const VideoSectionGallery = React.memo(() => {
   const renderGallery = () => (
     <section className="detail-gallery-section">
       <h4 className="detail-main-title">갤러리</h4>
-      <SwiperGallery items={gallery} />
+      <SwiperGallery />
     </section>
   );
 
