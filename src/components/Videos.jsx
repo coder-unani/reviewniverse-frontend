@@ -1,6 +1,7 @@
 import React, { useState, useRef, useCallback, useEffect } from "react";
 import VideoItem from "/src/components/VideoItem";
 import { isEmpty } from "lodash";
+import { cLog } from "/src/utils/test";
 
 const Videos = ({ children, videos, handlePage }) => {
   const [hasMore, setHasMore] = useState(true);
@@ -16,18 +17,21 @@ const Videos = ({ children, videos, handlePage }) => {
 
   const lastItemRef = useCallback(
     (node) => {
-      if (!hasMore) return;
+      if (!hasMore) {
+        cLog("마지막 페이지입니다.");
+        return;
+      }
       if (observer.current) observer.current.disconnect();
 
       observer.current = new IntersectionObserver((entries) => {
         if (entries[0].isIntersecting && hasMore) {
-          handlePage((prevPage) => prevPage + 1);
+          handlePage(videos.page + 1);
         }
       });
 
       if (node) observer.current.observe(node);
     },
-    [hasMore]
+    [hasMore, videos]
   );
 
   if (isEmpty(videos.data)) {

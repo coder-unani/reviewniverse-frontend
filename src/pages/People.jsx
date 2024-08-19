@@ -4,7 +4,9 @@ import { Helmet } from "react-helmet-async";
 import PeopleImage from "/src/components/Button/People/Image";
 import Videos from "/src/components/Videos";
 import { useVideos } from "/src/hooks/useVideos";
+import { showErrorToast } from "/src/components/Toast";
 import { SETTINGS } from "/src/config/settings";
+import { MESSAGES } from "/src/config/messages";
 import { fParseInt } from "/src/utils/format";
 import { isEmpty } from "lodash";
 
@@ -42,12 +44,24 @@ const People = () => {
       return;
     }
     if (!videosData.status) {
-      return navigate("/error");
+      if (videosData.code === "C001") {
+        // TODO: 고도화 필요
+        if (page === 1) {
+          return navigate("/error");
+        } else {
+          // showErrorToast(MESSAGES["C001"]);
+          setPage((prev) => prev - 1);
+          return;
+        }
+      } else {
+        return navigate("/error");
+      }
     }
     if (page === 1) {
       setVideos({ ...videosData.data });
     } else {
       setVideos((prev) => {
+        if (prev.page === videosData.data.page) return prev;
         return {
           ...prev,
           count: videosData.data.count,

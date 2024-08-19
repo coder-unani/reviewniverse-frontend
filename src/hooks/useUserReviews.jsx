@@ -20,11 +20,17 @@ export const useUserReviews = ({ userId, page = null, pageSize = null, orderBy =
           code: "",
           data: res.data,
         };
+      } else if (res.status === 429) {
+        return {
+          status: false,
+          code: "C001",
+          data: [],
+        };
       } else {
         return {
           status: false,
-          code: "사용자 비디오 리뷰 리스트를 가져오는데 실패했습니다.",
-          data: null,
+          code: "사용자 리뷰 리스트를 가져오는데 실패했습니다.",
+          data: [],
         };
       }
     },

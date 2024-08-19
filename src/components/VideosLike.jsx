@@ -2,7 +2,7 @@ import React, { useState, useRef, useCallback, useEffect } from "react";
 import VideoLikeItem from "/src/components/VideoLikeItem";
 import { isEmpty } from "lodash";
 
-const VideosLike = ({ videos, handlePage, children }) => {
+const VideosLike = ({ children, videos, handlePage }) => {
   const [hasMore, setHasMore] = useState(true);
   const observer = useRef();
 
@@ -21,13 +21,13 @@ const VideosLike = ({ videos, handlePage, children }) => {
 
       observer.current = new IntersectionObserver((entries) => {
         if (entries[0].isIntersecting && hasMore) {
-          handlePage((prevPage) => prevPage + 1);
+          handlePage(videos.page + 1);
         }
       });
 
       if (node) observer.current.observe(node);
     },
-    [hasMore]
+    [hasMore, videos]
   );
 
   if (isEmpty(videos.data)) {

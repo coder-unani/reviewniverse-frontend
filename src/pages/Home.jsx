@@ -4,8 +4,10 @@ import SkeletonHome from "/src/components/Skeleton/Home";
 import { useScreenVideos } from "/src/hooks/useScreenVideos";
 import { useRankingVideos } from "/src/hooks/useRankingVideos";
 import { useVideos } from "/src/hooks/useVideos";
+import { showErrorToast } from "/src/components/Toast";
 import { SCREEN_MAIN_ID } from "/src/config/codes";
 import { VIDEO_ORDER_OPTIONS } from "/src/config/constants";
+import { MESSAGES } from "/src/config/messages";
 import { fScreenCode } from "/src/utils/formatContent";
 
 const SwiperPreview = React.lazy(() => import("/src/components/SwiperPreview"));
@@ -78,13 +80,25 @@ const Home = () => {
       return;
     }
     if (!videosData.status) {
-      return navigate("/error");
+      if (videosData.code === "C001") {
+        // TODO: 고도화 필요
+        if (page === 1) {
+          return navigate("/error");
+        } else {
+          // showErrorToast(MESSAGES["C001"]);
+          setPage((prev) => prev - 1);
+          return;
+        }
+      } else {
+        return navigate("/error");
+      }
     }
     if (page === 1) {
       setVideos({ ...videosData.data });
     } else {
       // if (page === 5) setHasMore(false);
       setVideos((prev) => {
+        if (prev.page === videosData.data.page) return prev;
         return {
           ...prev,
           count: videosData.data.count,

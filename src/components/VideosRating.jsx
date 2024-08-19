@@ -2,25 +2,9 @@ import React, { useState, useRef, useCallback, useEffect } from "react";
 import VideoRatingItem from "/src/components/VideoRatingItem";
 import { isEmpty } from "lodash";
 
-const VideosRating = ({ videos, handlePage, children }) => {
+const VideosRating = ({ children, videos, handlePage }) => {
   const [hasMore, setHasMore] = useState(true);
   const observer = useRef();
-
-  const lastItemRef = useCallback(
-    (node) => {
-      if (!hasMore) return;
-      if (observer.current) observer.current.disconnect();
-
-      observer.current = new IntersectionObserver((entries) => {
-        if (entries[0].isIntersecting && hasMore) {
-          handlePage((prevPage) => prevPage + 1);
-        }
-      });
-
-      if (node) observer.current.observe(node);
-    },
-    [hasMore]
-  );
 
   useEffect(() => {
     if (videos.data && videos.total <= videos.data.length) {
@@ -29,6 +13,22 @@ const VideosRating = ({ videos, handlePage, children }) => {
       setHasMore(true);
     }
   }, [videos]);
+
+  const lastItemRef = useCallback(
+    (node) => {
+      if (!hasMore) return;
+      if (observer.current) observer.current.disconnect();
+
+      observer.current = new IntersectionObserver((entries) => {
+        if (entries[0].isIntersecting && hasMore) {
+          handlePage(videos.page + 1);
+        }
+      });
+
+      if (node) observer.current.observe(node);
+    },
+    [hasMore, videos]
+  );
 
   if (isEmpty(videos.data)) {
     return;

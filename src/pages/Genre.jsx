@@ -3,8 +3,10 @@ import Videos from "/src/components/Videos";
 import { Helmet } from "react-helmet-async";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { useVideos } from "/src/hooks/useVideos";
+import { showErrorToast } from "/src/components/Toast";
 import { SETTINGS } from "/src/config/settings";
 import { DEFAULT_IMAGES } from "/src/config/constants";
+import { MESSAGES } from "/src/config/messages";
 import { isEmpty } from "lodash";
 
 const Genre = () => {
@@ -37,12 +39,24 @@ const Genre = () => {
       return;
     }
     if (!videosData.status) {
-      return navigate("/error");
+      if (videosData.code === "C001") {
+        // TODO: 고도화 필요
+        if (page === 1) {
+          return navigate("/error");
+        } else {
+          // showErrorToast(MESSAGES["C001"]);
+          setPage((prev) => prev - 1);
+          return;
+        }
+      } else {
+        return navigate("/error");
+      }
     }
     if (page === 1) {
       setVideos({ ...videosData.data });
     } else {
       setVideos((prev) => {
+        if (prev.page === videosData.data.page) return prev;
         return {
           ...prev,
           count: videosData.data.count,

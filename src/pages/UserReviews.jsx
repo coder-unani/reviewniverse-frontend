@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import ReviewItem from "/src/components/ReviewItem";
 import { useUserReviews } from "/src/hooks/useUserReviews";
+import { showErrorToast } from "/src/components/Toast";
+import { MESSAGES } from "/src/config/messages";
 import { fParseInt } from "/src/utils/format";
 import { isEmpty } from "lodash";
 
@@ -35,12 +37,20 @@ const UserReviews = () => {
       return;
     }
     if (!reviewsData.status) {
-      return navigate("/error");
+      if (videosData.code === "C001") {
+        // TODO: 고도화 필요
+        if (page > 1) setPage((prev) => prev - 1);
+        // showErrorToast(MESSAGES["C001"]);
+        return;
+      } else {
+        return navigate("/error");
+      }
     }
     if (page === 1) {
       setReviews(reviewsData.data);
     } else {
       setReviews((prev) => {
+        if (prev.page === videosData.data.page) return prev;
         return {
           ...prev,
           count: reviewsData.data.count,

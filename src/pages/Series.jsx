@@ -4,8 +4,10 @@ import VideosHorizontal from "/src/components/VideosHorizontal";
 import Videos from "/src/components/Videos";
 import { useScreenVideos } from "/src/hooks/useScreenVideos";
 import { useVideos } from "/src/hooks/useVideos";
+import { showErrorToast } from "/src/components/Toast";
 import { SCREEN_SERIES_ID } from "/src/config/codes";
 import { VIDEO_ORDER_OPTIONS } from "/src/config/constants";
+import { MESSAGES } from "/src/config/messages";
 import { fArrayRandomValue } from "/src/utils/format";
 import { isEmpty } from "lodash";
 
@@ -32,13 +34,21 @@ const Series = () => {
       return;
     }
     if (!videosData.status) {
-      return navigate("/error");
+      if (videosData.code === "C001") {
+        // TODO: 고도화 필요
+        if (page > 1) setPage((prev) => prev - 1);
+        // showErrorToast(MESSAGES["C001"]);
+        return;
+      } else {
+        return navigate("/error");
+      }
     }
     if (page === 1) {
       setVideos({ ...videosData.data });
     } else {
       if (page === 5) setHasMore(false);
       setVideos((prev) => {
+        if (prev.page === videosData.data.page) return prev;
         return {
           ...prev,
           count: videosData.data.count,

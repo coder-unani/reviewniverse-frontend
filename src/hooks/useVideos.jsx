@@ -65,7 +65,7 @@ export const useVideos = ({
       } else if (res.status === 429) {
         return {
           status: false,
-          code: "잠시 후 다시 시도해주세요.",
+          code: "C001",
           data: [],
         };
       } else {

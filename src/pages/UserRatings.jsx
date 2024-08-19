@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import VideosRating from "/src/components/VideosRating";
 import { useUserRatings } from "/src/hooks/useUserRatings";
+import { showErrorToast } from "/src/components/Toast";
+import { MESSAGES } from "/src/config/messages";
 import { fParseInt } from "/src/utils/format";
 import { isEmpty } from "lodash";
 
@@ -35,12 +37,20 @@ const UserRatings = () => {
       return;
     }
     if (!videosData.status) {
-      return navigate("/error");
+      if (videosData.code === "C001") {
+        // TODO: 고도화 필요
+        if (page > 1) setPage((prev) => prev - 1);
+        // showErrorToast(MESSAGES["C001"]);
+        return;
+      } else {
+        return navigate("/error");
+      }
     }
     if (page === 1) {
       setVideos({ ...videosData.data });
     } else {
       setVideos((prev) => {
+        if (prev.page === videosData.data.page) return prev;
         return {
           ...prev,
           count: videosData.data.count,
