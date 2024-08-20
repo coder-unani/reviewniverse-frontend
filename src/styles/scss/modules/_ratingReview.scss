@@ -6,7 +6,7 @@
 .review-rating-range {
   display: flex;
   align-items: center;
-  gap: 4px;
+  gap: 2px;
 
   &[data-index="1"],
   &[data-index="2"] {
@@ -30,10 +30,11 @@
 .review-rating-fill {
   width: 12px;
   height: 12px;
-  border-radius: 2px;
+  border-radius: 3px;
 }
 
 .review-rating-count {
+  font-size: 14px;
   color: $color-white-02;
-  margin-left: 8px;
+  margin-left: 6px;
 }

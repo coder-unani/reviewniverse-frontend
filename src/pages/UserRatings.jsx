@@ -13,7 +13,7 @@ const UserRatings = () => {
   const userId2Int = fParseInt(userId);
   const [videos, setVideos] = useState(null);
   const [page, setPage] = useState(1);
-  const pageSize = 8;
+  const pageSize = 20;
   const {
     data: videosData,
     error: videosError,

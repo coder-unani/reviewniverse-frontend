@@ -13,7 +13,7 @@ const UserReviews = () => {
   const userId2Int = fParseInt(userId);
   const [reviews, setReviews] = useState(null);
   const [page, setPage] = useState(1);
-  const pageSize = 8;
+  const pageSize = 20;
   const {
     data: reviewsData,
     error: reviewsError,

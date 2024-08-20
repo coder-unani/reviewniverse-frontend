@@ -21,24 +21,21 @@ function App() {
     <HelmetProvider>
       <QueryClientProvider client={queryClient}>
         <ThemeContextProvider>
+          <Helmet>
+            <title>{`리뷰니버스`}</title>
+            <meta name="description" content="리뷰니버스와 함께라면 보는 즐거움이 2배로, 생생한 리뷰를 확인해보세요!" />
+            <meta property="og:title" content="리뷰니버스" />
+            <meta
+              property="og:description"
+              content="리뷰니버스와 함께라면 보는 즐거움이 2배로, 생생한 리뷰를 확인해보세요!"
+            />
+            <meta property="og:image" content={DEFAULT_IMAGES.logo} />
+            <meta property="og:url" content={SETTINGS.DOMAIN_URL} />
+            <meta property="og:type" content="website" />
+            <meta property="og:locale" content="ko_KR" />
+            <meta property="og:site_name" content="Reviewniverse" />
+          </Helmet>
           <Suspense fallback={null}>
-            <Helmet>
-              <title>{`리뷰니버스`}</title>
-              <meta
-                name="description"
-                content="리뷰니버스와 함께라면 보는 즐거움이 2배로, 생생한 리뷰를 확인해보세요!"
-              />
-              <meta property="og:title" content="리뷰니버스" />
-              <meta
-                property="og:description"
-                content="리뷰니버스와 함께라면 보는 즐거움이 2배로, 생생한 리뷰를 확인해보세요!"
-              />
-              <meta property="og:image" content={DEFAULT_IMAGES.logo} />
-              <meta property="og:url" content={SETTINGS.DOMAIN_URL} />
-              <meta property="og:type" content="website" />
-              <meta property="og:locale" content="ko_KR" />
-              <meta property="og:site_name" content="Reviewniverse" />
-            </Helmet>
             <RouterProvider router={router} />
           </Suspense>
           <ToastWrapper />

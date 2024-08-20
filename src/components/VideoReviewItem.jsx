@@ -38,7 +38,7 @@ const VideoReviewItem = ({ videoId, review }) => {
       <div className="detail-review-content-wrapper">
         <div className="detail-review-header">
           <Link className="detail-review-nickname-link" data-active={!isEmpty(review.user)} to={profileLink}>
-            <p className="profile-nickname">{profileNickname}</p>
+            <p className="detail-review-nickname">{profileNickname}</p>
           </Link>
           {review.rating && <RatingReview rating={review.rating} />}
         </div>
