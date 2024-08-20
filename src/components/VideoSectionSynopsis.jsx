@@ -10,6 +10,9 @@ const VideoSectionSynopsis = React.memo(() => {
   const synopsisRef = useRef(null);
 
   useEffect(() => {
+    if (!synopsis) {
+      return;
+    }
     const lineHeight = parseFloat(getComputedStyle(synopsisRef.current).lineHeight);
     const height = synopsisRef.current.scrollHeight;
     const maxLines = 5;

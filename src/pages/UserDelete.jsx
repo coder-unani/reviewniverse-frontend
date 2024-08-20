@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuthContext } from "/src/context/AuthContext";
 import { useUserDelete } from "/src/hooks/useUserDelete";
@@ -8,20 +8,40 @@ import { DEFAULT_IMAGES } from "/src/config/constants";
 const UserDelete = () => {
   const navigate = useNavigate();
   const { user, handleRemoveUser } = useAuthContext();
+  const { mutate: userDelete, isPending: isDeletePending } = useUserDelete();
+
+  useEffect(() => {
+    if (!user) {
+      navigate("/");
+    }
+  }, []);
 
   const handleCancel = () => {
     navigate(-1);
   };
 
-  const handleDelete = async (e) => {
-    const res = await useUserDelete({ userId: user.id });
-    if (res.status) {
-      showSuccessToast(res.code);
-      handleRemoveUser();
-      navigate("/");
-    } else {
-      showErrorToast(res.code);
+  const handleDelete = async () => {
+    if (isDeletePending) {
+      return;
     }
+    await userDelete(
+      { userId: user.id },
+      {
+        onSuccess: (res) => {
+          if (res.status === 204) {
+            showSuccessToast("회원탈퇴가 완료되었습니다.");
+            navigate("/");
+          } else {
+            showErrorToast("회원탈퇴를 완료하지 못했습니다.");
+          }
+        },
+      },
+      {
+        onError: () => {
+          showErrorToast("회원탈퇴를 완료하지 못했습니다.");
+        },
+      }
+    );
   };
 
   return (
@@ -39,7 +59,7 @@ const UserDelete = () => {
             <button type="button" className="cancel" onClick={handleCancel}>
               안할래요!
             </button>
-            <button type="button" className="delete" onClick={handleDelete}>
+            <button type="button" className="delete" onClick={handleDelete} disabled={isDeletePending}>
               탈퇴하기
             </button>
           </div>

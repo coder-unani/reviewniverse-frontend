@@ -19,6 +19,7 @@ import { RiImageEditFill } from "@remixicon/react";
 
 /**
  * TODO:
+ * - isPending 이 느려서 isSubmitting으로 대체
  * 이메일 인증 여부 표시
  * 이메일 인증 기능 추가
  */
@@ -27,22 +28,9 @@ const UserProfile = () => {
   const navigate = useNavigate();
   const { user } = useAuthContext();
   const [previewImage, setPreviewImage] = useState(user?.profile_image || DEFAULT_IMAGES.noProfile);
+  const { mutateAsync: validateNickname, isPending: isValidatePending } = useValidateNickname();
+  const { mutate: userUpdate, isPending: isUpdatePending } = useUserUpdate();
 
-  useEffect(() => {
-    setValue("profile_image", user.profile_image);
-    setValue("nickname", user.nickname);
-    setValue("profile_text", user.profile_text || "");
-    setValue("is_marketing_agree", user.is_marketing_agree);
-    trigger();
-  }, []);
-
-  useEffect(() => {
-    if (watchIntroduction.length > PROFILE_TEXT_MAX_LENGTH) {
-      setValue("profile_text", watchIntroduction.slice(0, PROFILE_TEXT_MAX_LENGTH));
-    }
-  }, [watchIntroduction, setValue]);
-
-  // 개인정보 수정 유효성 검사
   const EditSchema = Yup.object().shape({
     nickname: Yup.string()
       .min(2, "닉네임은 최소 2글자 이상입니다.")
@@ -79,38 +67,66 @@ const UserProfile = () => {
     trigger,
   } = methods;
 
+  const watchNickname = useWatch({ control, name: "nickname" });
   const watchIntroduction = useWatch({ control, name: "profile_text", defaultValue: "" });
 
   // TODO: 프로필 소개 길이 확인 필요
   const onSubmit = handleSubmit(async (data) => {
+    if (isValidatePending || isUpdatePending) {
+      return;
+    }
+
     const nicknameValid = await trigger("nickname");
     if (nicknameValid && user.nickname !== data.nickname) {
-      const nicknameRes = await useValidateNickname({ nickname: data.nickname });
-      if (!nicknameRes.status) {
-        setError("nickname", {
-          type: "manual",
-          message: nicknameRes.code,
-        });
+      const nicknameRes = await validateNickname({ nickname: data.nickname });
+
+      if (nicknameRes.status === 200) {
+        if (nicknameRes.data) {
+          clearErrors("nickname");
+        } else {
+          setError("nickname", {
+            type: "manual",
+            message: "이미 사용중인 닉네임입니다.",
+          });
+          return;
+        }
+      } else {
         return;
       }
     }
 
-    const updateData = { ...data };
+    const updateData = {};
     const fieldsCheck = ["profile_image", "nickname", "profile_text", "is_marketing_agree"];
+
     fieldsCheck.forEach((field) => {
-      if (data[field] === user[field] || (field === "profile_image" && data[field] === DEFAULT_IMAGES.noProfile)) {
-        delete updateData[field];
+      if (data[field] !== user[field]) {
+        if (field === "profile_image" && data[field] === DEFAULT_IMAGES.noProfile) return;
+        if (field === "profile_text" && !data[field] && user[field] === null) return;
+        updateData[field] = data[field];
       }
     });
-    if (isEmpty(updateData)) return;
-
-    const res = await useUserUpdate({ userId: user.id, updateData });
-    if (res.status) {
-      showSuccessToast(res.code);
-      navigate(`/user/${user.id}`, { state: { isUserUpdate: res.status } });
-    } else {
-      showErrorToast(res.code);
+    if (isEmpty(updateData)) {
+      navigate(`/user/${user.id}`);
+      showSuccessToast("프로필이 수정되었습니다.");
+      return;
     }
+
+    await userUpdate(
+      { userId: user.id, updateData },
+      {
+        onSuccess: (res) => {
+          if (res.status === 204) {
+            navigate(`/user/${user.id}`, { state: { isUserUpdate: true } });
+            showSuccessToast("프로필이 수정되었습니다.");
+          } else {
+            showErrorToast("프로필을 수정하지 못했습니다.");
+          }
+        },
+        onError: () => {
+          showErrorToast("프로필을 수정하지 못했습니다.");
+        },
+      }
+    );
   });
 
   // 프로필 이미지 교체
@@ -144,6 +160,25 @@ const UserProfile = () => {
     setValue("profile_image", file, { shouldValidate: true, shouldDirty: true });
     clearErrors("profile_image");
   };
+
+  useEffect(() => {
+    setValue("profile_image", user.profile_image);
+    setValue("nickname", user.nickname);
+    setValue("profile_text", user.profile_text || "");
+    setValue("is_marketing_agree", user.is_marketing_agree);
+  }, [user, setValue]);
+
+  useEffect(() => {
+    if (watchNickname) {
+      trigger("nickname");
+    }
+  }, [watchNickname, trigger]);
+
+  useEffect(() => {
+    if (watchIntroduction.length > PROFILE_TEXT_MAX_LENGTH) {
+      setValue("profile_text", watchIntroduction.slice(0, PROFILE_TEXT_MAX_LENGTH));
+    }
+  }, [watchIntroduction, setValue]);
 
   if (isEmpty(user)) {
     return null;
@@ -198,7 +233,7 @@ const UserProfile = () => {
             <input type="checkbox" id="is_marketing_agree" {...register("is_marketing_agree")} />
             <label htmlFor="is_marketing_agree">마케팅 정보 수신 동의</label>
           </div>
-          <button type="submit" disabled={!isDirty}>
+          <button type="submit" disabled={!isDirty || !isValid || isValidatePending || isUpdatePending}>
             수정하기
           </button>
         </form>

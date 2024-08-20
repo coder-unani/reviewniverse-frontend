@@ -86,10 +86,10 @@
     font-size: 14px;
     font-weight: 600;
     color: $color-white-03;
-  }
 
-  & > span:not(:last-child) {
-    margin-right: 8px;
+    & + span {
+      margin-left: 8px;
+    }
   }
 }
 

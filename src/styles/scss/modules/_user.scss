@@ -40,7 +40,7 @@
   .background {
     width: 100%;
     height: 130px;
-    opacity: 0.5;
+    opacity: 0.2;
 
     img {
       width: 100%;
@@ -88,15 +88,14 @@
       height: 100%;
       padding: 12px 0;
 
-      &:not(:last-child)::after {
+      & + a::before {
         content: "";
         position: absolute;
         top: 50%;
-        right: 0;
+        left: 0;
         transform: translateY(-50%);
         width: 1px;
-        // height: 12px;
-        height: 100%;
+        height: 20px;
         background: rgba($color-white-01, 0.1);
       }
     }
@@ -135,8 +134,8 @@
       padding: 8px 16px;
       cursor: pointer;
 
-      &:not(:last-child) {
-        border-bottom: 1px solid $border-color-01;
+      & + li {
+        border-top: 1px solid $border-color-01;
       }
     }
 

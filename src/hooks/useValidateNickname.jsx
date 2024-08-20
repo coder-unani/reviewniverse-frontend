@@ -1,30 +1,19 @@
+import { useMutation } from "@tanstack/react-query";
 import { fetchValidateNickname } from "/src/api/users";
+import { cLog, cError } from "/src/utils/test";
 
-export const useValidateNickname = async ({ nickname }) => {
-  try {
-    const res = await fetchValidateNickname({ nickname });
-    if (res.status === 200) {
-      if (res.data) {
-        return {
-          status: res.data,
-          code: "",
-        };
+export const useValidateNickname = () => {
+  return useMutation({
+    mutationFn: async (variables) => await fetchValidateNickname(variables),
+    onSuccess: (res, variables) => {
+      if (res.status === 200) {
+        cLog("닉네임 중복검사가 완료되었습니다.");
       } else {
-        return {
-          status: res.data,
-          code: "이미 사용중인 닉네임입니다.",
-        };
+        throw new Error("닉네임 중복검사에 실패했습니다.");
       }
-    } else {
-      return {
-        status: false,
-        code: "닉네임 중복검사에 실패했습니다.",
-      };
-    }
-  } catch (error) {
-    return {
-      status: false,
-      code: "닉네임 중복검사에 실패했습니다.",
-    };
-  }
+    },
+    onError: (error) => {
+      cError(error.message);
+    },
+  });
 };

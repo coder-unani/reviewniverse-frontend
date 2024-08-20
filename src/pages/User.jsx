@@ -25,7 +25,6 @@ const User = () => {
     }
 
     const { isUserUpdate } = location.state || false;
-
     const getUser = async () => {
       const res = await userFetch({ userId: userId2Int });
       if (res.status) {

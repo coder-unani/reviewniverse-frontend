@@ -26,7 +26,7 @@
 .reviews-content-section {
   max-width: 1440px;
   margin: 0 auto;
-  padding: 20px 60px;
+  padding: 20px 60px 0;
 }
 
 .user-review-item {
@@ -36,8 +36,12 @@
   width: 100%;
   background-color: rgba($color-white-09, 0.5);
   border-radius: 16px;
-  padding: 15px 30px;
-  margin-bottom: 15px;
+  // padding: 15px 30px;
+  padding: 12px 16px;
+
+  & + & {
+    margin-top: 20px;
+  }
 }
 
 .user-review-profile-wrapper {
@@ -55,14 +59,21 @@
 
 .user-review-nickname-wrapper {
   display: flex;
-  gap: 8px;
+  gap: 10px;
   margin-right: 24px;
 }
 
 .review-more-button {
   position: absolute;
   top: 0;
-  right: -9px;
+  right: 0;
+  display: flex;
+
+  & svg {
+    path {
+      stroke: $color-white-06;
+    }
+  }
 }
 
 .user-review-nickname {
@@ -75,13 +86,13 @@
   // 1줄 이상일 경우 생략 부분 처리
   display: -webkit-box;
   -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
   text-overflow: ellipsis;
   overflow: hidden;
-  -webkit-box-orient: vertical;
 }
 
 .user-review-date {
-  font-size: 12px;
+  font-size: 13px;
   color: $color-white-04;
 }
 
@@ -118,20 +129,27 @@
 
 .user-review-video-info-wrapper {
   display: flex;
-  // flex-direction: column;
-  gap: 8px;
+  flex-direction: column;
+  gap: 4px;
 }
 
 .user-review-video-title {
   font-size: 14px;
   font-weight: 500;
   color: $color-white-02;
+
+  // 1줄 이상일 경우 생략 부분 처리
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  -webkit-box-orient: vertical;
 }
 
 .user-review-video-release {
   display: flex;
   gap: 6px;
-  font-size: 14px;
+  font-size: 13px;
   color: $color-white-04;
 }
 
@@ -174,11 +192,13 @@
   z-index: 0;
 
   // 5줄 이상일때 생략
+  /*
   display: -webkit-box;
   -webkit-line-clamp: 5;
   -webkit-box-orient: vertical;
   text-overflow: ellipsis;
   overflow: hidden;
+  */
 }
 
 .user-review-more-wrapper {
@@ -197,17 +217,17 @@
   }
 
   .reviews-content-section {
-    padding: 20px 30px;
-  }
-
-  .user-review-item {
-    padding: 14px 24px;
+    padding: 20px 30px 0;
   }
 }
 
 @media (max-width: 576px) {
+  .reviews-content-section {
+    padding: 20px 0 0;
+  }
+
   .user-review-item {
-    padding: 12px 16px;
+    border-radius: unset;
   }
 
   .user-review-thumbnail-wrapper {
@@ -218,16 +238,7 @@
     border-radius: 8px;
   }
 
-  .user-review-video-info-wrapper {
-    flex-direction: column;
-    gap: 4px;
-  }
-
   .reviews-title {
     padding: 15px 15px 0;
-  }
-
-  .reviews-content-section {
-    padding: 20px 15px;
   }
 }

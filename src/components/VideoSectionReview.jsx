@@ -21,7 +21,7 @@ const VideoSectionReview = () => {
     isLoading: reviewsIsLoading,
   } = useVideoReviews({ videoId, page: 1, pageSize: 8, enabled: videoId });
   const { toggleEnjoyModal, toggleReviewModal } = useModalContext();
-  const { mutateAsync: reviewDelete } = useReviewDelete();
+  const { mutate: reviewDelete, isPending: isDeletePending } = useReviewDelete();
 
   // 리뷰 작성
   const handleReviewCreate = () => {
@@ -39,12 +39,21 @@ const VideoSectionReview = () => {
 
   // 리뷰 삭제
   const handleReviewDelete = async () => {
+    if (isDeletePending) {
+      return;
+    }
     // TODO: 삭제 확인 모달 추가
     // setConfirmModal(true);
-    const res = await reviewDelete({ videoId, reviewId: myInfo.review.id, userId: user.id });
-    if (res.status) {
-      showSuccessToast(res.code);
-    }
+    await reviewDelete(
+      { videoId, reviewId: myInfo.review.id, userId: user.id },
+      {
+        onSuccess: (res) => {
+          if (res.status === 204) {
+            showSuccessToast("리뷰가 삭제되었습니다.");
+          }
+        },
+      }
+    );
   };
 
   const MyReviewWrapper = () => {
@@ -94,6 +103,7 @@ const VideoSectionReview = () => {
             data-tooltip-content="삭제"
             className="my-review-delete-button"
             onClick={handleReviewDelete}
+            disabled={isDeletePending}
           >
             <FillTrashIcon className="my-review-button-icon" />
           </button>

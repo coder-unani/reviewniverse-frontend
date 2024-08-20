@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuthContext } from "/src/context/AuthContext";
 import { useWatchTypeCreate } from "/src/hooks/useWatchTypeCreate";
-import { showSuccessToast, showErrorToast } from "/src/components/Toast";
+import { showSuccessToast, showInfoToast } from "/src/components/Toast";
 import { USER_WATCH_TYPE } from "/src/config/codes";
 import { isEmpty } from "lodash";
 
@@ -10,32 +10,43 @@ const UserFavorite = () => {
   const navigate = useNavigate();
   const { user } = useAuthContext();
   const [selectedFavorites, setSelectedFavorites] = useState([]);
+  const { mutate: watchTypeCreate, isPending } = useWatchTypeCreate();
 
   const handleFavorite = (id) => {
+    if (selectedFavorites.length >= 3 && !selectedFavorites.includes(id)) {
+      showInfoToast("3개까지 선택 가능합니다.");
+      return;
+    }
     setSelectedFavorites((prev) => {
-      if (prev.includes(id)) {
+      const isSelected = prev.includes(id);
+
+      if (isSelected) {
         return prev.filter((favoriteId) => favoriteId !== id);
-      } else if (prev.length < 3) {
-        return [...prev, id];
       }
-      return prev;
+
+      return [...prev, id];
     });
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (isPending) {
+      return;
+    }
     if (isEmpty(selectedFavorites)) {
       // showErrorToast("1개 이상 선택해주세요.");
       return;
     }
     const watchType = selectedFavorites.join(",");
-    const res = await useWatchTypeCreate({ userId: user.id, watchType });
-    if (res.status) {
-      showSuccessToast(res.code);
-      navigate("/");
-    } else {
-      showErrorToast(res.code);
-    }
+    await watchTypeCreate({ userId: user.id, watchType }),
+      {
+        onSuccess: (res) => {
+          if (res.status === 201) {
+            navigate("/");
+            showSuccessToast("회원성향이 등록되었습니다.");
+          }
+        },
+      };
   };
 
   return (
@@ -71,7 +82,7 @@ const UserFavorite = () => {
               </section>
             ))}
           </div>
-          <button type="submit" disabled={isEmpty(selectedFavorites)}>
+          <button type="submit" disabled={isEmpty(selectedFavorites) || isPending}>
             완료
           </button>
         </form>

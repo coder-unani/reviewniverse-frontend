@@ -10,9 +10,11 @@ export const useVideoLike = () => {
     onSuccess: (res, variables) => {
       if (res.status === 200) {
         cLog("비디오 좋아요 상태가 변경되었습니다.");
+        const isLike = res.data.data.is_like;
+
         queryClient.setQueryData(["videoMyInfo", { videoId: variables.videoId, userId: variables.userId }], (prev) => ({
           ...prev,
-          is_like: res.data.data.is_like,
+          is_like: isLike,
         }));
 
         queryClient.invalidateQueries({
@@ -20,11 +22,11 @@ export const useVideoLike = () => {
           exact: false,
         });
       } else {
-        cLog("비디오 좋아요 상태 변경에 실패했습니다.");
+        throw new Error("비디오 좋아요 상태 변경에 실패했습니다.");
       }
     },
     onError: (error) => {
-      cError(error);
+      cError(error.message);
     },
   });
 };

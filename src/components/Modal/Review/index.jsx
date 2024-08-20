@@ -3,18 +3,18 @@ import Modal from "/src/components/Modal";
 import { useAuthContext } from "/src/context/AuthContext";
 import { useReviewCreate } from "/src/hooks/useReviewCreate";
 import { useReviewUpdate } from "/src/hooks/useReviewUpdate";
+import { showSuccessToast } from "/src/components/Toast";
 import * as Yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm, Controller, useWatch } from "react-hook-form";
 import { RiCloseLine } from "@remixicon/react";
 import { isEmpty } from "lodash";
-import { showSuccessToast } from "/src/components/Toast";
 
 const ReviewModal = React.memo(({ content, myReview, onClose }) => {
   const modalRef = useRef();
   const { user } = useAuthContext();
-  const { mutateAsync: reviewCreate } = useReviewCreate();
-  const { mutateAsync: reviewUpdate } = useReviewUpdate();
+  const { mutate: reviewCreate, isPending: isCreatePending } = useReviewCreate();
+  const { mutate: reviewUpdate, isPending: isUpdatePending } = useReviewUpdate();
 
   const handleModalClose = (e) => {
     if (e.target === modalRef.current) onClose();
@@ -59,31 +59,55 @@ const ReviewModal = React.memo(({ content, myReview, onClose }) => {
   const watchedTitle = useWatch({ control, name: "title", defaultValue: "" });
 
   const onSubmit = handleSubmit(async (data) => {
+    if (isCreatePending || isUpdatePending) {
+      return;
+    }
     if (isEmpty(myReview)) {
-      const res = await reviewCreate({
-        videoId: content.id,
-        title: data.title,
-        is_spoiler: data.spoiler,
-        is_private: data.private,
-        userId: user.id,
-      });
-      if (res.status) {
-        showSuccessToast(res.code);
-        onClose();
-      }
+      await reviewCreate(
+        {
+          videoId: content.id,
+          title: data.title,
+          is_spoiler: data.spoiler,
+          is_private: data.private,
+          userId: user.id,
+        },
+        {
+          onSuccess: (res) => {
+            if (res.status === 201) {
+              showSuccessToast("리뷰가 등록되었습니다.");
+              onClose();
+            }
+          },
+        }
+      );
     } else {
-      const res = await reviewUpdate({
-        videoId: content.id,
-        reviewId: myReview.id,
-        title: data.title,
-        is_spoiler: data.spoiler,
-        is_private: data.private,
-        userId: user.id,
-      });
-      if (res.status) {
-        showSuccessToast(res.code);
+      if (
+        myReview.title === data.title &&
+        myReview.is_spoiler === data.spoiler &&
+        myReview.is_private === data.private
+      ) {
+        showSuccessToast("리뷰가 수정되었습니다.");
         onClose();
+        return;
       }
+      await reviewUpdate(
+        {
+          videoId: content.id,
+          reviewId: myReview.id,
+          title: data.title,
+          is_spoiler: data.spoiler,
+          is_private: data.private,
+          userId: user.id,
+        },
+        {
+          onSuccess: (res) => {
+            if (res.status === 204) {
+              showSuccessToast("리뷰가 수정되었습니다.");
+              onClose();
+            }
+          },
+        }
+      );
     }
   });
 
@@ -136,7 +160,11 @@ const ReviewModal = React.memo(({ content, myReview, onClose }) => {
                 <p>
                   <span>{watchedTitle.length}</span> / 100
                 </p>
-                <button type="submit" className="save" disabled={!isDirty || !isValid}>
+                <button
+                  type="submit"
+                  className="save"
+                  disabled={!isDirty || !isValid || isCreatePending || isUpdatePending}
+                >
                   {isEmpty(myReview) ? "등록" : "수정"}
                 </button>
               </div>

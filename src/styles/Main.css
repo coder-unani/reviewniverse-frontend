@@ -716,8 +716,8 @@ em {
   color: #93a8b4;
   letter-spacing: -0.2px;
 }
-.default-subtitle > span:not(:last-child) {
-  margin-right: 8px;
+.default-subtitle > span + span {
+  margin-left: 8px;
 }
 
 .default-rating-wrapper {
@@ -909,8 +909,8 @@ em {
   color: #93a8b4;
   letter-spacing: -0.2px;
 }
-.rank-subtitle > span:not(:last-child) {
-  margin-right: 8px;
+.rank-subtitle > span + span {
+  margin-left: 8px;
 }
 
 .rank-rating-wrapper {
@@ -1236,7 +1236,7 @@ em {
   flex: 1;
   min-width: 30px;
   height: 16px;
-  border-radius: 3px;
+  border-radius: 2px;
   opacity: 0.2;
 }
 .video-rating-fill:first-child {
@@ -2302,8 +2302,8 @@ em {
   font-weight: 600;
   color: #b4c5cf;
 }
-.preview-release > span:not(:last-child) {
-  margin-right: 8px;
+.preview-release span + span {
+  margin-left: 8px;
 }
 
 .preview-videos-container {
@@ -2724,6 +2724,7 @@ em {
 }
 
 .detail-poster-section {
+  grid-row: 1;
   grid-column: 1;
 }
 
@@ -2742,6 +2743,7 @@ em {
 }
 
 .detail-synopsis-section {
+  grid-row: 1;
   grid-column: 2;
 }
 
@@ -2769,19 +2771,24 @@ em {
 .synopsis-more-button {
   width: auto;
   font-size: 14px;
-  color: #93a8b4;
+  color: #5a7687;
   margin: 15px auto 0 0;
+}
+.synopsis-more-button:hover {
+  text-decoration: underline;
+  text-underline-offset: 2px;
 }
 
 .detail-more-wrapper {
+  grid-row: 1;
   grid-column: 3;
+  gap: 40px;
 }
 
 .detail-my-rating-section {
   position: relative;
   display: flex;
   flex-direction: column;
-  padding-bottom: 20px;
 }
 
 .detail-my-rating {
@@ -2816,7 +2823,6 @@ em {
 .detail-platform-section {
   display: flex;
   flex-direction: column;
-  padding-top: 20px;
 }
 
 .detail-platform-wrapper {
@@ -2935,8 +2941,8 @@ em {
   color: #93a8b4;
   overflow: hidden;
 }
-.detail-people-role:not(:last-child) {
-  margin-right: 8px;
+.detail-people-role + .detail-people-role {
+  margin-left: 8px;
 }
 
 .detail-gallery-section {
@@ -3068,7 +3074,7 @@ em {
   max-height: 110px;
   border-radius: 14px;
   border: 1px solid rgba(213, 221, 226, 0.1);
-  padding: 10px 14px;
+  padding: 12px 14px;
 }
 .detail-my-review-wrapper:hover {
   background-color: #12222b;
@@ -3169,7 +3175,7 @@ em {
 .detail-review-header {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 10px;
 }
 
 .detail-review-nickname-link {
@@ -3214,7 +3220,7 @@ em {
 .detail-review-footer {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 10px;
 }
 
 .detail-review-date {
@@ -3225,13 +3231,13 @@ em {
 .review-like-button {
   display: flex;
   align-items: center;
-  gap: 6px;
 }
 
 .review-like-count {
   font-size: 14px;
   font-weight: 600;
   color: #5a7687;
+  margin-left: 6px;
 }
 .review-like-count[data-like=true] {
   color: #fc00ff;
@@ -3276,11 +3282,11 @@ em {
   }
   .detail-poster-section {
     grid-column: 1;
-    grid-row: 1/3;
+    grid-row: 1/2;
   }
   .detail-synopsis-section {
     grid-column: 1/3;
-    grid-row: 3;
+    grid-row: 2;
   }
   .detail-more-wrapper {
     grid-column: 2;
@@ -3353,9 +3359,12 @@ em {
   .detail-sub-section {
     grid-template-columns: 1fr;
   }
+  .detail-synopsis-section ~ .detail-poster-section {
+    grid-row: 3;
+  }
   .detail-poster-section {
     grid-column: 1;
-    grid-row: 3;
+    grid-row: 2;
     margin: 0 auto;
   }
   .detail-synopsis-section {
@@ -3918,7 +3927,7 @@ em {
 .user .background {
   width: 100%;
   height: 130px;
-  opacity: 0.5;
+  opacity: 0.2;
 }
 .user .background img {
   width: 100%;
@@ -3961,14 +3970,14 @@ em {
   height: 100%;
   padding: 12px 0;
 }
-.user .user-contents a:not(:last-child)::after {
+.user .user-contents a + a::before {
   content: "";
   position: absolute;
   top: 50%;
-  right: 0;
+  left: 0;
   transform: translateY(-50%);
   width: 1px;
-  height: 100%;
+  height: 20px;
   background: rgba(238, 247, 252, 0.1);
 }
 .user .user-contents .count {
@@ -4001,8 +4010,8 @@ em {
   padding: 8px 16px;
   cursor: pointer;
 }
-.user-menu ul li:not(:last-child) {
-  border-bottom: 1px solid rgba(213, 221, 226, 0.1);
+.user-menu ul li + li {
+  border-top: 1px solid rgba(213, 221, 226, 0.1);
 }
 .user-menu ul .delete {
   color: #ff6874;
@@ -4434,7 +4443,7 @@ em {
 .reviews-content-section {
   max-width: 1440px;
   margin: 0 auto;
-  padding: 20px 60px;
+  padding: 20px 60px 0;
 }
 
 .user-review-item {
@@ -4444,8 +4453,10 @@ em {
   width: 100%;
   background-color: rgba(18, 34, 43, 0.5);
   border-radius: 16px;
-  padding: 15px 30px;
-  margin-bottom: 15px;
+  padding: 12px 16px;
+}
+.user-review-item + .user-review-item {
+  margin-top: 20px;
 }
 
 .user-review-profile-wrapper {
@@ -4463,14 +4474,18 @@ em {
 
 .user-review-nickname-wrapper {
   display: flex;
-  gap: 8px;
+  gap: 10px;
   margin-right: 24px;
 }
 
 .review-more-button {
   position: absolute;
   top: 0;
-  right: -9px;
+  right: 0;
+  display: flex;
+}
+.review-more-button svg path {
+  stroke: #5a7687;
 }
 
 .user-review-nickname {
@@ -4481,13 +4496,13 @@ em {
   color: #d5dde2;
   display: -webkit-box;
   -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
   text-overflow: ellipsis;
   overflow: hidden;
-  -webkit-box-orient: vertical;
 }
 
 .user-review-date {
-  font-size: 12px;
+  font-size: 13px;
   color: #93a8b4;
 }
 
@@ -4524,19 +4539,25 @@ em {
 
 .user-review-video-info-wrapper {
   display: flex;
-  gap: 8px;
+  flex-direction: column;
+  gap: 4px;
 }
 
 .user-review-video-title {
   font-size: 14px;
   font-weight: 500;
   color: #d5dde2;
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  -webkit-box-orient: vertical;
 }
 
 .user-review-video-release {
   display: flex;
   gap: 6px;
-  font-size: 14px;
+  font-size: 13px;
   color: #93a8b4;
 }
 
@@ -4568,11 +4589,13 @@ em {
   line-height: 20px;
   white-space: pre-wrap;
   z-index: 0;
+  /*
   display: -webkit-box;
   -webkit-line-clamp: 5;
   -webkit-box-orient: vertical;
   text-overflow: ellipsis;
   overflow: hidden;
+  */
 }
 
 .user-review-more-wrapper {
@@ -4589,15 +4612,15 @@ em {
     padding: 15px 30px 0;
   }
   .reviews-content-section {
-    padding: 20px 30px;
-  }
-  .user-review-item {
-    padding: 14px 24px;
+    padding: 20px 30px 0;
   }
 }
 @media (max-width: 576px) {
+  .reviews-content-section {
+    padding: 20px 0 0;
+  }
   .user-review-item {
-    padding: 12px 16px;
+    border-radius: unset;
   }
   .user-review-thumbnail-wrapper {
     width: 60px;
@@ -4605,15 +4628,8 @@ em {
   .user-review-thumbnail {
     border-radius: 8px;
   }
-  .user-review-video-info-wrapper {
-    flex-direction: column;
-    gap: 4px;
-  }
   .reviews-title {
     padding: 15px 15px 0;
-  }
-  .reviews-content-section {
-    padding: 20px 15px;
   }
 }
 .delete-main {

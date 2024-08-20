@@ -10,14 +10,15 @@ export const useVideoRating = () => {
     onSuccess: (res, variables) => {
       if (res.status === 200) {
         cLog("비디오 평가 점수가 변경되었습니다.");
+        const rating = res.data.data.rating;
+        const ratingAvg = res.data.data.rating_avg;
 
         // videoDetail 쿼리 키의 데이터를 업데이트
         queryClient.setQueryData(["videoDetail", variables.videoId], (prevDetail) => {
           if (!prevDetail) return prevDetail;
-          const updatedRating = res.data.data.rating_avg;
           return {
             ...prevDetail,
-            data: { ...prevDetail.data, rating: updatedRating },
+            data: { ...prevDetail.data, rating: ratingAvg },
           };
         });
 
@@ -26,7 +27,6 @@ export const useVideoRating = () => {
           ["videoMyInfo", { videoId: variables.videoId, userId: variables.userId }],
           (prevMyInfo) => {
             if (!prevMyInfo) return prevMyInfo;
-            const updatedRating = res.data.data.rating;
             // review 데이터가 있는 경우
             if (prevMyInfo.review && prevMyInfo.review.id) {
               // videoReviews 쿼리 키의 데이터를 업데이트
@@ -35,22 +35,23 @@ export const useVideoRating = () => {
                 (prevReviews) => {
                   const updatedReviews = { ...prevReviews };
                   updatedReviews.data = updatedReviews.data.map((review) =>
-                    review.id === prevMyInfo.review.id ? { ...review, rating: updatedRating } : review
+                    review.id === prevMyInfo.review.id ? { ...review, rating: rating } : review
                   );
                   return updatedReviews;
                 }
               );
             }
-            return { ...prevMyInfo, rating: updatedRating };
+            return { ...prevMyInfo, rating: rating };
           }
         );
 
+        // userRatings 쿼리 키의 데이터 무효화
         queryClient.invalidateQueries({
           queryKey: ["userRatings", variables.userId],
           exact: false,
         });
       } else {
-        cLog("비디오 평가 점수 변경에 실패했습니다.");
+        throw new Error("비디오 평가 점수 변경에 실패했습니다.");
       }
     },
     onError: (error) => {

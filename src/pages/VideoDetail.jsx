@@ -229,8 +229,8 @@ const VideoDetail = () => {
 
           <div className="detail-main-wrapper">
             <section className="detail-sub-section">
-              <PosterSection />
               <SynopsisSection />
+              <PosterSection />
               <div className="detail-more-wrapper">
                 <MyRatingSection />
                 <PlatformSection />

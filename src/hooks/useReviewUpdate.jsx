@@ -6,23 +6,10 @@ export const useReviewUpdate = () => {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: async (variables) => {
-      try {
-        const res = await fetchReviewUpdate(variables);
-        if (res.status === 204) {
-          return {
-            status: true,
-            code: "리뷰가 수정되었습니다.",
-          };
-        } else {
-          throw new Error("리뷰 수정에 실패했습니다.");
-        }
-      } catch (error) {
-        throw new Error(error.message || "리뷰 수정에 실패했습니다.");
-      }
-    },
+    mutationFn: async (variables) => await fetchReviewUpdate(variables),
     onSuccess: (res, variables) => {
-      if (res.status) {
+      if (res.status === 204) {
+        cLog("리뷰가 수정되었습니다.");
         queryClient.invalidateQueries({
           queryKey: ["videoMyInfo", { videoId: variables.videoId, userId: variables.userId }],
         });
@@ -31,6 +18,13 @@ export const useReviewUpdate = () => {
           queryKey: ["videoReviews", variables.videoId],
           exact: false,
         });
+
+        queryClient.invalidateQueries({
+          queryKey: ["userReviews", variables.userId],
+          exact: false,
+        });
+      } else {
+        throw new Error("리뷰 수정에 실패했습니다.");
       }
     },
     onError: (error) => {

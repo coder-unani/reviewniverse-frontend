@@ -6,23 +6,10 @@ export const useReviewDelete = () => {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: async (variables) => {
-      try {
-        const res = await fetchReviewDelete(variables);
-        if (res.status === 204) {
-          return {
-            status: true,
-            code: "리뷰가 삭제되었습니다.",
-          };
-        } else {
-          throw new Error("리뷰 삭제에 실패했습니다.");
-        }
-      } catch (error) {
-        throw new Error(error.message || "리뷰 삭제에 실패했습니다.");
-      }
-    },
+    mutationFn: async (variables) => await fetchReviewDelete(variables),
     onSuccess: (res, variables) => {
-      if (res.status) {
+      if (res.status === 204) {
+        cLog("리뷰가 삭제되었습니다.");
         queryClient.setQueryData(["videoMyInfo", { videoId: variables.videoId, userId: variables.userId }], (prev) => ({
           ...prev,
           review: {},
@@ -31,15 +18,17 @@ export const useReviewDelete = () => {
         queryClient.setQueriesData({ queryKey: ["videoReviews", variables.videoId], exact: false }, (prev) => {
           if (!prev) return prev;
           const updatedReviews = { ...prev };
+          updatedReviews.total = updatedReviews.total > 0 ? updatedReviews.total - 1 : 0;
           updatedReviews.data = updatedReviews.data.filter((review) => review.id !== variables.reviewId);
           return updatedReviews;
         });
 
-        // TODO: review_count 이렇게 업데이트 하는게 맞나?
-        queryClient.setQueryData(["videoDetail", variables.videoId], (prev) => ({
-          ...prev,
-          review_count: prev.review_count > 0 ? prev.review_count - 1 : 0,
-        }));
+        queryClient.invalidateQueries({
+          queryKey: ["userReviews", variables.userId],
+          exact: false,
+        });
+      } else {
+        throw new Error("리뷰 삭제에 실패했습니다.");
       }
     },
     onError: (error) => {
