@@ -2,14 +2,16 @@ import React, { createContext, useContext, useEffect, useMemo, useState } from "
 import { useLocation } from "react-router-dom";
 import EnjoyModal from "/src/components/Modal/Enjoy";
 import ConfirmModal from "/src/components/Modal/Confirm";
+import TermsModal from "/src/components/Modal/Terms";
 
 const ModalContext = createContext();
 
 const ModalContextProvider = ({ children }) => {
   const location = useLocation();
   const [enjoyModal, setEnjoyModal] = useState(false);
-  const [reviewModal, setReviewModal] = useState(false);
   const [confirmModal, setConfirmModal] = useState(false);
+  const [reviewModal, setReviewModal] = useState(false);
+  const [termsModal, setTermsModal] = useState(false);
 
   useEffect(() => {
     if (enjoyModal) setEnjoyModal(false);
@@ -32,14 +34,21 @@ const ModalContextProvider = ({ children }) => {
     setConfirmModal(!confirmModal);
   };
 
+  // 약관 모달창 토글
+  const toggleTermsModal = () => {
+    setTermsModal(!termsModal);
+  };
+
   const values = useMemo(
     () => ({
       enjoyModal,
-      reviewModal,
       confirmModal,
+      reviewModal,
+      termsModal,
       toggleEnjoyModal,
-      toggleReviewModal,
       toggleConfirmModal,
+      toggleReviewModal,
+      toggleTermsModal,
     }),
     [enjoyModal, reviewModal, confirmModal]
   );
@@ -49,6 +58,7 @@ const ModalContextProvider = ({ children }) => {
       {children}
       {enjoyModal && <EnjoyModal onClose={toggleEnjoyModal} />}
       {confirmModal && <ConfirmModal onClose={toggleConfirmModal} />}
+      {termsModal && <TermsModal onClose={toggleTermsModal} />}
     </ModalContext.Provider>
   );
 };

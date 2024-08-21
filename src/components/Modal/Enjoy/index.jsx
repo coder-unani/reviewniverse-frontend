@@ -1,8 +1,8 @@
 import React, { useRef } from "react";
 import Modal from "/src/components/Modal";
 import { useNavigate } from "react-router-dom";
-import { RiCloseLine } from "@remixicon/react";
 import { DEFAULT_IMAGES } from "/src/config/constants";
+import CloseIcon from "/src/assets/button/close.svg?react";
 
 const EnjoyModal = React.memo(({ onClose }) => {
   const navigate = useNavigate();
@@ -24,18 +24,22 @@ const EnjoyModal = React.memo(({ onClose }) => {
   return (
     <Modal>
       <div className="enjoy-modal" ref={modalRef} onClick={handleModalClose}>
-        <div className="enjoy">
-          <RiCloseLine size={28} className="close" onClick={handleCloseButton} />
-          <div className="content">
-            <img src={DEFAULT_IMAGES.userLogin} alt="회원 환영 이미지" />
-            <p>로그인 후 이용할 수 있어요!</p>
-          </div>
-          <div className="button-wrapper">
-            <button className="login" onClick={handleLoginButton}>
-              로그인
+        <main className="enjoy-modal-container">
+          <section className="enjoy-modal-wrapper">
+            <button className="modal-close-button">
+              <CloseIcon onClick={handleCloseButton} />
             </button>
-          </div>
-        </div>
+            <div className="enjoy-modal-image-wrapper">
+              <img className="enjoy-modal-image" src={DEFAULT_IMAGES.userLogin} alt="회원 환영 이미지" />
+              <p className="enjoy-modal-content">로그인 후 이용할 수 있어요!</p>
+            </div>
+            <div className="enjoy-modal-button-wrapper">
+              <button className="enjoy-modal-login-button" onClick={handleLoginButton}>
+                로그인
+              </button>
+            </div>
+          </section>
+        </main>
       </div>
     </Modal>
   );

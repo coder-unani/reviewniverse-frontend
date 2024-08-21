@@ -5,6 +5,7 @@ import { useAuthContext } from "/src/context/AuthContext";
 import { Link } from "react-router-dom";
 import { RiCloseLine, RiArrowRightSLine } from "@remixicon/react";
 import { DEFAULT_IMAGES } from "/src/config/constants";
+import CloseIcon from "/src/assets/button/close.svg?react";
 
 /**
  * TODO:
@@ -45,7 +46,10 @@ const MenuModal = ({ onClose }) => {
       <div className="menu-modal" ref={modalRef} onClick={handleModalClose}>
         <div className="menu">
           <div className="top">
-            <RiCloseLine size={30} fill="white" className="close" onClick={handleCloseButton} />
+            <button className="modal-close-button">
+              <CloseIcon onClick={handleCloseButton} />
+            </button>
+            {/* <RiCloseLine size={30} fill="white" className="close" onClick={handleCloseButton} /> */}
             <div className="menu-user">{user ? renderProfileButton() : renderLoginButton()}</div>
           </div>
           <div className="bottom">

@@ -16,7 +16,7 @@ const Logo = () => (
 );
 
 const MobileHeader = ({ isSearch, onToggleMenu, onSearch }) => (
-  <div className={isSearch ? "header-search-wrapper" : "header-mobile-wrapper"}>
+  <section className={isSearch ? "header-search-wrapper" : "header-mobile-wrapper"}>
     {isSearch ? (
       <>
         <SearchForm />
@@ -27,24 +27,24 @@ const MobileHeader = ({ isSearch, onToggleMenu, onSearch }) => (
         <h1 className="header-logo">
           <Logo />
         </h1>
-        <div className="toolbar-container">
+        <section className="toolbar-container">
           <SearchIcon className="search-button" onClick={onSearch} />
           <MenuIcon className="menu-button" onClick={onToggleMenu} />
-        </div>
+        </section>
       </>
     )}
-  </div>
+  </section>
 );
 
 const DefaultHeader = ({ user }) => (
-  <div className="header-wrapper">
+  <section className="header-wrapper">
     <h1 className="header-logo">
       <Logo />
     </h1>
-    <div className="search-container">
+    <section className="search-container">
       <SearchForm />
-    </div>
-    <div className="toolbar-container">
+    </section>
+    <section className="toolbar-container">
       {user ? (
         <Link to={`/user/${user.id}`} className="toolbar-user">
           <ProfileImage image={user.profile_image} size={34} />
@@ -54,8 +54,8 @@ const DefaultHeader = ({ user }) => (
           로그인
         </Link>
       )}
-    </div>
-  </div>
+    </section>
+  </section>
 );
 
 const Header = () => {

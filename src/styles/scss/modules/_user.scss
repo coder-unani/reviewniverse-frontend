@@ -1,5 +1,5 @@
 .user-main {
-  min-height: calc(100vh - 80px);
+  min-height: calc(100vh - $footer-height);
   background-color: $color-background;
   padding-top: 60px;
 }

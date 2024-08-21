@@ -12,8 +12,8 @@ const SwiperGallery = () => {
   const items = content.data.thumbnail;
   const [isBeginning, setIsBeginning] = useState(true);
   const [isEnd, setIsEnd] = useState(false);
-  const swiperRef = useRef(null);
   const [photoModal, setPhotoModal] = useState({ isOpen: false, url: "" });
+  const swiperRef = useRef(null);
 
   const gallerySwiperConfig = {
     modules: [Virtual],

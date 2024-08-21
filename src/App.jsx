@@ -3,6 +3,7 @@ import { RouterProvider } from "react-router-dom";
 import { HelmetProvider, Helmet } from "react-helmet-async";
 import router from "/src/routes";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { ThemeContextProvider } from "/src/context/ThemeContext";
 import { ToastWrapper } from "/src/components/Toast";
 import { SETTINGS } from "/src/config/settings";
@@ -39,6 +40,7 @@ function App() {
             <RouterProvider router={router} />
           </Suspense>
           <ToastWrapper />
+          <ReactQueryDevtools />
         </ThemeContextProvider>
       </QueryClientProvider>
     </HelmetProvider>

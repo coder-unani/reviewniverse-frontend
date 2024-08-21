@@ -1661,6 +1661,25 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@tanstack/query-devtools@npm:5.51.16":
+  version: 5.51.16
+  resolution: "@tanstack/query-devtools@npm:5.51.16"
+  checksum: 10c0/40f1fbad77b703b96809b06323962614f9868b6e453fbcfcc1c73f3ff4f479f4ef066706fdfb3c3be33da76122dac21725de42c0f65ac0344d3839688d672c32
+  languageName: node
+  linkType: hard
+
+"@tanstack/react-query-devtools@npm:^5.52.0":
+  version: 5.52.0
+  resolution: "@tanstack/react-query-devtools@npm:5.52.0"
+  dependencies:
+    "@tanstack/query-devtools": "npm:5.51.16"
+  peerDependencies:
+    "@tanstack/react-query": ^5.52.0
+    react: ^18 || ^19
+  checksum: 10c0/29ddcc73ad5b9d54820255f3e63152ccd83b87a19121fb9a90cb760a15c72c3ca1b701010cc6603843139dd14c22450317901af3d126fc9dd41780923bedfbc1
+  languageName: node
+  linkType: hard
+
 "@tanstack/react-query@npm:^5.51.1":
   version: 5.51.1
   resolution: "@tanstack/react-query@npm:5.51.1"
@@ -3502,6 +3521,7 @@ __metadata:
     "@hookform/resolvers": "npm:^3.6.0"
     "@remixicon/react": "npm:^4.2.0"
     "@tanstack/react-query": "npm:^5.51.1"
+    "@tanstack/react-query-devtools": "npm:^5.52.0"
     "@types/react": "npm:^18.2.66"
     "@types/react-dom": "npm:^18.2.22"
     "@vitejs/plugin-react-swc": "npm:^3.5.0"

@@ -28,13 +28,18 @@ body {
   padding: 0;
 }
 
-ul {
+ul,
+ol,
+li {
   list-style: none;
   padding: 0;
   margin: 0;
 }
 
 button {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
   border: none;
   border-radius: 0;
   background: 0 0;
@@ -43,7 +48,20 @@ button {
   cursor: pointer;
 }
 
+select {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+}
+
+select::-ms-expand {
+  display: none;
+}
+
 input {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
   border: none;
   outline: none;
   padding: 0;
@@ -90,14 +108,14 @@ em {
   display: flex;
   padding: 10px;
   cursor: pointer;
-}
 
-.back-icon {
-  width: 40px;
-  height: 40px;
+  svg {
+    width: 40px;
+    height: 40px;
 
-  path {
-    fill: $color-white;
+    path {
+      fill: $color-white;
+    }
   }
 }
 
@@ -108,13 +126,27 @@ em {
   justify-content: center;
   width: 30px;
   height: 100%;
+
+  svg {
+    object-fit: contain;
+
+    path {
+      fill: rgba($color-white, 0.5);
+      stroke: transparent;
+    }
+  }
 }
 
-.clear-icon {
-  object-fit: contain;
+.modal-close-button {
+  position: absolute;
+  top: 6px;
+  right: 6px;
+  padding: 6px;
+  cursor: pointer;
 
-  path {
-    fill: rgba($color-white, 0.5);
-    stroke: transparent;
+  svg {
+    path {
+      fill: $color-white-04;
+    }
   }
 }
