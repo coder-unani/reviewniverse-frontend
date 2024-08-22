@@ -3554,7 +3554,7 @@ em {
   }
   .detail-sub-section {
     grid-template-columns: auto 1fr;
-    grid-template-rows: auto 1fr;
+    grid-template-rows: 1fr;
     padding: 20px 30px;
   }
   .detail-poster-section {
