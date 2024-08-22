@@ -1964,6 +1964,10 @@ em {
   display: flex;
   align-items: center;
 }
+.review-spoiler-button svg,
+.review-private-button svg {
+  pointer-events: none;
+}
 .review-spoiler-button label,
 .review-private-button label {
   font-size: 14px;

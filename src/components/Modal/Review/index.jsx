@@ -169,7 +169,6 @@ const ReviewModal = React.memo(({ content, myReview }) => {
                     place="bottom"
                     effect="solid"
                     globalEventOff="click"
-                    isCapture={true}
                   />
                   <button
                     type="button"
@@ -186,7 +185,6 @@ const ReviewModal = React.memo(({ content, myReview }) => {
                     place="bottom"
                     effect="solid"
                     globalEventOff="click"
-                    isCapture={true}
                   />
                 </div>
                 <div className="review-modal-button-wrapper">

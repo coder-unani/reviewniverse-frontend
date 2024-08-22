@@ -93,6 +93,10 @@
   display: flex;
   align-items: center;
 
+  svg {
+    pointer-events: none;
+  }
+
   label {
     font-size: 14px;
     color: $color-white-04;
