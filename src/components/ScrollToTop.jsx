@@ -5,11 +5,12 @@ const ScrollToTop = () => {
   const { pathname } = useLocation();
 
   // 페이지 이동 시 맨 위로 스크롤
+  /*
   useEffect(() => {
     window.scrollTo(0, 0);
   }, [pathname]);
+ */
 
-  /*
   useEffect(() => {
     // 스크롤 위치를 저장할 수 있도록 브라우저의 기본 스크롤 복원 동작을 비활성화합니다.
     if ("scrollRestoration" in window.history) {
@@ -26,7 +27,6 @@ const ScrollToTop = () => {
       }
     };
   }, [pathname]);
-  */
 
   return null;
 };
