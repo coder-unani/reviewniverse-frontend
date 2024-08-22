@@ -30,7 +30,9 @@ export const VideoDetailProvider = ({ children }) => {
   }, [videoId2Int, navigate]);
 
   useEffect(() => {
-    if (!content) return;
+    if (!content) {
+      return;
+    }
     if (!content.status) {
       const path = content.code === "V002" ? "/404-not-found" : "/error";
       navigate(path);

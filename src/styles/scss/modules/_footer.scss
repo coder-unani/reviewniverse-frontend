@@ -9,7 +9,7 @@
   gap: 12px;
   width: 100%;
   max-width: 1440px;
-  padding: 20px 60px 40px;
+  padding: 20px 60px 60px;
   margin: 0 auto;
 }
 
@@ -73,12 +73,12 @@
 
 @media (max-width: 1024px) {
   .foote-wrapper {
-    padding: 20px 30px 40px;
+    padding: 20px 30px 60px;
   }
 }
 
 @media (max-width: 576px) {
   .footer-wrapper {
-    padding: 20px 15px 40px;
+    padding: 20px 15px 60px;
   }
 }

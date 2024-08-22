@@ -20,6 +20,14 @@
     margin-bottom: 2px;
   }
 
+  h4 {
+    font-size: 14px;
+    font-weight: 800;
+    color: $color-white-01;
+    line-height: 1.5;
+    margin-bottom: 10px;
+  }
+
   h2,
   h5,
   p,
@@ -28,6 +36,36 @@
     color: $color-white-04;
     // line-height: 20px;
     line-height: 1.5;
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    border-spacing: 0px;
+    margin: 10px 0 20px 0;
+  }
+
+  th {
+    background-color: $color-white-08;
+    padding: 14px;
+  }
+
+  tr {
+    td {
+      &:first-child {
+        border-left: none;
+      }
+      &:last-child {
+        border-right: none;
+      }
+    }
+  }
+
+  td {
+    word-break: keep-all;
+    white-space: pre-wrap;
+    border: 1px solid $border-color-01;
+    padding: 14px;
   }
 }
 
@@ -42,6 +80,7 @@
   max-height: 90%;
   background-color: $color-background;
   border-radius: 16px;
+  overflow: hidden;
 }
 
 .terms-main-wrapper {
@@ -50,8 +89,6 @@
   width: 100%;
   height: 100%;
   background-color: rgba($color-white-09, 0.3);
-  border-radius: 16px;
-  padding-bottom: 20px;
 }
 
 .terms-header-section {
@@ -61,7 +98,7 @@
 }
 
 .terms-content-section {
-  padding: 0 8px 0 20px;
+  padding: 0 20px;
   overflow-y: auto;
 
   &::-webkit-scrollbar {
@@ -72,9 +109,7 @@
 
   &::-webkit-scrollbar-track {
     background-color: $color-white-09;
-    border-radius: 8px;
-    // background-clip: padding-box;
-    // border: 3px solid transparent;
+    // border-radius: 8px;
   }
 
   &::-webkit-scrollbar-thumb {
@@ -87,11 +122,11 @@
 
 .terms-version-wrapper {
   display: flex;
-  justify-content: flex-end;
+  align-items: baseline;
   padding: 10px 0;
 }
 
-.terms-version {
+.terms-version-select {
   font-size: 14px;
   color: $color-white-04;
   line-height: 20px;
@@ -99,8 +134,9 @@
   background-color: $color-background;
   border: 1px solid $border-color-03;
   border-radius: 8px;
-  padding: 5px 24px 5px 10px;
   outline: none;
+  padding: 5px 24px 5px 10px;
+  margin: 0 0 0 auto;
 }
 
 .terms-content-wrapper {
@@ -108,6 +144,21 @@
 
   li + li {
     margin-top: 10px;
+  }
+}
+
+.terms-table-wrapper {
+  margin-top: 20px;
+}
+
+.terms-privacy-more-wrapper {
+  li {
+    list-style: disc;
+    margin-left: 20px;
+  }
+
+  li + li {
+    margin-top: unset;
   }
 }
 

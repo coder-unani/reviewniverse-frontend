@@ -1,6 +1,6 @@
 import React, { useRef } from "react";
 import Modal from "/src/components/Modal";
-import CloseIcon from "/src/assets/button/close.svg?react";
+import CloseButton from "/src/components/Button/Close";
 
 const TermsModal = React.memo(({ onClose }) => {
   const modalRef = useRef();
@@ -10,10 +10,6 @@ const TermsModal = React.memo(({ onClose }) => {
     if (e.target === modalRef.current) onClose();
   };
 
-  const handleCloseButton = () => {
-    onClose();
-  };
-
   return (
     <Modal>
       <div className="terms-modal" ref={modalRef} onClick={handleModalClose}>
@@ -21,13 +17,11 @@ const TermsModal = React.memo(({ onClose }) => {
           <section className="terms-main-wrapper">
             <section className="terms-header-section">
               <h1>이용약관</h1>
-              <button className="modal-close-button">
-                <CloseIcon onClick={handleCloseButton} />
-              </button>
+              <CloseButton onClose={onClose} />
             </section>
             <section className="terms-content-section">
               <div className="terms-version-wrapper">
-                <select className="terms-version" name="이전 버전 보기">
+                <select className="terms-version-select" name="이전 버전 보기">
                   {/* option 기본값 */}
                   <option value="2024-08-22">2024-08-22</option>
                   <option value="2024-05-24">2024-05-24</option>

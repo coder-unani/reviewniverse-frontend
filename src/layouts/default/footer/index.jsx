@@ -4,19 +4,15 @@ import { DEFAULT_IMAGES } from "/src/config/constants";
 
 const Footer = () => {
   const year = new Date().getFullYear();
-  const { toggleTermsModal } = useModalContext();
-
-  const handleTermsClick = () => {
-    toggleTermsModal();
-  };
+  const { toggleTermsModal, togglePrivacyModal } = useModalContext();
 
   return (
     <footer className="footer-container">
       <section className="footer-wrapper">
         <div className="footer-item-container">
           <ul className="footer-service-wrapper">
-            <li onClick={handleTermsClick}>리뷰니버스 이용약관</li>
-            <li>개인정보 처리방침</li>
+            <li onClick={toggleTermsModal}>리뷰니버스 이용약관</li>
+            <li onClick={togglePrivacyModal}>개인정보 처리방침</li>
           </ul>
         </div>
         <div className="footer-item-container">

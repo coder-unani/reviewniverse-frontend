@@ -1,6 +1,7 @@
 import React, { Suspense, useEffect } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
+import { Swiper, SwiperSlide } from "swiper/react";
 import SkeletonVideoDetail from "/src/components/Skeleton/VideoDetail";
 import VideoLikeButton from "/src/components/Button/VideoLike";
 import CollectionButton from "/src/components/Button/Collection";
@@ -8,7 +9,6 @@ import ReviewButton from "/src/components/Button/Review";
 import ReviewModal from "/src/components/Modal/Review";
 import { useModalContext } from "/src/context/ModalContext";
 import { useVideoDetailContext } from "/src/context/VideoDetailContext";
-import { Swiper, SwiperSlide } from "swiper/react";
 import { SETTINGS } from "/src/config/settings";
 import { fYear, fUpperCase } from "/src/utils/format";
 import {
@@ -42,7 +42,7 @@ const ReviewSection = React.lazy(() => import("/src/components/VideoSectionRevie
 
 const VideoDetail = () => {
   const navigate = useNavigate();
-  const { reviewModal, toggleReviewModal } = useModalContext();
+  const { isReviewModal } = useModalContext();
   const { videoId, content, contentIsLoading, contentError, myInfo, myInfoIsLoading, myInfoError } =
     useVideoDetailContext();
 
@@ -83,6 +83,8 @@ const VideoDetail = () => {
   if (contentError || myInfoError) {
     return navigate("/error");
   }
+
+  if (!content.data) return;
 
   const title = `${content.data.title} (${fYear(content.data.release)}) - 리뷰니버스`;
   const description = content.data.synopsis;
@@ -244,7 +246,7 @@ const VideoDetail = () => {
         </main>
       </Suspense>
 
-      {reviewModal && <ReviewModal content={content.data} myReview={myInfo.review} onClose={toggleReviewModal} />}
+      {isReviewModal && <ReviewModal content={content.data} myReview={myInfo.review} />}
     </>
   );
 };

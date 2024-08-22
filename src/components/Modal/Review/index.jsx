@@ -1,6 +1,8 @@
 import React, { useEffect, useRef, useState } from "react";
 import Modal from "/src/components/Modal";
+import CloseButton from "/src/components/Button/Close";
 import { useAuthContext } from "/src/context/AuthContext";
+import { useModalContext } from "/src/context/ModalContext";
 import { useReviewCreate } from "/src/hooks/useReviewCreate";
 import { useReviewUpdate } from "/src/hooks/useReviewUpdate";
 import { showSuccessToast } from "/src/components/Toast";
@@ -9,26 +11,22 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm, Controller, useWatch } from "react-hook-form";
 import { Tooltip } from "react-tooltip";
 import { isEmpty } from "lodash";
-import CloseIcon from "/src/assets/button/close.svg?react";
 import SpoilerActivateIcon from "/src/assets/button/spoiler-activate.svg?react";
 import SpoilerDeactivateIcon from "/src/assets/button/spoiler-deactivate.svg?react";
 import PrivateActivateIcon from "/src/assets/button/private-activate.svg?react";
 import PrivateDeactivateIcon from "/src/assets/button/private-deactivate.svg?react";
 
-const ReviewModal = React.memo(({ content, myReview, onClose }) => {
+const ReviewModal = React.memo(({ content, myReview }) => {
   const modalRef = useRef();
   const { user } = useAuthContext();
+  const { toggleReviewModal } = useModalContext();
   const { mutate: reviewCreate, isPending: isCreatePending } = useReviewCreate();
   const { mutate: reviewUpdate, isPending: isUpdatePending } = useReviewUpdate();
   const [isSpoiler, setIsSpoiler] = useState(false);
   const [isPrivate, setIsPrivate] = useState(false);
 
   const handleModalClose = (e) => {
-    if (e.target === modalRef.current) onClose();
-  };
-
-  const handleCloseButton = () => {
-    onClose();
+    if (e.target === modalRef.current) toggleReviewModal();
   };
 
   const handlePaste = (e) => {
@@ -86,7 +84,7 @@ const ReviewModal = React.memo(({ content, myReview, onClose }) => {
           onSuccess: (res) => {
             if (res.status === 201) {
               showSuccessToast("리뷰가 등록되었습니다.");
-              onClose();
+              toggleReviewModal();
             }
           },
         }
@@ -94,7 +92,7 @@ const ReviewModal = React.memo(({ content, myReview, onClose }) => {
     } else {
       if (myReview.title === data.title && myReview.is_spoiler === isSpoiler && myReview.is_private === isPrivate) {
         showSuccessToast("리뷰가 수정되었습니다.");
-        onClose();
+        toggleReviewModal();
         return;
       }
       await reviewUpdate(
@@ -110,7 +108,7 @@ const ReviewModal = React.memo(({ content, myReview, onClose }) => {
           onSuccess: (res) => {
             if (res.status === 204) {
               showSuccessToast("리뷰가 수정되었습니다.");
-              onClose();
+              toggleReviewModal();
             }
           },
         }
@@ -138,9 +136,7 @@ const ReviewModal = React.memo(({ content, myReview, onClose }) => {
         <main className="review-modal-container">
           <section className="review-modal-wrapper">
             <h2 className="review-modal-title">{content.title}</h2>
-            <button className="modal-close-button">
-              <CloseIcon onClick={handleCloseButton} />
-            </button>
+            <CloseButton onClose={toggleReviewModal} />
             <form method={methods} onSubmit={onSubmit} className="review-modal-content-wrapper">
               <Controller
                 name="title"

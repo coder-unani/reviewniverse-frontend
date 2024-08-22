@@ -3,62 +3,74 @@ import { useLocation } from "react-router-dom";
 import EnjoyModal from "/src/components/Modal/Enjoy";
 import ConfirmModal from "/src/components/Modal/Confirm";
 import TermsModal from "/src/components/Modal/Terms";
+import PrivacyModal from "/src/components/Modal/Privacy";
 
 const ModalContext = createContext();
 
 const ModalContextProvider = ({ children }) => {
   const location = useLocation();
-  const [enjoyModal, setEnjoyModal] = useState(false);
-  const [confirmModal, setConfirmModal] = useState(false);
-  const [reviewModal, setReviewModal] = useState(false);
-  const [termsModal, setTermsModal] = useState(false);
+  const [isEnjoyModal, setIsEnjoyModal] = useState(false);
+  const [isConfirmModal, setIsConfirmModal] = useState(false);
+  const [isReviewModal, setIsReviewModal] = useState(false);
+  const [isTermsModal, setIsTermsModal] = useState(false);
+  const [isPrivacyModal, setIsPrivacyModal] = useState(false);
 
   useEffect(() => {
-    if (enjoyModal) setEnjoyModal(false);
-    if (reviewModal) setReviewModal(false);
-    if (confirmModal) setConfirmModal(false);
+    if (isEnjoyModal) setIsEnjoyModal(false);
+    if (isConfirmModal) setIsConfirmModal(false);
+    if (isReviewModal) setIsReviewModal(false);
+    if (isTermsModal) setIsTermsModal(false);
+    if (isPrivacyModal) setIsPrivacyModal(false);
   }, [location]);
 
   // 로그인 모달창 토글
   const toggleEnjoyModal = () => {
-    setEnjoyModal(!enjoyModal);
+    setIsEnjoyModal(!isEnjoyModal);
   };
 
   // 리뷰 모달창 토글
   const toggleReviewModal = () => {
-    setReviewModal(!reviewModal);
+    setIsReviewModal(!isReviewModal);
   };
 
   // 확인 모달창 토글
   const toggleConfirmModal = () => {
-    setConfirmModal(!confirmModal);
+    setIsConfirmModal(!isConfirmModal);
   };
 
   // 약관 모달창 토글
   const toggleTermsModal = () => {
-    setTermsModal(!termsModal);
+    setIsTermsModal(!isTermsModal);
+  };
+
+  // 개인정보 처리방침 모달창 토글
+  const togglePrivacyModal = () => {
+    setIsPrivacyModal(!isPrivacyModal);
   };
 
   const values = useMemo(
     () => ({
-      enjoyModal,
-      confirmModal,
-      reviewModal,
-      termsModal,
+      isEnjoyModal,
+      isConfirmModal,
+      isReviewModal,
+      isTermsModal,
+      isPrivacyModal,
       toggleEnjoyModal,
       toggleConfirmModal,
       toggleReviewModal,
       toggleTermsModal,
+      togglePrivacyModal,
     }),
-    [enjoyModal, reviewModal, confirmModal]
+    [isEnjoyModal, isConfirmModal, isReviewModal, isTermsModal, isPrivacyModal]
   );
 
   return (
     <ModalContext.Provider value={values}>
       {children}
-      {enjoyModal && <EnjoyModal onClose={toggleEnjoyModal} />}
-      {confirmModal && <ConfirmModal onClose={toggleConfirmModal} />}
-      {termsModal && <TermsModal onClose={toggleTermsModal} />}
+      {isEnjoyModal && <EnjoyModal onClose={toggleEnjoyModal} />}
+      {isConfirmModal && <ConfirmModal onClose={toggleConfirmModal} />}
+      {isTermsModal && <TermsModal onClose={toggleTermsModal} />}
+      {isPrivacyModal && <PrivacyModal onClose={togglePrivacyModal} />}
     </ModalContext.Provider>
   );
 };
