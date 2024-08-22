@@ -101,6 +101,20 @@ em {
   height: 100%;
 }
 
+.home-button {
+  display: inline-block;
+  font-size: 14px;
+  font-weight: 600;
+  color: $color-white-01;
+  line-height: 34px;
+  text-align: center;
+  border-radius: 8px;
+  background-color: $color-white-08;
+  padding: 0 15px;
+  margin-top: 20px;
+  cursor: pointer;
+}
+
 .back-button {
   position: absolute;
   top: 0;

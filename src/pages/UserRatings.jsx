@@ -70,17 +70,17 @@ const UserRatings = () => {
   }
 
   if (isEmpty(videos)) {
-    return;
+    return <main className="ratings-main-container"></main>;
   }
 
   return (
     <main className="ratings-main-container">
-      <section className="ratings-content-section">
-        <strong className="ratings-content-title">
+      <section className="ratings-title-section">
+        <strong className="ratings-title">
           <em>{videos.user.nickname}</em> 님이 평가한 작품이 {videos.total} 개 있어요
         </strong>
-        {!isEmpty(videos.data) && <VideosRating videos={videos} handlePage={handlePage} />}
       </section>
+      {!isEmpty(videos.data) && <VideosRating videos={videos} handlePage={handlePage} />}
     </main>
   );
 };

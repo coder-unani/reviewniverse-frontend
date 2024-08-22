@@ -70,7 +70,7 @@ const UserReviews = () => {
   }
 
   if (isEmpty(reviews)) {
-    return;
+    return <main className="reviews-main-container"></main>;
   }
 
   return (

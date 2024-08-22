@@ -1,11 +1,8 @@
 import React from "react";
+import HomeButton from "/src/components/Button/Home";
 import { DEFAULT_IMAGES } from "/src/config/constants";
 
 const NotFound = () => {
-  const handleGoHome = () => {
-    window.location.href = "/";
-  };
-
   return (
     <div className="notfound-main-container">
       <section className="notfound-content-section">
@@ -17,9 +14,7 @@ const NotFound = () => {
             <br />
             입력하신 주소가 정확한지 다시 한번 확인해주세요.
           </p>
-          <button type="button" className="notfound-home-button" onClick={handleGoHome}>
-            리뷰니버스 홈
-          </button>
+          <HomeButton />
         </div>
       </section>
     </div>

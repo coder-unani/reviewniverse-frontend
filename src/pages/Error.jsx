@@ -1,14 +1,10 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import HomeButton from "/src/components/Button/Home";
 import { DEFAULT_IMAGES } from "/src/config/constants";
 
 // TODO: 에러 코드별 메세지 표시
 
 const Error = () => {
-  const handleGoHome = () => {
-    window.location.href = "/";
-  };
-
   return (
     <div className="error-main-container">
       <section className="error-content-section">
@@ -20,9 +16,7 @@ const Error = () => {
             <br />
             잠시 후 다시 이용 부탁드립니다.
           </p>
-          <button type="button" className="error-home-button" onClick={handleGoHome}>
-            리뷰니버스 홈
-          </button>
+          <HomeButton />
         </div>
       </section>
     </div>

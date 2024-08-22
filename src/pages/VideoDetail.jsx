@@ -84,8 +84,6 @@ const VideoDetail = () => {
     return navigate("/error");
   }
 
-  if (!content.data) return;
-
   const title = `${content.data.title} (${fYear(content.data.release)}) - 리뷰니버스`;
   const description = content.data.synopsis;
   const imageUrl = fThumbnail(content.data.thumbnail);
