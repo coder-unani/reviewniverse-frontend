@@ -46,11 +46,16 @@
   }
 
   th {
-    background-color: $color-white-08;
+    background-color: $color-white-09;
     padding: 14px;
   }
 
   tr {
+    &:first-child {
+      td {
+        border-top: none;
+      }
+    }
     td {
       &:first-child {
         border-left: none;

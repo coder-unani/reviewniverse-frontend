@@ -168,6 +168,8 @@ const ReviewModal = React.memo(({ content, myReview }) => {
                     className="review-modal-spoiler-tooltip"
                     place="bottom"
                     effect="solid"
+                    globalEventOff="click"
+                    isCapture={true}
                   />
                   <button
                     type="button"
@@ -183,6 +185,8 @@ const ReviewModal = React.memo(({ content, myReview }) => {
                     className="review-modal-private-tooltip"
                     place="bottom"
                     effect="solid"
+                    globalEventOff="click"
+                    isCapture={true}
                   />
                 </div>
                 <div className="review-modal-button-wrapper">

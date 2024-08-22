@@ -2063,8 +2063,11 @@ em {
   margin: 10px 0 20px 0;
 }
 .terms-modal th {
-  background-color: #263d4b;
+  background-color: #12222b;
   padding: 14px;
+}
+.terms-modal tr:first-child td {
+  border-top: none;
 }
 .terms-modal tr td:first-child {
   border-left: none;
