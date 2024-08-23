@@ -5,31 +5,30 @@ import CloseButton from "/src/components/Button/Close";
 const TermsModal = React.memo(({ onClose }) => {
   const modalRef = useRef();
 
-  // 이미지 바깥 영역 클릭시 모달 닫기
   const handleModalClose = (e) => {
     if (e.target === modalRef.current) onClose();
   };
 
   return (
     <Modal>
-      <div className="terms-modal" ref={modalRef} onClick={handleModalClose}>
-        <main className="terms-main-container">
-          <section className="terms-main-wrapper">
-            <section className="terms-header-section">
-              <h1>이용약관</h1>
+      <div className="policy-modal" ref={modalRef} onClick={handleModalClose}>
+        <main className="policy-main-container">
+          <section className="policy-main-wrapper">
+            <section className="policy-header-section">
+              <h1 className="policy-header-title">이용약관</h1>
               <CloseButton onClose={onClose} />
             </section>
-            <section className="terms-content-section">
-              <div className="terms-version-wrapper">
-                <select className="terms-version-select" name="이전 버전 보기">
+            <section className="policy-content-section">
+              <div className="policy-version-wrapper">
+                <select className="policy-version-select" name="이전 버전 보기">
                   {/* option 기본값 */}
                   <option value="2024-08-22">2024-08-22</option>
                   <option value="2024-05-24">2024-05-24</option>
                 </select>
               </div>
-              <div className="terms-content-wrapper">
-                <h2>제1장 총칭</h2>
-                <h5>제1조 (목적)</h5>
+              <div className="policy-content-wrapper">
+                <h2 className="policy-content-subtitle">제1장 총칭</h2>
+                <h5 className="policy-content-subtitle">제1조 (목적)</h5>
                 <p>
                   이 약관은 리뷰니버스(이하 "사이트")에서 제공하는 제반 서비스(이하 "서비스")에 접속과 사용자에 의해서
                   업로드 및 다운로드 되어 표시되는 모든 정보, 텍스트, 이미지 및 기타 자료를 이용하는 이용자(이하
@@ -37,9 +36,9 @@ const TermsModal = React.memo(({ onClose }) => {
                   합니다.
                 </p>
               </div>
-              <div className="terms-content-wrapper">
-                <h5>제2조 [약관의 게시와 효력, 개정]</h5>
-                <ol>
+              <div className="policy-content-wrapper">
+                <h5 className="policy-content-subtitle">제2조 [약관의 게시와 효력, 개정]</h5>
+                <ol className="policy-content-list">
                   <li>① 사이트는 서비스의 가입 과정에 본 약관을 게시합니다.</li>
                   <li>② 사이트는 관련법에 위배되지 않는 범위에서 본 약관을 변경할 수 있습니다.</li>
                   <li>
@@ -51,9 +50,9 @@ const TermsModal = React.memo(({ onClose }) => {
                   </li>
                 </ol>
               </div>
-              <div className="terms-content-wrapper">
-                <h5>제3조 [약관의 해석과 예외 준칙]</h5>
-                <ol>
+              <div className="policy-content-wrapper">
+                <h5 className="policy-content-subtitle">제3조 [약관의 해석과 예외 준칙]</h5>
+                <ol className="policy-content-list">
                   <li>
                     ① 회사는 제공하는 개별 서비스에 대해서 별도의 이용약관 및 정책을 둘 수 있으며, 해당 내용이 이 약관과
                     상충할 경우 개별 서비스의 이용약관을 우선하여 적용합니다.
@@ -61,9 +60,9 @@ const TermsModal = React.memo(({ onClose }) => {
                   <li>② 본 약관에 명시되지 않은 사항이 관계법령에 규정되어 있을 경우에는 그 규정에 따릅니다.</li>
                 </ol>
               </div>
-              <div className="terms-content-wrapper">
-                <h5>제4조 [용어의 정의]</h5>
-                <ol>
+              <div className="policy-content-wrapper">
+                <h5 className="policy-content-subtitle">제4조 [용어의 정의]</h5>
+                <ol className="policy-content-list">
                   <li>
                     ① 서비스: 개인용 컴퓨터(PC), TV, 휴대형 단말기, 전기통신설비 등 포함 각종 유무선 장치와 같이
                     구현되는 단말기와 상관없이 회원이 이용할 수 있는 리뷰니버스 및 리뷰니버스 관련 제반 서비스를
@@ -93,9 +92,9 @@ const TermsModal = React.memo(({ onClose }) => {
                   <li>⑦ 유료서비스: 회사가 유료로 제공하는 각종 온라인 디지털콘텐츠 및 제반 서비스를 의미합니다.</li>
                 </ol>
               </div>
-              <div className="terms-content-wrapper">
-                <h5>제5조 [이용계약의 체결]</h5>
-                <ol>
+              <div className="policy-content-wrapper">
+                <h5 className="policy-content-subtitle">제5조 [이용계약의 체결]</h5>
+                <ol className="policy-content-list">
                   <li>
                     ① 이용계약은 회원이 리뷰니버스 서비스 및 제반 서비스에서 제공하는 회원 가입 페이지에서 서비스
                     이용약관에 동의한 후 이용신청을 하고 신청한 내용에 대해서 회사가 승낙함으로써 체결됩니다.
@@ -136,9 +135,9 @@ const TermsModal = React.memo(({ onClose }) => {
                   </li>
                 </ol>
               </div>
-              <div className="terms-content-wrapper">
-                <h5>제6조 [개인정보보호 의무]</h5>
-                <ol>
+              <div className="policy-content-wrapper">
+                <h5 className="policy-content-subtitle">제6조 [개인정보보호 의무]</h5>
+                <ol className="policy-content-list">
                   <li>
                     ① 회사는 정보통신망법 등 관계 법령이 정하는 바에 따라 회원의 개인정보를 보호하기 위해 노력합니다.
                     개인정보의 보호 및 사용에 대해서는 관련법 및 회사의 개인정보처리방침이 적용됩니다. 다만, 회사의 공식
@@ -165,9 +164,9 @@ const TermsModal = React.memo(({ onClose }) => {
                   </li>
                 </ol>
               </div>
-              <div className="terms-content-wrapper">
-                <h5>제7조 [회원의 아이디 및 비밀번호]</h5>
-                <ol>
+              <div className="policy-content-wrapper">
+                <h5 className="policy-content-subtitle">제7조 [회원의 아이디 및 비밀번호]</h5>
+                <ol className="policy-content-list">
                   <li>① 회원은 아이디와 비밀번호에 관해서 관리책임이 있습니다.</li>
                   <li>
                     ② 회원은 아이디 및 비밀번호를 본인과 본인의 가족 구성원을 제외한 제3자가 이용하도록 제공하여서는
@@ -183,9 +182,9 @@ const TermsModal = React.memo(({ onClose }) => {
                   </li>
                 </ol>
               </div>
-              <div className="terms-content-wrapper">
-                <h5>제8조 [회사의 의무]</h5>
-                <ol>
+              <div className="policy-content-wrapper">
+                <h5 className="policy-content-subtitle">제8조 [회사의 의무]</h5>
+                <ol className="policy-content-list">
                   <li>① 회사는 계속적이고 안정적인 서비스의 제공을 위하여 최선을 다하여 노력합니다.</li>
                   <li>
                     ② 회사는 회원이 안전하게 서비스를 이용할 수 있도록 현재 인터넷 보안기술의 발전수준 및 회사가
@@ -201,9 +200,9 @@ const TermsModal = React.memo(({ onClose }) => {
                   </li>
                 </ol>
               </div>
-              <div className="terms-content-wrapper">
-                <h5>제9조 [회원의 의무]</h5>
-                <ol>
+              <div className="policy-content-wrapper">
+                <h5 className="policy-content-subtitle">제9조 [회원의 의무]</h5>
+                <ol className="policy-content-list">
                   <li>
                     ① 회원은 관계법, 이 약관의 규정, 이용안내 및 서비스와 관련하여 공지한 주의사항, 회사가 통지하는 사항
                     등을 준수하여야 하며, 기타 회사의 업무에 방해되는 행위를 하여서는 안 됩니다.
@@ -238,9 +237,9 @@ const TermsModal = React.memo(({ onClose }) => {
                   </li>
                 </ol>
               </div>
-              <div className="terms-content-wrapper">
-                <h5>제10조 [서비스의 제공 및 변경]</h5>
-                <ol>
+              <div className="policy-content-wrapper">
+                <h5 className="policy-content-subtitle">제10조 [서비스의 제공 및 변경]</h5>
+                <ol className="policy-content-list">
                   <li>
                     ① 회사는 회원에게 아래와 같은 서비스를 제공합니다.
                     <p>
@@ -269,9 +268,9 @@ const TermsModal = React.memo(({ onClose }) => {
                   </li>
                 </ol>
               </div>
-              <div className="terms-content-wrapper">
-                <h5>제11조 [광고의 게재]</h5>
-                <ol>
+              <div className="policy-content-wrapper">
+                <h5 className="policy-content-subtitle">제11조 [광고의 게재]</h5>
+                <ol className="policy-content-list">
                   <li>
                     ① 회사는 서비스 운영과 관련하여 회원정보, 회원이 입력한 정보를 활용하여 광고를 게재할 수 있습니다.
                     회원은 서비스 이용 시 노출되는 맞춤 광고 게재에 대해 동의합니다.
@@ -282,9 +281,9 @@ const TermsModal = React.memo(({ onClose }) => {
                   </li>
                 </ol>
               </div>
-              <div className="terms-content-wrapper">
-                <h5>제12조 [전자우편을 통한 정보의 제공]</h5>
-                <ol>
+              <div className="policy-content-wrapper">
+                <h5 className="policy-content-subtitle">제12조 [전자우편을 통한 정보의 제공]</h5>
+                <ol className="policy-content-list">
                   <li>
                     ① 회사는 회원이 서비스 이용에 필요하다고 인정되는 다양한 정보를 회원이 제공한 전자우편 주소로 제공할
                     수 있습니다.
@@ -302,9 +301,9 @@ const TermsModal = React.memo(({ onClose }) => {
                   </li>
                 </ol>
               </div>
-              <div className="terms-content-wrapper">
-                <h5>제13조 [서비스 이용의 제한]</h5>
-                <ol>
+              <div className="policy-content-wrapper">
+                <h5 className="policy-content-subtitle">제13조 [서비스 이용의 제한]</h5>
+                <ol className="policy-content-list">
                   <li>
                     ① 회사는 천재지변이나 국가비상사태, 해결이 곤란한 기술적 결함 또는 서비스 운영의 심각한 변화 등
                     불가항력적인 경우가 발생 또는 발생이 예상될 때는 서비스의 전부 또는 일부를 예고 없이 제한하거나
@@ -327,9 +326,9 @@ const TermsModal = React.memo(({ onClose }) => {
                   </li>
                 </ol>
               </div>
-              <div className="terms-content-wrapper">
-                <h5>제14조 [게시물의 권리와 책임]</h5>
-                <ol>
+              <div className="policy-content-wrapper">
+                <h5 className="policy-content-subtitle">제14조 [게시물의 권리와 책임]</h5>
+                <ol className="policy-content-list">
                   <li>
                     ① 회원이 서비스 내에 작성한 게시물에 대한 책임 및 권리는 게시물을 등록한 회원에게 있습니다. 여기서
                     게시물이란 회원이 자신 또는 타인이 보게 할 목적으로 게재한 음성, 음향, 글, 문자, 부호, 사진, 동영상,
@@ -374,9 +373,9 @@ const TermsModal = React.memo(({ onClose }) => {
                   </li>
                 </ol>
               </div>
-              <div className="terms-content-wrapper">
-                <h5>제15조 [게시물의 관리]</h5>
-                <ol>
+              <div className="policy-content-wrapper">
+                <h5 className="policy-content-subtitle">제15조 [게시물의 관리]</h5>
+                <ol className="policy-content-list">
                   <li>
                     ① 회원의 게시물이 정보통신망법 및 저작권법 등 관련법에 위반되는 내용을 포함하는 경우, 권리자는
                     관련법이 정한 절차에 따라 해당 게시물의 게시중단 및 삭제 등을 요청할 수 있으며, 회사는 관련법에 따라
@@ -394,9 +393,9 @@ const TermsModal = React.memo(({ onClose }) => {
                   </li>
                 </ol>
               </div>
-              <div className="terms-content-wrapper">
-                <h5>제16조 [서비스 이용의 중지 및 해지]</h5>
-                <ol>
+              <div className="policy-content-wrapper">
+                <h5 className="policy-content-subtitle">제16조 [서비스 이용의 중지 및 해지]</h5>
+                <ol className="policy-content-list">
                   <li>
                     ① 회원은 회사에 언제든지 회원 탈퇴를 요청할 수 있으며, 회사는 이와 같은 요청을 받았을 경우, 회사가
                     별도로 고지한 방법에 따라 신속하게 처리합니다.
@@ -426,9 +425,9 @@ const TermsModal = React.memo(({ onClose }) => {
                   </li>
                 </ol>
               </div>
-              <div className="terms-content-wrapper">
-                <h5>제17조 [책임제한]</h5>
-                <ol>
+              <div className="policy-content-wrapper">
+                <h5 className="policy-content-subtitle">제17조 [책임제한]</h5>
+                <ol className="policy-content-list">
                   <li>
                     ① 회사는 회원의 약관, 서비스 이용 방법 및 이용 기준을 준수하지 않는 등 회원의 귀책사유로 인한 서비스
                     이용의 장애에 대하여는 책임을 지지 않습니다.
@@ -478,9 +477,9 @@ const TermsModal = React.memo(({ onClose }) => {
                   </li>
                 </ol>
               </div>
-              <div className="terms-content-wrapper">
-                <h5>제18조 [준거법 및 재판관할]</h5>
-                <ol>
+              <div className="policy-content-wrapper">
+                <h5 className="policy-content-subtitle">제18조 [준거법 및 재판관할]</h5>
+                <ol className="policy-content-list">
                   <li>① 회사와 회원 간 제기된 소송에는 대한민국법을 준거법으로 합니다.</li>
                   <li>② 회사와 회원간 발생한 분쟁에 관한 소송은 민사소송법 상의 관할법원에 제소합니다.</li>
                 </ol>

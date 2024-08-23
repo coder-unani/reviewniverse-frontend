@@ -2039,7 +2039,7 @@ em {
     padding: 20px 15px;
   }
 }
-.terms-modal {
+.policy-modal {
   position: fixed;
   top: 0;
   left: 50%;
@@ -2049,58 +2049,14 @@ em {
   background-color: rgba(0, 0, 0, 0.56);
   z-index: 999;
 }
-.terms-modal h1 {
+
+.policy-header-title {
   font-size: 16px;
   font-weight: 800;
   color: #eef7fc;
 }
-.terms-modal h2,
-.terms-modal h5 {
-  font-weight: 800;
-  margin-bottom: 2px;
-}
-.terms-modal h4 {
-  font-size: 14px;
-  font-weight: 800;
-  color: #eef7fc;
-  line-height: 1.5;
-  margin-bottom: 10px;
-}
-.terms-modal h2,
-.terms-modal h5,
-.terms-modal p,
-.terms-modal li {
-  font-size: 14px;
-  color: #93a8b4;
-  line-height: 1.5;
-}
-.terms-modal table {
-  width: 100%;
-  border-collapse: collapse;
-  border-spacing: 0px;
-  margin: 10px 0 20px 0;
-}
-.terms-modal th {
-  background-color: #12222b;
-  padding: 14px;
-}
-.terms-modal tr:first-child td {
-  border-top: none;
-}
-.terms-modal tr td:first-child {
-  border-left: none;
-}
-.terms-modal tr td:last-child {
-  border-right: none;
-}
-.terms-modal td {
-  word-break: keep-all;
-  white-space: pre-wrap;
-  border: 1px solid rgba(213, 221, 226, 0.1);
-  padding: 14px;
-}
 
-.terms-main-container {
+.policy-main-container {
   position: absolute;
   top: 50%;
   left: 50%;
@@ -2114,7 +2070,7 @@ em {
   overflow: hidden;
 }
 
-.terms-main-wrapper {
+.policy-main-wrapper {
   display: flex;
   flex-direction: column;
   width: 100%;
@@ -2122,38 +2078,45 @@ em {
   background-color: rgba(18, 34, 43, 0.3);
 }
 
-.terms-header-section {
+.policy-header-section {
   flex: none;
   border-bottom: 1px solid rgba(213, 221, 226, 0.1);
   padding: 20px;
 }
 
-.terms-content-section {
+.policy-content-section {
   padding: 0 20px;
   overflow-y: auto;
 }
-.terms-content-section::-webkit-scrollbar {
+.policy-content-section::-webkit-scrollbar {
   display: block !important;
   width: 12px;
   height: 100%;
 }
-.terms-content-section::-webkit-scrollbar-track {
+.policy-content-section::-webkit-scrollbar-track {
   background-color: #12222b;
 }
-.terms-content-section::-webkit-scrollbar-thumb {
+.policy-content-section::-webkit-scrollbar-thumb {
   background-color: #263d4b;
   background-clip: padding-box;
   border: 3px solid transparent;
   border-radius: 8px;
 }
+.policy-content-section p,
+.policy-content-section li {
+  font-size: 14px;
+  color: #93a8b4;
+  letter-spacing: -0.2px;
+  line-height: 1.5;
+}
 
-.terms-version-wrapper {
+.policy-version-wrapper {
   display: flex;
   align-items: baseline;
   padding: 10px 0;
 }
 
-.terms-version-select {
+.policy-version-select {
   font-size: 14px;
   color: #93a8b4;
   line-height: 20px;
@@ -2166,33 +2129,73 @@ em {
   margin: 0 0 0 auto;
 }
 
-.terms-content-wrapper {
+.policy-content-wrapper {
   margin-bottom: 20px;
 }
-.terms-content-wrapper li + li {
+
+.policy-content-title {
+  font-size: 14px;
+  font-weight: 800;
+  color: #eef7fc;
+  line-height: 1.5;
+  margin-bottom: 10px;
+}
+
+.policy-content-subtitle {
+  font-size: 14px;
+  font-weight: 800;
+  color: #93a8b4;
+  line-height: 1.5;
+  margin-bottom: 2px;
+}
+
+.policy-content-list li + li {
   margin-top: 10px;
 }
 
-.terms-table-wrapper {
-  margin-top: 20px;
+.policy-table {
+  width: 100%;
+  font-size: 14px;
+  color: #93a8b4;
+  line-height: 1.5;
+  border-collapse: collapse;
+  border-spacing: 0px;
+  margin: 10px 0 20px 0;
+}
+.policy-table th {
+  text-align: left;
+  background-color: #12222b;
+  padding: 14px;
+}
+.policy-table tr:first-child td {
+  border-top: none;
+}
+.policy-table tr td:first-child {
+  border-left: none;
+}
+.policy-table tr td:last-child {
+  border-right: none;
+}
+.policy-table td {
+  word-break: keep-all;
+  white-space: pre-wrap;
+  border: 1px solid rgba(213, 221, 226, 0.1);
+  padding: 14px;
 }
 
-.terms-privacy-more-wrapper li {
+.policy-privacy-more-list li {
   list-style: disc;
   margin-left: 20px;
 }
-.terms-privacy-more-wrapper li + li {
-  margin-top: unset;
-}
 
 @media (max-width: 768px) {
-  .terms-main-container {
+  .policy-main-container {
     width: 100%;
     height: 100%;
     max-height: unset;
     border-radius: unset;
   }
-  .terms-main-wrapper {
+  .policy-main-wrapper {
     border-radius: unset;
   }
 }
