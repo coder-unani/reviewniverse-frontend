@@ -224,7 +224,7 @@
 
   &.country {
     .detail-sub-content-wrapper {
-      gap: 6px;
+      gap: 24px;
     }
 
     &[data-index]:not([data-index="0"], [data-index="1"]) {
@@ -1025,9 +1025,13 @@
     }
 
     &.country {
+      .detail-sub-content-wrapper {
+        gap: 16px;
+      }
+
       &[data-index]:not([data-index="0"], [data-index="1"]) {
         .detail-sub-content {
-          font-size: 24px;
+          font-size: 17px;
         }
       }
     }
@@ -1039,7 +1043,7 @@
 
       &[data-index]:not([data-index="0"]) {
         .detail-sub-content {
-          font-size: 16px;
+          font-size: 17px;
         }
       }
 
@@ -1163,9 +1167,13 @@
     }
 
     &.country {
+      .detail-sub-content-wrapper {
+        gap: 10px;
+      }
+
       &[data-index]:not([data-index="0"], [data-index="1"]) {
         .detail-sub-content {
-          font-size: 18px;
+          font-size: 14px;
         }
       }
     }

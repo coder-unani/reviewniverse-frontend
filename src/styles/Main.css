@@ -804,6 +804,10 @@ em {
   font-weight: 600;
   color: #93a8b4;
   letter-spacing: -0.2px;
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  overflow: hidden;
+  -webkit-box-orient: vertical;
 }
 .default-subtitle > span + span {
   margin-left: 8px;
@@ -997,6 +1001,10 @@ em {
   font-weight: 600;
   color: #93a8b4;
   letter-spacing: -0.2px;
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  overflow: hidden;
+  -webkit-box-orient: vertical;
 }
 .rank-subtitle > span + span {
   margin-left: 8px;
@@ -2932,7 +2940,7 @@ em {
   color: #93a8b4;
 }
 .detail-sub-info-item.country .detail-sub-content-wrapper {
-  gap: 6px;
+  gap: 24px;
 }
 .detail-sub-info-item.country[data-index]:not([data-index="0"], [data-index="1"]) .detail-sub-content {
   font-size: 20px;
@@ -3608,14 +3616,17 @@ em {
   .detail-sub-info-item.release .detail-sub-content.date {
     font-size: 13px;
   }
+  .detail-sub-info-item.country .detail-sub-content-wrapper {
+    gap: 16px;
+  }
   .detail-sub-info-item.country[data-index]:not([data-index="0"], [data-index="1"]) .detail-sub-content {
-    font-size: 24px;
+    font-size: 17px;
   }
   .detail-sub-info-item.production .detail-sub-content-wrapper {
     gap: 16px;
   }
   .detail-sub-info-item.production[data-index]:not([data-index="0"]) .detail-sub-content {
-    font-size: 16px;
+    font-size: 17px;
   }
   .detail-sub-info-item.production[data-index="1"] .detail-sub-content {
     font-size: 24px !important;
@@ -3701,8 +3712,11 @@ em {
   .detail-sub-info-item.release .detail-sub-content.date {
     font-size: 12px;
   }
+  .detail-sub-info-item.country .detail-sub-content-wrapper {
+    gap: 10px;
+  }
   .detail-sub-info-item.country[data-index]:not([data-index="0"], [data-index="1"]) .detail-sub-content {
-    font-size: 18px;
+    font-size: 14px;
   }
   .detail-sub-info-item.production .detail-sub-content-wrapper {
     gap: 10px;

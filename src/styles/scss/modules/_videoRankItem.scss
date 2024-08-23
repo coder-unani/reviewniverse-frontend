@@ -113,6 +113,12 @@
   color: $color-white-04;
   letter-spacing: -0.2px;
 
+  // 1줄 이상일 경우 생략 부분 처리
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  overflow: hidden;
+  -webkit-box-orient: vertical;
+
   & > span + span {
     margin-left: 8px;
   }

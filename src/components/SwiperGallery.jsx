@@ -2,7 +2,6 @@ import React, { useState, useRef } from "react";
 import PhotoModal from "/src/components/Modal/Photo";
 import { useVideoDetailContext } from "/src/context/VideoDetailContext";
 import { Swiper, SwiperSlide } from "swiper/react";
-import { Virtual } from "swiper/modules";
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import ArrowLeftIcon from "/src/assets/button/arrow-left.svg?react";
 import ArrowRightIcon from "/src/assets/button/arrow-right.svg?react";
@@ -16,12 +15,10 @@ const SwiperGallery = () => {
   const swiperRef = useRef(null);
 
   const gallerySwiperConfig = {
-    modules: [Virtual],
     spaceBetween: 10,
     slidesPerView: 2.01,
     slidesPerGroup: 2,
     speed: 1000,
-    virtual: true,
     allowTouchMove: true,
     breakpoints: {
       769: {
