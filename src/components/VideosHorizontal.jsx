@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import VideoRankItem from "/src/components/VideoRankItem";
 import VideoItem from "/src/components/VideoItem";
 import { Swiper, SwiperSlide } from "swiper/react";
-import { Navigation, Virtual } from "swiper/modules";
+import { Navigation } from "swiper/modules";
 import ArrowLeftIcon from "/src/assets/button/arrow-left.svg?react";
 import ArrowRightIcon from "/src/assets/button/arrow-right.svg?react";
 import { isEmpty } from "lodash";
@@ -14,12 +14,11 @@ const VideosHorizontal = ({ content, template, title }) => {
   const swiperRef = useRef(null);
 
   const swiperConfig = {
-    modules: [Navigation, Virtual],
+    modules: [Navigation],
     spaceBetween: 8,
     slidesPerView: 3,
     slidesPerGroup: 3,
     speed: 1000,
-    virtual: true,
     allowTouchMove: true,
     breakpoints: {
       577: {
