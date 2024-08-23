@@ -65,12 +65,12 @@ const VideosHorizontal = ({ content, template, title }) => {
         <Swiper className="horizontal-videos" {...swiperConfig}>
           {template === "default"
             ? videos.map((video, index) => (
-                <SwiperSlide className="horizontal-video-item" key={index} virtualIndex={index}>
+                <SwiperSlide className="horizontal-video-item" key={index}>
                   <VideoItem video={video} index={index} />
                 </SwiperSlide>
               ))
             : videos.map((video, index) => (
-                <SwiperSlide className="horizontal-video-item" key={index} virtualIndex={index}>
+                <SwiperSlide className="horizontal-video-item" key={index}>
                   <VideoRankItem video={video} index={index} />
                 </SwiperSlide>
               ))}

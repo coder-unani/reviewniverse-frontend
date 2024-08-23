@@ -48,12 +48,7 @@ const SwiperGallery = () => {
       <article className="detail-gallery-wrapper">
         <Swiper className="detail-gallery" {...gallerySwiperConfig}>
           {items.map((image, index) => (
-            <SwiperSlide
-              className="detail-gallery-item"
-              key={index}
-              virtualIndex={index}
-              onClick={() => togglePhotoModal(image)}
-            >
+            <SwiperSlide className="detail-gallery-item" key={index} onClick={() => togglePhotoModal(image)}>
               <picture className="detail-photo-wrapper">
                 <LazyLoadImage className="detail-photo" src={image} alt="갤러리 이미지" effect="blur" />
               </picture>
