@@ -16,7 +16,7 @@ const VideosHorizontal = ({ content, template, title }) => {
   const swiperConfig = {
     modules: [Navigation, Virtual],
     spaceBetween: 8,
-    slidesPerView: 3.01,
+    slidesPerView: 3,
     slidesPerGroup: 3,
     speed: 1000,
     virtual: true,
