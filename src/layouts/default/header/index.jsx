@@ -31,26 +31,28 @@ const Header = () => {
     </Link>
   );
 
-  const MobileHeader = () => (
-    <section className={isSearch ? "header-search-wrapper" : "header-mobile-wrapper"}>
-      {isSearch ? (
-        <>
-          <SearchForm />
+  const MobileHeader = () => {
+    const defaultMobile = () => (
+      <section className="header-mobile-wrapper">
+        <h1 className="header-logo">
+          <Logo />
+        </h1>
+        <section className="toolbar-container">
+          <SearchIcon className="search-button" onClick={handleMobileSearch} />
           <MenuIcon className="menu-button" onClick={toggleMobileMenu} />
-        </>
-      ) : (
-        <>
-          <h1 className="header-logo">
-            <Logo />
-          </h1>
-          <section className="toolbar-container">
-            <SearchIcon className="search-button" onClick={handleMobileSearch} />
-            <MenuIcon className="menu-button" onClick={toggleMobileMenu} />
-          </section>
-        </>
-      )}
-    </section>
-  );
+        </section>
+      </section>
+    );
+
+    const searchMobile = () => (
+      <section className="header-search-wrapper">
+        <SearchForm />
+        <MenuIcon className="menu-button" onClick={toggleMobileMenu} />
+      </section>
+    );
+
+    return isSearch ? searchMobile() : defaultMobile();
+  };
 
   const DefaultHeader = () => (
     <section className="header-wrapper">

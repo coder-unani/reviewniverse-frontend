@@ -78,14 +78,14 @@ const Search = () => {
     return navigate("/error");
   }
 
-  if (isEmpty(videos)) {
-    return;
-  }
+  // if (isEmpty(videos)) {
+  //   return;
+  // }
 
   return (
     <main className="search-main-container">
       <section className="search-content-section">
-        {isEmpty(videos.data) ? (
+        {isEmpty(videos) || isEmpty(videos.data) ? (
           <div className="no-search-content">
             <img className="no-search-image" src={DEFAULT_IMAGES.searchNotFound} alt="검색 결과 없음" />
             <p className="no-search-title">

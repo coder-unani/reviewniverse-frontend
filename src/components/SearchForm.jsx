@@ -65,7 +65,7 @@ const SearchForm = () => {
       // 검색 페이지가 아닌 경우 검색어 초기화
       setInputValue("");
     } else {
-      if (isMobile && isEmpty(query)) setIsDropDown(true);
+      if (isMobile && isEmpty(query)) handleSearchOpen();
       // 검색 쿼리가 있음에도 검색어 입력란에 값이 없는 경우
       if (query && inputValue !== query) {
         setInputValue(query);
@@ -77,13 +77,13 @@ const SearchForm = () => {
   // 검색어 입력란 focus
   const handleSearchFocus = () => {
     if (isDropDown) return;
-    setIsDropDown(true);
+    handleSearchOpen();
   };
 
   // 검색어 입력란 click
   const handleSearchClick = () => {
     if (isDropDown) return;
-    setIsDropDown(true);
+    handleSearchOpen();
   };
 
   // 검색어 입력란 change
@@ -98,14 +98,14 @@ const SearchForm = () => {
     }
   };
 
+  // 드롭다운 열기
+  const handleSearchOpen = () => {
+    setIsDropDown(true);
+  };
+
   // 드롭다운 닫기
   const handleSearchClose = () => {
     setIsDropDown(false);
-  };
-
-  // 닫기 버튼
-  const handleCloseButton = () => {
-    navigate("/");
   };
 
   // 검색어 입력란 submit
@@ -196,7 +196,7 @@ const SearchForm = () => {
           <button type="button" className="search-save" onClick={handleSearchSave}>
             {isSaveKeyword ? "자동저장 끄기" : "자동저장 켜기"}
           </button>
-          <button type="button" className="search-close" onClick={handleCloseButton}>
+          <button type="button" className="search-close" onClick={handleSearchClose}>
             닫기
           </button>
         </div>
