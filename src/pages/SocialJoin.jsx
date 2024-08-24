@@ -58,41 +58,45 @@ const SocialJoin = () => {
   };
 
   const handleSocialJoin = async (snsUser, agreeValues) => {
-    const joinUser = {
-      code: snsUser.code,
-      email: snsUser.email,
-      sns_id: snsUser.sns_id,
-      nickname: snsUser.nickname,
-      profile_image: snsUser.profile_image,
-      is_privacy_agree: agreeValues.privacy,
-      is_terms_agree: agreeValues.terms,
-      is_age_agree: agreeValues.age,
-      is_marketing_agree: agreeValues.marketing,
-    };
-
-    const res = await join(joinUser);
-    if (res.status) {
-      showSuccessToast(MESSAGES[res.code]);
-
-      const loginUser = {
-        code: joinUser.code,
-        email: joinUser.email,
-        sns_id: joinUser.sns_id,
+    try {
+      const joinUser = {
+        code: snsUser.code,
+        email: snsUser.email,
+        sns_id: snsUser.sns_id,
+        nickname: snsUser.nickname,
+        profile_image: snsUser.profile_image,
+        is_privacy_agree: agreeValues.privacy,
+        is_terms_agree: agreeValues.terms,
+        is_age_agree: agreeValues.age,
+        is_marketing_agree: agreeValues.marketing,
       };
+      const res = await join(joinUser);
+      if (res.status) {
+        showSuccessToast(MESSAGES[res.code]);
 
-      const loginRes = await login(loginUser);
-      if (loginRes.status) {
-        // 회원 취향 등록 페이지로 이동
-        navigate("/user/watchtype");
+        const loginUser = {
+          code: joinUser.code,
+          email: joinUser.email,
+          sns_id: joinUser.sns_id,
+        };
+
+        const loginRes = await login(loginUser);
+        if (loginRes.status) {
+          // 회원 취향 등록 페이지로 이동
+          navigate("/user/watchtype");
+        } else {
+          // 로그인 실패
+          showErrorToast(MESSAGES[res.code]);
+          navigate("/user/login");
+        }
       } else {
-        // 로그인 실패
+        // 회원가입 실패
         showErrorToast(MESSAGES[res.code]);
         navigate("/user/login");
       }
-    } else {
-      // 회원가입 실패
-      showErrorToast(MESSAGES[res.code]);
-      navigate("/user/login");
+    } catch {
+    } finally {
+      setSnsUser(null);
     }
   };
 
