@@ -14,7 +14,7 @@ const User = () => {
   const location = useLocation();
   const { userId } = useParams();
   const userId2Int = fParseInt(userId);
-  const { user, handleSetUser } = useAuthContext();
+  const { user, handleSetUser, handleRemoveUser } = useAuthContext();
   const { mutateAsync: userFetch } = useUser();
   const [isLogin, setIsLogin] = useState(false);
   const [profile, setProfile] = useState(null);
@@ -36,6 +36,10 @@ const User = () => {
           navigate(location.pathname, { replace: true, state: {} });
         }
       } else {
+        if (user && user.id === userId2Int) {
+          handleRemoveUser();
+        }
+        navigate(-1);
         showErrorToast(res.code);
       }
     };
@@ -51,7 +55,7 @@ const User = () => {
     } else {
       setIsLogin(false);
     }
-  }, [location, user, userId]);
+  }, [location, user, userId2Int]);
 
   return (
     <main className="user-main">
