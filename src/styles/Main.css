@@ -324,16 +324,6 @@ template {
   display: none;
 }
 
-:root {
-  --vh: 100%;
-}
-
-html,
-body {
-  height: 100vh;
-  height: var(--vh);
-}
-
 html {
   font-size: 16px;
   -webkit-box-sizing: border-box;
