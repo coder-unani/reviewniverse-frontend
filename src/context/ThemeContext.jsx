@@ -10,9 +10,7 @@ const ThemeContextProvider = ({ children }) => {
   useEffect(() => {
     window.innerWidth < 768 ? setIsMobile(true) : setIsMobile(false);
 
-    vh = window.innerHeight * 0.01;
-    document.documentElement.style.setProperty("--vh", `${vh}px`);
-
+    setVh();
     window.addEventListener("resize", setVh);
     return () => window.removeEventListener("resize", setVh);
   }, []);
@@ -32,7 +30,8 @@ const ThemeContextProvider = ({ children }) => {
   }, [isMobile]);
 
   const setVh = () => {
-    document.documentElement.style.setProperty("--vh", `${window.innerHeight}px`);
+    vh = window.innerHeight * 0.01;
+    document.documentElement.style.setProperty("--vh", `${vh}px`);
   };
 
   return <ThemeContext.Provider value={{ isMobile, setIsMobile }}>{children}</ThemeContext.Provider>;
