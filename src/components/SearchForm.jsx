@@ -132,7 +132,7 @@ const SearchForm = () => {
     setRecentKeywords(result);
   };
 
-  // 자동저장 끄기
+  // 자동저장 on/off
   const handleSearchSave = () => {
     setIsSaveKeyword((prev) => {
       setStorageSaveKeyword(!prev);

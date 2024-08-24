@@ -2334,13 +2334,13 @@ em {
 }
 
 @media (max-width: 768px) {
-  .policy-main-container {
+  .policy-modal-container {
     width: 100%;
     height: 100%;
     max-height: unset;
     border-radius: unset;
   }
-  .policy-main-wrapper {
+  .policy-modal-wrapper {
     border-radius: unset;
   }
 }
