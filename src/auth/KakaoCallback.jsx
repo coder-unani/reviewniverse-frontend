@@ -67,7 +67,6 @@ const KakaoCallback = () => {
     handleKakaoLogin();
   }, [searchParams, location]);
 
-  // TODO: 로그인 로딩 화면 구현
   return <LoginLoading />;
 };
 

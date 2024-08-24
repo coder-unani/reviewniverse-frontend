@@ -29,8 +29,9 @@ const UserDelete = () => {
       {
         onSuccess: (res) => {
           if (res.status === 204) {
-            showSuccessToast("회원탈퇴가 완료되었습니다.");
+            handleRemoveUser();
             navigate("/");
+            showSuccessToast("회원탈퇴가 완료되었습니다.");
           } else {
             showErrorToast("회원탈퇴를 완료하지 못했습니다.");
           }
