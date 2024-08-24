@@ -63,10 +63,10 @@ const Header = () => {
   const navigate = useNavigate();
   const { user } = useAuthContext();
   const { isMobile } = useThemeContext();
-  const [menuModal, setMenuModal] = useState(false);
+  const [isMenuModal, setIsMenuModal] = useState(false);
   const isSearch = location.pathname === "/search";
 
-  const toggleMobileMenu = () => setMenuModal(!menuModal);
+  const toggleMobileMenu = () => setIsMenuModal((prev) => !prev);
   const handleMobileSearch = () => navigate("/search");
 
   return (
@@ -76,7 +76,7 @@ const Header = () => {
       ) : (
         <DefaultHeader user={user} />
       )}
-      {menuModal && <MenuModal onClose={toggleMobileMenu} />}
+      {isMenuModal && <MenuModal onClose={toggleMobileMenu} />}
     </header>
   );
 };

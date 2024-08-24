@@ -25,7 +25,7 @@ const ReviewItem = ({ user, review }) => {
 
   const handleSpoiler = () => {
     if (!active) return;
-    setActive(!active);
+    setActive((prev) => !prev);
   };
 
   return (

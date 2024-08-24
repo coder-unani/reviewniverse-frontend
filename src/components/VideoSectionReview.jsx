@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useRef } from "react";
 import VideoReviewItem from "/src/components/VideoReviewItem";
 import ProfileImage from "/src/components/Button/Profile/Image";
 import { useAuthContext } from "/src/context/AuthContext";
@@ -20,8 +20,9 @@ const VideoSectionReview = () => {
     error: reviewsError,
     isLoading: reviewsIsLoading,
   } = useVideoReviews({ videoId, page: 1, pageSize: 8, enabled: videoId });
-  const { toggleEnjoyModal, toggleReviewModal } = useModalContext();
+  const { toggleEnjoyModal, toggleReviewModal, toggleConfirmModal } = useModalContext();
   const { mutate: reviewDelete, isPending: isDeletePending } = useReviewDelete();
+  const deleteButtonRef = useRef(null);
 
   // 리뷰 작성
   const handleReviewCreate = () => {
@@ -42,18 +43,24 @@ const VideoSectionReview = () => {
     if (isDeletePending) {
       return;
     }
-    // TODO: 삭제 확인 모달 추가
-    // setConfirmModal(true);
-    await reviewDelete(
-      { videoId, reviewId: myInfo.review.id, userId: user.id },
-      {
-        onSuccess: (res) => {
-          if (res.status === 204) {
-            showSuccessToast("리뷰가 삭제되었습니다.");
-          }
-        },
-      }
-    );
+
+    const confirmed = await new Promise((resolve) => {
+      toggleConfirmModal(resolve);
+      deleteButtonRef.current.blur();
+    });
+
+    if (confirmed) {
+      await reviewDelete(
+        { videoId, reviewId: myInfo.review.id, userId: user.id },
+        {
+          onSuccess: (res) => {
+            if (res.status === 204) {
+              showSuccessToast("리뷰가 삭제되었습니다.");
+            }
+          },
+        }
+      );
+    }
   };
 
   const MyReviewWrapper = () => {
@@ -104,6 +111,7 @@ const VideoSectionReview = () => {
             className="my-review-delete-button"
             onClick={handleReviewDelete}
             disabled={isDeletePending}
+            ref={deleteButtonRef}
           >
             <FillTrashIcon className="my-review-button-icon" />
           </button>

@@ -1,10 +1,55 @@
-.confirm-modal {
-  position: fixed;
-  top: 0;
+.confirm-modal-container {
+  position: absolute;
+  top: 50%;
   left: 50%;
-  bottom: 0;
-  transform: translateX(-50%);
+  transform: translate(-50%, -50%);
+  width: 300px;
+  height: 150px;
+  background-color: $color-background;
+  border-radius: 16px;
+}
+
+.confirm-modal-wrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
   width: 100%;
-  background-color: rgba(0, 0, 0, 0.56);
-  z-index: 999;
+  height: 100%;
+  background-color: rgba($color-white-09, 0.6);
+  border-radius: 16px;
+  padding: 20px 20px 0 20px;
+}
+
+.confirm-header-title {
+  font-size: 16px;
+  font-weight: 800;
+  color: $color-white-01;
+  text-align: center;
+}
+
+.confirm-body-section {
+  padding: 20px 0;
+}
+
+.confirm-body-content {
+  font-size: 14px;
+  color: $color-white-01;
+  text-align: center;
+}
+
+.confirm-footer-section {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  color: $border-color-04;
+  border-top: 1px solid $border-color-01;
+}
+
+.modal-cancel-button,
+.modal-confirm-button {
+  flex: 1;
+  font-size: 14px;
+  // color: $color-white-02;
+  color: $color-magenta;
+  padding: 15px 0;
 }

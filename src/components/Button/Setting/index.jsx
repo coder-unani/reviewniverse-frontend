@@ -13,13 +13,13 @@ import { showSuccessToast, showErrorToast } from "/src/components/Toast";
  */
 
 const SettingButton = () => {
-  const [menuModal, isMenuModal] = useState(false);
+  const [isMenuModal, setIsMenuModal] = useState(false);
   const menuRef = useRef();
   const navigate = useNavigate();
   const { logout } = useAuthContext();
 
   const toggleMenuModal = () => {
-    isMenuModal(!menuModal);
+    setIsMenuModal((prev) => !prev);
   };
 
   // 회원정보 수정
@@ -50,7 +50,7 @@ const SettingButton = () => {
     window.addEventListener("click", (e) => {
       if (!menuRef.current) return;
       if (!menuRef.current.contains(e.target) && !button.contains(e.target)) {
-        isMenuModal(false);
+        setIsMenuModal(false);
       }
     });
   }, []);
@@ -60,7 +60,7 @@ const SettingButton = () => {
       <button type="button" className="settings" onClick={toggleMenuModal}>
         <RiSettings2Fill size={24} />
       </button>
-      {menuModal && (
+      {isMenuModal && (
         <div className="user-menu" ref={menuRef}>
           <ul>
             <li onClick={handleEditClick}>회원정보 수정</li>

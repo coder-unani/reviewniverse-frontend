@@ -20,10 +20,11 @@ const ModalContextProvider = ({ children }) => {
   const location = useLocation();
   const [isPopupBanner, setIsPopupBanner] = useState(false);
   const [isEnjoyModal, setIsEnjoyModal] = useState(false);
-  const [isConfirmModal, setIsConfirmModal] = useState(false);
   const [isReviewModal, setIsReviewModal] = useState(false);
   const [isTermsModal, setIsTermsModal] = useState(false);
   const [isPrivacyModal, setIsPrivacyModal] = useState(false);
+  const [isReviewDeleteModal, setIsReviewDeleteModal] = useState(false);
+  const [confirmResolve, setConfirmResolve] = useState(null);
 
   useEffect(() => {
     const hidePopupBanner = getStorageHidePopupBanner();
@@ -33,56 +34,61 @@ const ModalContextProvider = ({ children }) => {
 
   useEffect(() => {
     if (isEnjoyModal) setIsEnjoyModal(false);
-    if (isConfirmModal) setIsConfirmModal(false);
     if (isReviewModal) setIsReviewModal(false);
     if (isTermsModal) setIsTermsModal(false);
     if (isPrivacyModal) setIsPrivacyModal(false);
+    if (isReviewDeleteModal) setIsReviewDeleteModal(false);
   }, [location]);
 
   // 팝업 배너 토글
   const togglePopupBanner = () => {
-    setIsPopupBanner(!isPopupBanner);
+    setIsPopupBanner((prev) => !prev);
   };
 
   // 로그인 모달창 토글
   const toggleEnjoyModal = () => {
-    setIsEnjoyModal(!isEnjoyModal);
+    setIsEnjoyModal((prev) => !prev);
   };
 
   // 리뷰 모달창 토글
   const toggleReviewModal = () => {
-    setIsReviewModal(!isReviewModal);
-  };
-
-  // 확인 모달창 토글
-  const toggleConfirmModal = () => {
-    setIsConfirmModal(!isConfirmModal);
+    setIsReviewModal((prev) => !prev);
   };
 
   // 약관 모달창 토글
   const toggleTermsModal = () => {
-    setIsTermsModal(!isTermsModal);
+    setIsTermsModal((prev) => !prev);
   };
 
   // 개인정보 처리방침 모달창 토글
   const togglePrivacyModal = () => {
-    setIsPrivacyModal(!isPrivacyModal);
+    setIsPrivacyModal((prev) => !prev);
+  };
+
+  // 확인 모달창 토글
+  const toggleConfirmModal = (resolve) => {
+    setConfirmResolve(() => resolve);
+    setIsReviewDeleteModal(true);
+  };
+
+  const handleConfirm = (result) => {
+    if (confirmResolve) {
+      confirmResolve(result);
+      setConfirmResolve(null);
+    }
+    setIsReviewDeleteModal(false);
   };
 
   const values = useMemo(
     () => ({
-      isEnjoyModal,
-      isConfirmModal,
       isReviewModal,
-      isTermsModal,
-      isPrivacyModal,
       toggleEnjoyModal,
-      toggleConfirmModal,
       toggleReviewModal,
       toggleTermsModal,
       togglePrivacyModal,
+      toggleConfirmModal,
     }),
-    [isEnjoyModal, isConfirmModal, isReviewModal, isTermsModal, isPrivacyModal]
+    [isReviewModal]
   );
 
   return (
@@ -90,9 +96,13 @@ const ModalContextProvider = ({ children }) => {
       {children}
       {isPopupBanner && <PopupBanner onClose={togglePopupBanner} />}
       {isEnjoyModal && <EnjoyModal onClose={toggleEnjoyModal} />}
-      {isConfirmModal && <ConfirmModal onClose={toggleConfirmModal} />}
       {isTermsModal && <TermsModal onClose={toggleTermsModal} />}
       {isPrivacyModal && <PrivacyModal onClose={togglePrivacyModal} />}
+      {isReviewDeleteModal && (
+        <ConfirmModal onClose={() => handleConfirm(false)} onConfirm={handleConfirm}>
+          리뷰를 삭제하시겠어요?
+        </ConfirmModal>
+      )}
     </ModalContext.Provider>
   );
 };

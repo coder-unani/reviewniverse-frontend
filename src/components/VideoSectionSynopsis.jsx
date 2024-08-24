@@ -24,7 +24,7 @@ const VideoSectionSynopsis = React.memo(() => {
   }, []);
 
   const toggleExpand = () => {
-    setIsExpanded(!isExpanded);
+    setIsExpanded((prev) => !prev);
   };
 
   const renderSynopsis = () => (

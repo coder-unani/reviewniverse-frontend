@@ -153,8 +153,9 @@ em {
 
 .modal-close-button {
   position: absolute;
-  top: 6px;
-  right: 6px;
+  top: 9px;
+  right: 9px;
+  display: flex;
   padding: 6px;
   cursor: pointer;
 
