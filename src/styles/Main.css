@@ -1556,6 +1556,9 @@ em {
     height: calc(var(--vh, 1vh) * 100 - 60px);
     border-radius: unset;
   }
+  .search-empty {
+    flex: 1 1;
+  }
   .search-list {
     flex: 1 1;
   }
