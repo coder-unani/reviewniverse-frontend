@@ -4,9 +4,13 @@ const ThemeContext = createContext();
 
 const ThemeContextProvider = ({ children }) => {
   const [isMobile, setIsMobile] = useState(false);
+  let vh = 0;
 
   useEffect(() => {
     window.innerWidth < 768 ? setIsMobile(true) : setIsMobile(false);
+
+    vh = window.innerHeight * 0.01;
+    document.documentElement.style.setProperty("--vh", `${vh}px`);
   }, []);
 
   useEffect(() => {
