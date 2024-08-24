@@ -53,14 +53,16 @@ const KakaoCallback = () => {
               });
             } else {
               // TODO: 이메일/닉네임 유효성 검사
-              showErrorToast(MESSAGES[res.code]);
+              setSnsUser(null);
               navigate("/user/login");
+              showErrorToast(MESSAGES[res.code]);
             }
           }
         }
       } catch (error) {
-        showErrorToast(MESSAGES["L002"]);
+        setSnsUser(null);
         navigate("/user/login");
+        showErrorToast(MESSAGES["L002"]);
       }
     };
 

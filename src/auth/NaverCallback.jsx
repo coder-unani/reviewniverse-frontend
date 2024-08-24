@@ -48,18 +48,21 @@ const NaverCallback = () => {
                   profile_image: naverUser.profile_image,
                 });
               } else {
-                showErrorToast(MESSAGES[res.code]);
+                setSnsUser(null);
                 navigate("/user/login");
+                showErrorToast(MESSAGES[res.code]);
               }
             }
           } else {
-            showErrorToast(MESSAGES["L002"]);
+            setSnsUser(null);
             navigate("/user/login");
+            showErrorToast(MESSAGES["L002"]);
           }
         });
       } catch (error) {
-        showErrorToast(MESSAGES["L002"]);
+        setSnsUser(null);
         navigate("/user/login");
+        showErrorToast(MESSAGES["L002"]);
       }
     };
 

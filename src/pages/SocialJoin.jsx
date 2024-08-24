@@ -70,6 +70,7 @@ const SocialJoin = () => {
         is_age_agree: agreeValues.age,
         is_marketing_agree: agreeValues.marketing,
       };
+
       const res = await join(joinUser);
       if (res.status) {
         showSuccessToast(MESSAGES[res.code]);
