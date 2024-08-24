@@ -38,7 +38,8 @@ const UserFavorite = () => {
       return;
     }
     const watchType = selectedFavorites.join(",");
-    await watchTypeCreate({ userId: user.id, watchType }),
+    await watchTypeCreate(
+      { userId: user.id, watchType },
       {
         onSuccess: (res) => {
           if (res.status === 201) {
@@ -46,7 +47,8 @@ const UserFavorite = () => {
             showSuccessToast("회원성향이 등록되었습니다.");
           }
         },
-      };
+      }
+    );
   };
 
   return (

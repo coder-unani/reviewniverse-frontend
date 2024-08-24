@@ -1,6 +1,6 @@
 import { useMutation } from "@tanstack/react-query";
 import { fetchWatchType } from "/src/api/users";
-import { cError } from "/src/utils/test";
+import { cLog, cError } from "/src/utils/test";
 
 export const useWatchTypeCreate = () => {
   return useMutation({
