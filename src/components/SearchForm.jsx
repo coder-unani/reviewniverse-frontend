@@ -115,6 +115,7 @@ const SearchForm = () => {
 
   // 최근 검색어 저장 (최대 5개)
   const saveRecentKeywords = (keyword) => {
+    if (!keyword || !isSaveKeyword) return;
     setStorageKeyword(keyword);
     sliceStorageKeyword(5);
   };
