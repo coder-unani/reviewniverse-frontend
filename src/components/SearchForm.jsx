@@ -103,6 +103,11 @@ const SearchForm = () => {
     setIsDropDown(false);
   };
 
+  // 닫기 버튼
+  const handleCloseButton = () => {
+    navigate("/");
+  };
+
   // 검색어 입력란 submit
   const handleSearchSubmit = (e) => {
     e.preventDefault();
@@ -191,7 +196,7 @@ const SearchForm = () => {
           <button type="button" className="search-save" onClick={handleSearchSave}>
             {isSaveKeyword ? "자동저장 끄기" : "자동저장 켜기"}
           </button>
-          <button type="button" className="search-close" onClick={handleSearchClose}>
+          <button type="button" className="search-close" onClick={handleCloseButton}>
             닫기
           </button>
         </div>

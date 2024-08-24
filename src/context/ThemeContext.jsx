@@ -9,8 +9,8 @@ const ThemeContextProvider = ({ children }) => {
   useEffect(() => {
     window.innerWidth < 768 ? setIsMobile(true) : setIsMobile(false);
 
-    vh = window.innerHeight * 0.01;
-    document.documentElement.style.setProperty("--vh", `${vh}px`);
+    // vh = window.innerHeight * 0.01;
+    // document.documentElement.style.setProperty("--vh", `${vh}px`);
   }, []);
 
   useEffect(() => {
