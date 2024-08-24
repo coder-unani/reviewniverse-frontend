@@ -87,3 +87,28 @@ export const removeStorageKeyword = (keyword) => {
   setLocalStorage(STORAGE_KEYS.RECENT_SEARCH_KEYWORDS, JSON.stringify(data));
   return data;
 };
+
+// 팝업 배너 오늘 그만 보기 설정
+export const setStorageHidePopupBanner = (isChecked) => {
+  if (!isChecked) {
+    removeLocalStorage("HIDE_POPUP_BANNER");
+    return;
+  }
+  const expires = new Date();
+  expires.setDate(expires.getDate() + 1);
+  const data = {
+    isChecked,
+    expires,
+  };
+  setLocalStorage("HIDE_POPUP_BANNER", JSON.stringify(data));
+};
+
+// 팝업 배너 오늘 그만 보기 조회
+export const getStorageHidePopupBanner = () => {
+  let data = getLocalStorage("HIDE_POPUP_BANNER");
+  data = data ? JSON.parse(data) : {};
+  if (isEmpty(data)) return false;
+  const { isChecked, expires } = data;
+  if (!isChecked || new Date(expires) < new Date()) return false;
+  return data.isChecked;
+};

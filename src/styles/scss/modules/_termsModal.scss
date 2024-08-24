@@ -9,13 +9,7 @@
   z-index: 999;
 }
 
-.policy-header-title {
-  font-size: 16px;
-  font-weight: 800;
-  color: $color-white-01;
-}
-
-.policy-main-container {
+.policy-modal-container {
   position: absolute;
   top: 50%;
   left: 50%;
@@ -29,7 +23,7 @@
   overflow: hidden;
 }
 
-.policy-main-wrapper {
+.policy-modal-wrapper {
   display: flex;
   flex-direction: column;
   width: 100%;
@@ -41,6 +35,12 @@
   flex: none;
   border-bottom: 1px solid $border-color-01;
   padding: 20px;
+}
+
+.policy-header-title {
+  font-size: 16px;
+  font-weight: 800;
+  color: $color-white-01;
 }
 
 .policy-content-section {

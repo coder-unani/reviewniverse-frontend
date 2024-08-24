@@ -12,8 +12,8 @@ const PrivacyModal = React.memo(({ onClose }) => {
   return (
     <Modal>
       <div className="policy-modal" ref={modalRef} onClick={handleModalClose}>
-        <main className="policy-main-container">
-          <section className="policy-main-wrapper">
+        <main className="policy-modal-container">
+          <section className="policy-modal-wrapper">
             <section className="policy-header-section">
               <h1 className="policy-header-title">개인정보 처리방침</h1>
               <CloseButton onClose={onClose} />

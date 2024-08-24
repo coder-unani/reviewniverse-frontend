@@ -7,7 +7,6 @@ import Enjoy from "/assets/enjoy.png";
 const EnjoyModal = ({ onClose }) => {
   const modalRef = useRef();
 
-  // 모달 바깥 영역 클릭시 모달 닫기
   const handleModalClose = (e) => {
     if (e.target === modalRef.current) onClose();
   };

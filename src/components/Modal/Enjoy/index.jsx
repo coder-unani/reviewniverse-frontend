@@ -8,7 +8,6 @@ const EnjoyModal = React.memo(({ onClose }) => {
   const navigate = useNavigate();
   const modalRef = useRef();
 
-  // 모달 바깥 영역 클릭시 모달 닫기
   const handleModalClose = (e) => {
     if (e.target === modalRef.current) onClose();
   };
