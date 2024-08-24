@@ -1,6 +1,9 @@
 .ratings-main-container {
+  width: 100%;
+  max-width: 1440px;
   min-height: calc(100vh - $footer-height);
   padding: 60px 0;
+  margin: 0 auto;
 }
 
 .ratings-title-section {
