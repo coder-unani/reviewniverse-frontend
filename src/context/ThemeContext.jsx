@@ -1,3 +1,4 @@
+import { set } from "lodash";
 import React, { createContext, useContext, useEffect, useState } from "react";
 
 const ThemeContext = createContext();
@@ -9,8 +10,11 @@ const ThemeContextProvider = ({ children }) => {
   useEffect(() => {
     window.innerWidth < 768 ? setIsMobile(true) : setIsMobile(false);
 
-    // vh = window.innerHeight * 0.01;
-    // document.documentElement.style.setProperty("--vh", `${vh}px`);
+    vh = window.innerHeight * 0.01;
+    document.documentElement.style.setProperty("--vh", `${vh}px`);
+
+    window.addEventListener("resize", setVh);
+    return () => window.removeEventListener("resize", setVh);
   }, []);
 
   useEffect(() => {
@@ -26,6 +30,10 @@ const ThemeContextProvider = ({ children }) => {
 
     return () => window.removeEventListener("resize", handleResize);
   }, [isMobile]);
+
+  const setVh = () => {
+    document.documentElement.style.setProperty("--vh", `${window.innerHeight}px`);
+  };
 
   return <ThemeContext.Provider value={{ isMobile, setIsMobile }}>{children}</ThemeContext.Provider>;
 };

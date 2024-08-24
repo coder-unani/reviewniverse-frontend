@@ -177,10 +177,7 @@
     display: flex;
     flex-direction: column;
     width: 100%;
-    // height: calc(var(--vh, 1vh) * 100 - $header-height);
-    height: calc(100vh - $header-height);
-    height: -webkit-fill-available;
-    height: available;
+    height: calc(var(--vh, 1vh) * 100 - $header-height);
     border-radius: unset;
   }
 
