@@ -11,7 +11,8 @@ import { isEmpty } from "lodash";
 const STORAGE_KEYS = {
   USER: "user",
   ACCESS_TOKEN: "access_token",
-  RECENT_SEARCH_KEYWORDS: "RECENT_SEARCH_KEYWORDS",
+  RECENT_KEYWORDS: "RECENT_KEYWORDS",
+  RECENT_KEYWORDS_SAVE: "RECENT_KEYWORDS_SAVE",
 };
 
 // 유저 정보 설정
@@ -50,17 +51,17 @@ export const removeStorageAccessToken = () => {
 // 최근 검색어 설정
 export const setStorageKeyword = (keyword) => {
   if (!keyword) return;
-  let data = getLocalStorage(STORAGE_KEYS.RECENT_SEARCH_KEYWORDS);
+  let data = getLocalStorage(STORAGE_KEYS.RECENT_KEYWORDS);
   data = data ? JSON.parse(data) : [];
   data = new Set(data);
   if (data.has(keyword)) data.delete(keyword);
   data = [keyword, ...data];
-  setLocalStorage(STORAGE_KEYS.RECENT_SEARCH_KEYWORDS, JSON.stringify(data));
+  setLocalStorage(STORAGE_KEYS.RECENT_KEYWORDS, JSON.stringify(data));
 };
 
 // 최근 검색어 조회
 export const getStorageKeyword = () => {
-  let data = getLocalStorage(STORAGE_KEYS.RECENT_SEARCH_KEYWORDS);
+  let data = getLocalStorage(STORAGE_KEYS.RECENT_KEYWORDS);
   data = data ? JSON.parse(data) : [];
   data = [...data];
   return data;
@@ -68,23 +69,35 @@ export const getStorageKeyword = () => {
 
 // 최근 검색어 갯수 제한
 export const sliceStorageKeyword = (length) => {
-  let data = getLocalStorage(STORAGE_KEYS.RECENT_SEARCH_KEYWORDS);
+  let data = getLocalStorage(STORAGE_KEYS.RECENT_KEYWORDS);
   data = data ? JSON.parse(data) : [];
   data = data.slice(0, length);
-  setLocalStorage(STORAGE_KEYS.RECENT_SEARCH_KEYWORDS, JSON.stringify(data));
+  setLocalStorage(STORAGE_KEYS.RECENT_KEYWORDS, JSON.stringify(data));
 };
 
 // 최근 검색어 전체 삭제
 export const clearStorageKeyword = () => {
-  removeLocalStorage(STORAGE_KEYS.RECENT_SEARCH_KEYWORDS);
+  removeLocalStorage(STORAGE_KEYS.RECENT_KEYWORDS);
 };
 
 // 최근 검색어 개별 삭제
 export const removeStorageKeyword = (keyword) => {
-  let data = getLocalStorage(STORAGE_KEYS.RECENT_SEARCH_KEYWORDS);
+  let data = getLocalStorage(STORAGE_KEYS.RECENT_KEYWORDS);
   data = data ? JSON.parse(data) : [];
   data = data.filter((data) => data !== keyword);
-  setLocalStorage(STORAGE_KEYS.RECENT_SEARCH_KEYWORDS, JSON.stringify(data));
+  setLocalStorage(STORAGE_KEYS.RECENT_KEYWORDS, JSON.stringify(data));
+  return data;
+};
+
+// 검색어 자동저장 끄기 설정
+export const setStorageSaveKeyword = (isChecked) => {
+  setLocalStorage(STORAGE_KEYS.RECENT_KEYWORDS_SAVE, isChecked);
+};
+
+// 검색어 자동저장 끄기 조회
+export const getStorageSaveKeyword = () => {
+  const data = getLocalStorage(STORAGE_KEYS.RECENT_KEYWORDS_SAVE);
+  if (isEmpty(data)) return true;
   return data;
 };
 

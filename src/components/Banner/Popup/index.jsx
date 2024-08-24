@@ -16,6 +16,10 @@ import { DEFAULT_IMAGES } from "/src/config/constants";
 const PopupBanner = React.memo(({ onClose }) => {
   const modalRef = useRef();
 
+  const handleModalClose = (e) => {
+    if (e.target === modalRef.current) onClose();
+  };
+
   // 팝업 배너 오늘 그만 보기 체크 후 닫기하면 쿠키에 저장
   const handleHidePopupBanner = (e) => {
     const isChecked = e.target.checked;
@@ -24,7 +28,7 @@ const PopupBanner = React.memo(({ onClose }) => {
 
   return (
     <Modal>
-      <div className="popup-modal" ref={modalRef}>
+      <div className="popup-modal" ref={modalRef} onClick={handleModalClose}>
         <main className="popup-modal-container">
           <section className="popup-modal-wrapper">
             <CloseButton onClose={onClose} />

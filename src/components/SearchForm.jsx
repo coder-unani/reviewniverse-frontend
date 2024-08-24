@@ -8,8 +8,10 @@ import {
   sliceStorageKeyword,
   clearStorageKeyword,
   removeStorageKeyword,
+  setStorageSaveKeyword,
+  getStorageSaveKeyword,
 } from "/src/utils/formatStorage";
-import { isEmpty, set } from "lodash";
+import { isEmpty } from "lodash";
 import SearchIcon from "/src/assets/button/search.svg?react";
 import CloseIcon from "/src/assets/button/close.svg?react";
 
@@ -25,66 +27,30 @@ const SearchForm = () => {
   const { isMobile } = useThemeContext();
   const [isDropDown, setIsDropDown] = useState(false);
   const [recentKeywords, setRecentKeywords] = useState([]);
+  const [isSaveKeyword, setIsSaveKeyword] = useState(getStorageSaveKeyword());
   const [searchParams, setSearchParams] = useSearchParams();
   const query = searchParams.get("query");
   const searchInputRef = useRef(null);
   const searchDropdownRef = useRef(null);
   const [inputValue, setInputValue] = useState("");
 
-  // 최근 검색어 저장 (최대 5개)
-  const saveRecentKeywords = (keyword) => {
-    setStorageKeyword(keyword);
-    sliceStorageKeyword(5);
-  };
+  useEffect(() => {
+    const handleDropDownClose = (e) => {
+      if (
+        searchDropdownRef.current &&
+        !searchDropdownRef.current.contains(e.target) &&
+        searchInputRef.current &&
+        !searchInputRef.current.contains(e.target)
+      ) {
+        handleSearchClose();
+      }
+    };
 
-  // 검색어 입력란 focus
-  const handleSearchFocus = () => {
-    if (isDropDown) return;
-    setIsDropDown(true);
-  };
-
-  // 검색어 입력란 click
-  const handleSearchClick = () => {
-    if (isDropDown) return;
-    setIsDropDown(true);
-  };
-
-  // 드롭다운 닫기
-  const handleSearchClose = () => {
-    setIsDropDown(false);
-  };
-
-  const handleSearchChange = (e) => {
-    setInputValue(e.target.value);
-  };
-
-  // 검색어 입력란 clear
-  const handleSearchClear = () => {
-    if (searchInputRef.current) {
-      setInputValue("");
-    }
-  };
-
-  // 검색어 입력란 submit
-  const handleSearchSubmit = (e) => {
-    e.preventDefault();
-    if (!inputValue || !inputValue.trim()) return;
-    handleSearchClose();
-    saveRecentKeywords(inputValue);
-    navigate(`/search?query=${inputValue}`);
-  };
-
-  // 최근 검색어 전체 삭제
-  const handleRecentClear = () => {
-    clearStorageKeyword();
-    setRecentKeywords([]);
-  };
-
-  // 최근 검색어 개별 삭제
-  const handleRecentRemove = (keyword) => {
-    const result = removeStorageKeyword(keyword);
-    setRecentKeywords(result);
-  };
+    document.addEventListener("mousedown", handleDropDownClose);
+    return () => {
+      document.removeEventListener("mousedown", handleDropDownClose);
+    };
+  }, []);
 
   useEffect(() => {
     handleSearchClose();
@@ -110,24 +76,128 @@ const SearchForm = () => {
     }
   }, [location, query]);
 
-  // 바깥 영역 클릭 시 모달 닫기
-  useEffect(() => {
-    const handleDropDownClose = (e) => {
-      if (
-        searchDropdownRef.current &&
-        !searchDropdownRef.current.contains(e.target) &&
-        searchInputRef.current &&
-        !searchInputRef.current.contains(e.target)
-      ) {
-        handleSearchClose();
-      }
-    };
+  // 검색어 입력란 focus
+  const handleSearchFocus = () => {
+    if (isDropDown) return;
+    setIsDropDown(true);
+  };
 
-    document.addEventListener("mousedown", handleDropDownClose);
-    return () => {
-      document.removeEventListener("mousedown", handleDropDownClose);
-    };
-  }, []);
+  // 검색어 입력란 click
+  const handleSearchClick = () => {
+    if (isDropDown) return;
+    setIsDropDown(true);
+  };
+  // 검색어 입력란 change
+  const handleSearchChange = (e) => {
+    setInputValue(e.target.value);
+  };
+
+  // 검색어 입력란 clear
+  const handleSearchClear = () => {
+    if (searchInputRef.current) {
+      setInputValue("");
+    }
+  };
+
+  // 드롭다운 닫기
+  const handleSearchClose = () => {
+    setIsDropDown(false);
+  };
+
+  // 검색어 입력란 submit
+  const handleSearchSubmit = (e) => {
+    e.preventDefault();
+    if (!inputValue || !inputValue.trim()) return;
+    handleSearchClose();
+    saveRecentKeywords(inputValue);
+    navigate(`/search?query=${inputValue}`);
+  };
+
+  // 최근 검색어 저장 (최대 5개)
+  const saveRecentKeywords = (keyword) => {
+    setStorageKeyword(keyword);
+    sliceStorageKeyword(5);
+  };
+
+  // 최근 검색어 전체 삭제
+  const handleRecentClear = () => {
+    clearStorageKeyword();
+    setRecentKeywords([]);
+  };
+
+  // 최근 검색어 개별 삭제
+  const handleRecentRemove = (keyword) => {
+    const result = removeStorageKeyword(keyword);
+    setRecentKeywords(result);
+  };
+
+  // 자동저장 끄기
+  const handleSearchSave = () => {
+    setIsSaveKeyword((prev) => {
+      setStorageSaveKeyword(!prev);
+      return !prev;
+    });
+  };
+
+  const renderSearchContent = () => {
+    return (
+      <>
+        <div className="search-header">
+          <p className="search-title">최근 검색어</p>
+          <button type="button" className="search-clear" onClick={handleRecentClear}>
+            전체 삭제
+          </button>
+        </div>
+        <ul className="search-list">
+          {recentKeywords.map((keyword, index) => (
+            <li className="search-item" key={index}>
+              <Link to={`/search?query=${keyword}`} className="search-link">
+                <SearchIcon />
+                <p className="search-keyword">{keyword}</p>
+              </Link>
+              <button type="button" className="search-remove" onClick={() => handleRecentRemove(keyword)}>
+                <CloseIcon />
+              </button>
+            </li>
+          ))}
+        </ul>
+      </>
+    );
+  };
+
+  const renderNoRecent = () => {
+    return <div className="search-empty">최근 검색이 없습니다.</div>;
+  };
+
+  const renderNoSave = () => {
+    return <div className="search-empty">검색어 자동 저장 기능이 꺼져있습니다.</div>;
+  };
+
+  const renderSearchDropdown = () => {
+    if (isMobile || !isDropDown) return null;
+
+    let content = null;
+    if (isEmpty(recentKeywords) || !isSaveKeyword) {
+      if (isEmpty(recentKeywords)) content = renderNoRecent();
+      if (!isSaveKeyword) content = renderNoSave();
+    } else {
+      content = renderSearchContent();
+    }
+
+    return (
+      <div className="search-dropdown" tabIndex="0" ref={searchDropdownRef}>
+        {content}
+        <div className="search-footer">
+          <button type="button" className="search-save" onClick={handleSearchSave}>
+            {isSaveKeyword ? "자동저장 끄기" : "자동저장 켜기"}
+          </button>
+          <button type="button" className="search-close" onClick={handleSearchClose}>
+            닫기
+          </button>
+        </div>
+      </div>
+    );
+  };
 
   return (
     <>
@@ -150,43 +220,7 @@ const SearchForm = () => {
           <SearchIcon className="search-icon" />
         </button>
       </form>
-      {!isMobile && isDropDown && (
-        <div className="search-dropdown" tabIndex="0" ref={searchDropdownRef}>
-          {isEmpty(recentKeywords) ? (
-            <div className="search-empty">최근 검색이 없습니다.</div>
-          ) : (
-            <>
-              <div className="search-header">
-                <p className="search-title">최근 검색어</p>
-                <button type="button" className="search-clear" onClick={handleRecentClear}>
-                  전체 삭제
-                </button>
-              </div>
-              <ul className="search-list">
-                {recentKeywords.map((keyword, index) => (
-                  <li className="search-item" key={index}>
-                    <Link to={`/search?query=${keyword}`} className="search-link">
-                      <SearchIcon />
-                      <p className="search-keyword">{keyword}</p>
-                    </Link>
-                    <button type="button" className="search-remove" onClick={() => handleRecentRemove(keyword)}>
-                      <CloseIcon />
-                    </button>
-                  </li>
-                ))}
-              </ul>
-            </>
-          )}
-          <div className="search-footer">
-            <button type="button" className="search-autocomplete">
-              자동저장 끄기
-            </button>
-            <button type="button" className="search-close" onClick={handleSearchClose}>
-              닫기
-            </button>
-          </div>
-        </div>
-      )}
+      {renderSearchDropdown()}
     </>
   );
 };

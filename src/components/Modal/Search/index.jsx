@@ -14,7 +14,6 @@ import { getStorageKeyword, removeStorageKeyword } from "/src/utils/formatStorag
 const SearchModal = () => {
   const [recent, setRecent] = useState([]);
 
-  // 최근 검색어 전체 삭제
   const handleClear = () => {
     removeStorageKeyword();
     setRecent([]);
