@@ -169,3 +169,44 @@
   font-weight: 600;
   color: $color-white-04;
 }
+
+@media (max-width: 768px) {
+  .search-dropdown {
+    top: $header-height;
+    left: 0;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: calc(var(--vh, 1vh) * 100 - $header-height);
+    border-radius: unset;
+  }
+
+  .search-list {
+    flex: 1 1;
+  }
+
+  .search-item {
+    height: 42px;
+  }
+
+  .search-title,
+  .search-clear {
+    font-size: 13px;
+  }
+
+  .search-keyword {
+    font-size: 16px;
+  }
+
+  .search-footer {
+    height: 50px;
+    padding: 0;
+  }
+
+  .search-save,
+  .search-close {
+    height: 100%;
+    font-size: 13px;
+    padding: 0 15px;
+  }
+}

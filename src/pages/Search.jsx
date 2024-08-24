@@ -1,8 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import Videos from "/src/components/Videos";
-import SearchModal from "/src/components/Modal/Search";
-import { useThemeContext } from "/src/context/ThemeContext";
 import { useVideos } from "/src/hooks/useVideos";
 import { showErrorToast } from "/src/components/Toast";
 import { DEFAULT_IMAGES } from "/src/config/constants";
@@ -17,7 +15,6 @@ import { isEmpty } from "lodash";
 
 const Search = () => {
   const navigate = useNavigate();
-  const { isMobile } = useThemeContext();
   const [searchParams] = useSearchParams();
   const query = searchParams.get("query");
   const [page, setPage] = useState(1);
@@ -105,7 +102,6 @@ const Search = () => {
           </>
         )}
       </section>
-      {isMobile && isEmpty(query) && <SearchModal />}
     </main>
   );
 };

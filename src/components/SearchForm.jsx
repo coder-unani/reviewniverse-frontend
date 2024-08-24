@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import { Link, useLocation, useNavigate, useSearchParams } from "react-router-dom";
-import { useThemeContext } from "/src/context/ThemeContext";
 import ClearButton from "/src/components/Button/Clear";
+import { useThemeContext } from "/src/context/ThemeContext";
 import {
   getStorageKeyword,
   setStorageKeyword,
@@ -61,18 +61,16 @@ const SearchForm = () => {
 
     const path = location.pathname;
     if (!searchInputRef.current) return;
-    // 검색 페이지가 아닌 경우 검색어 초기화
     if (path !== "/search") {
+      // 검색 페이지가 아닌 경우 검색어 초기화
       setInputValue("");
-    } else if (query) {
+    } else {
+      if (isMobile && isEmpty(query)) setIsDropDown(true);
       // 검색 쿼리가 있음에도 검색어 입력란에 값이 없는 경우
-      if (inputValue !== query) {
+      if (query && inputValue !== query) {
         setInputValue(query);
         saveRecentKeywords(query);
       }
-    } else {
-      // 검색어 입력란에 포커스
-      // searchInputRef.current.focus();
     }
   }, [location, query]);
 
@@ -87,6 +85,7 @@ const SearchForm = () => {
     if (isDropDown) return;
     setIsDropDown(true);
   };
+
   // 검색어 입력란 change
   const handleSearchChange = (e) => {
     setInputValue(e.target.value);
@@ -140,6 +139,14 @@ const SearchForm = () => {
     });
   };
 
+  const renderNoRecent = () => {
+    return <div className="search-empty">최근 검색이 없습니다.</div>;
+  };
+
+  const renderNoSave = () => {
+    return <div className="search-empty">검색어 자동 저장 기능이 꺼져있습니다.</div>;
+  };
+
   const renderSearchContent = () => {
     return (
       <>
@@ -166,16 +173,8 @@ const SearchForm = () => {
     );
   };
 
-  const renderNoRecent = () => {
-    return <div className="search-empty">최근 검색이 없습니다.</div>;
-  };
-
-  const renderNoSave = () => {
-    return <div className="search-empty">검색어 자동 저장 기능이 꺼져있습니다.</div>;
-  };
-
   const renderSearchDropdown = () => {
-    if (isMobile || !isDropDown) return null;
+    if (!isDropDown) return null;
 
     let content = null;
     if (isEmpty(recentKeywords) || !isSaveKeyword) {
