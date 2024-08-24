@@ -7,7 +7,10 @@ const ConfirmModal = React.memo(({ children, onClose, onConfirm }) => {
   const modalRef = useRef();
 
   const handleModalClose = (e) => {
-    if (e.target === modalRef.current) onClose();
+    if (e.target === modalRef.current) {
+      onConfirm(false);
+      onClose();
+    }
   };
 
   const handleConfirmClick = () => {
