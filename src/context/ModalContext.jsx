@@ -29,10 +29,12 @@ const ModalContextProvider = ({ children }) => {
   const [confirmResolve, setConfirmResolve] = useState(null);
 
   useEffect(() => {
+    // location.pathname이 /user 하위일 경우 팝업 모달창 띄우지 않기
+    if (location.pathname.includes("/user")) return;
     const hidePopupBanner = getStorageHidePopupBanner();
     if (hidePopupBanner) return;
     setIsPopupBanner(true);
-  }, []);
+  }, [location]);
 
   useEffect(() => {
     if (isEnjoyModal) setIsEnjoyModal(false);
