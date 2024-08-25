@@ -140,7 +140,7 @@ const VideoDetail = () => {
                 <article className="detail-control-container">
                   <article className="detail-control-wrapper">
                     <VideoLikeButton />
-                    <CollectionButton />
+                    {/* <CollectionButton /> */}
                     <ReviewButton />
                   </article>
                 </article>

@@ -215,7 +215,7 @@ const SearchForm = () => {
         <input
           className="search-input"
           type="text"
-          placeholder="검색어를 입력하세요."
+          placeholder="작품, 배우, 장르 등으로 검색해보세요."
           ref={searchInputRef}
           value={inputValue}
           onChange={handleSearchChange}

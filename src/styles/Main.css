@@ -704,7 +704,7 @@ em {
 }
 
 @media (max-width: 1024px) {
-  .foote-wrapper {
+  .footer-wrapper {
     padding: 20px 30px 60px;
   }
 }
