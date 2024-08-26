@@ -34,7 +34,10 @@ const ModalContextProvider = ({ children }) => {
     if (hidePopupBanner) return;
 
     const hasVisited = getStorageHasVisited();
-    if (location.pathname !== "/" && hasVisited) return;
+    if (location.pathname !== "/" && hasVisited) {
+      if (isPopupBanner) setIsPopupBanner(false);
+      return;
+    }
 
     setIsPopupBanner(true);
     setStorageHasVisited(true);
