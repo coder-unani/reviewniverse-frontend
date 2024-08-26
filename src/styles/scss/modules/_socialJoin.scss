@@ -43,16 +43,18 @@
     width: 14px;
     height: 14px;
     border-radius: 5px;
-    background: rgba($color-white-01, 0.1);
-    border: 1px solid $border-color-03;
-    margin: 4px;
+    background: $color-white-08;
+    background-image: url("/assets/button/check.svg");
+    background-size: contain;
+    background-repeat: no-repeat;
     cursor: pointer;
+    opacity: 0.3;
 
     &:checked {
-      border-color: $color-white-02;
       background: $color-magenta;
       background: -webkit-linear-gradient(to right, rgba($color-cyan, 0.75), rgba($color-magenta, 0.75));
       background: linear-gradient(to right, rgba($color-cyan, 0.75), rgba($color-magenta, 0.75));
+      opacity: 1;
 
       &::before {
         display: block;
@@ -79,7 +81,7 @@
     font-size: 15px;
     color: $color-white-02;
     line-height: 21px;
-    margin-left: 4px;
+    margin-left: 6px;
     cursor: pointer;
   }
 }
@@ -87,6 +89,18 @@
 .join-agree-all {
   border-bottom: 1px solid $border-color-01;
   padding-bottom: 12px;
+}
+
+.join-agree-terms,
+.join-agree-privacy {
+  display: flex;
+  justify-content: space-between;
+}
+
+.terms-button,
+.privacy-button {
+  font-size: 12px;
+  color: $color-white-04;
 }
 
 .join-agree-button {
@@ -101,7 +115,9 @@
   transition: background-color 0.3s;
 
   &:disabled {
-    opacity: 0.4;
+    background-color: $color-white-09;
+    opacity: 0.5;
+    pointer-events: none;
   }
 }
 
@@ -114,10 +130,6 @@
   }
 
   .join-agree-form {
-    & > div {
-      align-items: flex-start;
-    }
-
     label {
       font-size: 14px;
     }

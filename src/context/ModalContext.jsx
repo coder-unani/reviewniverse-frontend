@@ -5,6 +5,7 @@ import EnjoyModal from "/src/components/Modal/Enjoy";
 import ConfirmModal from "/src/components/Modal/Confirm";
 import TermsModal from "/src/components/Modal/Terms";
 import PrivacyModal from "/src/components/Modal/Privacy";
+import PrivacyCollectionModal from "/src/components/Modal/PrivacyCollection";
 import { getStorageHidePopupBanner } from "/src/utils/formatStorage";
 
 /**
@@ -23,6 +24,7 @@ const ModalContextProvider = ({ children }) => {
   const [isReviewModal, setIsReviewModal] = useState(false);
   const [isTermsModal, setIsTermsModal] = useState(false);
   const [isPrivacyModal, setIsPrivacyModal] = useState(false);
+  const [isPrivcayCollectionModal, setIsPrivacyCollectionModal] = useState(false);
   const [isReviewDeleteModal, setIsReviewDeleteModal] = useState(false);
   const [confirmResolve, setConfirmResolve] = useState(null);
 
@@ -65,6 +67,11 @@ const ModalContextProvider = ({ children }) => {
     setIsPrivacyModal((prev) => !prev);
   };
 
+  // 개인정보 수집 및 이용 동의 모달창 토글
+  const togglePrivacyCollectionModal = () => {
+    setIsPrivacyCollectionModal((prev) => !prev);
+  };
+
   // 확인 모달창 토글
   const toggleConfirmModal = (resolve) => {
     setConfirmResolve(() => resolve);
@@ -86,6 +93,7 @@ const ModalContextProvider = ({ children }) => {
       toggleReviewModal,
       toggleTermsModal,
       togglePrivacyModal,
+      togglePrivacyCollectionModal,
       toggleConfirmModal,
     }),
     [isReviewModal]
@@ -98,6 +106,7 @@ const ModalContextProvider = ({ children }) => {
       {isEnjoyModal && <EnjoyModal onClose={toggleEnjoyModal} />}
       {isTermsModal && <TermsModal onClose={toggleTermsModal} />}
       {isPrivacyModal && <PrivacyModal onClose={togglePrivacyModal} />}
+      {isPrivcayCollectionModal && <PrivacyCollectionModal onClose={togglePrivacyCollectionModal} />}
       {isReviewDeleteModal && (
         <ConfirmModal onClose={() => handleConfirm(false)} onConfirm={handleConfirm}>
           리뷰를 삭제하시겠어요?

@@ -1752,15 +1752,18 @@ em {
   width: 14px;
   height: 14px;
   border-radius: 5px;
-  background: rgba(238, 247, 252, 0.1);
-  border: 1px solid rgba(213, 221, 226, 0.2);
+  background: #263d4b;
+  background-image: url("/assets/button/check.svg");
+  background-size: contain;
+  background-repeat: no-repeat;
   cursor: pointer;
+  opacity: 0.3;
 }
 .popup-footer-section input:checked {
-  border-color: #d5dde2;
   background: #fc00ff;
   background: -webkit-linear-gradient(to right, rgba(0, 219, 222, 0.75), rgba(252, 0, 255, 0.75));
   background: linear-gradient(to right, rgba(0, 219, 222, 0.75), rgba(252, 0, 255, 0.75));
+  opacity: 1;
 }
 .popup-footer-section input:checked::before {
   display: block;
@@ -4172,16 +4175,18 @@ em {
   width: 14px;
   height: 14px;
   border-radius: 5px;
-  background: rgba(238, 247, 252, 0.1);
-  border: 1px solid rgba(213, 221, 226, 0.2);
-  margin: 4px;
+  background: #263d4b;
+  background-image: url("/assets/button/check.svg");
+  background-size: contain;
+  background-repeat: no-repeat;
   cursor: pointer;
+  opacity: 0.3;
 }
 .join-agree-form input:checked {
-  border-color: #d5dde2;
   background: #fc00ff;
   background: -webkit-linear-gradient(to right, rgba(0, 219, 222, 0.75), rgba(252, 0, 255, 0.75));
   background: linear-gradient(to right, rgba(0, 219, 222, 0.75), rgba(252, 0, 255, 0.75));
+  opacity: 1;
 }
 .join-agree-form input:checked::before {
   display: block;
@@ -4204,13 +4209,25 @@ em {
   font-size: 15px;
   color: #d5dde2;
   line-height: 21px;
-  margin-left: 4px;
+  margin-left: 6px;
   cursor: pointer;
 }
 
 .join-agree-all {
   border-bottom: 1px solid rgba(213, 221, 226, 0.1);
   padding-bottom: 12px;
+}
+
+.join-agree-terms,
+.join-agree-privacy {
+  display: flex;
+  justify-content: space-between;
+}
+
+.terms-button,
+.privacy-button {
+  font-size: 12px;
+  color: #93a8b4;
 }
 
 .join-agree-button {
@@ -4225,7 +4242,9 @@ em {
   transition: background-color 0.3s;
 }
 .join-agree-button:disabled {
-  opacity: 0.4;
+  background-color: #12222b;
+  opacity: 0.5;
+  pointer-events: none;
 }
 
 @media (max-width: 768px) {
@@ -4234,9 +4253,6 @@ em {
     background-color: #05151e;
     padding: 60px 30px;
     z-index: 200;
-  }
-  .join-agree-form > div {
-    align-items: flex-start;
   }
   .join-agree-form label {
     font-size: 14px;
