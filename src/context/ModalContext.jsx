@@ -6,13 +6,11 @@ import ConfirmModal from "/src/components/Modal/Confirm";
 import TermsModal from "/src/components/Modal/Terms";
 import PrivacyModal from "/src/components/Modal/Privacy";
 import PrivacyCollectionModal from "/src/components/Modal/PrivacyCollection";
-import { getStorageHidePopupBanner } from "/src/utils/formatStorage";
+import { setStorageHasVisited, getStorageHasVisited, getStorageHidePopupBanner } from "/src/utils/formatStorage";
 
 /**
  * TODO:
  * - 팝업 모달
- * - 사이트 첫 진입시 팝업 모달창 띄우기
- * - HIDE_POPUP_BANNER 쿠키값이 true일 경우 팝업 모달창 띄우지 않기
  */
 
 const ModalContext = createContext();
@@ -31,9 +29,15 @@ const ModalContextProvider = ({ children }) => {
   useEffect(() => {
     // location.pathname이 /user 하위일 경우 팝업 모달창 띄우지 않기
     if (location.pathname.includes("/user")) return;
+
     const hidePopupBanner = getStorageHidePopupBanner();
     if (hidePopupBanner) return;
+
+    const hasVisited = getStorageHasVisited();
+    if (location.pathname !== "/" && hasVisited) return;
+
     setIsPopupBanner(true);
+    setStorageHasVisited(true);
   }, [location]);
 
   useEffect(() => {

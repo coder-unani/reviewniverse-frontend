@@ -28,7 +28,7 @@ const PopupBanner = React.memo(({ onClose }) => {
 
   return (
     <Modal>
-      <div className="popup-modal" ref={modalRef} onClick={handleModalClose}>
+      <div className="popup-modal" ref={modalRef}>
         <main className="popup-modal-container">
           <section className="popup-modal-wrapper">
             <CloseButton onClose={onClose} />

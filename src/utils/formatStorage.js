@@ -2,6 +2,8 @@ import {
   getLocalStorage,
   setLocalStorage,
   removeLocalStorage,
+  setSessionStorage,
+  getSessionStorage,
   setCookie,
   getCookie,
   removeCookie,
@@ -98,6 +100,18 @@ export const setStorageSaveKeyword = (isChecked) => {
 export const getStorageSaveKeyword = () => {
   const data = getLocalStorage(STORAGE_KEYS.RECENT_KEYWORDS_SAVE);
   if (isEmpty(data)) return true;
+  return data;
+};
+
+// 방문 기록 설정
+export const setStorageHasVisited = (value) => {
+  setSessionStorage("HAS_VISITED", value);
+};
+
+// 방문 기록 조회
+export const getStorageHasVisited = () => {
+  const data = getSessionStorage("HAS_VISITED");
+  if (isEmpty(data)) return false;
   return data;
 };
 
