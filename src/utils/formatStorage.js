@@ -20,6 +20,8 @@ const STORAGE_KEYS = {
 // 유저 정보 설정
 export const setStorageUser = (user) => {
   if (isEmpty(user)) return;
+  // user의 id, profile_image만 저장
+  user = { id: user.id, profile_image: user.profile_image ? user.profile_image : null };
   setCookie(STORAGE_KEYS.USER, JSON.stringify(user), { path: "/", expires: 30, sameSite: "Strict" });
 };
 
