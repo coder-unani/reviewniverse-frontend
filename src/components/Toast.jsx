@@ -30,6 +30,7 @@ export const ToastWrapper = () => (
     theme="light"
     // theme="colored"
     transition={Slide}
-    limit={1}
+    limit={3}
+    stacked
   />
 );
