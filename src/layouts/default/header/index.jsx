@@ -6,7 +6,7 @@ import MenuModal from "/src/components/Modal/Menu";
 import SearchForm from "/src/components/SearchForm";
 import ProfileImage from "/src/components/Button/Profile/Image";
 import { DEFAULT_IMAGES } from "/src/config/constants";
-import SearchIcon from "/src/assets/button/search.svg?react";
+import SearchIcon from "/src/assets/button/outline-search.svg?react";
 import MenuIcon from "/src/assets/button/menu3.svg?react";
 
 const Header = () => {

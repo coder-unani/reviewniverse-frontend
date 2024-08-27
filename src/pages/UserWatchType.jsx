@@ -5,6 +5,7 @@ import { useWatchTypeCreate } from "/src/hooks/useWatchTypeCreate";
 import { showSuccessToast, showInfoToast } from "/src/components/Toast";
 import { USER_WATCH_TYPE } from "/src/config/codes";
 import { isEmpty } from "lodash";
+import CheckIcon from "/src/assets/button/outline-check.svg?react";
 
 const UserFavorite = () => {
   const navigate = useNavigate();
@@ -79,7 +80,8 @@ const UserFavorite = () => {
                     handleFavorite(watchtype.id);
                   }}
                 >
-                  <img src="/assets/check.svg" alt="체크" />
+                  <CheckIcon />
+                  {/* <img src="/assets/check.svg" alt="체크" /> */}
                 </button>
               </section>
             ))}

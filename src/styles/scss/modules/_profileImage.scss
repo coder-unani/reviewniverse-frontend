@@ -4,6 +4,7 @@
   border-radius: 50%;
   overflow: hidden;
 
+  /*
   &::after {
     content: "";
     position: absolute;
@@ -16,6 +17,7 @@
     z-index: 10;
     pointer-events: none;
   }
+  */
 }
 
 .profile-image {

@@ -5,7 +5,7 @@ import RatingReview from "/src/components/RatingReview";
 import ReviewLikeButton from "/src/components/Button/ReviewLike";
 import { fYear, fDiffDate } from "/src/utils/format";
 import { fVideoCode } from "/src/utils/formatContent";
-import MoreIcon from "/src/assets/button/more.svg?react";
+import MoreIcon from "/src/assets/button/fill-more.svg?react";
 
 /**
  * TODO:

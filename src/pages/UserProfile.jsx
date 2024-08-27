@@ -15,7 +15,7 @@ import {
 } from "/src/config/constants";
 import { isValidFileSize, isValidFileType } from "/src/utils/validation";
 import { isEmpty } from "lodash";
-import { RiImageEditFill } from "@remixicon/react";
+import ImageIcon from "/src/assets/button/outline-image.svg?react";
 
 /**
  * TODO:
@@ -200,12 +200,12 @@ const UserProfile = () => {
                 style={{ display: "none" }}
               />
               <label htmlFor="profile_image">
-                <RiImageEditFill size={24} />
+                <ImageIcon />
               </label>
             </div>
             {errors.profile_image && <p className="error">{errors.profile_image.message}</p>}
           </div>
-          <div className="input-wrapper">
+          <div className="input-wrapper email">
             <label htmlFor="email">이메일</label>
             <input type="email" id="email" value={user.email} readOnly />
           </div>

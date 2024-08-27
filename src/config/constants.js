@@ -33,9 +33,9 @@ export const DEFAULT_ICONS = {
   fillThumb2: "/assets/button/fill-thumb-2.svg",
   arrowLeft: "/assets/button/arrow-left.svg",
   arrowRight: "/assets/button/arrow-right.svg",
-  search: "/assets/button/search.svg",
+  search: "/assets/button/outline-search.svg",
   menu: "/assets/button/menu3.svg",
-  close: "/assets/button/close.svg",
+  close: "/assets/button/outline-close.svg",
 };
 
 export const VIDEO_ORDER_OPTIONS = "release_desc";

@@ -12,8 +12,8 @@ import {
   getStorageSaveKeyword,
 } from "/src/utils/formatStorage";
 import { isEmpty } from "lodash";
-import SearchIcon from "/src/assets/button/search.svg?react";
-import CloseIcon from "/src/assets/button/close.svg?react";
+import SearchIcon from "/src/assets/button/outline-search.svg?react";
+import CloseIcon from "/src/assets/button/outline-close.svg?react";
 
 /**
  * TODO:

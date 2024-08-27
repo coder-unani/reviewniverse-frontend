@@ -1,5 +1,5 @@
 import React from "react";
-import CloseIcon from "/src/assets/button/close.svg?react";
+import CloseIcon from "/src/assets/button/outline-close.svg?react";
 
 const CloseButton = ({ onClose }) => {
   const handleClose = () => onClose?.();

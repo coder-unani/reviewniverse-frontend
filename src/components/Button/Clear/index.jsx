@@ -1,5 +1,5 @@
 import React from "react";
-import ClearIcon from "/src/assets/button/clear.svg?react";
+import ClearIcon from "/src/assets/button/fill-clear.svg?react";
 
 const ClearButton = ({ onClear }) => {
   const handleClear = () => onClear?.();
