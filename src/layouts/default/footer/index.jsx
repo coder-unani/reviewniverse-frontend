@@ -11,7 +11,7 @@ const Footer = () => {
       <section className="footer-wrapper">
         <div className="footer-item-container">
           <ul className="footer-service-wrapper">
-            <li onClick={toggleTermsModal}>리뷰니버스 이용약관</li>
+            <li onClick={toggleTermsModal}>서비스 이용약관</li>
             <li onClick={togglePrivacyModal}>개인정보 처리방침</li>
           </ul>
         </div>
