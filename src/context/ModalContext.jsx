@@ -26,6 +26,8 @@ const ModalContextProvider = ({ children }) => {
   const [isReviewDeleteModal, setIsReviewDeleteModal] = useState(false);
   const [confirmResolve, setConfirmResolve] = useState(null);
 
+  /*
+  // 팝업 배너
   useEffect(() => {
     // location.pathname이 /user 하위일 경우 팝업 모달창 띄우지 않기
     if (location.pathname.includes("/user")) return;
@@ -42,6 +44,7 @@ const ModalContextProvider = ({ children }) => {
     setIsPopupBanner(true);
     setStorageHasVisited(true);
   }, [location]);
+  */
 
   useEffect(() => {
     if (isEnjoyModal) setIsEnjoyModal(false);
