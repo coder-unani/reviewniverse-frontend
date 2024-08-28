@@ -8,23 +8,39 @@
   align-items: center;
   gap: 2px;
 
-  &[data-index="1"],
-  &[data-index="2"] {
+  &[data-color="red"] {
     .review-rating-fill {
       background-color: $color-red;
     }
   }
-  &[data-index="3"] {
+  &[data-color="yellow"] {
     .review-rating-fill {
       background-color: $color-yellow;
     }
   }
-  &[data-index="4"],
-  &[data-index="5"] {
+  &[data-color="green"] {
     .review-rating-fill {
       background-color: $color-green;
     }
   }
+
+  // &[data-index="1"],
+  // &[data-index="2"] {
+  //   .review-rating-fill {
+  //     background-color: $color-red;
+  //   }
+  // }
+  // &[data-index="3"] {
+  //   .review-rating-fill {
+  //     background-color: $color-yellow;
+  //   }
+  // }
+  // &[data-index="4"],
+  // &[data-index="5"] {
+  //   .review-rating-fill {
+  //     background-color: $color-green;
+  //   }
+  // }
 }
 
 .review-rating-fill {

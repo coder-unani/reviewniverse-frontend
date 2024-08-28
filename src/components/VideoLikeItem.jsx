@@ -2,11 +2,12 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import { fYear } from "/src/utils/format";
-import { fVideoCode, fThumbnail, fCountry, fRating } from "/src/utils/formatContent";
+import { fVideoCode, fThumbnail } from "/src/utils/formatContent";
 
 const VideoLikeItem = ({ video }) => {
   const navigate = useNavigate();
 
+  // 비디오 아이템 클릭 시 비디오 상세 페이지로 이동
   const handleLinkClick = (videoId) => {
     navigate(`/contents/${videoId}`);
   };
@@ -34,17 +35,7 @@ const VideoLikeItem = ({ video }) => {
           <div className="default-subtitle-wrapper">
             <div className="default-subtitle">
               <span>{fYear(video.video.release)}</span>
-              {/* {video.country && (
-                  <>
-                    <span>|</span>
-                    <span>{fCountry(video.country)}</span>
-                  </>
-                )} */}
             </div>
-            {/* <div className="default-rating-wrapper" data-rating={Math.floor(fRating(video.video.rating))}>
-                <div className="default-rating-square"></div>
-                <span className="default-rating">{video.video.rating ? fRating(video.video.rating) : "-"}</span>
-              </div> */}
           </div>
         </div>
       </a>

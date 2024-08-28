@@ -5,7 +5,7 @@ import { fThumbnail } from "/src/utils/formatContent";
 
 const VideoSectionPoster = React.memo(() => {
   const { content } = useVideoDetailContext();
-  const poster = useMemo(() => fThumbnail(content.data.thumbnail), [content.data.thumbnail]);
+  const poster = useMemo(() => fThumbnail(content.data.thumbnail, false), [content.data.thumbnail]);
 
   return (
     <section className="detail-poster-section">

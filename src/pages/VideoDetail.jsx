@@ -17,7 +17,8 @@ import {
   fReleaseText,
   fReleaseDate,
   fGenres,
-  fRating,
+  fRatingColor,
+  fRatingText,
   fRuntimeText,
 } from "/src/utils/formatContent";
 
@@ -84,6 +85,7 @@ const VideoDetail = () => {
     return navigate("/error");
   }
 
+  // TODO: og태그 이미지 사이즈 고려
   const title = `${content.data.title} (${fYear(content.data.release)}) - 리뷰니버스`;
   const description = content.data.synopsis;
   const imageUrl = fThumbnail(content.data.thumbnail);
@@ -149,13 +151,10 @@ const VideoDetail = () => {
 
             <div className="detail-sub-info-container">
               <Swiper className="detail-sub-info-wrapper" {...subInfoSwiperConfig}>
-                <SwiperSlide
-                  className="detail-sub-info-item rating"
-                  data-index={content.data.rating > 0 ? Math.floor(fRating(content.data.rating)) : 0}
-                >
+                <SwiperSlide className="detail-sub-info-item rating" data-color={fRatingColor(content.data.rating)}>
                   <p className="detail-sub-title">평점</p>
                   <div className="detail-sub-content-wrapper">
-                    <p className="detail-sub-content">{content.data.rating > 0 ? fRating(content.data.rating) : "-"}</p>
+                    <p className="detail-sub-content">{fRatingText(content.data.rating)}</p>
                   </div>
                 </SwiperSlide>
 

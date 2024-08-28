@@ -48,7 +48,20 @@ export const VIDEO_ORDER_OPTIONS = [
 ];
 */
 
-export const VIDEO_RATING_TEXT = ["어떠셨나요?", "최악이에요!", "싫어요", "그냥 볼만했어요", "좋아요", "최고에요!"];
+// TODO: 문구 정리 필요
+export const VIDEO_RATING_TEXT = [
+  "어떠셨나요?",
+  "최악이에요!",
+  "싫어요",
+  "별로에요",
+  "그저 그래요",
+  "보통이에요",
+  "그냥 볼만했어요",
+  "그럭저럭 괜찮아요",
+  "좋아요",
+  "꽤 좋아요",
+  "최고에요!",
+];
 
 export const PROFILE_IMAGE_FILE_SIZE = 30;
 

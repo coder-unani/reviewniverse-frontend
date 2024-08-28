@@ -131,16 +131,7 @@
   gap: 4px;
   margin-left: 8px;
 
-  &[data-rating="0"] {
-    .rank-rating-square {
-      background-color: $color-white-08;
-    }
-    .rank-rating {
-      color: $color-white-08;
-    }
-  }
-  &[data-rating="1"],
-  &[data-rating="2"] {
+  &[data-color="red"] {
     .rank-rating-square {
       background-color: $color-red;
     }
@@ -148,7 +139,7 @@
       color: $color-red;
     }
   }
-  &[data-rating="3"] {
+  &[data-color="yellow"] {
     .rank-rating-square {
       background-color: $color-yellow;
     }
@@ -156,8 +147,7 @@
       color: $color-yellow;
     }
   }
-  &[data-rating="4"],
-  &[data-rating="5"] {
+  &[data-color="green"] {
     .rank-rating-square {
       background-color: $color-green;
     }
@@ -174,11 +164,13 @@
   width: 12px;
   height: 12px;
   border-radius: 3px;
+  background-color: $color-white-08;
 }
 
 .rank-rating {
   font-size: 13px;
   font-weight: 700;
+  color: $color-white-08;
   line-height: 1;
 }
 

@@ -39,21 +39,20 @@
 }
 
 .video-rating-text {
-  font-size: 13px;
+  font-size: 14px;
   color: $color-white-02;
 }
 
 .video-rating-range {
   position: relative;
   display: flex;
-  gap: 4px;
   cursor: pointer;
 
-  @for $i from 1 through 5 {
+  @for $i from 1 through 10 {
     &[data-rating="#{$i}"] {
       .video-rating-fill:nth-child(-n + #{$i}) {
         opacity: 1;
-        background-color: if($i <= 2, $color-red, if($i == 3, $color-yellow, $color-green));
+        background-color: if($i <= 3, $color-red, if($i <= 7, $color-yellow, $color-green));
       }
     }
   }
@@ -61,10 +60,17 @@
 
 .video-rating-fill {
   flex: 1;
-  min-width: 30px;
+  min-width: 20px;
   height: 16px;
-  border-radius: 2px;
   opacity: 0.2;
+
+  &:not(:first-child):nth-child(2n + 1) {
+    margin-left: 4px;
+    border-radius: 2px 0 0 2px;
+  }
+  &:nth-child(2n) {
+    border-radius: 0 2px 2px 0;
+  }
 
   &:first-child {
     border-top-left-radius: 6px;
@@ -75,15 +81,19 @@
     border-bottom-right-radius: 6px;
   }
 
-  &[data-rating="1"],
-  &[data-rating="2"] {
+  &[data-color="red"] {
     background-color: $color-red;
   }
-  &[data-rating="3"] {
+  &[data-color="yellow"] {
     background-color: $color-yellow;
   }
-  &[data-rating="4"],
-  &[data-rating="5"] {
+  &[data-color="green"] {
     background-color: $color-green;
   }
+}
+
+.video-rating-tooltip {
+  font-size: 14px !important;
+  border-radius: 6px !important;
+  background-color: $color-white-08 !important;
 }

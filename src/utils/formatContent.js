@@ -79,20 +79,25 @@ export const fPreviewThumbnail = (images) => {
 };
 
 // 썸네일 이미지 포맷
-export const fThumbnail = (images) => {
-  if (isEmpty(images)) return DEFAULT_IMAGES.noImage;
-  if (Array.isArray(images)) return fMakeThumbnailUrl(images[0]);
-  return fMakeThumbnailUrl(images);
-};
-
-// 배경 이미지 포맷
-export const fBackgroundImage = (images, prefix = false) => {
+export const fThumbnail = (images, isThumb = true) => {
   let result = DEFAULT_IMAGES.noImage;
   if (isEmpty(images)) return result;
   if (Array.isArray(images)) {
-    result = prefix ? fMakeThumbnailUrl(images[1]) : fMakeImageUrl(images[1]);
+    result = isThumb ? fMakeThumbnailUrl(images[0]) : fMakeImageUrl(images[0]);
   } else {
-    result = prefix ? fMakeThumbnailUrl(images) : fMakeImageUrl(images);
+    result = isThumb ? fMakeThumbnailUrl(images) : fMakeImageUrl(images);
+  }
+  return result;
+};
+
+// 배경 이미지 포맷
+export const fBackgroundImage = (images, isThumb = false) => {
+  let result = DEFAULT_IMAGES.noImage;
+  if (isEmpty(images)) return result;
+  if (Array.isArray(images)) {
+    result = isThumb ? fMakeThumbnailUrl(images[1]) : fMakeImageUrl(images[1]);
+  } else {
+    result = isThumb ? fMakeThumbnailUrl(images) : fMakeImageUrl(images);
   }
   return result;
 };
@@ -120,6 +125,21 @@ export const fGenreJoin = (genre) => {
 // 평점 포맷
 export const fRating = (rating) => {
   return parseFloat(rating / 2).toFixed(1);
+};
+
+// 평점 컬러 포맷
+export const fRatingColor = (rating) => {
+  const colors = ["red", "yellow", "green"];
+  const formatRating = parseFloat(fRating(rating));
+  if (formatRating === 0) return "default";
+  if (formatRating > 3.5) return colors[2];
+  if (formatRating > 1.5) return colors[1];
+  return colors[0];
+};
+
+// 평점 텍스트 포맷
+export const fRatingText = (rating) => {
+  return rating ? fRating(rating) : "-";
 };
 
 // TODO: 관람등급 포맷

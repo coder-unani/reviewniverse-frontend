@@ -3,7 +3,9 @@ import { useAuthContext } from "/src/context/AuthContext";
 import { useModalContext } from "/src/context/ModalContext";
 import { useVideoDetailContext } from "/src/context/VideoDetailContext";
 import { useVideoRating } from "/src/hooks/useVideoRating";
+import { Tooltip } from "react-tooltip";
 import { showSuccessToast } from "/src/components/Toast";
+import { fRating, fRatingColor } from "/src/utils/formatContent";
 import { VIDEO_RATING_TEXT } from "/src/config/constants";
 
 const RatingVideo = () => {
@@ -16,25 +18,24 @@ const RatingVideo = () => {
   const ratingImgRef = useRef(null);
   const ratingTextRef = useRef(null);
 
-  // 비디오 평가하기
+  // 비디오 평가하기 이미지 및 텍스트 설정
   const handleRatingSet = (rating) => {
-    // 1~10까지의 rating을 0~5까지로 변환
-    const floorRating = Math.floor(rating / 2);
     if (ratingRef.current && ratingTextRef.current) {
-      ratingRef.current.dataset.rating = floorRating;
-      ratingTextRef.current.innerText = VIDEO_RATING_TEXT[floorRating];
+      ratingRef.current.dataset.rating = rating;
+      ratingTextRef.current.innerText = VIDEO_RATING_TEXT[rating];
     }
-    setImgSrc(`/assets/rating/${floorRating}.png`);
+    setImgSrc(`/assets/rating/${rating}.png`);
   };
 
-  // 비디오 평가하기 이벤트
+  // 비디오 평가하기 마우스 올렸을 때 이벤트
   const handleRatingMouseOver = (e) => {
     if (isRatingPending) return;
     const rating = e.target.dataset.rating;
     if (!rating) return;
-    handleRatingSet(rating * 2);
+    handleRatingSet(rating);
   };
 
+  // 비디오 평가하기 마우스 벗어났을 때 이벤트
   const handleRatingMouseOut = (e) => {
     if (isRatingPending) return;
     if (ratingRef.current && !ratingRef.current.contains(e.relatedTarget)) {
@@ -42,6 +43,7 @@ const RatingVideo = () => {
     }
   };
 
+  // 비디오 평가하기 클릭 이벤트
   const handleRatingClick = async (e) => {
     if (!user) {
       toggleEnjoyModal();
@@ -51,8 +53,10 @@ const RatingVideo = () => {
 
     const rating = e.target.dataset.rating;
     if (!rating) return;
+
+    // 평가하기 API 호출
     await videoRating(
-      { videoId, rating: rating * 2, userId: user.id },
+      { videoId, rating: rating, userId: user.id },
       {
         onSuccess: (res) => {
           if (res.status === 200) {
@@ -95,12 +99,25 @@ const RatingVideo = () => {
           {VIDEO_RATING_TEXT[0]}
         </span>
         <div className="video-rating-range" ref={ratingRef}>
-          <div className="video-rating-fill" data-rating="1"></div>
-          <div className="video-rating-fill" data-rating="2"></div>
-          <div className="video-rating-fill" data-rating="3"></div>
-          <div className="video-rating-fill" data-rating="4"></div>
-          <div className="video-rating-fill" data-rating="5"></div>
+          {Array.from({ length: 10 }, (_, i) => (
+            <div
+              id={`video-rating-${i + 1}`}
+              className="video-rating-fill"
+              data-rating={i + 1}
+              data-color={fRatingColor(i + 1)}
+              key={i}
+            ></div>
+          ))}
         </div>
+        {Array.from({ length: 10 }, (_, i) => (
+          <Tooltip
+            className="video-rating-tooltip"
+            anchorSelect={`#video-rating-${i + 1}`}
+            content={`${fRating(i + 1)}점`}
+            place="bottom"
+            key={i}
+          />
+        ))}
       </div>
     </article>
   );

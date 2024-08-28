@@ -2,12 +2,12 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import RatingReview from "/src/components/RatingReview";
 import { LazyLoadImage } from "react-lazy-load-image-component";
-import { fYear } from "/src/utils/format";
-import { fVideoCode, fThumbnail, fCountry } from "/src/utils/formatContent";
+import { fVideoCode, fThumbnail } from "/src/utils/formatContent";
 
 const VideoRatingItem = ({ video }) => {
   const navigate = useNavigate();
 
+  // 비디오 아이템 클릭 시 비디오 상세 페이지로 이동
   const handleLinkClick = (videoId) => {
     navigate(`/contents/${videoId}`);
   };
@@ -35,13 +35,6 @@ const VideoRatingItem = ({ video }) => {
           <div className="default-subtitle-wrapper">
             <div className="default-subtitle">
               <RatingReview rating={video.rating} />
-              {/* <span>{fYear(video.release)}</span>
-              {video.country && (
-                <>
-                  <span>|</span>
-                  <span>{fCountry(video.country)}</span>
-                </>
-              )} */}
             </div>
           </div>
         </div>

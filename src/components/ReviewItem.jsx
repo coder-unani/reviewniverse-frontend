@@ -4,7 +4,7 @@ import ProfileImage from "/src/components/Button/Profile/Image";
 import RatingReview from "/src/components/RatingReview";
 import ReviewLikeButton from "/src/components/Button/ReviewLike";
 import { fYear, fDiffDate } from "/src/utils/format";
-import { fVideoCode } from "/src/utils/formatContent";
+import { fVideoCode, fThumbnail } from "/src/utils/formatContent";
 import MoreIcon from "/src/assets/button/fill-more.svg?react";
 
 /**
@@ -46,7 +46,7 @@ const ReviewItem = ({ user, review }) => {
       <div className="user-review-video-wrapper">
         <Link to={`/contents/${data.video.id}`} className="user-review-video-link">
           <picture className="user-review-thumbnail-wrapper">
-            <img className="user-review-thumbnail" src={data.video.thumbnail} alt={data.video.title} />
+            <img className="user-review-thumbnail" src={fThumbnail(data.video.thumbnail)} alt={data.video.title} />
           </picture>
         </Link>
         <div className="user-review-wrapper">

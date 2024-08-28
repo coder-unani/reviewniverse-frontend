@@ -23,6 +23,7 @@ const VideoReviewItem = ({ videoId, review }) => {
     setActive(review.is_spoiler);
   }, [review]);
 
+  // 스포일러 리뷰 클릭 시 스포일러 내용 보이기/숨기기
   const handleSpoiler = () => {
     if (!active) return;
     setActive((prev) => !prev);
