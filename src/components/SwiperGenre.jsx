@@ -3,7 +3,8 @@ import { useNavigate } from "react-router-dom";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation } from "swiper/modules";
 import { LazyLoadImage } from "react-lazy-load-image-component";
-import { fBackgroundImage } from "/src/utils/formatContent";
+import { fMakeImageUrl } from "/src/utils/formatContent";
+import { SETTINGS } from "/src/config/settings";
 import { isEmpty } from "lodash";
 import ArrowLeftIcon from "/src/assets/button/arrow-left.svg?react";
 import ArrowRightIcon from "/src/assets/button/arrow-right.svg?react";
@@ -69,7 +70,7 @@ const SwiperGenre = ({ content }) => {
       <div className="horizontal-title-wrapper">
         <h2 className="horizontal-title genre">
           <LayoutIcon />
-          카테고리
+          장르
         </h2>
       </div>
       <div className="horizontal-videos-wrapper">
@@ -85,7 +86,7 @@ const SwiperGenre = ({ content }) => {
                 <picture className="genre-thumbnail-wrapper">
                   <LazyLoadImage
                     className="genre-thumbnail-image"
-                    src={fBackgroundImage(genre.image)}
+                    src={fMakeImageUrl(genre.image, SETTINGS.IMAGE_RESIZE_R5)}
                     alt={genre.name}
                     effect="blur"
                   />

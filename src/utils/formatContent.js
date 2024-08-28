@@ -8,6 +8,7 @@ import {
   VIDEO_PLATFORM_CODE,
 } from "/src/config/codes";
 import { DEFAULT_IMAGES } from "/src/config/constants";
+import { SETTINGS } from "/src/config/settings";
 
 // 유저 코드 포맷
 export const fUserCode = (code) => {
@@ -57,29 +58,34 @@ export const fStaffCode = (code) => {
   return staffType || "제작";
 };
 
+export const fMakeImageUrl = (image, prefix = null) => {
+  if (prefix) return `${SETTINGS.IMAGE_DOMAIN}${prefix}/${image}`;
+  return `${SETTINGS.IMAGE_DOMAIN}${image}`;
+};
+
 // 프리뷰 썸네일 포맷
 export const fPreviewThumbnail = (images) => {
   if (isEmpty(images)) return DEFAULT_IMAGES.noImage;
   if (Array.isArray(images)) {
-    if (images[2]) return images[2];
-    if (images[1]) return images[1];
-    return images[0];
+    if (images[2]) return fMakeImageUrl(images[2]);
+    if (images[1]) return fMakeImageUrl(images[1]);
+    return fMakeImageUrl(images[0]);
   }
-  return images;
+  return fMakeImageUrl(images);
 };
 
 // 썸네일 이미지 포맷
 export const fThumbnail = (images) => {
   if (isEmpty(images)) return DEFAULT_IMAGES.noImage;
-  if (Array.isArray(images)) return images[0];
-  return images;
+  if (Array.isArray(images)) return fMakeImageUrl(images[0], SETTINGS.IMAGE_RESIZE_R5);
+  return fMakeImageUrl(images, SETTINGS.IMAGE_RESIZE_R5);
 };
 
 // 배경 이미지 포맷
 export const fBackgroundImage = (images) => {
   if (isEmpty(images)) return DEFAULT_IMAGES.noImage;
-  if (Array.isArray(images)) return images[1];
-  return images;
+  if (Array.isArray(images)) return fMakeImageUrl(images[1]);
+  return fMakeImageUrl(images);
 };
 
 // 장르 포맷

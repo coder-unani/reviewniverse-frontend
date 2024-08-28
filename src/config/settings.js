@@ -1,6 +1,8 @@
 export const SETTINGS = {
   DEBUG: import.meta.env.VITE_DEBUG === "true",
   API_BASE_URL: "https://comet.reviewniverse.net",
+  IMAGE_DOMAIN: "https://storage.reviewniverse.net/",
+  IMAGE_RESIZE_R5: "r5",
   DEVICE_IDENTIFIER: import.meta.env.VITE_DEVICE_IDENTIFIER,
   DOMAIN_URL: import.meta.env.VITE_DOMAIN_URL,
   COOKIE_DOMAIN: import.meta.env.VITE_COOKIE_DOMAIN,

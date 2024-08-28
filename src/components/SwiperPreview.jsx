@@ -30,17 +30,6 @@ const SwiperPreview = React.memo(({ screensMA01 }) => {
     effect: "fade",
     parallax: true,
     loop: true,
-    breakpoints: {
-      577: {
-        spaceBetween: 12,
-      },
-      769: {
-        spaceBetween: 18,
-      },
-      1281: {
-        spaceBetween: 24,
-      },
-    },
     onSlideChange: (swiper) => {
       setActiveThumbIndex(swiper.realIndex);
 
