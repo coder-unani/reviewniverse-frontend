@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import SkeletonHome from "/src/components/Skeleton/Home";
 import { useScreenVideos } from "/src/hooks/useScreenVideos";
 import { useRankingVideos } from "/src/hooks/useRankingVideos";
+import { useRankingGenres } from "/src/hooks/useRankingGenres";
 import { useVideos } from "/src/hooks/useVideos";
 import { showErrorToast } from "/src/components/Toast";
 import { SCREEN_MAIN_ID } from "/src/config/codes";
@@ -11,6 +12,7 @@ import { MESSAGES } from "/src/config/messages";
 import { fScreenCode } from "/src/utils/formatContent";
 
 const SwiperPreview = React.lazy(() => import("/src/components/SwiperPreview"));
+const SwiperGenre = React.lazy(() => import("/src/components/SwiperGenre"));
 const VideosHorizontal = React.lazy(() => import("/src/components/VideosHorizontal"));
 const Videos = React.lazy(() => import("/src/components/Videos"));
 
@@ -21,15 +23,20 @@ const Home = () => {
   const [hasMore, setHasMore] = useState(true);
   const [videos, setVideos] = useState(null);
   const {
-    data: ranking,
-    error: rankingError,
-    isLoading: rankingIsLoading,
+    data: screenVideos,
+    error: screenVidoesError,
+    isLoading: screenVideosIsLoading,
+  } = useScreenVideos({ code: SCREEN_MAIN_ID, display: "detail" });
+  const {
+    data: rankingVideos,
+    error: rankingVideosError,
+    isLoading: rankingVideosIsLoading,
   } = useRankingVideos({ code: today, count: 20 });
   const {
-    data: screens,
-    error: screensError,
-    isLoading: screensIsLoading,
-  } = useScreenVideos({ code: SCREEN_MAIN_ID, display: "detail" });
+    data: rankingGenres,
+    error: rankingGenresError,
+    isLoading: rankingGenresIsLoading,
+  } = useRankingGenres({ count: 50 });
   const {
     data: videosData,
     error: videosError,
@@ -47,7 +54,6 @@ const Home = () => {
 
   useEffect(() => {
     const header = document.querySelector("header");
-
     const handleScroll = () => {
       if (window.scrollY > 100 && header.classList.contains("transparent")) {
         header.classList.remove("transparent");
@@ -55,10 +61,8 @@ const Home = () => {
         header.classList.add("transparent");
       }
     };
-
     window.addEventListener("scroll", handleScroll);
     header.classList.add("transparent");
-
     return () => {
       window.removeEventListener("scroll", handleScroll);
       header.classList.remove("transparent");
@@ -67,13 +71,13 @@ const Home = () => {
 
   // TODO: 정리 필요
   useEffect(() => {
-    if (screensIsLoading || !screens.status) return;
-    setScreensMA01(fScreenCode(screens.data, "MA01"));
-    setScreensMA02(fScreenCode(screens.data, "MA02"));
-    setScreensMA03(fScreenCode(screens.data, "MA03"));
-    setScreensMA04(fScreenCode(screens.data, "MA04"));
-    setScreensMA05(fScreenCode(screens.data, "MA05"));
-  }, [screens]);
+    if (screenVideosIsLoading || !screenVideos.status) return;
+    setScreensMA01(fScreenCode(screenVideos.data, "MA01"));
+    setScreensMA02(fScreenCode(screenVideos.data, "MA02"));
+    setScreensMA03(fScreenCode(screenVideos.data, "MA03"));
+    setScreensMA04(fScreenCode(screenVideos.data, "MA04"));
+    setScreensMA05(fScreenCode(screenVideos.data, "MA05"));
+  }, [screenVideosIsLoading, screenVideos]);
 
   useEffect(() => {
     if (videosIsLoading || !videosData || !hasMore) {
@@ -113,11 +117,11 @@ const Home = () => {
     setPage(newPage);
   };
 
-  if (screensIsLoading || rankingIsLoading) {
+  if (screenVideosIsLoading || rankingVideosIsLoading || rankingGenresIsLoading) {
     return <SkeletonHome />;
   }
 
-  if (screensError || rankingError || videosError) {
+  if (screenVidoesError || rankingVideosError || rankingGenresError || videosError) {
     return navigate("/error");
   }
 
@@ -127,9 +131,15 @@ const Home = () => {
         <section className="home-preview-section">{screensMA01 && <SwiperPreview screensMA01={screensMA01} />}</section>
 
         <section className="home-main-section">
-          {ranking.status && (
-            <VideosHorizontal content={ranking.data} template="rank" title="🍿 리뷰니버스 TOP 20"></VideosHorizontal>
+          {rankingVideos.status && (
+            <VideosHorizontal
+              content={rankingVideos.data}
+              template="rank"
+              title="🍿 리뷰니버스 TOP 20"
+            ></VideosHorizontal>
           )}
+
+          {rankingGenres.status && <SwiperGenre content={rankingGenres.data} />}
 
           {screensMA02 && (
             <VideosHorizontal

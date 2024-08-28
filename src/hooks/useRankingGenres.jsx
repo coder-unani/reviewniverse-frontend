@@ -1,11 +1,11 @@
 import { useQuery } from "@tanstack/react-query";
-import { fetchRankingVideos } from "/src/api/ranking";
+import { fetchRankingGenres } from "/src/api/ranking";
 
-export const useRankingVideos = ({ code, count }) => {
+export const useRankingGenres = ({ count }) => {
   return useQuery({
-    queryKey: ["rankingVideos", { code, count }],
+    queryKey: ["rankingGenres", { count }],
     queryFn: async () => {
-      const res = await fetchRankingVideos({ code, count });
+      const res = await fetchRankingGenres({ count });
       if (res.status === 200) {
         return {
           status: true,
@@ -15,7 +15,7 @@ export const useRankingVideos = ({ code, count }) => {
       } else {
         return {
           status: false,
-          code: "랭킹 비디오 정보를 가져오는데 실패했습니다.",
+          code: "랭킹 장르 정보를 가져오는데 실패했습니다.",
           data: null,
         };
       }

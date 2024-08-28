@@ -27,6 +27,11 @@ const SwiperGallery = () => {
         slidesPerGroup: 3,
         allowTouchMove: false,
       },
+      1281: {
+        slidesPerView: 4,
+        slidesPerGroup: 4,
+        allowTouchMove: false,
+      },
     },
     onSwiper: (swiper) => {
       swiperRef.current = swiper;
