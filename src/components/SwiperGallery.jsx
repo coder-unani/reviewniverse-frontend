@@ -3,8 +3,7 @@ import PhotoModal from "/src/components/Modal/Photo";
 import { useVideoDetailContext } from "/src/context/VideoDetailContext";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { LazyLoadImage } from "react-lazy-load-image-component";
-import { fMakeImageUrl } from "/src/utils/formatContent";
-import { SETTINGS } from "/src/config/settings";
+import { fMakeThumbnailUrl, fMakeImageUrl } from "/src/utils/formatContent";
 import ArrowLeftIcon from "/src/assets/button/arrow-left.svg?react";
 import ArrowRightIcon from "/src/assets/button/arrow-right.svg?react";
 
@@ -59,7 +58,7 @@ const SwiperGallery = () => {
               <picture className="detail-photo-wrapper">
                 <LazyLoadImage
                   className="detail-photo"
-                  src={fMakeImageUrl(image, SETTINGS.IMAGE_RESIZE_R5)}
+                  src={fMakeThumbnailUrl(image)}
                   alt="갤러리 이미지"
                   effect="blur"
                 />

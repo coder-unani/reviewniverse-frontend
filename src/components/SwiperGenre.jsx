@@ -3,8 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation } from "swiper/modules";
 import { LazyLoadImage } from "react-lazy-load-image-component";
-import { fMakeImageUrl } from "/src/utils/formatContent";
-import { SETTINGS } from "/src/config/settings";
+import { fMakeThumbnailUrl } from "/src/utils/formatContent";
 import { isEmpty } from "lodash";
 import ArrowLeftIcon from "/src/assets/button/arrow-left.svg?react";
 import ArrowRightIcon from "/src/assets/button/arrow-right.svg?react";
@@ -86,7 +85,7 @@ const SwiperGenre = ({ content }) => {
                 <picture className="genre-thumbnail-wrapper">
                   <LazyLoadImage
                     className="genre-thumbnail-image"
-                    src={fMakeImageUrl(genre.image, SETTINGS.IMAGE_RESIZE_R5)}
+                    src={fMakeThumbnailUrl(genre.image)}
                     alt={genre.name}
                     effect="blur"
                   />

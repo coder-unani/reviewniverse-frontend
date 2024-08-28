@@ -58,9 +58,13 @@ export const fStaffCode = (code) => {
   return staffType || "제작";
 };
 
-export const fMakeImageUrl = (image, prefix = null) => {
-  if (prefix) return `${SETTINGS.IMAGE_DOMAIN}${prefix}/${image}`;
+export const fMakeImageUrl = (image) => {
   return `${SETTINGS.IMAGE_DOMAIN}${image}`;
+};
+
+export const fMakeThumbnailUrl = (image) => {
+  const resizeImage = `r5/${image}`;
+  return fMakeImageUrl(resizeImage);
 };
 
 // 프리뷰 썸네일 포맷
@@ -77,15 +81,20 @@ export const fPreviewThumbnail = (images) => {
 // 썸네일 이미지 포맷
 export const fThumbnail = (images) => {
   if (isEmpty(images)) return DEFAULT_IMAGES.noImage;
-  if (Array.isArray(images)) return fMakeImageUrl(images[0], SETTINGS.IMAGE_RESIZE_R5);
-  return fMakeImageUrl(images, SETTINGS.IMAGE_RESIZE_R5);
+  if (Array.isArray(images)) return fMakeThumbnailUrl(images[0]);
+  return fMakeThumbnailUrl(images);
 };
 
 // 배경 이미지 포맷
-export const fBackgroundImage = (images) => {
-  if (isEmpty(images)) return DEFAULT_IMAGES.noImage;
-  if (Array.isArray(images)) return fMakeImageUrl(images[1]);
-  return fMakeImageUrl(images);
+export const fBackgroundImage = (images, prefix = false) => {
+  let result = DEFAULT_IMAGES.noImage;
+  if (isEmpty(images)) return result;
+  if (Array.isArray(images)) {
+    result = prefix ? fMakeThumbnailUrl(images[1]) : fMakeImageUrl(images[1]);
+  } else {
+    result = prefix ? fMakeThumbnailUrl(images) : fMakeImageUrl(images);
+  }
+  return result;
 };
 
 // 장르 포맷

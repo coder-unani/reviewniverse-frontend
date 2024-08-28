@@ -132,7 +132,7 @@ const SwiperPreview = React.memo(({ screensMA01 }) => {
                   <picture className="preview-thumbnail-wrapper">
                     <LazyLoadImage
                       className="preview-thumbnail-image"
-                      src={fBackgroundImage(video.thumbnail)}
+                      src={fBackgroundImage(video.thumbnail, true)}
                       alt={video.title}
                       effect="blur"
                     />
