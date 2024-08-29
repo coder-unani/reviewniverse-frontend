@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation } from "swiper/modules";
 import { LazyLoadImage } from "react-lazy-load-image-component";
@@ -10,7 +10,6 @@ import ArrowRightIcon from "/src/assets/button/arrow-right.svg?react";
 import LayoutIcon from "/src/assets/button/outline-layout.svg?react";
 
 const SwiperGenre = ({ content }) => {
-  const navigate = useNavigate();
   const [genres, setGenres] = useState([]);
   const [isBeginning, setIsBeginning] = useState(true);
   const [isEnd, setIsEnd] = useState(false);
@@ -56,12 +55,6 @@ const SwiperGenre = ({ content }) => {
     setGenres(content);
   }, [content]);
 
-  // 장르 클릭 시 해당 장르 페이지로 이동
-  const handleLinkClick = (genre) => {
-    // TODO: 장르 아이디로 이동하도록 수정
-    navigate(`/genre?genre=${genre}`);
-  };
-
   if (isEmpty(genres)) return null;
 
   return (
@@ -76,12 +69,7 @@ const SwiperGenre = ({ content }) => {
         <Swiper className="horizontal-videos" {...swiperConfig}>
           {genres.map((genre) => (
             <SwiperSlide className="horizontal-video-item" key={genre.id}>
-              <a
-                className="genre-video-link"
-                onClick={() => handleLinkClick(genre.name)}
-                role="button"
-                aria-label={genre.name}
-              >
+              <Link className="genre-video-link" to={`/genre?genre=${genre.name}`} aria-label={genre.name}>
                 <picture className="genre-thumbnail-wrapper">
                   <LazyLoadImage
                     className="genre-thumbnail-image"
@@ -91,7 +79,7 @@ const SwiperGenre = ({ content }) => {
                   />
                 </picture>
                 <h5 className="genre-video-title">#{genre.name}</h5>
-              </a>
+              </Link>
             </SwiperSlide>
           ))}
         </Swiper>

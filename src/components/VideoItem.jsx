@@ -1,20 +1,13 @@
 import React from "react";
-import { useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import { fYear } from "/src/utils/format";
 import { fThumbnail, fCountry, fRatingColor, fRatingText } from "/src/utils/formatContent";
 
 const VideoItem = ({ video }) => {
-  const navigate = useNavigate();
-
-  // 비디오 아이템 클릭 시 비디오 상세 페이지로 이동
-  const handleLinkClick = (videoId) => {
-    navigate(`/contents/${videoId}`);
-  };
-
   return (
     <article className="default-video-item">
-      <a onClick={() => handleLinkClick(video.id)} role="button" aria-label={video.title}>
+      <Link to={`/contents/${video.id}`} aria-label={video.title}>
         <div className="default-thumbnail-container">
           <picture className="default-thumbnail-wrapper">
             <LazyLoadImage className="default-thumbnail" src={fThumbnail(video.thumbnail)} alt="썸네일" effect="blur" />
@@ -43,7 +36,7 @@ const VideoItem = ({ video }) => {
             </div>
           </div>
         </div>
-      </a>
+      </Link>
     </article>
   );
 };

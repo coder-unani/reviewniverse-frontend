@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Thumbs, Autoplay, Parallax, EffectFade } from "swiper/modules";
 import { LazyLoadImage } from "react-lazy-load-image-component";
@@ -71,7 +71,7 @@ const SwiperPreview = React.memo(({ screensMA01 }) => {
     setPreviewVideo(screensMA01.content.list);
   }, [screensMA01]);
 
-  // 썸네일 클릭 시 해당 비디오 페이지로 이동
+  // 썸네일 클릭 시 해당 슬라이드로 이동 후 다시 클릭 시 페이지 이동
   const handleLinkClick = (e, videoId, index) => {
     e.preventDefault();
     if (index === activeThumbIndex) {
@@ -123,10 +123,10 @@ const SwiperPreview = React.memo(({ screensMA01 }) => {
           <Swiper className="preview-videos" {...thumbSwiperConfig}>
             {previewVideo.map((video, index) => (
               <SwiperSlide className="preview-video-item" key={video.id}>
-                <a
+                <Link
                   className="preview-video-link"
+                  to={`/contents/${video.id}`}
                   onClick={(e) => handleLinkClick(e, video.id, index)}
-                  role="button"
                   aria-label={video.title}
                 >
                   <picture className="preview-thumbnail-wrapper">
@@ -137,7 +137,7 @@ const SwiperPreview = React.memo(({ screensMA01 }) => {
                       effect="blur"
                     />
                   </picture>
-                </a>
+                </Link>
               </SwiperSlide>
             ))}
           </Swiper>

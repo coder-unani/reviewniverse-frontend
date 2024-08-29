@@ -1,16 +1,10 @@
 import React from "react";
-import { useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import { fYear } from "/src/utils/format";
 import { fThumbnail, fCountry, fRatingColor, fRatingText } from "/src/utils/formatContent";
 
 const VideoRankItem = ({ video, index }) => {
-  const navigate = useNavigate();
-
-  const handleLinkClick = (videoId) => {
-    navigate(`/contents/${videoId}`);
-  };
-
   // 랭킹 숫자 포맷
   const fRankingNumber = (number) => {
     // 숫자 한자리씩 잘라서 배열에 저장
@@ -23,7 +17,7 @@ const VideoRankItem = ({ video, index }) => {
 
   return (
     <article className="rank-video-item">
-      <a onClick={() => handleLinkClick(video.id)} role="button" aria-label={video.title}>
+      <Link to={`/contents/${video.id}`} aria-label={video.title}>
         <div className="rank-thumbnail-container">
           <picture className="rank-thumbnail-wrapper">
             <LazyLoadImage className="rank-thumbnail" src={fThumbnail(video.thumbnail)} alt="썸네일" effect="blur" />
@@ -53,7 +47,7 @@ const VideoRankItem = ({ video, index }) => {
             </div>
           </div>
         </div>
-      </a>
+      </Link>
     </article>
   );
 };
