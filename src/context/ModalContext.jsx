@@ -23,7 +23,8 @@ const ModalContextProvider = ({ children }) => {
   const [isTermsModal, setIsTermsModal] = useState(false);
   const [isPrivacyModal, setIsPrivacyModal] = useState(false);
   const [isPrivcayCollectionModal, setIsPrivacyCollectionModal] = useState(false);
-  const [isReviewDeleteModal, setIsReviewDeleteModal] = useState(false);
+  const [isConfirmModal, setIsConfirmModal] = useState(false);
+  const [confirmMessage, setConfirmMessage] = useState("");
   const [confirmResolve, setConfirmResolve] = useState(null);
 
   /*
@@ -51,7 +52,8 @@ const ModalContextProvider = ({ children }) => {
     if (isReviewModal) setIsReviewModal(false);
     if (isTermsModal) setIsTermsModal(false);
     if (isPrivacyModal) setIsPrivacyModal(false);
-    if (isReviewDeleteModal) setIsReviewDeleteModal(false);
+    if (isPrivcayCollectionModal) setIsPrivacyCollectionModal(false);
+    if (isConfirmModal) setIsConfirmModal(false);
   }, [location]);
 
   // 팝업 배너 토글
@@ -85,17 +87,22 @@ const ModalContextProvider = ({ children }) => {
   };
 
   // 확인 모달창 토글
-  const toggleConfirmModal = (resolve) => {
+  const toggleConfirmModal = (message, resolve) => {
+    // 메세지 설정
+    setConfirmMessage(message);
+    // 확인 결과를 처리할 함수 설정
     setConfirmResolve(() => resolve);
-    setIsReviewDeleteModal(true);
+    // 확인 모달창 열기
+    setIsConfirmModal(true);
   };
 
+  // 확인 모달창 닫기
   const handleConfirm = (result) => {
     if (confirmResolve) {
       confirmResolve(result);
       setConfirmResolve(null);
     }
-    setIsReviewDeleteModal(false);
+    setIsConfirmModal(false);
   };
 
   const values = useMemo(
@@ -119,9 +126,9 @@ const ModalContextProvider = ({ children }) => {
       {isTermsModal && <TermsModal onClose={toggleTermsModal} />}
       {isPrivacyModal && <PrivacyModal onClose={togglePrivacyModal} />}
       {isPrivcayCollectionModal && <PrivacyCollectionModal onClose={togglePrivacyCollectionModal} />}
-      {isReviewDeleteModal && (
-        <ConfirmModal onClose={() => handleConfirm(false)} onConfirm={handleConfirm}>
-          리뷰를 삭제하시겠어요?
+      {isConfirmModal && (
+        <ConfirmModal onClose={() => handleConfirm(false)} onConfirm={() => handleConfirm(true)}>
+          {confirmMessage}
         </ConfirmModal>
       )}
     </ModalContext.Provider>

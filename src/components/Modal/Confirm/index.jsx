@@ -6,20 +6,20 @@ Modal.setAppElement("#root");
 const ConfirmModal = React.memo(({ children, onClose, onConfirm }) => {
   const modalRef = useRef();
 
+  // 모달창 닫기
   const handleModalClose = (e) => {
     if (e.target === modalRef.current) {
-      onConfirm(false);
       onClose();
     }
   };
 
+  // 확인 버튼 클릭
   const handleConfirmClick = () => {
-    onConfirm(true);
-    onClose();
+    onConfirm();
   };
 
+  // 취소 버튼 클릭
   const handleCancelClick = () => {
-    onConfirm(false);
     onClose();
   };
 

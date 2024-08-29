@@ -1,50 +1,20 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuthContext } from "/src/context/AuthContext";
+import { useModalContext } from "/src/context/ModalContext";
 import { MESSAGES } from "/src/config/messages";
 import { RiSettings2Fill } from "@remixicon/react";
 import { showSuccessToast, showErrorToast } from "/src/components/Toast";
 
-/**
- * TODO:
- * 1. 회원정보 수정: 회원정보 수정 페이지로 이동
- * 2. 로그아웃: 확인 모달, 메인페이지로 이동
- * 3. 회원탈퇴: 탈퇴페이지로 이동
- */
-
 const SettingButton = () => {
-  const [isMenuModal, setIsMenuModal] = useState(false);
-  const menuRef = useRef();
   const navigate = useNavigate();
   const { logout } = useAuthContext();
+  const { toggleConfirmModal } = useModalContext();
+  const [isMenuModal, setIsMenuModal] = useState(false);
+  const menuRef = useRef();
 
-  const toggleMenuModal = () => {
-    setIsMenuModal((prev) => !prev);
-  };
-
-  // 회원정보 수정
-  const handleEditClick = () => {
-    navigate("/user/profile");
-  };
-
-  // 로그아웃
-  const handleLogoutClick = async () => {
-    const res = await logout();
-    if (res.status) {
-      showSuccessToast(MESSAGES[res.code]);
-      navigate("/");
-    } else {
-      showErrorToast(MESSAGES[res.code]);
-    }
-  };
-
-  // 회원탈퇴
-  const handleDeleteClick = () => {
-    navigate("/user/delete");
-  };
-
+  // 메뉴 바깥 영역 클릭시 메뉴 닫기
   useEffect(() => {
-    // 메뉴 바깥 영역 클릭시 메뉴 닫기
     const button = document.querySelector(".settings");
 
     window.addEventListener("click", (e) => {
@@ -54,6 +24,40 @@ const SettingButton = () => {
       }
     });
   }, []);
+
+  // 메뉴 모달 토글
+  const toggleMenuModal = () => {
+    setIsMenuModal((prev) => !prev);
+  };
+
+  // 회원정보 수정 페이지로 이동
+  const handleEditClick = () => {
+    navigate("/user/profile");
+  };
+
+  // 로그아웃
+  const handleLogoutClick = async () => {
+    toggleMenuModal();
+
+    const confirmed = await new Promise((resolve) => {
+      toggleConfirmModal("로그아웃 하시겠어요?", resolve);
+    });
+
+    if (confirmed) {
+      const res = await logout();
+      if (res.status) {
+        showSuccessToast(MESSAGES[res.code]);
+        navigate("/");
+      } else {
+        showErrorToast(MESSAGES[res.code]);
+      }
+    }
+  };
+
+  // 회원탈퇴 페이지로 이동
+  const handleDeleteClick = () => {
+    navigate("/user/delete");
+  };
 
   return (
     <>

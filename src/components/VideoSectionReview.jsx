@@ -45,7 +45,7 @@ const VideoSectionReview = () => {
     }
 
     const confirmed = await new Promise((resolve) => {
-      toggleConfirmModal(resolve);
+      toggleConfirmModal("리뷰를 삭제하시겠어요?", resolve);
       deleteButtonRef.current.blur();
     });
 
