@@ -38,6 +38,9 @@ export const DEFAULT_ICONS = {
   close: "/assets/button/outline-close.svg",
 };
 
+export const SITE_KEYWORDS =
+  "리뷰니버스, 리뷰, reviewniverse, flqbslqjtm, 커뮤니티, 영화, 드라마, 인기, 추천, 검색, 통합검색, OTT, 평점";
+
 export const VIDEO_ORDER_OPTIONS = "release_desc";
 /*
 export const VIDEO_ORDER_OPTIONS = [

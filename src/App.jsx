@@ -7,7 +7,7 @@ import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { ThemeContextProvider } from "/src/context/ThemeContext";
 import { ToastWrapper } from "/src/components/Toast";
 import { SETTINGS } from "/src/config/settings";
-import { DEFAULT_IMAGES } from "/src/config/constants";
+import { DEFAULT_IMAGES, SITE_KEYWORDS } from "/src/config/constants";
 
 /**
  * TODO:
@@ -24,6 +24,7 @@ function App() {
         <ThemeContextProvider>
           <Helmet>
             <title>{`리뷰니버스`}</title>
+            <meta name="keywords" content={SITE_KEYWORDS} data-rh="true" />
             <meta name="description" content="리뷰니버스와 함께라면 보는 즐거움이 2배로, 생생한 리뷰를 확인해보세요!" />
             <meta property="og:title" content="리뷰니버스" />
             <meta

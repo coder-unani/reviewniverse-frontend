@@ -10,6 +10,7 @@ import ReviewModal from "/src/components/Modal/Review";
 import { useModalContext } from "/src/context/ModalContext";
 import { useVideoDetailContext } from "/src/context/VideoDetailContext";
 import { SETTINGS } from "/src/config/settings";
+import { SITE_KEYWORDS } from "/src/config/constants";
 import { fYear, fUpperCase } from "/src/utils/format";
 import {
   fBackgroundImage,
@@ -90,7 +91,7 @@ const VideoDetail = () => {
   const description = isEmpty(content.data.synopsis) ? "" : content.data.synopsis;
   const imageUrl = fThumbnail(content.data.thumbnail);
   const url = `${SETTINGS.DOMAIN_URL}/content/${videoId}`;
-  const keywords = isEmpty(content.data.tag) ? "" : content.data.tag;
+  const keywords = isEmpty(content.data.tag) ? "" : `${SITE_KEYWORDS}, ${content.data.tag}`;
 
   return (
     <>
