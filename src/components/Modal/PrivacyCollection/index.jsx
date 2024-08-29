@@ -27,7 +27,7 @@ const PrivacyCollectionModal = React.memo(({ onClose }) => {
                 </select>
               </div>
               <div className="policy-content-wrapper">
-                <p>1) 필수 개인정보 수집 및 이용 동의</p>
+                <p>1) 필수 개인정보 수집 항목</p>
                 <table className="policy-table">
                   <thead>
                     <tr>
@@ -41,7 +41,7 @@ const PrivacyCollectionModal = React.memo(({ onClose }) => {
                       <td rowSpan={3}>SNS ID 회원 가입 및 회원 관리</td>
                       <td>카카오</td>
                       <td>이름, 이메일주소, 닉네임, 프로필 사진</td>
-                      <td rowSpan={3}>회원 탈퇴시까지</td>
+                      <td rowSpan={3}>회원 탈퇴 시까지</td>
                     </tr>
                     <tr>
                       <td>네이버</td>
@@ -52,31 +52,9 @@ const PrivacyCollectionModal = React.memo(({ onClose }) => {
                       <td>이름, 이메일주소, 프로필 사진</td>
                     </tr>
                     <tr>
-                      <td>사용자 인증을 통한 본인 및 연령 확인, 사용자 인증에 따른 서비스 제공</td>
-                      <td colSpan={2}>
-                        이름, 생년월일, 성별, 내/외국인 여부, 휴대전화번호, 중복가입확인정보(DI), 연계정보(CI)
-                      </td>
-                      <td>회원 탈퇴시까지</td>
-                    </tr>
-                    <tr>
                       <td>만 14세 미만 회원가입 법정대리인 동의</td>
                       <td colSpan={2}>법정대리인의 이름, 생년월일, 성별, 중복가입확인정보, 휴대전화번호</td>
-                      <td>회원 탈퇴시까지</td>
-                    </tr>
-                    <tr>
-                      <td>
-                        서비스 개선 및 안정화, 최적화 콘텐츠 및 서비스 제공, 맞춤형 광고 및 콘텐츠 제공, 서비스 부정
-                        이용 방지
-                      </td>
-                      <td colSpan={2}>
-                        성별, 연령, 사용자 기기 정보, 서비스 이용(정지) 기록, 접속 로그, 쿠키, 접속 IP정보
-                      </td>
-                      <td>회원 탈퇴시까지</td>
-                    </tr>
-                    <tr>
-                      <td>고객센터 문의 응대</td>
-                      <td colSpan={2}>이름, 생년월일, 이메일주소, 휴대전화번호, 결제 정보</td>
-                      <td>회원 탈퇴시까지</td>
+                      <td>회원 탈퇴 시까지</td>
                     </tr>
                   </tbody>
                 </table>
