@@ -135,7 +135,7 @@ const RatingVideo = () => {
         <div className="video-rating-range" ref={ratingRef}>
           {Array.from({ length: 10 }, (_, i) => (
             <div
-              id={`video-rating-${i + 1}`}
+              id={`videoRating${i + 1}`}
               className="video-rating-fill"
               data-rating={i + 1}
               data-color={fRatingColor(i + 1)}
@@ -146,7 +146,7 @@ const RatingVideo = () => {
         {Array.from({ length: 10 }, (_, i) => (
           <Tooltip
             className="video-rating-tooltip"
-            anchorSelect={`#video-rating-${i + 1}`}
+            anchorSelect={`#videoRating${i + 1}`}
             content={handleTooltipContent(i + 1)}
             place="bottom"
             key={i}
