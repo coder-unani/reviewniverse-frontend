@@ -29,7 +29,7 @@ const PrivacyModal = React.memo(({ onClose }) => {
               <div className="policy-content-wrapper">
                 <p>
                   리뷰니버스(이하 “회사”)는 고객(회원 및 비회원 포함)님의 개인정보 보호를 소중하게 생각하고, 회원의
-                  개인정보를 보호하기 위하여 항상 최선을 다해 노력하고 있습니다
+                  개인정보를 보호하기 위하여 항상 최선을 다해 노력하고 있습니다,
                 </p>
                 <p>
                   회사는 개인정보 보호 관련 주요 법률인 개인정보 보호법, 정보통신망 이용촉진 및 정보보호 등에 관한
@@ -46,8 +46,8 @@ const PrivacyModal = React.memo(({ onClose }) => {
               <div className="policy-content-wrapper">
                 <h4 className="policy-content-title">1. 개인정보의 수집 및 이용 목적/항목</h4>
                 <p>
-                  회사는 다음과 같이 서비스 이용계약의 성립 및 이행에 필요한 최소한의 개인정보를 수집하며, 회원가입시
-                  개인정보수집 · 이용 동의에 대한 내용을 제공하고 회원이 '동의' 버튼을 클릭하면 개인정보 수집 · 이용에
+                  회사는 다음과 같이 서비스 이용계약의 성립 및 이행에 필요한 최소한의 개인정보를 수집하며, 회원가입 시
+                  개인정보 수집 · 이용 동의에 대한 내용을 제공하고 회원이 '동의' 버튼을 클릭하면 개인정보 수집 · 이용에
                   대해 동의한 것으로 봅니다.
                 </p>
               </div>
@@ -66,7 +66,7 @@ const PrivacyModal = React.memo(({ onClose }) => {
                       <td rowSpan={3}>SNS ID 회원 가입 및 회원 관리</td>
                       <td>카카오</td>
                       <td>이름, 이메일주소, 닉네임, 프로필 사진</td>
-                      <td rowSpan={3}>회원 탈퇴시까지</td>
+                      <td rowSpan={3}>회원 탈퇴 시까지</td>
                     </tr>
                     <tr>
                       <td>네이버</td>
@@ -79,7 +79,7 @@ const PrivacyModal = React.memo(({ onClose }) => {
                     <tr>
                       <td>만 14세 미만 회원가입 법정대리인 동의</td>
                       <td colSpan={2}>법정대리인의 이름, 생년월일, 성별, 중복가입확인정보, 휴대전화번호</td>
-                      <td>회원 탈퇴시까지</td>
+                      <td>회원 탈퇴 시까지</td>
                     </tr>
                   </tbody>
                 </table>
@@ -98,12 +98,12 @@ const PrivacyModal = React.memo(({ onClose }) => {
                     <tr>
                       <td>서비스/업데이트 정보 제공, 맞춤형 추천 서비스 제공</td>
                       <td>성별, 연령, 서비스 이용기록, 디바이스 토큰, 선호하는 시청 성향</td>
-                      <td>동의 철회 또는 회원 탈퇴시까지</td>
+                      <td>동의 철회 또는 회원 탈퇴 시까지</td>
                     </tr>
                     <tr>
                       <td>이벤트 응모 및 경품 지급</td>
                       <td>이름, 이메일주소, 휴대전화번호, 주소, 생년월일</td>
-                      <td>동의 철회 또는 이벤트 목적 달성시까지</td>
+                      <td>동의 철회 또는 이벤트 목적 달성 시까지</td>
                     </tr>
                   </tbody>
                 </table>
@@ -172,7 +172,7 @@ const PrivacyModal = React.memo(({ onClose }) => {
                     <br />
                     <p>나. 기타 고객의 동의를 받은 경우 동의를 받은 기간까지</p>
                     <ul className="policy-privacy-more-list">
-                      <li>회원가입 및 서비스 이용에 관한 기록: 회원탈퇴시 즉시 삭제</li>
+                      <li>회원가입 및 서비스 이용에 관한 기록: 회원탈퇴 시 즉시 삭제</li>
                     </ul>
                   </li>
                 </ul>
@@ -235,7 +235,7 @@ const PrivacyModal = React.memo(({ onClose }) => {
                     <tr>
                       <td>Amazon Web Service: 대한민국 서울 (AWS Seoul Region)</td>
                       <td>서비스 제공을 위한 데이터 보관 및 시스템 운영</td>
-                      <td>회원 동의 철회 또는 회원 탈퇴시까지</td>
+                      <td>회원 동의 철회 또는 회원 탈퇴 시까지</td>
                     </tr>
                   </tbody>
                 </table>
@@ -320,7 +320,7 @@ const PrivacyModal = React.memo(({ onClose }) => {
                   <li>
                     회사는 서비스 제공 시, "쿠키(Cookie)"를 사용합니다. 쿠키는 서비스를 제공하는 서버가 고객님의 PC
                     웹브라우저에게 전송하는 정보이며, 고객님의 PC 내 하드디스크에 암호화되어 저장됩니다. 고객님은 쿠키에
-                    대한 선택권을 가 지고 있습니다. 고객님이 쿠키에 의한 정보수집을 거부하실 경우에는 웹브라우저 보안
+                    대한 선택권을 가지고 있습니다. 고객님이 쿠키에 의한 정보수집을 거부하실 경우에는 웹브라우저 보안
                     정책을 통해 허용 여부를 결정하실 수 있습니다.
                   </li>
                 </ul>
@@ -339,7 +339,7 @@ const PrivacyModal = React.memo(({ onClose }) => {
                 <br />
                 <p>3) 쿠키에 의해 수집된 정보의 보유 및 이용기간</p>
                 <ul>
-                  <li>쿠키 수신 차단 또는 처리 목적 달성시까지</li>
+                  <li>쿠키 수신 차단 또는 처리 목적 달성 시까지</li>
                 </ul>
                 <br />
                 <p>4) 거부 방법</p>
