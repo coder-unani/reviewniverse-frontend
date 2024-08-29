@@ -22,6 +22,5 @@ export const useScreenVideos = ({ code, display = null }) => {
     },
     staleTime: 1000 * 60 * 5,
     cacheTime: 1000 * 60 * 10,
-    retry: 1,
   });
 };

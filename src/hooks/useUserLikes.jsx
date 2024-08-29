@@ -37,6 +37,5 @@ export const useUserLikes = ({ userId, page = null, pageSize = null, orderBy = n
     enabled: !!enabled,
     staleTime: 1000 * 60 * 5,
     cacheTime: 1000 * 60 * 10,
-    retry: 1,
   });
 };

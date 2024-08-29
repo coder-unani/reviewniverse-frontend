@@ -21,6 +21,7 @@ import {
   fRatingText,
   fRuntimeText,
 } from "/src/utils/formatContent";
+import { isEmpty } from "lodash";
 
 /**
  * TODO:
@@ -46,7 +47,20 @@ const VideoDetail = () => {
   const { isReviewModal } = useModalContext();
   const { videoId, content, contentIsLoading, contentError, myInfo, myInfoIsLoading, myInfoError } =
     useVideoDetailContext();
+  const subInfoSwiperConfig = {
+    spaceBetween: 10,
+    slidesPerView: "auto",
+    slidesPerGroup: 2,
+    speed: 1000,
+    allowTouchMove: true,
+    breakpoints: {
+      769: {
+        spaceBetween: 12,
+      },
+    },
+  };
 
+  // 헤더 스타일 변경
   useEffect(() => {
     const header = document.querySelector("header");
     const handleScroll = () => {
@@ -64,33 +78,19 @@ const VideoDetail = () => {
     };
   }, []);
 
-  const subInfoSwiperConfig = {
-    spaceBetween: 10,
-    slidesPerView: "auto",
-    slidesPerGroup: 2,
-    speed: 1000,
-    allowTouchMove: true,
-    breakpoints: {
-      769: {
-        spaceBetween: 12,
-      },
-    },
-  };
-
+  // 스켈레톤 UI 로딩
   if (contentIsLoading || myInfoIsLoading) {
     return <SkeletonVideoDetail />;
   }
 
-  if (contentError || myInfoError) {
-    return navigate("/error");
-  }
+  if (!content || !content.data) return;
 
   // TODO: og태그 이미지 사이즈 고려
   const title = `${content.data.title} (${fYear(content.data.release)}) - 리뷰니버스`;
-  const description = content.data.synopsis;
+  const description = isEmpty(content.data.synopsis) ? "" : content.data.synopsis;
   const imageUrl = fThumbnail(content.data.thumbnail);
   const url = `${SETTINGS.DOMAIN_URL}/content/${videoId}`;
-  const keywords = content.data.tag || "";
+  const keywords = isEmpty(content.data.tag) ? "" : content.data.tag;
 
   return (
     <>

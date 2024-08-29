@@ -23,27 +23,34 @@ export const VideoDetailProvider = ({ children }) => {
     isLoading: myInfoIsLoading,
   } = useVideoMyInfo({ videoId: videoId2Int, userId: user ? user.id : null, enabled: user && videoId2Int });
 
+  // 비디오 ID가 숫자형이 아닐 경우 404 페이지로 이동
   useEffect(() => {
     if (videoId2Int === 0) {
       return navigate("/404-not-found");
     }
   }, [videoId2Int, navigate]);
 
+  // 비디오 에러 발생 시 404 or 에러 페이지로 이동
   useEffect(() => {
-    if (!content) {
+    if (contentIsLoading) {
       return;
     }
-    if (!content.status) {
-      const path = content.code === "V002" ? "/404-not-found" : "/error";
-      navigate(path);
+    if (contentError) {
+      // VIDEO_NOT_FOUND일 시 404 페이지로 이동
+      if (contentError.message === "C003") {
+        return navigate("/404-not-found");
+      } else {
+        return navigate("/error");
+      }
     }
-  }, [content, navigate]);
+  }, [contentIsLoading, contentError, navigate]);
 
+  // 내 정보 에러 발생 시 에러 무시
   useEffect(() => {
-    if (contentError || myInfoError) {
-      navigate("/error");
-    }
-  }, [contentError, myInfoError, navigate]);
+    // if (myInfoError) {
+    //   return navigate("/error");
+    // }
+  }, [myInfoError, navigate]);
 
   const values = useMemo(
     () => ({

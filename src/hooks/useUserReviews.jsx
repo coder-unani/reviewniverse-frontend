@@ -37,6 +37,5 @@ export const useUserReviews = ({ userId, page = null, pageSize = null, orderBy =
     enabled: !!enabled,
     staleTime: 1000 * 60 * 5,
     cacheTime: 1000 * 60 * 10,
-    retry: 1,
   });
 };
