@@ -1,18 +1,26 @@
 import React, { useState, useEffect } from "react";
 import Videos from "/src/components/Videos";
 import { Helmet } from "react-helmet-async";
-import { useNavigate, useSearchParams } from "react-router-dom";
+import { useNavigate, useLocation, useParams } from "react-router-dom";
 import { useVideos } from "/src/hooks/useVideos";
 import { showErrorToast } from "/src/components/Toast";
 import { SETTINGS } from "/src/config/settings";
 import { DEFAULT_IMAGES } from "/src/config/constants";
 import { MESSAGES } from "/src/config/messages";
+import { fParseInt } from "/src/utils/format";
 import { isEmpty } from "lodash";
+
+/**
+ * TODO:
+ * - location.state 말고 다른 방법으로 name을 받아오는 방법 찾기
+ */
 
 const Genre = () => {
   const navigate = useNavigate();
-  const [searchParams, setSearchParams] = useSearchParams();
-  const query = searchParams.get("genre");
+  const location = useLocation();
+  const { genreId } = useParams();
+  const genreId2Int = fParseInt(genreId);
+  const name = location.state?.name;
   const [page, setPage] = useState(1);
   const [videos, setVideos] = useState(null);
   const {
@@ -20,19 +28,20 @@ const Genre = () => {
     error: videosError,
     isLoading: videosIsLoading,
   } = useVideos({
-    query,
+    query: genreId2Int,
     page,
+    mode: "id",
     target: "genre",
-    orderBy: "view_desc",
-    enabled: query,
+    orderBy: "release_desc",
+    enabled: genreId2Int || !isEmpty(name),
   });
 
-  // TODO: searchParams가 없을 경우는?(임시조치)
+  // genreId가 숫자형이 아닐 경우, location state에 name이 없을 경우
   useEffect(() => {
-    if (!query) {
+    if (genreId2Int === 0 || isEmpty(name)) {
       return navigate("/404-not-found");
     }
-  }, [query, navigate]);
+  }, [genreId2Int, name, navigate]);
 
   useEffect(() => {
     if (videosIsLoading || !videosData) {
@@ -61,19 +70,11 @@ const Genre = () => {
           ...prev,
           count: videosData.data.count,
           page: videosData.data.page,
-          data: prev.data ? [...prev.data, ...videosData.data.data] : [],
+          data: prev.data ? [...prev.data, ...videosData.data.data] : [...videosData.data.data],
         };
       });
     }
   }, [videosIsLoading, videosData, page]);
-
-  const fQuery = (query) => {
-    // , 구분으로 array로 변환
-    const genre = query.split(",");
-    // 배열 요소 앞에 # 붙이기
-    const result = genre.map((item) => `#${item}`);
-    return result.join(" ");
-  };
 
   const handlePage = (newPage) => {
     setPage(newPage);
@@ -87,17 +88,15 @@ const Genre = () => {
     return;
   }
 
-  const title = `${query}의 검색결과 - 리뷰니버스`;
-  const description = `${query}의 검색결과 - 리뷰니버스`;
+  const title = `${name}의 검색결과 - 리뷰니버스`;
+  const description = `${name}의 검색결과 - 리뷰니버스`;
   const imageUrl = DEFAULT_IMAGES.logo;
-  const url = `${SETTINGS.DOMAIN_URL}/genre/${query}`;
+  const url = `${SETTINGS.DOMAIN_URL}/genres/${genreId2Int}`;
 
   return (
     <>
       <Helmet>
         <title>{title}</title>
-        {/* noindex, noimageindex */}
-        {/* <meta content="noindex, noimageindex" name="robots" data-rh="true" /> */}
         <meta name="description" content={description} />
         <meta property="og:title" content={title} />
         <meta property="og:description" content={description} />
@@ -108,7 +107,7 @@ const Genre = () => {
       <main className="genre-main-container">
         <section className="genre-section">
           <div className="genre-title-wrapper">
-            <h1 className="genre-title">{fQuery(query)}</h1>
+            <h1 className="genre-title">#{name}</h1>
           </div>
         </section>
         <Videos videos={videos} handlePage={handlePage} />

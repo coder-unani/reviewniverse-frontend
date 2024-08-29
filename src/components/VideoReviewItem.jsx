@@ -32,13 +32,13 @@ const VideoReviewItem = ({ videoId, review }) => {
   return (
     <article className="detail-review-item">
       <div className="detail-review-profile-wrapper">
-        <Link className="detail-review-profile-link" data-active={!isEmpty(review.user)} to={profileLink}>
+        <Link to={profileLink} className="detail-review-profile-link" data-active={!isEmpty(review.user)}>
           <ProfileImage image={profileImage} size={36} />
         </Link>
       </div>
       <div className="detail-review-content-wrapper">
         <div className="detail-review-header">
-          <Link className="detail-review-nickname-link" data-active={!isEmpty(review.user)} to={profileLink}>
+          <Link to={profileLink} className="detail-review-nickname-link" data-active={!isEmpty(review.user)}>
             <p className="detail-review-nickname">{profileNickname}</p>
           </Link>
           {review.rating && <RatingReview rating={review.rating} />}

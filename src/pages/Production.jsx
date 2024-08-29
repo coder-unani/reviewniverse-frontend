@@ -10,12 +10,16 @@ import { MESSAGES } from "/src/config/messages";
 import { fParseInt } from "/src/utils/format";
 import { isEmpty } from "lodash";
 
+/**
+ * TODO:
+ * - location.state 말고 다른 방법으로 name을 받아오는 방법 찾기
+ */
+
 const Production = () => {
   const navigate = useNavigate();
+  const location = useLocation();
   const { productionId } = useParams();
   const productionId2Int = fParseInt(productionId);
-  const location = useLocation();
-  // TODO: 고도화 필요
   const name = location.state?.name;
   const [page, setPage] = useState(1);
   const [videos, setVideos] = useState(null);
@@ -32,6 +36,7 @@ const Production = () => {
     enabled: productionId2Int || !isEmpty(name),
   });
 
+  // productionId가 숫자형이 아닐 경우, location state에 name이 없을 경우
   useEffect(() => {
     if (productionId2Int === 0 || isEmpty(name)) {
       return navigate("/404-not-found");
@@ -65,7 +70,7 @@ const Production = () => {
           ...prev,
           count: videosData.data.count,
           page: videosData.data.page,
-          data: prev.data ? [...prev.data, ...videosData.data.data] : [],
+          data: prev.data ? [...prev.data, ...videosData.data.data] : [...videosData.data.data],
         };
       });
     }
@@ -86,7 +91,7 @@ const Production = () => {
   const title = `${name} - 리뷰니버스`;
   const description = `${name}의 ${videos.total}개 작품`;
   const imageUrl = DEFAULT_IMAGES.logo;
-  const url = `${SETTINGS.DOMAIN_URL}/genre/${productionId}`;
+  const url = `${SETTINGS.DOMAIN_URL}/productions/${productionId2Int}`;
 
   return (
     <>

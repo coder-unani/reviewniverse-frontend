@@ -14,7 +14,7 @@ const ProfileButton = ({ user, size, onClose }) => {
   };
 
   return (
-    <Link className="profile" data-active={!isEmpty(user)} to={profileLink} onClick={handleMobileMenuClose}>
+    <Link to={profileLink} className="profile" data-active={!isEmpty(user)} onClick={handleMobileMenuClose}>
       <ProfileImage image={profileImage} size={size} />
       <span className="profile-nickname">{profileNickname}</span>
     </Link>

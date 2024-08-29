@@ -53,11 +53,11 @@ const MainRoutes = {
       element: <People />,
     },
     {
-      path: "/genre",
+      path: "/genres/:genreId",
       element: <Genre />,
     },
     {
-      path: "/production/:productionId",
+      path: "/productions/:productionId",
       element: <Production />,
     },
     {

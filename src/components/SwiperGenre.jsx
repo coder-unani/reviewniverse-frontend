@@ -69,7 +69,12 @@ const SwiperGenre = ({ content }) => {
         <Swiper className="horizontal-videos" {...swiperConfig}>
           {genres.map((genre) => (
             <SwiperSlide className="horizontal-video-item" key={genre.id}>
-              <Link className="genre-video-link" to={`/genre?genre=${genre.name}`} aria-label={genre.name}>
+              <Link
+                to={`/genres/${genre.id}`}
+                state={{ name: genre.name }}
+                className="genre-video-link"
+                aria-label={genre.name}
+              >
                 <picture className="genre-thumbnail-wrapper">
                   <LazyLoadImage
                     className="genre-thumbnail-image"

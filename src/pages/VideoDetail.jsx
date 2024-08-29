@@ -132,7 +132,7 @@ const VideoDetail = () => {
                   <ul className="detail-genre-wrapper">
                     {content.data.genre.map((genre, index) => (
                       <li key={index}>
-                        <Link to={`/genre?genre=${fGenres(genre.name)}`} className="detail-genre-link">
+                        <Link to={`/genres/${genre.id}`} state={{ name: genre.name }} className="detail-genre-link">
                           {genre.name}
                         </Link>
                       </li>
@@ -203,7 +203,7 @@ const VideoDetail = () => {
                     {content.data.production ? (
                       content.data.production.map((prodn, index) => (
                         <Link
-                          to={`/production/${prodn.id}`}
+                          to={`/productions/${prodn.id}`}
                           state={{ name: prodn.name }}
                           className="detail-sub-content"
                           key={index}
