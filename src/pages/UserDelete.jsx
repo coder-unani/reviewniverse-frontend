@@ -75,7 +75,7 @@ const UserDelete = () => {
             <Tooltip
               className="delete-button-tooltip"
               anchorSelect="#deleteButton"
-              content="가지마세요😭"
+              content="가지마세요 😭"
               place="bottom"
             />
           </div>
