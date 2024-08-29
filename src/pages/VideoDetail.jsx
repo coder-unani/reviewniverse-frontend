@@ -1,5 +1,5 @@
 import React, { Suspense, useEffect } from "react";
-import { useNavigate, Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
 import { Swiper, SwiperSlide } from "swiper/react";
 import SkeletonVideoDetail from "/src/components/Skeleton/VideoDetail";
@@ -43,7 +43,6 @@ const GallerySection = React.lazy(() => import("/src/components/VideoSectionGall
 const ReviewSection = React.lazy(() => import("/src/components/VideoSectionReview"));
 
 const VideoDetail = () => {
-  const navigate = useNavigate();
   const { isReviewModal } = useModalContext();
   const { videoId, content, contentIsLoading, contentError, myInfo, myInfoIsLoading, myInfoError } =
     useVideoDetailContext();
