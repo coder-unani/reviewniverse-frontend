@@ -1899,23 +1899,12 @@ em {
   }
 }
 .confirm-modal-container {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 300px;
-  height: 150px;
-  background-color: #05151e;
-  border-radius: 16px;
-}
-
-.confirm-modal-wrapper {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   width: 100%;
   height: 100%;
-  background-color: rgba(18, 34, 43, 0.6);
+  background-color: #12222b;
   border-radius: 16px;
   padding: 20px 20px 0 20px;
 }
