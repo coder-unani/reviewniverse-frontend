@@ -13,6 +13,7 @@ import {
   PROFILE_IMAGE_FILE_TYPE,
   PROFILE_TEXT_MAX_LENGTH,
 } from "/src/config/constants";
+import { EndpointManager, ENDPOINTS } from "/src/config/endpoints";
 import { isValidFileSize, isValidFileType } from "/src/utils/validation";
 import { isEmpty } from "lodash";
 import ImageIcon from "/src/assets/button/outline-image.svg?react";
@@ -106,7 +107,8 @@ const UserProfile = () => {
       }
     });
     if (isEmpty(updateData)) {
-      navigate(`/user/${user.id}`);
+      const path = EndpointManager.generateUrl(ENDPOINTS.USER, { userId: user.id });
+      navigate(path);
       showSuccessToast("프로필이 수정되었습니다.");
       return;
     }
@@ -116,7 +118,8 @@ const UserProfile = () => {
       {
         onSuccess: (res) => {
           if (res.status === 204) {
-            navigate(`/user/${user.id}`, { state: { isUserUpdate: true } });
+            const path = EndpointManager.generateUrl(ENDPOINTS.USER, { userId: user.id });
+            navigate(path, { state: { isUserUpdate: true } });
             showSuccessToast("프로필이 수정되었습니다.");
           } else {
             showErrorToast("프로필을 수정하지 못했습니다.");

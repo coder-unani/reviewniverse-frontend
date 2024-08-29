@@ -5,10 +5,11 @@ import Videos from "/src/components/Videos";
 import { useScreenVideos } from "/src/hooks/useScreenVideos";
 import { useVideos } from "/src/hooks/useVideos";
 import { showErrorToast } from "/src/components/Toast";
+import { fArrayRandomValue } from "/src/utils/format";
 import { SCREEN_MOVIE_ID } from "/src/config/codes";
 import { VIDEO_ORDER_OPTIONS } from "/src/config/constants";
 import { MESSAGES } from "/src/config/messages";
-import { fArrayRandomValue } from "/src/utils/format";
+import { ENDPOINTS } from "/src/config/endpoints";
 
 const Movie = () => {
   const navigate = useNavigate();
@@ -39,7 +40,7 @@ const Movie = () => {
         // showErrorToast(MESSAGES["C001"]);
         return;
       } else {
-        return navigate("/error");
+        return navigate(ENDPOINTS.ERROR);
       }
     }
     if (page === 1) {
@@ -67,7 +68,7 @@ const Movie = () => {
   }
 
   if (screensError || videosError) {
-    return navigate("/error");
+    return navigate(ENDPOINTS.ERROR);
   }
 
   return (

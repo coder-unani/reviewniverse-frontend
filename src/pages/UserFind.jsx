@@ -6,6 +6,7 @@ import * as Yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm } from "react-hook-form";
 import { cLog, cError } from "/src/utils/test";
+import { ENDPOINTS } from "/src/config/endpoints";
 import Logo from "/assets/logo.svg";
 import "/src/styles/UserFind.css";
 
@@ -18,7 +19,7 @@ const UserFind = () => {
 
   useEffect(() => {
     if (type !== "id" && type !== "password") {
-      return navigate("/404-not-found");
+      return navigate(ENDPOINTS.NOT_FOUND);
     }
   }, [type]);
 

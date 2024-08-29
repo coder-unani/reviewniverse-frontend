@@ -3,6 +3,7 @@ import { AuthContextProvider } from "/src/context/AuthContext";
 import { ModalContextProvider } from "/src/context/ModalContext";
 import { VideoDetailProvider } from "/src/context/VideoDetailContext";
 import DefaultLayout from "/src/layouts/default";
+import { ENDPOINTS } from "/src/config/endpoints";
 
 const Home = React.lazy(() => import("/src/pages/Home"));
 const VideoDetail = React.lazy(() => import("/src/pages/VideoDetail"));
@@ -41,7 +42,7 @@ const MainRoutes = {
       element: <Home />,
     },
     {
-      path: "contents/:videoId",
+      path: ENDPOINTS.VIDEO_DETAIL,
       element: (
         <VideoDetailProvider>
           <VideoDetail />
@@ -49,75 +50,63 @@ const MainRoutes = {
       ),
     },
     {
-      path: "/people/:peopleId",
+      path: ENDPOINTS.PEOPLE,
       element: <People />,
     },
     {
-      path: "/genres/:genreId",
+      path: ENDPOINTS.GENRE,
       element: <Genre />,
     },
     {
-      path: "/productions/:productionId",
+      path: ENDPOINTS.PRODUCTION,
       element: <Production />,
     },
     {
-      path: "/search",
+      path: ENDPOINTS.SEARCH,
       element: <Search />,
     },
     {
-      path: "/user/auth/kakao/callback",
+      path: ENDPOINTS.USER_AUTH_KAKAO_CALLBACK,
       element: <KakaoCallback />,
     },
     {
-      path: "/user/auth/naver/callback",
+      path: ENDPOINTS.USER_AUTH_NAVER_CALLBACK,
       element: <NaverCallback />,
     },
     {
-      path: "/user/auth/google/callback",
+      path: ENDPOINTS.USER_AUTH_GOOGLE_CALLBACK,
       element: <GoogleCallback />,
     },
     {
-      path: "/user/login",
+      path: ENDPOINTS.USER_LOGIN,
       element: <Login />,
     },
-    // {
-    //   path: "/user/join",
-    //   element: <Join />,
-    // },
-    // {
-    //   path: "/user/find/:type",
-    //   element: <UserFind />,
-    // },
-    // {
-    //   path: "/user/reset/password",
-    //   element: <ResetPassword />,
-    // },
     {
-      path: "/user/watchtype",
+      path: ENDPOINTS.USER_WATCHTYPE,
       element: <UserWatchType />,
     },
     {
-      path: "/user/:userId",
+      path: ENDPOINTS.USER,
       element: <User />,
     },
     {
-      path: "/user/:userId/contents/ratings",
+      path: ENDPOINTS.USER_RATINGS,
       element: <UserRatings />,
     },
     {
-      path: "/user/:userId/contents/reviews",
+      path: ENDPOINTS.USER_REVIEWS,
       element: <UserReviews />,
     },
     {
-      path: "/user/:userId/contents/likes",
+      path: ENDPOINTS.USER_LIKES,
       element: <UserLikes />,
     },
     {
-      path: "/error",
+      path: ENDPOINTS.ERROR,
       element: <Error />,
     },
     {
-      path: "/*",
+      path: ENDPOINTS.DENIED_ALL,
       element: <NotFound />,
     },
   ],

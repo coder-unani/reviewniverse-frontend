@@ -5,8 +5,9 @@ import SettingButton from "/src/components/Button/Setting";
 import { useAuthContext } from "/src/context/AuthContext";
 import { useUser } from "/src/hooks/useUser";
 import { showErrorToast } from "/src/components/Toast";
-import { fParseInt, fNumberWithCommas } from "/src/utils/format";
 import { DEFAULT_IMAGES } from "/src/config/constants";
+import { EndpointManager, ENDPOINTS } from "/src/config/endpoints";
+import { fParseInt, fNumberWithCommas } from "/src/utils/format";
 import { LazyLoadImage } from "react-lazy-load-image-component";
 
 const User = () => {
@@ -18,10 +19,13 @@ const User = () => {
   const { mutateAsync: userFetch } = useUser();
   const [isLogin, setIsLogin] = useState(false);
   const [profile, setProfile] = useState(null);
+  const pathRating = EndpointManager.generateUrl(ENDPOINTS.USER_RATINGS, { userId: userId2Int });
+  const pathReview = EndpointManager.generateUrl(ENDPOINTS.USER_REVIEWS, { userId: userId2Int });
+  const pathLike = EndpointManager.generateUrl(ENDPOINTS.USER_LIKES, { userId: userId2Int });
 
   useEffect(() => {
     if (userId2Int === 0) {
-      return navigate("/404-not-found");
+      return navigate(ENDPOINTS.NOT_FOUND);
     }
 
     const { isUserUpdate } = location.state || false;
@@ -73,15 +77,15 @@ const User = () => {
                 {profile.profile_text && <p className="introduction">{profile.profile_text}</p>}
               </div>
               <div className="user-contents">
-                <Link to={`/user/${userId}/contents/ratings`}>
+                <Link to={pathRating}>
                   <p className="count">{fNumberWithCommas(profile.rating_count)}</p>
                   <p className="count-label">평가</p>
                 </Link>
-                <Link to={`/user/${userId}/contents/reviews`}>
+                <Link to={pathReview}>
                   <p className="count">{fNumberWithCommas(profile.review_count)}</p>
                   <p className="count-label">리뷰</p>
                 </Link>
-                <Link to={`/user/${userId}/contents/likes`}>
+                <Link to={pathLike}>
                   <p className="count">{fNumberWithCommas(profile.like_count)}</p>
                   <p className="count-label">좋아요</p>
                 </Link>

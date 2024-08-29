@@ -4,6 +4,7 @@ import VideosRating from "/src/components/VideosRating";
 import { useUserRatings } from "/src/hooks/useUserRatings";
 import { showErrorToast } from "/src/components/Toast";
 import { MESSAGES } from "/src/config/messages";
+import { ENDPOINTS } from "/src/config/endpoints";
 import { fParseInt } from "/src/utils/format";
 import { isEmpty } from "lodash";
 
@@ -28,7 +29,7 @@ const UserRatings = () => {
 
   useEffect(() => {
     if (userId2Int === 0) {
-      return navigate("/404-not-found");
+      return navigate(ENDPOINTS.NOT_FOUND);
     }
   }, [userId2Int, navigate]);
 
@@ -43,7 +44,7 @@ const UserRatings = () => {
         // showErrorToast(MESSAGES["C001"]);
         return;
       } else {
-        return navigate("/error");
+        return navigate(ENDPOINTS.ERROR);
       }
     }
     if (page === 1) {
@@ -66,7 +67,7 @@ const UserRatings = () => {
   };
 
   if (videosError) {
-    return navigate("/error");
+    return navigate(ENDPOINTS.ERROR);
   }
 
   if (isEmpty(videos)) {

@@ -14,6 +14,7 @@ import { validateUser } from "/src/utils/validation";
 import { MESSAGES } from "/src/config/messages";
 import { showInfoToast, showSuccessToast, showErrorToast } from "/src/components/Toast";
 import { cLog, cError } from "/src/utils/test";
+import { ENDPOINTS } from "/src/config/endpoints";
 
 const AuthContext = createContext(null);
 
@@ -40,7 +41,7 @@ export const AuthContextProvider = ({ children }) => {
         } else {
           if (handleRemoveUser()) {
             showInfoToast(MESSAGES.T002);
-            navigate("/login");
+            navigate(ENDPOINTS.USER_LOGIN);
           } else {
             showErrorToast(MESSAGES.T004);
           }
@@ -91,7 +92,7 @@ export const AuthContextProvider = ({ children }) => {
         };
       }
     } catch (error) {
-      navigate("/error");
+      navigate(ENDPOINTS.ERROR);
     }
   };
 
@@ -137,10 +138,10 @@ export const AuthContextProvider = ({ children }) => {
           code: "L002",
         };
       } else {
-        navigate("/error");
+        navigate(ENDPOINTS.ERROR);
       }
     } catch (error) {
-      navigate("/error");
+      navigate(ENDPOINTS.ERROR);
     }
   };
 

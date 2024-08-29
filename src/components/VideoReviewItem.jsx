@@ -5,6 +5,7 @@ import RatingReview from "/src/components/RatingReview";
 import ReviewLikeButton from "/src/components/Button/ReviewLike";
 import { fDiffDate } from "/src/utils/format";
 import { DEFAULT_IMAGES } from "/src/config/constants";
+import { EndpointManager, ENDPOINTS } from "/src/config/endpoints";
 import { isEmpty } from "lodash";
 
 /**
@@ -15,7 +16,7 @@ import { isEmpty } from "lodash";
 
 const VideoReviewItem = ({ videoId, review }) => {
   const [active, setActive] = useState(review.is_spoiler);
-  const profileLink = review.user ? `/user/${review.user.id}` : "";
+  const profilePath = review.user ? EndpointManager.generateUrl(ENDPOINTS.USER, { userId: review.user.id }) : "";
   const profileImage = review.user ? review.user.profile_image : DEFAULT_IMAGES.noActor;
   const profileNickname = review.user ? review.user.nickname : "탈퇴한 회원 입니다.";
 
@@ -32,13 +33,13 @@ const VideoReviewItem = ({ videoId, review }) => {
   return (
     <article className="detail-review-item">
       <div className="detail-review-profile-wrapper">
-        <Link to={profileLink} className="detail-review-profile-link" data-active={!isEmpty(review.user)}>
+        <Link to={profilePath} className="detail-review-profile-link" data-active={!isEmpty(review.user)}>
           <ProfileImage image={profileImage} size={36} />
         </Link>
       </div>
       <div className="detail-review-content-wrapper">
         <div className="detail-review-header">
-          <Link to={profileLink} className="detail-review-nickname-link" data-active={!isEmpty(review.user)}>
+          <Link to={profilePath} className="detail-review-nickname-link" data-active={!isEmpty(review.user)}>
             <p className="detail-review-nickname">{profileNickname}</p>
           </Link>
           {review.rating && <RatingReview rating={review.rating} />}

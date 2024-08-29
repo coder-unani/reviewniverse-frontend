@@ -3,6 +3,7 @@ import { useNavigate, Link } from "react-router-dom";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Thumbs, Autoplay, Parallax, EffectFade } from "swiper/modules";
 import { LazyLoadImage } from "react-lazy-load-image-component";
+import { EndpointManager, ENDPOINTS } from "/src/config/endpoints";
 import { fDate } from "/src/utils/format";
 import { fPreviewThumbnail, fBackgroundImage, fReleaseText } from "/src/utils/formatContent";
 import { isEmpty } from "lodash";
@@ -75,7 +76,8 @@ const SwiperPreview = React.memo(({ screensMA01 }) => {
   const handleLinkClick = (e, videoId, index) => {
     e.preventDefault();
     if (index === activeThumbIndex) {
-      navigate(`/contents/${videoId}`);
+      const path = EndpointManager.generateUrl(ENDPOINTS.VIDEO_DETAIL, { videoId: videoId });
+      navigate(path);
     }
   };
 
@@ -125,7 +127,7 @@ const SwiperPreview = React.memo(({ screensMA01 }) => {
               <SwiperSlide className="preview-video-item" key={video.id}>
                 <Link
                   className="preview-video-link"
-                  to={`/contents/${video.id}`}
+                  to={EndpointManager.generateUrl(ENDPOINTS.VIDEO_DETAIL, { videoId: video.id })}
                   onClick={(e) => handleLinkClick(e, video.id, index)}
                   aria-label={video.title}
                 >

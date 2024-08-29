@@ -8,6 +8,7 @@ import { showErrorToast } from "/src/components/Toast";
 import { SCREEN_SERIES_ID } from "/src/config/codes";
 import { VIDEO_ORDER_OPTIONS } from "/src/config/constants";
 import { MESSAGES } from "/src/config/messages";
+import { ENDPOINTS } from "/src/config/endpoints";
 import { fArrayRandomValue } from "/src/utils/format";
 import { isEmpty } from "lodash";
 
@@ -40,7 +41,7 @@ const Series = () => {
         // showErrorToast(MESSAGES["C001"]);
         return;
       } else {
-        return navigate("/error");
+        return navigate(ENDPOINTS.ERROR);
       }
     }
     if (page === 1) {
@@ -67,7 +68,7 @@ const Series = () => {
   }
 
   if (screensError || videosError) {
-    return navigate("/error");
+    return navigate(ENDPOINTS.ERROR);
   }
 
   return (

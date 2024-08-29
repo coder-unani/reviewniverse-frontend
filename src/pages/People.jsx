@@ -7,6 +7,7 @@ import { useVideos } from "/src/hooks/useVideos";
 import { showErrorToast } from "/src/components/Toast";
 import { SETTINGS } from "/src/config/settings";
 import { MESSAGES } from "/src/config/messages";
+import { EndpointManager, ENDPOINTS } from "/src/config/endpoints";
 import { fParseInt } from "/src/utils/format";
 import { isEmpty } from "lodash";
 
@@ -35,7 +36,7 @@ const People = () => {
 
   useEffect(() => {
     if (peopleId2Int === 0 || isEmpty(people) || isEmpty(target)) {
-      return navigate("/404-not-found");
+      return navigate(ENDPOINTS.NOT_FOUND);
     }
   }, [peopleId2Int, people, target, navigate]);
 
@@ -47,14 +48,14 @@ const People = () => {
       if (videosData.code === "C001") {
         // TODO: 고도화 필요
         if (page === 1) {
-          return navigate("/error");
+          return navigate(ENDPOINTS.ERROR);
         } else {
           // showErrorToast(MESSAGES["C001"]);
           setPage((prev) => prev - 1);
           return;
         }
       } else {
-        return navigate("/error");
+        return navigate(ENDPOINTS.ERROR);
       }
     }
     if (page === 1) {
@@ -77,7 +78,7 @@ const People = () => {
   };
 
   if (videosError) {
-    return navigate("/error");
+    return navigate(ENDPOINTS.ERROR);
   }
 
   if (isEmpty(videos)) {
@@ -87,7 +88,8 @@ const People = () => {
   const title = `${people.name} - 리뷰니버스`;
   const description = `${people.name}의 ${videos.total}개 작품`;
   const imageUrl = people.picture;
-  const url = `${SETTINGS.DOMAIN_URL}/people/${peopleId2Int}`;
+  const path = EndpointManager.generateUrl(ENDPOINTS.PEOPLE, { peopleId: peopleId2Int });
+  const url = `${SETTINGS.DOMAIN_URL}${path}`;
 
   return (
     <>

@@ -4,6 +4,7 @@ import { useAuthContext } from "/src/context/AuthContext";
 import { useWatchTypeCreate } from "/src/hooks/useWatchTypeCreate";
 import { showSuccessToast, showInfoToast } from "/src/components/Toast";
 import { USER_WATCH_TYPE } from "/src/config/codes";
+import { ENDPOINTS } from "/src/config/endpoints";
 import { isEmpty } from "lodash";
 import CheckIcon from "/src/assets/button/outline-check.svg?react";
 
@@ -44,7 +45,7 @@ const UserFavorite = () => {
       {
         onSuccess: (res) => {
           if (res.status === 201) {
-            navigate("/");
+            navigate(ENDPOINTS.HOME);
             showSuccessToast("회원성향이 등록되었습니다.");
           }
         },

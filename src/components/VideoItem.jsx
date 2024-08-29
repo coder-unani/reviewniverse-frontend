@@ -1,13 +1,16 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { LazyLoadImage } from "react-lazy-load-image-component";
+import { EndpointManager, ENDPOINTS } from "/src/config/endpoints";
 import { fYear } from "/src/utils/format";
 import { fThumbnail, fCountry, fRatingColor, fRatingText } from "/src/utils/formatContent";
 
 const VideoItem = ({ video }) => {
+  const path = EndpointManager.generateUrl(ENDPOINTS.VIDEO_DETAIL, { videoId: video.id });
+
   return (
     <article className="default-video-item">
-      <Link to={`/contents/${video.id}`} aria-label={video.title}>
+      <Link to={path} aria-label={video.title}>
         <div className="default-thumbnail-container">
           <picture className="default-thumbnail-wrapper">
             <LazyLoadImage className="default-thumbnail" src={fThumbnail(video.thumbnail)} alt="썸네일" effect="blur" />

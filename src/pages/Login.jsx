@@ -5,6 +5,7 @@ import { useAuthContext } from "/src/context/AuthContext";
 import { useThemeContext } from "/src/context/ThemeContext";
 import { SETTINGS } from "/src/config/settings";
 import { DEFAULT_IMAGES } from "/src/config/constants";
+import { ENDPOINTS } from "/src/config/endpoints";
 
 /**
  * TODO:
@@ -20,7 +21,7 @@ const Login = () => {
 
   useEffect(() => {
     if (user) {
-      navigate("/");
+      navigate(ENDPOINTS.HOME);
     }
   }, [user]);
 
@@ -32,7 +33,7 @@ const Login = () => {
   };
 
   const handleGoogleLogin = () => {
-    navigate("/user/auth/google/callback");
+    navigate(ENDPOINTS.USER_AUTH_GOOGLE_CALLBACK);
   };
 
   const handleNaverLogin = () => {

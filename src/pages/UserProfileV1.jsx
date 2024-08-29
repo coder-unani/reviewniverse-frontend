@@ -9,6 +9,7 @@ import { formatUser } from "/src/utils/formatUser";
 import { SETTINGS } from "/src/config/settings";
 import { DEFAULT_IMAGES } from "/src/config/constants";
 import { cLog, cError } from "/src/utils/test";
+import { ENDPOINTS } from "/src/config/endpoints";
 import { isEmpty } from "lodash";
 import { RiImageEditFill } from "@remixicon/react";
 import "/src/styles/UserProfile.css";
@@ -34,7 +35,7 @@ const UserProfile = () => {
     // 로그인한 유저가 없을 경우 로그인 페이지로 이동
     tokenValidation().then((isValid) => {
       if (!isValid) {
-        navigate("/user/login");
+        navigate(ENDPOINTS.USER_LOGIN);
         return;
       }
     });

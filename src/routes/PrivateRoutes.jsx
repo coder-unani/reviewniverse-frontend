@@ -3,6 +3,7 @@ import { AuthContextProvider } from "/src/context/AuthContext";
 import { ModalContextProvider } from "/src/context/ModalContext";
 import PrivateRoute from "/src/auth/privateRoute";
 import DefaultLayout from "/src/layouts/default";
+import { ENDPOINTS } from "/src/config/endpoints";
 
 const UserProfile = React.lazy(() => import("/src/pages/UserProfile"));
 const UserDelete = React.lazy(() => import("/src/pages/UserDelete"));
@@ -20,11 +21,11 @@ const PrivateRoutes = {
   ),
   children: [
     {
-      path: "/user/profile",
+      path: ENDPOINTS.USER_PROFILE,
       element: <UserProfile />,
     },
     {
-      path: "/user/delete",
+      path: ENDPOINTS.USER_DELETE,
       element: <UserDelete />,
     },
   ],

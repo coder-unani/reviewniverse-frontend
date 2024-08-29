@@ -4,6 +4,7 @@ import ReviewItem from "/src/components/ReviewItem";
 import { useUserReviews } from "/src/hooks/useUserReviews";
 import { showErrorToast } from "/src/components/Toast";
 import { MESSAGES } from "/src/config/messages";
+import { ENDPOINTS } from "/src/config/endpoints";
 import { fParseInt } from "/src/utils/format";
 import { isEmpty } from "lodash";
 
@@ -28,7 +29,7 @@ const UserReviews = () => {
 
   useEffect(() => {
     if (userId2Int === 0) {
-      return navigate("/404-not-found");
+      return navigate(ENDPOINTS.NOT_FOUND);
     }
   }, [userId2Int, navigate]);
 
@@ -43,7 +44,7 @@ const UserReviews = () => {
         // showErrorToast(MESSAGES["C001"]);
         return;
       } else {
-        return navigate("/error");
+        return navigate(ENDPOINTS.ERROR);
       }
     }
     if (page === 1) {
@@ -66,7 +67,7 @@ const UserReviews = () => {
   };
 
   if (reviewsError) {
-    return navigate("/error");
+    return navigate(ENDPOINTS.ERROR);
   }
 
   if (isEmpty(reviews)) {

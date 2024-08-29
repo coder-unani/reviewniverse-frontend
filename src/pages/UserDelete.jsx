@@ -4,6 +4,7 @@ import { useAuthContext } from "/src/context/AuthContext";
 import { useUserDelete } from "/src/hooks/useUserDelete";
 import { showSuccessToast, showErrorToast } from "/src/components/Toast";
 import { DEFAULT_IMAGES } from "/src/config/constants";
+import { ENDPOINTS } from "/src/config/endpoints";
 
 const UserDelete = () => {
   const navigate = useNavigate();
@@ -12,7 +13,7 @@ const UserDelete = () => {
 
   useEffect(() => {
     if (!user) {
-      navigate("/");
+      navigate(ENDPOINTS.HOME);
     }
   }, []);
 
@@ -30,7 +31,7 @@ const UserDelete = () => {
         onSuccess: (res) => {
           if (res.status === 204) {
             handleRemoveUser();
-            navigate("/");
+            navigate(ENDPOINTS.HOME);
             showSuccessToast("회원탈퇴가 완료되었습니다.");
           } else {
             showErrorToast("회원탈퇴를 완료하지 못했습니다.");

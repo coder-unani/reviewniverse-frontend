@@ -11,6 +11,7 @@ import { useModalContext } from "/src/context/ModalContext";
 import { useVideoDetailContext } from "/src/context/VideoDetailContext";
 import { SETTINGS } from "/src/config/settings";
 import { SITE_KEYWORDS } from "/src/config/constants";
+import { EndpointManager, ENDPOINTS } from "/src/config/endpoints";
 import { fYear, fUpperCase } from "/src/utils/format";
 import {
   fBackgroundImage,
@@ -88,7 +89,8 @@ const VideoDetail = () => {
   const title = `${content.data.title} (${fYear(content.data.release)}) - 리뷰니버스`;
   const description = isEmpty(content.data.synopsis) ? "" : content.data.synopsis;
   const imageUrl = fThumbnail(content.data.thumbnail);
-  const url = `${SETTINGS.DOMAIN_URL}/content/${videoId}`;
+  const path = EndpointManager.generateUrl(ENDPOINTS.VIDEO_DETAIL, { videoId: videoId });
+  const url = `${SETTINGS.DOMAIN_URL}${path}`;
   const keywords = isEmpty(content.data.tag) ? "" : `${SITE_KEYWORDS}, ${content.data.tag}`;
 
   return (
@@ -130,7 +132,11 @@ const VideoDetail = () => {
                   <ul className="detail-genre-wrapper">
                     {content.data.genre.map((genre, index) => (
                       <li key={index}>
-                        <Link to={`/genres/${genre.id}`} state={{ name: genre.name }} className="detail-genre-link">
+                        <Link
+                          to={EndpointManager.generateUrl(ENDPOINTS.GENRE, { genreId: genre.id })}
+                          state={{ name: genre.name }}
+                          className="detail-genre-link"
+                        >
                           {genre.name}
                         </Link>
                       </li>
@@ -201,7 +207,7 @@ const VideoDetail = () => {
                     {content.data.production ? (
                       content.data.production.map((prodn, index) => (
                         <Link
-                          to={`/productions/${prodn.id}`}
+                          to={EndpointManager.generateUrl(ENDPOINTS.PRODUCTION, { productionId: prodn.id })}
                           state={{ name: prodn.name }}
                           className="detail-sub-content"
                           key={index}

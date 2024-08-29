@@ -6,6 +6,7 @@ import MenuModal from "/src/components/Modal/Menu";
 import SearchForm from "/src/components/SearchForm";
 import ProfileImage from "/src/components/Button/Profile/Image";
 import { DEFAULT_IMAGES } from "/src/config/constants";
+import { EndpointManager, ENDPOINTS } from "/src/config/endpoints";
 import SearchIcon from "/src/assets/button/outline-search.svg?react";
 import MenuIcon from "/src/assets/button/menu3.svg?react";
 
@@ -15,18 +16,18 @@ const Header = () => {
   const { user } = useAuthContext();
   const { isMobile } = useThemeContext();
   const [isMenuModal, setIsMenuModal] = useState(false);
-  const isSearch = location.pathname === "/search";
+  const isSearch = location.pathname === ENDPOINTS.SEARCH;
 
   const toggleMobileMenu = () => {
     setIsMenuModal((prev) => !prev);
   };
 
   const handleMobileSearch = () => {
-    navigate("/search");
+    navigate(ENDPOINTS.SEARCH);
   };
 
   const Logo = () => (
-    <Link to="/" className="header-logo-link">
+    <Link to={ENDPOINTS.HOME} className="header-logo-link">
       <img src={DEFAULT_IMAGES.logoWhite} className="logo" alt="logo" />
     </Link>
   );
@@ -54,27 +55,34 @@ const Header = () => {
     return isSearch ? searchMobile() : defaultMobile();
   };
 
-  const DefaultHeader = () => (
-    <section className="header-wrapper">
-      <h1 className="header-logo">
-        <Logo />
-      </h1>
-      <section className="search-container">
-        <SearchForm />
+  const DefaultHeader = () => {
+    const renderProfile = () => {
+      const path = EndpointManager.generateUrl(ENDPOINTS.USER, { userId: user.id });
+      return (
+        <Link to={path} className="toolbar-user">
+          <ProfileImage image={user.profile_image} size={34} />
+        </Link>
+      );
+    };
+
+    const renderLogin = () => (
+      <Link to={ENDPOINTS.USER_LOGIN} className="toolbar-login">
+        로그인
+      </Link>
+    );
+
+    return (
+      <section className="header-wrapper">
+        <h1 className="header-logo">
+          <Logo />
+        </h1>
+        <section className="search-container">
+          <SearchForm />
+        </section>
+        <section className="toolbar-container">{user ? renderProfile() : renderLogin()}</section>
       </section>
-      <section className="toolbar-container">
-        {user ? (
-          <Link to={`/user/${user.id}`} className="toolbar-user">
-            <ProfileImage image={user.profile_image} size={34} />
-          </Link>
-        ) : (
-          <Link to="/user/login" className="toolbar-login">
-            로그인
-          </Link>
-        )}
-      </section>
-    </section>
-  );
+    );
+  };
 
   const renderHeader = () => {
     return isMobile ? <MobileHeader /> : <DefaultHeader />;

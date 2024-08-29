@@ -1,11 +1,9 @@
 import Cookies from "js-cookie";
 import { SETTINGS } from "/src/config/settings";
+import { ENDPOINTS } from "/src/config/endpoints";
 
 const domain = SETTINGS.COOKIE_DOMAIN;
 const isLocalhost = domain.includes("localhost");
-const endpoints = {
-  error: "/error",
-};
 
 // 로컬 스토리지 설정
 export const setLocalStorage = (key, value) => {
@@ -13,7 +11,7 @@ export const setLocalStorage = (key, value) => {
     localStorage.setItem(key, value);
     return true;
   } catch (e) {
-    window.location.href = endpoints.error;
+    window.location.href = ENDPOINTS.ERROR;
   }
 };
 
@@ -23,7 +21,7 @@ export const getLocalStorage = (key) => {
     let data = localStorage.getItem(key);
     return data;
   } catch (e) {
-    window.location.href = endpoints.error;
+    window.location.href = ENDPOINTS.ERROR;
   }
 };
 
@@ -33,7 +31,7 @@ export const removeLocalStorage = (key) => {
     localStorage.removeItem(key);
     return true;
   } catch (e) {
-    window.location.href = endpoints.error;
+    window.location.href = ENDPOINTS.ERROR;
   }
 };
 
@@ -43,7 +41,7 @@ export const setSessionStorage = (key, value) => {
     sessionStorage.setItem(key, value);
     return true;
   } catch (e) {
-    window.location.href = endpoints.error;
+    window.location.href = ENDPOINTS.ERROR;
   }
 };
 
@@ -53,7 +51,7 @@ export const getSessionStorage = (key) => {
     let data = sessionStorage.getItem(key);
     return data;
   } catch (e) {
-    window.location.href = endpoints.error;
+    window.location.href = ENDPOINTS.ERROR;
   }
 };
 
@@ -63,7 +61,7 @@ export const removeSessionStorage = (key) => {
     sessionStorage.removeItem(key);
     return true;
   } catch (e) {
-    window.location.href = endpoints.error;
+    window.location.href = ENDPOINTS.ERROR;
   }
 };
 
@@ -79,7 +77,7 @@ export const setCookie = (name, value, options = {}) => {
     Cookies.set(name, value, cookieOptions);
     return true;
   } catch (e) {
-    window.location.href = endpoints.error;
+    window.location.href = ENDPOINTS.ERROR;
   }
 };
 
@@ -88,7 +86,7 @@ export const getCookie = (name) => {
   try {
     return Cookies.get(name);
   } catch (e) {
-    window.location.href = endpoints.error;
+    window.location.href = ENDPOINTS.ERROR;
   }
 };
 
@@ -98,6 +96,6 @@ export const removeCookie = (name, options = {}) => {
     Cookies.remove(name, { sameSite: "Strict", domain, ...options });
     return true;
   } catch (e) {
-    window.location.href = endpoints.error;
+    window.location.href = ENDPOINTS.ERROR;
   }
 };

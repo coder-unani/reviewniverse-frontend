@@ -12,6 +12,7 @@ import { MESSAGES } from "/src/config/messages";
 import { DEFAULT_IMAGES } from "/src/config/constants";
 import { showSuccessToast, showErrorToast } from "/src/components/Toast";
 import { isEmpty } from "lodash";
+import { EndpointManager, ENDPOINTS } from "/src/config/endpoints";
 
 const KakaoCallback = () => {
   const navigate = useNavigate();
@@ -26,7 +27,8 @@ const KakaoCallback = () => {
   useEffect(() => {
     if (user) {
       showErrorToast(MESSAGES["L002"]);
-      return navigate(`/user/${user.id}`);
+      const pathUser = EndpointManager.generateUrl(ENDPOINTS.USER, { userId: user.id });
+      return navigate(pathUser);
     }
     handleKakaoLogin();
   }, [searchParams, location, user]);
@@ -63,7 +65,7 @@ const KakaoCallback = () => {
         const res = await login(loginUser);
         if (res.status) {
           showSuccessToast(MESSAGES[res.code]);
-          navigate("/");
+          navigate(ENDPOINTS.HOME);
         } else {
           if (res.code === "L003") {
             setSnsUser({
@@ -76,14 +78,14 @@ const KakaoCallback = () => {
           } else {
             // TODO: 이메일/닉네임 유효성 검사
             setSnsUser(null);
-            navigate("/user/login");
+            navigate(ENDPOINTS.USER_LOGIN);
             showErrorToast(MESSAGES[res.code]);
           }
         }
       }
     } catch (error) {
       setSnsUser(null);
-      navigate("/user/login");
+      navigate(ENDPOINTS.USER_LOGIN);
       showErrorToast(MESSAGES["L002"]);
     }
   };
@@ -115,16 +117,16 @@ const KakaoCallback = () => {
         const loginRes = await login(loginUser);
         if (loginRes.status) {
           // 회원 취향 등록 페이지로 이동
-          navigate("/user/watchtype");
+          navigate(ENDPOINTS.USER_WATCHTYPE);
         } else {
           // 로그인 실패
           showErrorToast(MESSAGES[res.code]);
-          navigate("/user/login");
+          navigate(ENDPOINTS.USER_LOGIN);
         }
       } else {
         // 회원가입 실패
         showErrorToast(MESSAGES[res.code]);
-        navigate("/user/login");
+        navigate(ENDPOINTS.USER_LOGIN);
       }
     } catch {
     } finally {

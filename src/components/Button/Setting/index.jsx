@@ -5,6 +5,7 @@ import { useModalContext } from "/src/context/ModalContext";
 import { MESSAGES } from "/src/config/messages";
 import { RiSettings2Fill } from "@remixicon/react";
 import { showSuccessToast, showErrorToast } from "/src/components/Toast";
+import { ENDPOINTS } from "/src/config/endpoints";
 
 const SettingButton = () => {
   const navigate = useNavigate();
@@ -32,7 +33,7 @@ const SettingButton = () => {
 
   // 회원정보 수정 페이지로 이동
   const handleEditClick = () => {
-    navigate("/user/profile");
+    navigate(ENDPOINTS.USER_PROFILE);
   };
 
   // 로그아웃
@@ -47,7 +48,7 @@ const SettingButton = () => {
       const res = await logout();
       if (res.status) {
         showSuccessToast(MESSAGES[res.code]);
-        navigate("/");
+        navigate(ENDPOINTS.HOME);
       } else {
         showErrorToast(MESSAGES[res.code]);
       }
@@ -56,7 +57,7 @@ const SettingButton = () => {
 
   // 회원탈퇴 페이지로 이동
   const handleDeleteClick = () => {
-    navigate("/user/delete");
+    navigate(ENDPOINTS.USER_DELETE);
   };
 
   return (

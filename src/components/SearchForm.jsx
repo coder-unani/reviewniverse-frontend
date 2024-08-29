@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import { Link, useLocation, useNavigate, useSearchParams } from "react-router-dom";
 import ClearButton from "/src/components/Button/Clear";
 import { useThemeContext } from "/src/context/ThemeContext";
+import { ENDPOINTS } from "/src/config/endpoints";
 import {
   getStorageKeyword,
   setStorageKeyword,
@@ -61,7 +62,7 @@ const SearchForm = () => {
 
     const path = location.pathname;
     if (!searchInputRef.current) return;
-    if (path !== "/search") {
+    if (path !== ENDPOINTS.SEARCH) {
       // 검색 페이지가 아닌 경우 검색어 초기화
       setInputValue("");
     } else {
@@ -114,7 +115,8 @@ const SearchForm = () => {
     if (!inputValue || !inputValue.trim()) return;
     handleSearchClose();
     saveRecentKeywords(inputValue);
-    navigate(`/search?query=${inputValue}`);
+    const path = `${ENDPOINTS.SEARCH}?query=${inputValue}`;
+    navigate(path);
   };
 
   // 최근 검색어 저장 (최대 5개)
@@ -153,6 +155,8 @@ const SearchForm = () => {
   };
 
   const renderSearchContent = () => {
+    const path = `${ENDPOINTS.SEARCH}?query=`;
+
     return (
       <>
         <div className="search-header">
@@ -164,7 +168,7 @@ const SearchForm = () => {
         <ul className="search-list">
           {recentKeywords.map((keyword, index) => (
             <li className="search-item" key={index}>
-              <Link to={`/search?query=${keyword}`} className="search-link">
+              <Link to={`${path}${keyword}`} className="search-link">
                 <SearchIcon />
                 <p className="search-keyword">{keyword}</p>
               </Link>

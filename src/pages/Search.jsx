@@ -4,6 +4,7 @@ import Videos from "/src/components/Videos";
 import { useVideos } from "/src/hooks/useVideos";
 import { showErrorToast } from "/src/components/Toast";
 import { DEFAULT_IMAGES } from "/src/config/constants";
+import { ENDPOINTS } from "/src/config/endpoints";
 import { MESSAGES } from "/src/config/messages";
 import { isEmpty } from "lodash";
 
@@ -45,14 +46,14 @@ const Search = () => {
       if (videosData.code === "C001") {
         // TODO: 고도화 필요
         if (page === 1) {
-          return navigate("/error");
+          return navigate(ENDPOINTS.ERROR);
         } else {
           // showErrorToast(MESSAGES["C001"]);
           setPage((prev) => prev - 1);
           return;
         }
       } else {
-        return navigate("/error");
+        return navigate(ENDPOINTS.ERROR);
       }
     }
     if (page === 1) {
@@ -75,7 +76,7 @@ const Search = () => {
   };
 
   if (videosError) {
-    return navigate("/error");
+    return navigate(ENDPOINTS.ERROR);
   }
 
   // if (isEmpty(videos)) {

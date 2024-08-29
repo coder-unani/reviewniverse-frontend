@@ -9,6 +9,7 @@ import { DEFAULT_IMAGES } from "/src/config/constants";
 import { MESSAGES } from "/src/config/messages";
 import { fParseInt } from "/src/utils/format";
 import { isEmpty } from "lodash";
+import { EndpointManager, ENDPOINTS } from "/src/config/endpoints";
 
 /**
  * TODO:
@@ -39,7 +40,7 @@ const Genre = () => {
   // genreId가 숫자형이 아닐 경우, location state에 name이 없을 경우
   useEffect(() => {
     if (genreId2Int === 0 || isEmpty(name)) {
-      return navigate("/404-not-found");
+      return navigate(ENDPOINTS.NOT_FOUND);
     }
   }, [genreId2Int, name, navigate]);
 
@@ -51,14 +52,14 @@ const Genre = () => {
       if (videosData.code === "C001") {
         // TODO: 고도화 필요
         if (page === 1) {
-          return navigate("/error");
+          return navigate(ENDPOINTS.ERROR);
         } else {
           // showErrorToast(MESSAGES["C001"]);
           setPage((prev) => prev - 1);
           return;
         }
       } else {
-        return navigate("/error");
+        return navigate(ENDPOINTS.ERROR);
       }
     }
     if (page === 1) {
@@ -81,7 +82,7 @@ const Genre = () => {
   };
 
   if (videosError) {
-    return navigate("/error");
+    return navigate(ENDPOINTS.ERROR);
   }
 
   if (isEmpty(videos)) {
@@ -91,7 +92,8 @@ const Genre = () => {
   const title = `${name}의 검색결과 - 리뷰니버스`;
   const description = `${name}의 검색결과 - 리뷰니버스`;
   const imageUrl = DEFAULT_IMAGES.logo;
-  const url = `${SETTINGS.DOMAIN_URL}/genres/${genreId2Int}`;
+  const path = EndpointManager.generateUrl(ENDPOINTS.GENRE, { genreId: genreId2Int });
+  const url = `${SETTINGS.DOMAIN_URL}${path}`;
 
   return (
     <>

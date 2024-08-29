@@ -3,6 +3,7 @@ import Modal from "/src/components/Modal";
 import CloseButton from "/src/components/Button/Close";
 import { useNavigate } from "react-router-dom";
 import { DEFAULT_IMAGES } from "/src/config/constants";
+import { ENDPOINTS } from "/src/config/endpoints";
 
 const EnjoyModal = React.memo(({ onClose }) => {
   const navigate = useNavigate();
@@ -13,7 +14,7 @@ const EnjoyModal = React.memo(({ onClose }) => {
   };
 
   const handleLoginButton = () => {
-    navigate("/user/login");
+    navigate(ENDPOINTS.USER_LOGIN);
   };
 
   return (

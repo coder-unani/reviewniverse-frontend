@@ -6,6 +6,7 @@ import { useForm } from "react-hook-form";
 import HttpClient from "/src/utils/HttpClient";
 import { SETTINGS } from "/src/config/settings";
 import { cLog, cError } from "/src/utils/test";
+import { ENDPOINTS } from "/src/config/endpoints";
 
 /**
  * TODO:
@@ -91,7 +92,7 @@ const JoinForm = ({ agreeValues }) => {
         // 성공
         // TODO: 회원가입 성공 시 회원가입 성공 페이지로 이동
         cLog("회원가입을 축하합니다.");
-        navigate("/user/login");
+        navigate(ENDPOINTS.USER_LOGIN);
         return;
       } else {
         // 실패

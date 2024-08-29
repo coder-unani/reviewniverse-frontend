@@ -4,8 +4,9 @@ import ProfileButton from "/src/components/Button/Profile";
 import CloseButton from "/src/components/Button/Close";
 import { useAuthContext } from "/src/context/AuthContext";
 import { Link } from "react-router-dom";
-import { RiArrowRightSLine } from "@remixicon/react";
 import { DEFAULT_IMAGES } from "/src/config/constants";
+import { ENDPOINTS } from "/src/config/endpoints";
+import ArrowRightIcon from "/src/assets/button/arrow-right.svg?react";
 
 /**
  * TODO:
@@ -28,10 +29,10 @@ const MenuModal = ({ onClose }) => {
 
   const renderLoginButton = () => {
     return (
-      <Link to="/user/login" className="login" onClick={onClose}>
+      <Link to={ENDPOINTS.USER_LOGIN} className="login" onClick={onClose}>
         <img src={DEFAULT_IMAGES.noProfile} alt="프로필 이미지" />
         로그인 해주세요
-        <RiArrowRightSLine size={20} />
+        <ArrowRightIcon />
       </Link>
     );
   };
@@ -48,20 +49,10 @@ const MenuModal = ({ onClose }) => {
             <p>메뉴</p>
             <ul className="menu-list">
               <li>
-                <Link to="/" onClick={onClose}>
+                <Link to={ENDPOINTS.HOME} onClick={onClose}>
                   홈
                 </Link>
               </li>
-              {/* <li>
-                <Link to="/movie" onClick={onClose}>
-                  영화
-                </Link>
-              </li>
-              <li>
-                <Link to="/series" onClick={onClose}>
-                  시리즈
-                </Link>
-              </li> */}
             </ul>
           </div>
         </div>

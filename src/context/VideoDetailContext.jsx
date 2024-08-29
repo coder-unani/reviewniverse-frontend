@@ -4,6 +4,7 @@ import { useAuthContext } from "/src/context/AuthContext";
 import { useVideoDetail } from "/src/hooks/useVideoDetail";
 import { useVideoMyInfo } from "/src/hooks/useVideoMyInfo";
 import { fParseInt } from "/src/utils/format";
+import { ENDPOINTS } from "/src/config/endpoints";
 
 const VideoDetailContext = createContext();
 
@@ -26,7 +27,7 @@ export const VideoDetailProvider = ({ children }) => {
   // 비디오 ID가 숫자형이 아닐 경우 404 페이지로 이동
   useEffect(() => {
     if (videoId2Int === 0) {
-      return navigate("/404-not-found");
+      return navigate(ENDPOINTS.NOT_FOUND);
     }
   }, [videoId2Int, navigate]);
 
@@ -38,9 +39,9 @@ export const VideoDetailProvider = ({ children }) => {
     if (contentError) {
       // VIDEO_NOT_FOUND일 시 404 페이지로 이동
       if (contentError.message === "C003") {
-        return navigate("/404-not-found");
+        return navigate(ENDPOINTS.NOT_FOUND);
       } else {
-        return navigate("/error");
+        return navigate(ENDPOINTS.ERROR);
       }
     }
   }, [contentIsLoading, contentError, navigate]);
@@ -48,7 +49,7 @@ export const VideoDetailProvider = ({ children }) => {
   // 내 정보 에러 발생 시 에러 무시
   useEffect(() => {
     // if (myInfoError) {
-    //   return navigate("/error");
+    //   return navigate(ENDPOINTS.ERROR);
     // }
   }, [myInfoError, navigate]);
 

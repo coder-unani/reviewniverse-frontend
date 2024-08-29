@@ -18,6 +18,29 @@ const RatingVideo = () => {
   const ratingImgRef = useRef(null);
   const ratingTextRef = useRef(null);
 
+  // 비디오 평가하기 이벤트 설정
+  useEffect(() => {
+    const barRating = ratingRef.current;
+    if (!barRating) {
+      return;
+    }
+
+    // 로그인이 되어 있고, myInfo가 있을 경우 평가하기 이미지 및 텍스트 설정
+    if (user && myInfo) {
+      handleRatingSet(myInfo.rating || 0);
+    }
+
+    barRating.addEventListener("mouseover", handleRatingMouseOver);
+    barRating.addEventListener("mouseout", handleRatingMouseOut);
+    barRating.addEventListener("click", handleRatingClick);
+
+    return () => {
+      barRating.removeEventListener("mouseover", handleRatingMouseOver);
+      barRating.removeEventListener("mouseout", handleRatingMouseOut);
+      barRating.removeEventListener("click", handleRatingClick);
+    };
+  }, [user, myInfo, isRatingPending]);
+
   // 비디오 평가하기 이미지 및 텍스트 설정
   const handleRatingSet = (rating) => {
     if (ratingRef.current && ratingTextRef.current) {
@@ -29,15 +52,26 @@ const RatingVideo = () => {
 
   // 비디오 평가하기 마우스 올렸을 때 이벤트
   const handleRatingMouseOver = (e) => {
-    if (isRatingPending) return;
+    // API 호출 중일 경우 리턴
+    if (isRatingPending) {
+      return;
+    }
+
     const rating = e.target.dataset.rating;
-    if (!rating) return;
+    if (!rating) {
+      return;
+    }
+
     handleRatingSet(rating);
   };
 
   // 비디오 평가하기 마우스 벗어났을 때 이벤트
   const handleRatingMouseOut = (e) => {
-    if (isRatingPending) return;
+    // API 호출 중일 경우 리턴
+    if (isRatingPending) {
+      return;
+    }
+
     if (ratingRef.current && !ratingRef.current.contains(e.relatedTarget)) {
       handleRatingSet(myInfo && myInfo.rating ? myInfo.rating : 0);
     }
@@ -45,14 +79,21 @@ const RatingVideo = () => {
 
   // 비디오 평가하기 클릭 이벤트
   const handleRatingClick = async (e) => {
+    // 로그인 안했을 경우 Enjoy 모달 띄우기
     if (!user) {
       toggleEnjoyModal();
       return;
     }
-    if (isRatingPending) return;
+
+    // API 호출 중일 경우 리턴
+    if (isRatingPending) {
+      return;
+    }
 
     const rating = e.target.dataset.rating;
-    if (!rating) return;
+    if (!rating) {
+      return;
+    }
 
     // 평가하기 API 호출
     await videoRating(
@@ -72,22 +113,15 @@ const RatingVideo = () => {
     );
   };
 
-  useEffect(() => {
-    const barRating = ratingRef.current;
-    if (!barRating) return;
-
-    if (user && myInfo) handleRatingSet(myInfo.rating || 0);
-
-    barRating.addEventListener("mouseover", handleRatingMouseOver);
-    barRating.addEventListener("mouseout", handleRatingMouseOut);
-    barRating.addEventListener("click", handleRatingClick);
-
-    return () => {
-      barRating.removeEventListener("mouseover", handleRatingMouseOver);
-      barRating.removeEventListener("mouseout", handleRatingMouseOut);
-      barRating.removeEventListener("click", handleRatingClick);
-    };
-  }, [user, myInfo, isRatingPending]);
+  // 툴팁 코멘트 설정
+  const handleTooltipContent = (tRating) => {
+    // myInfo가 있고, myInfo.rating이 마우스 오버한 rating과 같을 경우 취소하기 표시
+    if (myInfo && myInfo.rating === tRating) {
+      return "취소하기";
+    } else {
+      return `${fRating(tRating)}점`;
+    }
+  };
 
   return (
     <article className="video-rating-container">
@@ -113,7 +147,7 @@ const RatingVideo = () => {
           <Tooltip
             className="video-rating-tooltip"
             anchorSelect={`#video-rating-${i + 1}`}
-            content={`${fRating(i + 1)}점`}
+            content={handleTooltipContent(i + 1)}
             place="bottom"
             key={i}
           />

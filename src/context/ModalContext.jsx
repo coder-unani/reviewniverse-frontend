@@ -7,6 +7,7 @@ import TermsModal from "/src/components/Modal/Terms";
 import PrivacyModal from "/src/components/Modal/Privacy";
 import PrivacyCollectionModal from "/src/components/Modal/PrivacyCollection";
 import { setStorageHasVisited, getStorageHasVisited, getStorageHidePopupBanner } from "/src/utils/formatStorage";
+import { EndpointManager, ENDPOINTS } from "/src/config/endpoints";
 
 /**
  * TODO:
@@ -30,14 +31,14 @@ const ModalContextProvider = ({ children }) => {
   /*
   // 팝업 배너
   useEffect(() => {
-    // location.pathname이 /user 하위일 경우 팝업 모달창 띄우지 않기
-    if (location.pathname.includes("/user")) return;
+    // location.pathname이 /users 하위일 경우 팝업 모달창 띄우지 않기
+    if (location.pathname.includes("/users")) return;
 
     const hidePopupBanner = getStorageHidePopupBanner();
     if (hidePopupBanner) return;
 
     const hasVisited = getStorageHasVisited();
-    if (location.pathname !== "/" && hasVisited) {
+    if (location.pathname !== ENDPOINTS.HOME && hasVisited) {
       if (isPopupBanner) setIsPopupBanner(false);
       return;
     }

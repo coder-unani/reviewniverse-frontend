@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation } from "swiper/modules";
 import { LazyLoadImage } from "react-lazy-load-image-component";
+import { EndpointManager, ENDPOINTS } from "/src/config/endpoints";
 import { fMakeThumbnailUrl } from "/src/utils/formatContent";
 import { isEmpty } from "lodash";
 import ArrowLeftIcon from "/src/assets/button/arrow-left.svg?react";
@@ -70,7 +71,7 @@ const SwiperGenre = ({ content }) => {
           {genres.map((genre) => (
             <SwiperSlide className="horizontal-video-item" key={genre.id}>
               <Link
-                to={`/genres/${genre.id}`}
+                to={EndpointManager.generateUrl(ENDPOINTS.GENRE, { genreId: genre.id })}
                 state={{ name: genre.name }}
                 className="genre-video-link"
                 aria-label={genre.name}

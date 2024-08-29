@@ -1,8 +1,9 @@
 import React from "react";
+import { ENDPOINTS } from "/src/config/endpoints";
 
 const HomeButton = () => {
   const handleGoHome = () => {
-    window.location.href = "/";
+    window.location.href = ENDPOINTS.HOME;
   };
 
   return (

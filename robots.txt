@@ -1,0 +1,12 @@
+User-agent: *
+Disallow: /
+
+User-agent: Googlebot
+User-agent: Googlebot-Image
+User-agent: bingbot
+User-agent: Yeti
+User-agent: facebookexternalhit
+User-agent: kakaotalk-scrap
+User-agent: Daumoa
+Allow: /
+Disallow: /users

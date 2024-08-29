@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import ProfileImage from "/src/components/Button/Profile/Image";
 import RatingReview from "/src/components/RatingReview";
 import ReviewLikeButton from "/src/components/Button/ReviewLike";
+import { EndpointManager, ENDPOINTS } from "/src/config/endpoints";
 import { fYear, fDiffDate } from "/src/utils/format";
 import { fVideoCode, fThumbnail } from "/src/utils/formatContent";
 import MoreIcon from "/src/assets/button/fill-more.svg?react";
@@ -17,6 +18,8 @@ const ReviewItem = ({ user, review }) => {
   const [data, setData] = useState(review);
   const [active, setActive] = useState(review.is_spoiler);
   const profileImage = user ? user.profile_image : DEFAULT_IMAGES.noActor;
+  // TODO: data.video.id로 videoId를 받아오는 방법 찾기
+  const path = EndpointManager.generateUrl(ENDPOINTS.VIDEO_DETAIL, { videoId: review.video.id });
 
   useEffect(() => {
     setData(review);
@@ -44,7 +47,7 @@ const ReviewItem = ({ user, review }) => {
         </button>
       </div>
       <div className="user-review-video-wrapper">
-        <Link to={`/contents/${data.video.id}`} className="user-review-video-link">
+        <Link to={path} className="user-review-video-link">
           <picture className="user-review-thumbnail-wrapper">
             <img className="user-review-thumbnail" src={fThumbnail(data.video.thumbnail)} alt={data.video.title} />
           </picture>

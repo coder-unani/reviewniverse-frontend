@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useLocation, useNavigate, useSearchParams } from "react-router-dom";
 import LoginLoading from "/src/components/LoginLoading";
-import HttpClient from "/src/utils/HttpClient";
+// import HttpClient from "/src/utils/HttpClient";
 import JoinAgree from "/src/components/JoinAgree";
 import BackButton from "/src/components/Button/Back";
 import { useAuthContext } from "/src/context/AuthContext";
@@ -12,12 +12,13 @@ import { MESSAGES } from "/src/config/messages";
 import { DEFAULT_IMAGES } from "/src/config/constants";
 import { showSuccessToast, showErrorToast } from "/src/components/Toast";
 import { isEmpty } from "lodash";
+import { EndpointManager, ENDPOINTS } from "/src/config/endpoints";
 
 const NaverCallback = () => {
   const { naver } = window;
   const navigate = useNavigate();
   const location = useLocation();
-  const [searchParams] = useSearchParams();
+  // const [searchParams] = useSearchParams();
   const { user, login, join } = useAuthContext();
   const { isMobile } = useThemeContext();
   const [snsUser, setSnsUser] = useState(null);
@@ -27,7 +28,8 @@ const NaverCallback = () => {
   useEffect(() => {
     if (user) {
       showErrorToast(MESSAGES["L002"]);
-      return navigate(`/user/${user.id}`);
+      const pathUser = EndpointManager.generateUrl(ENDPOINTS.USER, { userId: user.id });
+      return navigate(pathUser);
     }
     handleNaverLogin();
   }, [location, user]);
@@ -76,7 +78,7 @@ const NaverCallback = () => {
           const res = await login(loginUser);
           if (res.status) {
             showSuccessToast(MESSAGES[res.code]);
-            navigate("/");
+            navigate(ENDPOINTS.HOME);
           } else {
             if (res.code === "L003") {
               setSnsUser({
@@ -88,7 +90,7 @@ const NaverCallback = () => {
               });
             } else {
               setSnsUser(null);
-              navigate("/user/login");
+              navigate(ENDPOINTS.USER_LOGIN);
               showErrorToast(MESSAGES[res.code]);
             }
           }
@@ -96,7 +98,7 @@ const NaverCallback = () => {
       } catch (error) {
         console.log(error);
         // setSnsUser(null);
-        // navigate("/user/login");
+        // navigate(ENDPOINTS.USER_LOGIN);
         // showErrorToast(MESSAGES["L002"]);
       }
     };
@@ -129,7 +131,7 @@ const NaverCallback = () => {
           const res = await login(loginUser);
           if (res.status) {
             showSuccessToast(MESSAGES[res.code]);
-            navigate("/");
+            navigate(ENDPOINTS.HOME);
           } else {
             if (res.code === "L003") {
               setSnsUser({
@@ -141,19 +143,19 @@ const NaverCallback = () => {
               });
             } else {
               setSnsUser(null);
-              navigate("/user/login");
+              navigate(ENDPOINTS.USER_LOGIN);
               showErrorToast(MESSAGES[res.code]);
             }
           }
         } else {
           setSnsUser(null);
-          navigate("/user/login");
+          navigate(ENDPOINTS.USER_LOGIN);
           showErrorToast(MESSAGES["L002"]);
         }
       });
     } catch (error) {
       setSnsUser(null);
-      navigate("/user/login");
+      navigate(ENDPOINTS.USER_LOGIN);
       showErrorToast(MESSAGES["L002"]);
     }
   };
@@ -185,16 +187,16 @@ const NaverCallback = () => {
         const loginRes = await login(loginUser);
         if (loginRes.status) {
           // 회원 취향 등록 페이지로 이동
-          navigate("/user/watchtype");
+          navigate(ENDPOINTS.USER_WATCHTYPE);
         } else {
           // 로그인 실패
           showErrorToast(MESSAGES[res.code]);
-          navigate("/user/login");
+          navigate(ENDPOINTS.USER_LOGIN);
         }
       } else {
         // 회원가입 실패
         showErrorToast(MESSAGES[res.code]);
-        navigate("/user/login");
+        navigate(ENDPOINTS.USER_LOGIN);
       }
     } catch {
     } finally {

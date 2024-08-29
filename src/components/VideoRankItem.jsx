@@ -1,10 +1,13 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { LazyLoadImage } from "react-lazy-load-image-component";
+import { EndpointManager, ENDPOINTS } from "/src/config/endpoints";
 import { fYear } from "/src/utils/format";
 import { fThumbnail, fCountry, fRatingColor, fRatingText } from "/src/utils/formatContent";
 
 const VideoRankItem = ({ video, index }) => {
+  const path = EndpointManager.generateUrl(ENDPOINTS.VIDEO_DETAIL, { videoId: video.id });
+
   // 랭킹 숫자 포맷
   const fRankingNumber = (number) => {
     // 숫자 한자리씩 잘라서 배열에 저장
@@ -17,7 +20,7 @@ const VideoRankItem = ({ video, index }) => {
 
   return (
     <article className="rank-video-item">
-      <Link to={`/contents/${video.id}`} aria-label={video.title}>
+      <Link to={path} aria-label={video.title}>
         <div className="rank-thumbnail-container">
           <picture className="rank-thumbnail-wrapper">
             <LazyLoadImage className="rank-thumbnail" src={fThumbnail(video.thumbnail)} alt="썸네일" effect="blur" />

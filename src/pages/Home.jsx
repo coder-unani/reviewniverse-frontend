@@ -6,10 +6,11 @@ import { useRankingVideos } from "/src/hooks/useRankingVideos";
 import { useRankingGenres } from "/src/hooks/useRankingGenres";
 import { useVideos } from "/src/hooks/useVideos";
 import { showErrorToast } from "/src/components/Toast";
+import { fScreenCode } from "/src/utils/formatContent";
 import { SCREEN_MAIN_ID } from "/src/config/codes";
 import { VIDEO_ORDER_OPTIONS } from "/src/config/constants";
 import { MESSAGES } from "/src/config/messages";
-import { fScreenCode } from "/src/utils/formatContent";
+import { ENDPOINTS } from "/src/config/endpoints";
 
 const SwiperPreview = React.lazy(() => import("/src/components/SwiperPreview"));
 const SwiperGenre = React.lazy(() => import("/src/components/SwiperGenre"));
@@ -87,14 +88,14 @@ const Home = () => {
       if (videosData.code === "C001") {
         // TODO: 고도화 필요
         if (page === 1) {
-          return navigate("/error");
+          return navigate(ENDPOINTS.ERROR);
         } else {
           // showErrorToast(MESSAGES["C001"]);
           setPage((prev) => prev - 1);
           return;
         }
       } else {
-        return navigate("/error");
+        return navigate(ENDPOINTS.ERROR);
       }
     }
     if (page === 1) {
@@ -122,7 +123,7 @@ const Home = () => {
   }
 
   if (screenVidoesError || rankingVideosError || rankingGenresError || videosError) {
-    return navigate("/error");
+    return navigate(ENDPOINTS.ERROR);
   }
 
   return (
