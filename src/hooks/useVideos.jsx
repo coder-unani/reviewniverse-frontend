@@ -14,7 +14,7 @@ export const useVideos = ({
   const STALE_TIME = 1000 * 60 * 5;
   // 캐시 시간 30분
   const CACHE_TIME = 1000 * 60 * 30;
-  const RETRY = 1;
+  const RETRY = 0;
   const queryKey = [
     "videos",
     {

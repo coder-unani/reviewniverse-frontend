@@ -12,5 +12,6 @@ export const useVideoMyInfo = ({ videoId, userId, enabled }) => {
     enabled: !!enabled,
     staleTime: 1000 * 60 * 5,
     cacheTime: 1000 * 60 * 10,
+    retry: 0,
   });
 };
