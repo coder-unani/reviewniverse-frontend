@@ -58,10 +58,12 @@ export const fStaffCode = (code) => {
   return staffType || "제작";
 };
 
+// 이미지 URL 포맷
 export const fMakeImageUrl = (image) => {
   return `${SETTINGS.IMAGE_DOMAIN}${image}`;
 };
 
+// 썸네일 URL 포맷 (리사이즈 URL)
 export const fMakeThumbnailUrl = (image) => {
   const resizeImage = `r5/${image}`;
   return fMakeImageUrl(resizeImage);
@@ -102,26 +104,6 @@ export const fBackgroundImage = (images, isThumb = false) => {
   return result;
 };
 
-// 장르 포맷
-export const fGenres = (genre) => {
-  // '영화', '시리즈', '프로그램' 단어 제거
-  const trimGenre = genre.replace(/영화|시리즈|프로그램/g, "").trim();
-  if (!trimGenre) return null;
-  // 한글, 알파벳, 숫자, 공백을 제외한 모든 특수 문자 제거
-  const formatGenre = trimGenre.replace(/[^\w\s가-힣()]/g, "");
-  // 단어들을 배열로 분리하고 빈 값 필터링
-  const arrayGenre = formatGenre.split(/\s+/).filter(Boolean);
-  // 배열을 문자열로 결합
-  return arrayGenre.join(",");
-};
-
-// 장르 포맷 (액션, 드라마, 로맨스)
-export const fGenreJoin = (genre) => {
-  if (isEmpty(genre)) return null;
-  const joinGenre = genre.map((item) => item.name).join(", ");
-  return joinGenre;
-};
-
 // 평점 포맷
 export const fRating = (rating) => {
   return parseFloat(rating / 2).toFixed(1);
@@ -142,8 +124,6 @@ export const fRatingText = (rating) => {
   return rating ? fRating(rating) : "-";
 };
 
-// TODO: 관람등급 포맷
-
 // 개봉일자, 공개일자 텍스트 포맷
 export const fReleaseText = (code) => {
   return code === "10" ? "개봉일자" : "공개일자";
@@ -155,19 +135,12 @@ export const fReleaseDate = (date) => {
   return date.split("-").slice(1).join(".");
 };
 
-// 국가 포맷 (한국,일본,미국)
+// 국가 포맷: 여러 나라일 경우 (한국, 일본, 미국)
 export const fCountry = (country) => {
   if (isEmpty(country)) return "국가";
   if (!Array.isArray(country)) return country;
   const countryAll = country.map((item) => item.name_ko).join(", ");
   return countryAll;
-};
-
-// 제작사 포맷
-export const fProductionJoin = (production) => {
-  if (isEmpty(production)) return null;
-  const joinProduction = production.map((item) => item.name).join(", ");
-  return joinProduction;
 };
 
 // 상영시간, 시리즈 텍스트 포맷

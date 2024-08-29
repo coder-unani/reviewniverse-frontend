@@ -17,7 +17,6 @@ import {
   fThumbnail,
   fReleaseText,
   fReleaseDate,
-  fGenres,
   fRatingColor,
   fRatingText,
   fRuntimeText,
