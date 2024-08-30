@@ -88,40 +88,16 @@ const SwiperPreview = React.memo(({ screensMA01 }) => {
     setPreviewVideo(screensMA01.content.list);
   }, [screensMA01]);
 
-  // const [{ x }, api] = useSpring(() => ({ x: 0 }));
-
-  // const bind = useDrag(
-  //   ({ down, movement: [mx], cancel, tap, args: [videoId, index] }) => {
-  //     if (!isMobile) {
-  //       // 모바일 환경이 아니면 useDrag 동작을 막기
-  //       cancel();
-  //     }
-
-  //     if (tap) {
-  //       // 터치가 짧게 이루어진 경우 (클릭으로 간주)
-  //       if (index === activeThumbIndex) {
-  //         handleLinkClick(videoId, index);
-  //       }
-  //     } else if (down) {
-  //       // 터치 중 스와이프가 발생하는 경우
-  //       setIsDragging(true);
-  //     } else {
-  //       // 스와이프가 끝난 경우
-  //       setIsDragging(false);
-  //     }
-
-  //     // 만약 스와이프 거리가 충분히 크지 않다면 움직임을 취소
-  //     if (Math.abs(mx) < 10 && !down) {
-  //       cancel();
-  //     }
-
-  //     api.start({ x: down ? mx : 0 });
-  //   },
-  //   { axis: "x", filterTaps: true }
-  // );
-
   // 썸네일 클릭 시 해당 슬라이드로 이동 후 다시 클릭 시 페이지 이동
   const handleLinkClick = (e, videoId, index) => {
+    e.preventDefault();
+    if (!isDragging && index === activeThumbIndex) {
+      const path = EndpointManager.generateUrl(ENDPOINTS.VIDEO_DETAIL, { videoId });
+      navigate(path);
+    }
+  };
+
+  const handleLinkTouch = (e, videoId, index) => {
     e.preventDefault();
     if (!isDragging && index === activeThumbIndex) {
       const path = EndpointManager.generateUrl(ENDPOINTS.VIDEO_DETAIL, { videoId });
@@ -181,6 +157,7 @@ const SwiperPreview = React.memo(({ screensMA01 }) => {
                   className="preview-video-link"
                   aria-label={video.title}
                   onClick={(e) => handleLinkClick(e, video.id, index)}
+                  onTouchEnd={(e) => handleLinkTouch(e, video.id, index)}
                 >
                   <picture className="preview-thumbnail-wrapper">
                     <LazyLoadImage
