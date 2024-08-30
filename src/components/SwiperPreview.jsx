@@ -1,10 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { useThemeContext } from "/src/context/ThemeContext";
-import { useDrag } from "@use-gesture/react";
-import { useSpring, animated } from "@react-spring/web";
 import { Swiper, SwiperSlide } from "swiper/react";
-import { Thumbs, Autoplay, FreeMode, Parallax, EffectFade } from "swiper/modules";
+import { Thumbs, Autoplay, Parallax, EffectFade } from "swiper/modules";
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import { EndpointManager, ENDPOINTS } from "/src/config/endpoints";
 import { fDate } from "/src/utils/format";
@@ -47,12 +45,11 @@ const SwiperPreview = React.memo(({ screensMA01 }) => {
 
   // 썸네일 슬라이더 설정
   const thumbSwiperConfig = {
-    modules: [Thumbs, FreeMode],
+    modules: [Thumbs],
     onSwiper: setThumbsSwiper, // 썸네일 슬라이더 인스턴스를 상태로 설정
     spaceBetween: 10,
     slidesPerView: "auto",
     speed: 1500,
-    FreeMode: true,
     loop: true,
     loopAddBlankSlides: false,
     watchSlidesProgress: true,
