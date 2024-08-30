@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import VideoRankItem from "/src/components/VideoRankItem";
 import VideoItem from "/src/components/VideoItem";
 import { Swiper, SwiperSlide } from "swiper/react";
-import { Navigation } from "swiper/modules";
+import { Navigation, Virtual } from "swiper/modules";
 import ArrowLeftIcon from "/src/assets/button/arrow-left.svg?react";
 import ArrowRightIcon from "/src/assets/button/arrow-right.svg?react";
 import { isEmpty } from "lodash";
@@ -14,7 +14,8 @@ const VideosHorizontal = ({ content, template, title }) => {
   const swiperRef = useRef(null);
 
   const swiperConfig = {
-    modules: [Navigation],
+    modules: [Navigation, Virtual],
+    virtual: true,
     spaceBetween: 8,
     slidesPerView: 3,
     slidesPerGroup: 3,
@@ -65,12 +66,12 @@ const VideosHorizontal = ({ content, template, title }) => {
         <Swiper className="horizontal-videos" {...swiperConfig}>
           {template === "default"
             ? videos.map((video, index) => (
-                <SwiperSlide className="horizontal-video-item" key={index}>
+                <SwiperSlide className="horizontal-video-item" key={video.id} virtualIndex={index}>
                   <VideoItem video={video} index={index} />
                 </SwiperSlide>
               ))
             : videos.map((video, index) => (
-                <SwiperSlide className="horizontal-video-item" key={index}>
+                <SwiperSlide className="horizontal-video-item" key={video.id} virtualIndex={index}>
                   <VideoRankItem video={video} index={index} />
                 </SwiperSlide>
               ))}

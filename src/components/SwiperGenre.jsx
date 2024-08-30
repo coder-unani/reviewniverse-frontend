@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 import { Swiper, SwiperSlide } from "swiper/react";
-import { Navigation } from "swiper/modules";
+import { Navigation, Virtual } from "swiper/modules";
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import { EndpointManager, ENDPOINTS } from "/src/config/endpoints";
 import { fMakeThumbnailUrl } from "/src/utils/formatContent";
@@ -15,7 +15,8 @@ const SwiperGenre = ({ children, content }) => {
   const [isEnd, setIsEnd] = useState(false);
   const swiperRef = useRef(null);
   const swiperConfig = {
-    modules: [Navigation],
+    modules: [Navigation, Virtual],
+    virtual: true,
     spaceBetween: 8,
     slidesPerView: 3,
     slidesPerGroup: 3,
@@ -62,8 +63,8 @@ const SwiperGenre = ({ children, content }) => {
       {children}
       <div className="horizontal-videos-wrapper">
         <Swiper className="horizontal-videos" {...swiperConfig}>
-          {genres.map((genre) => (
-            <SwiperSlide className="horizontal-video-item" key={genre.id}>
+          {genres.map((genre, index) => (
+            <SwiperSlide className="horizontal-video-item" key={genre.id} virtualIndex={index}>
               <Link
                 to={EndpointManager.generateUrl(ENDPOINTS.GENRE, { genreId: genre.id })}
                 state={{ name: genre.name }}
