@@ -52,7 +52,7 @@ const SwiperPreview = React.memo(({ screensMA01 }) => {
     spaceBetween: 10,
     slidesPerView: "auto",
     speed: 1500,
-    // FreeMode: true,
+    FreeMode: true,
     loop: true,
     loopAddBlankSlides: false,
     watchSlidesProgress: true,
@@ -72,6 +72,12 @@ const SwiperPreview = React.memo(({ screensMA01 }) => {
         slidesPerGroup: 4,
       },
     },
+    onTouchMove: () => {
+      setIsDragging(true);
+    },
+    onTouchEnd: () => {
+      setIsDragging(false);
+    },
   };
 
   // 프리뷰 비디오 데이터 설정
@@ -82,49 +88,46 @@ const SwiperPreview = React.memo(({ screensMA01 }) => {
     setPreviewVideo(screensMA01.content.list);
   }, [screensMA01]);
 
-  const [{ x }, api] = useSpring(() => ({ x: 0 }));
+  // const [{ x }, api] = useSpring(() => ({ x: 0 }));
 
-  const bind = useDrag(
-    ({ down, movement: [mx], cancel, tap, args: [videoId, index] }) => {
-      if (tap) {
-        // 터치가 짧게 이루어진 경우 (클릭으로 간주)
-        handleLinkClick(videoId, index);
-      } else if (down) {
-        // 터치 중 스와이프가 발생하는 경우
-        setIsDragging(true);
-      } else {
-        // 스와이프가 끝난 경우
-        setIsDragging(false);
-      }
+  // const bind = useDrag(
+  //   ({ down, movement: [mx], cancel, tap, args: [videoId, index] }) => {
+  //     if (!isMobile) {
+  //       // 모바일 환경이 아니면 useDrag 동작을 막기
+  //       cancel();
+  //     }
 
-      // 만약 스와이프 거리가 충분히 크지 않다면 움직임을 취소
-      if (Math.abs(mx) < 10 && !down) {
-        cancel();
-      }
+  //     if (tap) {
+  //       // 터치가 짧게 이루어진 경우 (클릭으로 간주)
+  //       if (index === activeThumbIndex) {
+  //         handleLinkClick(videoId, index);
+  //       }
+  //     } else if (down) {
+  //       // 터치 중 스와이프가 발생하는 경우
+  //       setIsDragging(true);
+  //     } else {
+  //       // 스와이프가 끝난 경우
+  //       setIsDragging(false);
+  //     }
 
-      api.start({ x: down ? mx : 0 });
-    },
-    { axis: "x", filterTaps: true }
-  );
+  //     // 만약 스와이프 거리가 충분히 크지 않다면 움직임을 취소
+  //     if (Math.abs(mx) < 10 && !down) {
+  //       cancel();
+  //     }
+
+  //     api.start({ x: down ? mx : 0 });
+  //   },
+  //   { axis: "x", filterTaps: true }
+  // );
 
   // 썸네일 클릭 시 해당 슬라이드로 이동 후 다시 클릭 시 페이지 이동
-  const handleLinkClick = (videoId, index) => {
-    // e.preventDefault();
+  const handleLinkClick = (e, videoId, index) => {
+    e.preventDefault();
     if (!isDragging && index === activeThumbIndex) {
       const path = EndpointManager.generateUrl(ENDPOINTS.VIDEO_DETAIL, { videoId });
       navigate(path);
     }
   };
-
-  // 썸네일 클릭 시 해당 슬라이드로 이동 후 다시 클릭 시 페이지 이동
-  // 모바일에서는 onTouchEnd 이벤트로 처리
-  // const handleLinkTouch = (e, videoId, index) => {
-  //   e.preventDefault();
-  //   if (index === activeThumbIndex) {
-  //     const path = EndpointManager.generateUrl(ENDPOINTS.VIDEO_DETAIL, { videoId: videoId });
-  //     navigate(path);
-  //   }
-  // };
 
   if (isEmpty(previewVideo)) {
     return null;
@@ -172,25 +175,23 @@ const SwiperPreview = React.memo(({ screensMA01 }) => {
           <Swiper className="preview-videos" {...thumbSwiperConfig}>
             {previewVideo.map((video, index) => (
               <SwiperSlide className="preview-video-item" key={video.id}>
-                <animated.div className="preview-video-link" {...bind(video.id, index)} style={{ x }}>
-                  <Link
-                    to={EndpointManager.generateUrl(ENDPOINTS.VIDEO_DETAIL, { videoId: video.id })}
-                    aria-label={video.title}
-                    onClick={(e) => {
-                      e.preventDefault();
-                      handleLinkClick(video.id, index);
-                    }}
-                  >
-                    <picture className="preview-thumbnail-wrapper">
-                      <LazyLoadImage
-                        className="preview-thumbnail-image"
-                        src={fBackgroundImage(video.thumbnail, true)}
-                        alt={video.title}
-                        effect="blur"
-                      />
-                    </picture>
-                  </Link>
-                </animated.div>
+                {/* <animated.div className="preview-video-link" {...bind(video.id, index)} style={{ x }}> */}
+                <Link
+                  to={EndpointManager.generateUrl(ENDPOINTS.VIDEO_DETAIL, { videoId: video.id })}
+                  className="preview-video-link"
+                  aria-label={video.title}
+                  onClick={(e) => handleLinkClick(e, video.id, index)}
+                >
+                  <picture className="preview-thumbnail-wrapper">
+                    <LazyLoadImage
+                      className="preview-thumbnail-image"
+                      src={fBackgroundImage(video.thumbnail, true)}
+                      alt={video.title}
+                      effect="blur"
+                    />
+                  </picture>
+                </Link>
+                {/* </animated.div> */}
               </SwiperSlide>
             ))}
           </Swiper>
