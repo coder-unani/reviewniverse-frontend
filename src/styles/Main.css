@@ -509,6 +509,10 @@ em {
   height: 40px;
   cursor: pointer;
 }
+.header-logo svg {
+  width: 145px;
+  height: 100%;
+}
 
 .header-logo-link {
   display: flex;
