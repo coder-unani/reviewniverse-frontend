@@ -97,6 +97,8 @@ const SwiperPreview = React.memo(({ screensMA01 }) => {
     }
   };
 
+  // 썸네일 클릭 시 해당 슬라이드로 이동 후 다시 클릭 시 페이지 이동
+  // 모바일에서는 클릭 이벤트가 발생하지 않아 터치 이벤트로 대체
   const handleLinkTouch = (e, videoId, index) => {
     e.preventDefault();
     if (!isDragging && index === activeThumbIndex) {
@@ -151,7 +153,6 @@ const SwiperPreview = React.memo(({ screensMA01 }) => {
           <Swiper className="preview-videos" {...thumbSwiperConfig}>
             {previewVideo.map((video, index) => (
               <SwiperSlide className="preview-video-item" key={video.id}>
-                {/* <animated.div className="preview-video-link" {...bind(video.id, index)} style={{ x }}> */}
                 <Link
                   to={EndpointManager.generateUrl(ENDPOINTS.VIDEO_DETAIL, { videoId: video.id })}
                   className="preview-video-link"
@@ -168,7 +169,6 @@ const SwiperPreview = React.memo(({ screensMA01 }) => {
                     />
                   </picture>
                 </Link>
-                {/* </animated.div> */}
               </SwiperSlide>
             ))}
           </Swiper>
