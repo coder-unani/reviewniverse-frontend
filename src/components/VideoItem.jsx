@@ -9,38 +9,34 @@ const VideoItem = ({ video }) => {
   const path = EndpointManager.generateUrl(ENDPOINTS.VIDEO_DETAIL, { videoId: video.id });
 
   return (
-    <article className="default-video-item">
-      <Link to={path} aria-label={video.title}>
-        <div className="default-thumbnail-container">
-          <picture className="default-thumbnail-wrapper">
-            <LazyLoadImage className="default-thumbnail" src={fThumbnail(video.thumbnail)} alt="썸네일" effect="blur" />
-          </picture>
-          <div className="default-code-wrapper">
-            <div className="default-code">{video.code_string}</div>
+    <Link to={path} className="default-video-item" aria-label={video.title}>
+      <div className="default-thumbnail-container">
+        <picture className="default-thumbnail-wrapper">
+          <LazyLoadImage className="default-thumbnail" src={fThumbnail(video.thumbnail)} alt="썸네일" effect="blur" />
+        </picture>
+        <div className="default-code-wrapper">
+          <div className="default-code">{video.code_string}</div>
+        </div>
+      </div>
+      <div className="default-info-container">
+        <p className="default-title">{video.title}</p>
+        <div className="default-subtitle-wrapper">
+          <div className="default-subtitle">
+            <span>{fYear(video.release)}</span>
+            {video.country && (
+              <>
+                <span>|</span>
+                <span>{fCountry(video.country)}</span>
+              </>
+            )}
+          </div>
+          <div className="default-rating-wrapper" data-color={fRatingColor(video.rating)}>
+            <div className="default-rating-square"></div>
+            <span className="default-rating">{fRatingText(video.rating)}</span>
           </div>
         </div>
-        <div className="default-info-container">
-          <div className="default-title-wrapper">
-            <p className="default-title">{video.title}</p>
-          </div>
-          <div className="default-subtitle-wrapper">
-            <div className="default-subtitle">
-              <span>{fYear(video.release)}</span>
-              {video.country && (
-                <>
-                  <span>|</span>
-                  <span>{fCountry(video.country)}</span>
-                </>
-              )}
-            </div>
-            <div className="default-rating-wrapper" data-color={fRatingColor(video.rating)}>
-              <div className="default-rating-square"></div>
-              <span className="default-rating">{fRatingText(video.rating)}</span>
-            </div>
-          </div>
-        </div>
-      </Link>
-    </article>
+      </div>
+    </Link>
   );
 };
 

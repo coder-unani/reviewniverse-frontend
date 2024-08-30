@@ -5,7 +5,7 @@ import { EndpointManager, ENDPOINTS } from "/src/config/endpoints";
 import { fYear } from "/src/utils/format";
 import { fThumbnail, fCountry, fRatingColor, fRatingText } from "/src/utils/formatContent";
 
-const VideoRankItem = ({ video, index }) => {
+const VideoRankItem = React.memo(({ video, index }) => {
   const path = EndpointManager.generateUrl(ENDPOINTS.VIDEO_DETAIL, { videoId: video.id });
 
   // 랭킹 숫자 포맷
@@ -19,40 +19,36 @@ const VideoRankItem = ({ video, index }) => {
   };
 
   return (
-    <article className="rank-video-item">
-      <Link to={path} aria-label={video.title}>
-        <div className="rank-thumbnail-container">
-          <picture className="rank-thumbnail-wrapper">
-            <LazyLoadImage className="rank-thumbnail" src={fThumbnail(video.thumbnail)} alt="썸네일" effect="blur" />
-          </picture>
-          <div className="rank-code-wrapper">
-            <div className="rank-code">{video.code_string}</div>
-          </div>
-          <div className="rank-number-wrapper">{fRankingNumber(index + 1)}</div>
+    <Link to={path} className="rank-video-item" aria-label={video.title}>
+      <div className="rank-thumbnail-container">
+        <picture className="rank-thumbnail-wrapper">
+          <LazyLoadImage className="rank-thumbnail" src={fThumbnail(video.thumbnail)} alt="썸네일" effect="blur" />
+        </picture>
+        <div className="rank-code-wrapper">
+          <div className="rank-code">{video.code_string}</div>
         </div>
-        <div className="rank-info-container">
-          <div className="rank-title-wrapper">
-            <p className="rank-title">{video.title}</p>
+        <div className="rank-number-wrapper">{fRankingNumber(index + 1)}</div>
+      </div>
+      <div className="rank-info-container">
+        <p className="rank-title">{video.title}</p>
+        <div className="rank-subtitle-wrapper">
+          <div className="rank-subtitle">
+            <span>{fYear(video.release)}</span>
+            {video.country && (
+              <>
+                <span>|</span>
+                <span>{fCountry(video.country)}</span>
+              </>
+            )}
           </div>
-          <div className="rank-subtitle-wrapper">
-            <div className="rank-subtitle">
-              <span>{fYear(video.release)}</span>
-              {video.country && (
-                <>
-                  <span>|</span>
-                  <span>{fCountry(video.country)}</span>
-                </>
-              )}
-            </div>
-            <div className="rank-rating-wrapper" data-color={fRatingColor(video.rating)}>
-              <div className="rank-rating-square"></div>
-              <span className="rank-rating">{fRatingText(video.rating)}</span>
-            </div>
+          <div className="rank-rating-wrapper" data-color={fRatingColor(video.rating)}>
+            <div className="rank-rating-square"></div>
+            <span className="rank-rating">{fRatingText(video.rating)}</span>
           </div>
         </div>
-      </Link>
-    </article>
+      </div>
+    </Link>
   );
-};
+});
 
 export default VideoRankItem;
