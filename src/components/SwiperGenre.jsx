@@ -8,9 +8,8 @@ import { fMakeThumbnailUrl } from "/src/utils/formatContent";
 import { isEmpty } from "lodash";
 import ArrowLeftIcon from "/src/assets/button/arrow-left.svg?react";
 import ArrowRightIcon from "/src/assets/button/arrow-right.svg?react";
-import LayoutIcon from "/src/assets/button/outline-layout.svg?react";
 
-const SwiperGenre = ({ content }) => {
+const SwiperGenre = ({ children, content }) => {
   const [genres, setGenres] = useState([]);
   const [isBeginning, setIsBeginning] = useState(true);
   const [isEnd, setIsEnd] = useState(false);
@@ -60,12 +59,7 @@ const SwiperGenre = ({ content }) => {
 
   return (
     <section className="horizontal-videos-section">
-      <div className="horizontal-title-wrapper">
-        <h2 className="horizontal-title genre">
-          <LayoutIcon />
-          장르
-        </h2>
-      </div>
+      {children}
       <div className="horizontal-videos-wrapper">
         <Swiper className="horizontal-videos" {...swiperConfig}>
           {genres.map((genre) => (

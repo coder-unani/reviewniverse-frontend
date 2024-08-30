@@ -11,6 +11,7 @@ import { SCREEN_MAIN_ID } from "/src/config/codes";
 import { VIDEO_ORDER_OPTIONS } from "/src/config/constants";
 import { MESSAGES } from "/src/config/messages";
 import { ENDPOINTS } from "/src/config/endpoints";
+import LayoutIcon from "/src/assets/button/outline-layout.svg?react";
 
 // 코드 스플리팅을 위한 동적 임포트
 const SwiperPreview = React.lazy(() => import("/src/components/SwiperPreview"));
@@ -160,7 +161,16 @@ const Home = () => {
             ></VideosHorizontal>
           )}
 
-          {rankingGenres.status && <SwiperGenre content={rankingGenres.data} />}
+          {rankingGenres.status && (
+            <SwiperGenre content={rankingGenres.data}>
+              <div className="horizontal-title-wrapper">
+                <h2 className="horizontal-title genre">
+                  <LayoutIcon />
+                  장르
+                </h2>
+              </div>
+            </SwiperGenre>
+          )}
 
           {screensMA02 && (
             <VideosHorizontal

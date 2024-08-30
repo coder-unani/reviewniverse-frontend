@@ -3,6 +3,7 @@ import Videos from "/src/components/Videos";
 import { Helmet } from "react-helmet-async";
 import { useNavigate, useLocation, useParams } from "react-router-dom";
 import { useVideos } from "/src/hooks/useVideos";
+import { useRankingGenres } from "/src/hooks/useRankingGenres";
 import { showErrorToast } from "/src/components/Toast";
 import { SETTINGS } from "/src/config/settings";
 import { DEFAULT_IMAGES } from "/src/config/constants";
@@ -15,6 +16,8 @@ import { EndpointManager, ENDPOINTS } from "/src/config/endpoints";
  * TODO:
  * - location.state 말고 다른 방법으로 name을 받아오는 방법 찾기
  */
+
+const SwiperGenre = React.lazy(() => import("/src/components/SwiperGenre"));
 
 const Genre = () => {
   const navigate = useNavigate();
@@ -36,6 +39,11 @@ const Genre = () => {
     orderBy: "release_desc",
     enabled: genreId2Int || !isEmpty(name),
   });
+  const {
+    data: rankingGenres,
+    error: rankingGenresError,
+    isLoading: rankingGenresIsLoading,
+  } = useRankingGenres({ count: 50 });
 
   // genreId가 숫자형이 아닐 경우, location state에 name이 없을 경우
   useEffect(() => {
@@ -112,6 +120,9 @@ const Genre = () => {
             <h1 className="genre-title">#{name}</h1>
           </div>
         </section>
+
+        {rankingGenres.status && <SwiperGenre content={rankingGenres.data} />}
+
         <Videos videos={videos} handlePage={handlePage} />
       </main>
     </>

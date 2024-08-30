@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate, Link } from "react-router-dom";
+import { useThemeContext } from "/src/context/ThemeContext";
 import { Swiper, SwiperSlide } from "swiper/react";
-import { Thumbs, Autoplay, Parallax, EffectFade } from "swiper/modules";
+import { Thumbs, Autoplay, FreeMode, Parallax, EffectFade } from "swiper/modules";
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import { EndpointManager, ENDPOINTS } from "/src/config/endpoints";
 import { fDate } from "/src/utils/format";
@@ -12,6 +13,7 @@ import { isEmpty } from "lodash";
 
 const SwiperPreview = React.memo(({ screensMA01 }) => {
   const navigate = useNavigate();
+  const { isMobile } = useThemeContext();
   const [previewVideo, setPreviewVideo] = useState("");
   const [thumbsSwiper, setThumbsSwiper] = useState(null);
   const [activeThumbIndex, setActiveThumbIndex] = useState(0);
@@ -33,7 +35,7 @@ const SwiperPreview = React.memo(({ screensMA01 }) => {
       setActiveThumbIndex(swiper.realIndex);
 
       // 활성화된 슬라이드가 썸네일 슬라이더의 맨 앞으로 오도록 설정
-      if (!thumbsSwiper) {
+      if (!thumbsSwiper || !isMobile) {
         return;
       }
       thumbsSwiper.slideToLoop(swiper.realIndex, 1000, false);
@@ -42,27 +44,29 @@ const SwiperPreview = React.memo(({ screensMA01 }) => {
 
   // 썸네일 슬라이더 설정
   const thumbSwiperConfig = {
-    modules: [Thumbs],
+    modules: [Thumbs, FreeMode],
     onSwiper: setThumbsSwiper, // 썸네일 슬라이더 인스턴스를 상태로 설정
     spaceBetween: 10,
     slidesPerView: "auto",
-    speed: 1000,
+    speed: 1500,
+    // FreeMode: true,
     loop: true,
-    loopPreventsSliding: true,
-    watchOverflow: true,
+    loopAddBlankSlides: false,
     watchSlidesProgress: true,
     allowTouchMove: true,
-    slideToClickedSlide: true,
     grabCursor: true,
     breakpoints: {
       577: {
         spaceBetween: 12,
+        slidesPerGroup: 2,
       },
       769: {
         spaceBetween: 18,
+        slidesPerGroup: 3,
       },
       1281: {
         spaceBetween: 24,
+        slidesPerGroup: 4,
       },
     },
   };
@@ -85,7 +89,7 @@ const SwiperPreview = React.memo(({ screensMA01 }) => {
   };
 
   // 썸네일 클릭 시 해당 슬라이드로 이동 후 다시 클릭 시 페이지 이동
-  // 모바일에서는 적용 안돼서 터치 이벤트로 대체
+  // 모바일에서는 onTouchEnd 이벤트로 처리
   const handleLinkTouch = (e, videoId, index) => {
     e.preventDefault();
     if (index === activeThumbIndex) {
