@@ -18,10 +18,12 @@ const UserDelete = () => {
     }
   }, []);
 
+  // 회원탈퇴 취소
   const handleCancel = () => {
     navigate(-1);
   };
 
+  // 회원탈퇴 확인
   const handleDelete = async () => {
     if (isDeletePending) {
       return;

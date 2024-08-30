@@ -12,6 +12,7 @@ import { VIDEO_ORDER_OPTIONS } from "/src/config/constants";
 import { MESSAGES } from "/src/config/messages";
 import { ENDPOINTS } from "/src/config/endpoints";
 
+// 코드 스플리팅을 위한 동적 임포트
 const SwiperPreview = React.lazy(() => import("/src/components/SwiperPreview"));
 const SwiperGenre = React.lazy(() => import("/src/components/SwiperGenre"));
 const VideosHorizontal = React.lazy(() => import("/src/components/VideosHorizontal"));
@@ -53,6 +54,7 @@ const Home = () => {
   const [screensMA04, setScreensMA04] = useState(null);
   const [screensMA05, setScreensMA05] = useState(null);
 
+  // 헤더 스타일 변경
   useEffect(() => {
     const header = document.querySelector("header");
     const handleScroll = () => {
@@ -70,7 +72,7 @@ const Home = () => {
     };
   }, []);
 
-  // TODO: 정리 필요
+  // TODO: 스크린 코드별로 데이터 분리 및 state에 저장, 정리 필요
   useEffect(() => {
     if (screenVideosIsLoading || !screenVideos.status) return;
     setScreensMA01(fScreenCode(screenVideos.data, "MA01"));
@@ -80,30 +82,42 @@ const Home = () => {
     setScreensMA05(fScreenCode(screenVideos.data, "MA05"));
   }, [screenVideosIsLoading, screenVideos]);
 
+  // 비디오 데이터 무한 스크롤 구현
+  // TODO: useInfiniteQuery 사용하여 무한 스크롤 구현해보기
   useEffect(() => {
     if (videosIsLoading || !videosData || !hasMore) {
       return;
     }
+
+    // TODO: 고도화 필요
     if (!videosData.status) {
+      // 429 Too Many Requests 에러 처리
       if (videosData.code === "C001") {
-        // TODO: 고도화 필요
         if (page === 1) {
+          // 첫 페이지에서 429 에러 발생 시 에러 페이지로 이동
           return navigate(ENDPOINTS.ERROR);
         } else {
-          // showErrorToast(MESSAGES["C001"]);
+          // 429 에러 발생 시 페이지 번호를 줄여서 다시 요청
+          showErrorToast(MESSAGES["C001"]);
           setPage((prev) => prev - 1);
           return;
         }
       } else {
+        // 그 외 에러 발생 시 에러 페이지로 이동
         return navigate(ENDPOINTS.ERROR);
       }
     }
+
     if (page === 1) {
+      // 첫 페이지일 경우 데이터를 그대로 저장
       setVideos({ ...videosData.data });
     } else {
-      // if (page === 5) setHasMore(false);
+      // 그 외 페이지일 경우 기존 데이터에 추가
       setVideos((prev) => {
-        if (prev.page === videosData.data.page) return prev;
+        // 이전 페이지와 현재 페이지가 같을 경우 데이터를 그대로 반환
+        if (prev.page === videosData.data.page) {
+          return prev;
+        }
         return {
           ...prev,
           count: videosData.data.count,
@@ -115,13 +129,19 @@ const Home = () => {
   }, [videosIsLoading, videosData, hasMore, page]);
 
   const handlePage = (newPage) => {
+    // 5페이지까지만 불러오기
+    if (newPage === 6) {
+      setHasMore(false);
+    }
     setPage(newPage);
   };
 
+  // 스켈리톤 로딩 UI 적용
   if (screenVideosIsLoading || rankingVideosIsLoading || rankingGenresIsLoading) {
     return <SkeletonHome />;
   }
 
+  // 에러 발생 시 에러 페이지로 이동
   if (screenVidoesError || rankingVideosError || rankingGenresError || videosError) {
     return navigate(ENDPOINTS.ERROR);
   }

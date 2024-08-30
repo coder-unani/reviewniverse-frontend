@@ -8,20 +8,18 @@ import { fDate } from "/src/utils/format";
 import { fPreviewThumbnail, fBackgroundImage, fReleaseText } from "/src/utils/formatContent";
 import { isEmpty } from "lodash";
 
-/**
- * TODO:
- * - 페이지네이션?
- */
+// TODO: 페이지네이션 표시?
 
 const SwiperPreview = React.memo(({ screensMA01 }) => {
   const navigate = useNavigate();
   const [previewVideo, setPreviewVideo] = useState("");
   const [thumbsSwiper, setThumbsSwiper] = useState(null);
   const [activeThumbIndex, setActiveThumbIndex] = useState(0);
+
   // 메인 슬라이더 설정
   const mainSwiperConfig = {
-    modules: [Thumbs, Autoplay, Parallax, EffectFade], // 썸네일 슬라이더와 연결
-    thumbs: { swiper: thumbsSwiper },
+    modules: [Thumbs, Autoplay, Parallax, EffectFade],
+    thumbs: { swiper: thumbsSwiper }, // 썸네일 슬라이더와 연결
     slidesPerView: "auto",
     speed: 1000,
     autoplay: {
@@ -35,7 +33,9 @@ const SwiperPreview = React.memo(({ screensMA01 }) => {
       setActiveThumbIndex(swiper.realIndex);
 
       // 활성화된 슬라이드가 썸네일 슬라이더의 맨 앞으로 오도록 설정
-      if (!thumbsSwiper) return;
+      if (!thumbsSwiper) {
+        return;
+      }
       thumbsSwiper.slideToLoop(swiper.realIndex, 1000, false);
     },
   };
@@ -67,8 +67,11 @@ const SwiperPreview = React.memo(({ screensMA01 }) => {
     },
   };
 
+  // 프리뷰 비디오 데이터 설정
   useEffect(() => {
-    if (!screensMA01) return;
+    if (!screensMA01) {
+      return;
+    }
     setPreviewVideo(screensMA01.content.list);
   }, [screensMA01]);
 
@@ -81,7 +84,19 @@ const SwiperPreview = React.memo(({ screensMA01 }) => {
     }
   };
 
-  if (isEmpty(previewVideo)) return null;
+  // 썸네일 클릭 시 해당 슬라이드로 이동 후 다시 클릭 시 페이지 이동
+  // 모바일에서는 적용 안돼서 터치 이벤트로 대체
+  const handleLinkTouch = (e, videoId, index) => {
+    e.preventDefault();
+    if (index === activeThumbIndex) {
+      const path = EndpointManager.generateUrl(ENDPOINTS.VIDEO_DETAIL, { videoId: videoId });
+      navigate(path);
+    }
+  };
+
+  if (isEmpty(previewVideo)) {
+    return null;
+  }
 
   return (
     <>
@@ -129,6 +144,7 @@ const SwiperPreview = React.memo(({ screensMA01 }) => {
                   className="preview-video-link"
                   to={EndpointManager.generateUrl(ENDPOINTS.VIDEO_DETAIL, { videoId: video.id })}
                   onClick={(e) => handleLinkClick(e, video.id, index)}
+                  onTouchEnd={(e) => handleLinkTouch(e, video.id, index)}
                   aria-label={video.title}
                 >
                   <picture className="preview-thumbnail-wrapper">

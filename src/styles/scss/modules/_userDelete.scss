@@ -58,10 +58,6 @@
     transition: background-color 0.3s;
     margin-top: 20px;
 
-    &.cancel {
-      // background-color: #0c0c0c;
-    }
-
     &.delete {
       background-color: rgba($color-red, 0.5);
       // background-color: rgba(red, 0.5);
