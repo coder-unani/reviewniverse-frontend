@@ -30,7 +30,7 @@ const MenuModal = ({ onClose }) => {
   const renderLoginButton = () => {
     return (
       <Link to={ENDPOINTS.USER_LOGIN} className="login" onClick={onClose}>
-        <img src={DEFAULT_IMAGES.noProfile} alt="프로필 이미지" />
+        <img src={DEFAULT_IMAGES.noActor} alt="프로필 이미지" />
         로그인 해주세요
         <ArrowRightIcon />
       </Link>
