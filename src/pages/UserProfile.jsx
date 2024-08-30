@@ -7,6 +7,7 @@ import { showSuccessToast, showErrorToast } from "/src/components/Toast";
 import * as Yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm, useWatch } from "react-hook-form";
+import { useUserMe } from "/src/hooks/useUserMe";
 import {
   DEFAULT_IMAGES,
   PROFILE_IMAGE_FILE_SIZE,
@@ -20,7 +21,6 @@ import ImageIcon from "/src/assets/button/outline-image.svg?react";
 
 /**
  * TODO:
- * - isPending 이 느려서 isSubmitting으로 대체
  * 이메일 인증 여부 표시
  * 이메일 인증 기능 추가
  */
@@ -28,10 +28,13 @@ import ImageIcon from "/src/assets/button/outline-image.svg?react";
 const UserProfile = () => {
   const navigate = useNavigate();
   const { user } = useAuthContext();
-  const [previewImage, setPreviewImage] = useState(user?.profile_image || DEFAULT_IMAGES.noProfile);
+  const [profile, setProfile] = useState(null);
+  const [previewImage, setPreviewImage] = useState(null);
+  const { mutateAsync: userMe, isPending: isUserPending, isSuccess: isUserSuccess, isError: isUserError } = useUserMe();
   const { mutateAsync: validateNickname, isPending: isValidatePending } = useValidateNickname();
   const { mutate: userUpdate, isPending: isUpdatePending } = useUserUpdate();
 
+  // 유효성 검사 스키마
   const EditSchema = Yup.object().shape({
     nickname: Yup.string()
       .min(2, "닉네임은 최소 2글자 이상입니다.")
@@ -44,19 +47,22 @@ const UserProfile = () => {
     is_marketing_agree: Yup.boolean().nullable(),
   });
 
+  // 폼 초기값
   const defaultValues = {
-    profile_image: DEFAULT_IMAGES.noProfile,
+    profile_image: DEFAULT_IMAGES.noActor,
     nickname: "",
     profile_text: "",
     is_marketing_agree: false,
   };
 
+  // 폼 메소드
   const methods = useForm({
     resolver: yupResolver(EditSchema),
     defaultValues,
     mode: "onSubmit",
   });
 
+  // 폼 메소드 분해
   const {
     register,
     handleSubmit,
@@ -71,6 +77,7 @@ const UserProfile = () => {
   const watchNickname = useWatch({ control, name: "nickname" });
   const watchIntroduction = useWatch({ control, name: "profile_text", defaultValue: "" });
 
+  // 유저 정보 수정 요청
   // TODO: 프로필 소개 길이 확인 필요
   const onSubmit = handleSubmit(async (data) => {
     if (isValidatePending || isUpdatePending) {
@@ -78,7 +85,7 @@ const UserProfile = () => {
     }
 
     const nicknameValid = await trigger("nickname");
-    if (nicknameValid && user.nickname !== data.nickname) {
+    if (nicknameValid && profile.nickname !== data.nickname) {
       const nicknameRes = await validateNickname({ nickname: data.nickname });
 
       if (nicknameRes.status === 200) {
@@ -100,25 +107,25 @@ const UserProfile = () => {
     const fieldsCheck = ["profile_image", "nickname", "profile_text", "is_marketing_agree"];
 
     fieldsCheck.forEach((field) => {
-      if (data[field] !== user[field]) {
-        if (field === "profile_image" && data[field] === DEFAULT_IMAGES.noProfile) return;
-        if (field === "profile_text" && !data[field] && user[field] === null) return;
+      if (data[field] !== profile[field]) {
+        if (field === "profile_image" && data[field] === DEFAULT_IMAGES.noActor) return;
+        if (field === "profile_text" && !data[field] && profile[field] === null) return;
         updateData[field] = data[field];
       }
     });
     if (isEmpty(updateData)) {
-      const path = EndpointManager.generateUrl(ENDPOINTS.USER, { userId: user.id });
+      const path = EndpointManager.generateUrl(ENDPOINTS.USER, { userId: profile.id });
       navigate(path);
       showSuccessToast("프로필이 수정되었습니다.");
       return;
     }
 
     await userUpdate(
-      { userId: user.id, updateData },
+      { userId: profile.id, updateData },
       {
         onSuccess: (res) => {
           if (res.status === 204) {
-            const path = EndpointManager.generateUrl(ENDPOINTS.USER, { userId: user.id });
+            const path = EndpointManager.generateUrl(ENDPOINTS.USER, { userId: profile.id });
             navigate(path, { state: { isUserUpdate: true } });
             showSuccessToast("프로필이 수정되었습니다.");
           } else {
@@ -164,26 +171,67 @@ const UserProfile = () => {
     clearErrors("profile_image");
   };
 
+  // 유저 정보 가져오기
   useEffect(() => {
-    setValue("profile_image", user.profile_image);
-    setValue("nickname", user.nickname);
-    setValue("profile_text", user.profile_text || "");
-    setValue("is_marketing_agree", user.is_marketing_agree);
-  }, [user, setValue]);
+    const fetchData = async () => {
+      const me = await userMe();
+      if (me.status) {
+        // 요청한 유저 아이디와 로그인한 유저 아이디가 다르다면 404페이지로 이동
+        if (me.data.id !== user.id) {
+          return navigate(ENDPOINTS.NOT_FOUND);
+        }
 
+        setProfile(me.data);
+        setPreviewImage(me.data.profile_image || DEFAULT_IMAGES.noActor);
+      }
+    };
+
+    fetchData();
+  }, [userMe]);
+
+  // 유저 정보 세팅
+  useEffect(() => {
+    if (!profile) {
+      return;
+    }
+
+    setValue("profile_image", profile.profile_image);
+    setValue("nickname", profile.nickname);
+    setValue("profile_text", profile.profile_text || "");
+    setValue("is_marketing_agree", profile.is_marketing_agree);
+  }, [profile, setValue]);
+
+  // 유저 닉네임 변경 시 유효성 검사
   useEffect(() => {
     if (watchNickname) {
       trigger("nickname");
     }
   }, [watchNickname, trigger]);
 
+  // 유저 소개글 길이 제한
   useEffect(() => {
     if (watchIntroduction.length > PROFILE_TEXT_MAX_LENGTH) {
       setValue("profile_text", watchIntroduction.slice(0, PROFILE_TEXT_MAX_LENGTH));
     }
   }, [watchIntroduction, setValue]);
 
-  if (isEmpty(user)) {
+  // 로그인한 유저가 없다면 로그인 페이지로 이동
+  if (!user) {
+    return navigate(ENDPOINTS.USER_LOGIN);
+  }
+
+  // 유저 정보 조회 중이라면 null 반환
+  if (isUserPending) {
+    return null;
+  }
+
+  // 유저 정보 조회 실패 시 에러 페이지로 이동
+  if (isUserError) {
+    return navigate(ENDPOINTS.ERROR);
+  }
+
+  // 유저 정보가 없다면 null 반환
+  if (isEmpty(profile) || isUserPending) {
     return null;
   }
 
@@ -210,7 +258,7 @@ const UserProfile = () => {
           </div>
           <div className="input-wrapper email">
             <label htmlFor="email">이메일</label>
-            <input type="email" id="email" value={user.email} readOnly />
+            <input type="email" id="email" value={profile.email} readOnly />
           </div>
           <div className="input-wrapper">
             <label htmlFor="nickname">닉네임</label>

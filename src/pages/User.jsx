@@ -24,16 +24,20 @@ const User = () => {
   const pathLike = EndpointManager.generateUrl(ENDPOINTS.USER_LIKES, { userId: userId2Int });
 
   useEffect(() => {
+    // 유저 아이디가 숫자가 아니라면 404페이지로 이동
     if (userId2Int === 0) {
       return navigate(ENDPOINTS.NOT_FOUND);
     }
 
+    // 유저 정보 수정 후 전달받는 state 값
     const { isUserUpdate } = location.state || false;
+    // 유저 정보 조회
     const getUser = async () => {
       const res = await userFetch({ userId: userId2Int });
       if (res.status) {
         setProfile(res.data);
 
+        // 유저 정보 수정 후 유저 정보 갱신
         // TODO: 고도화 필요
         if (isUserUpdate) {
           handleSetUser({ user: res.data });
@@ -53,8 +57,9 @@ const User = () => {
 
   useEffect(() => {
     // TODO: 고도화 필요
-    // 로그인한 유저가 있다면 userId와 로그인한 유저가 같은지 확인
+    // 로그인한 유저가 있다면 userId와 로그인한 유저 id가 같은지 확인
     if (user && user.id === userId2Int) {
+      // 세팅 버튼 표시
       setIsLogin(true);
     } else {
       setIsLogin(false);

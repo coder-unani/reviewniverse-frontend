@@ -8,6 +8,7 @@ const endpoints = {
   join: baseURL + "/v1/users",
   watchType: baseURL + "/v1/users/:userId/watchtype",
   user: baseURL + "/v1/users/:userId",
+  userMe: baseURL + "/v1/users/me",
   validateEmail: baseURL + "/v1/users/validate/email",
   validateNickname: baseURL + "/v1/users/validate/nickname",
   userReviews: baseURL + "/v1/users/:userId/reviews",
@@ -59,6 +60,17 @@ export const fetchUser = async ({ userId }) => {
   try {
     const client = new HttpClient();
     const res = await client.get(endpoints.user.replace(":userId", userId));
+    return res;
+  } catch (error) {
+    cError(error);
+  }
+};
+
+// 내 회원정보 조회
+export const fetchUserMe = async () => {
+  try {
+    const client = new HttpClient();
+    const res = await client.get(endpoints.userMe);
     return res;
   } catch (error) {
     cError(error);

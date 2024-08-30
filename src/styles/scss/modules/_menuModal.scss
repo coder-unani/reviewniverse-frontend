@@ -17,14 +17,13 @@
     flex-direction: column;
     width: 80%;
     height: 100%;
-    background-color: #fff;
+    background-color: $color-background;
   }
 
   .top {
     width: 100%;
     border-bottom-right-radius: 40px;
-    background-color: #000;
-    // padding: 36px 15px 16px;
+    background-color: rgba($color-white-01, 0.1);
     padding: 36px 15px 13px;
   }
 
@@ -46,12 +45,12 @@
       align-items: center;
       font-size: 15px;
       font-weight: 600;
-      color: #fff;
-      border-radius: 4px;
+      color: $color-white-01;
       padding: 8px 0;
 
       img {
         width: 28px;
+        border-radius: 50%;
         margin-right: 8px;
       }
     }
@@ -59,7 +58,7 @@
     .profile {
       .profile-nickname {
         font-weight: 600;
-        color: #fff;
+        color: $color-white-01;
       }
     }
   }
@@ -70,13 +69,13 @@
     & > p {
       font-size: 14px;
       font-weight: 600;
-      color: #7e7e7e;
+      color: $color-white-04;
       margin-bottom: 8px;
     }
   }
 
   .menu-list {
-    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+    border-bottom: 1px solid $border-color-01;
     padding-bottom: 16px;
 
     li {
@@ -85,6 +84,7 @@
 
       a {
         display: block;
+        color: $color-white-02;
         padding: 8px 4px;
       }
     }
