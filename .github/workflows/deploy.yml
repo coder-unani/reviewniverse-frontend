@@ -11,14 +11,17 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
+      # Node.js 설정
       - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
           node-version: "20"
 
+      # Corepack 활성화
       - name: Enable Corepack
         run: corepack enable
 
+      # Yarn 준비
       - name: Prepare Yarn
         run: corepack prepare yarn@4.1.1 --activate
 
@@ -26,29 +29,54 @@ jobs:
     runs-on: ubuntu-latest
     needs: setup-corepack
     steps:
+      # 코드 체크아웃
       - name: Checkout code
         uses: actions/checkout@v3
 
+      # Node.js 설정
       - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
           node-version: "20"
 
+      # Corepack 활성화
       - name: Enable Corepack
         run: corepack enable
 
+      # Yarn 설치
       - name: Prepare Yarn
         run: corepack prepare yarn@4.1.1 --activate
 
+      # 프로젝트 의존성 설치
       - name: Install dependencies
         run: yarn install
 
+      # 프로젝트 빌드
       - name: Build project
         run: yarn build
+        env:
+          VITE_DEBUG: ${{ secrets.VITE_DEBUG }}
+          VITE_DEVICE_IDENTIFIER: ${{ secrets.VITE_DEVICE_IDENTIFIER }}
+          VITE_DOMAIN_URL: ${{ secrets.VITE_DOMAIN_URL }}
+          VITE_COOKIE_DOMAIN: ${{ secrets.VITE_COOKIE_DOMAIN }}
+          VITE_ES_API_URL: ${{ secrets.VITE_ES_API_URL }}
+          VITE_ES_APP_KEY: ${{ secrets.VITE_ES_APP_KEY }}
+          VITE_FIREBASE_API_KEY: ${{ secrets.VITE_FIREBASE_API_KEY }}
+          VITE_FIREBASE_AUTH_DOMAIN: ${{ secrets.VITE_FIREBASE_AUTH_DOMAIN }}
+          VITE_FIREBASE_PROJECT_ID: ${{ secrets.VITE_FIREBASE_PROJECT_ID }}
+          VITE_FIREBASE_STORAGE_BUCKET: ${{ secrets.VITE_FIREBASE_STORAGE_BUCKET }}
+          VITE_FIREBASE_MESSAGING_SENDER_ID: ${{ secrets.VITE_FIREBASE_MESSAGING_SENDER_ID }}
+          VITE_FIREBASE_APP_ID: ${{ secrets.VITE_FIREBASE_APP_ID }}
+          VITE_FIREBASE_MEASUREMENT_ID: ${{ secrets.VITE_FIREBASE_MEASUREMENT_ID }}
+          VITE_NAVER_CLIENT_ID: ${{ secrets.VITE_NAVER_CLIENT_ID }}
+          VITE_NAVER_CLIENT_SECRET: ${{ secrets.VITE_NAVER_CLIENT_SECRET }}
+          VITE_KAKAO_API_KEY: ${{ secrets.VITE_KAKAO_API_KEY }}
 
+      # 빌드 결과물 확인
       - name: List build directory contents
         run: ls -alh ./dist
 
+      # 빌드 결과물 업로드 (Artifact로 저장)
       - name: Upload build artifacts
         uses: actions/upload-artifact@v3
         with:
@@ -62,15 +90,18 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
+      # 빌드 아티팩트 다운로드
       - name: Download build artifacts
         uses: actions/download-artifact@v3
         with:
           name: build-artifacts
           path: ./dist
 
+      # 다운로드된 파일 목록 확인
       - name: List downloaded artifacts
         run: ls -alh ./dist
 
+      # S3에 업로드
       - name: Upload to S3
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
@@ -78,8 +109,24 @@ jobs:
           AWS_REGION: ${{ secrets.AWS_REGION }}
           S3_BUCKET_NAME: ${{ secrets.S3_BUCKET_NAME }}
         run: |
-          aws s3 sync ./dist s3://$S3_BUCKET_NAME --delete
+          # JS, CSS, 이미지 파일에 대해 장기 캐시 설정
+          aws s3 sync ./dist s3://$S3_BUCKET_NAME \
+            --exclude "index.html" \
+            --cache-control "max-age=31536000,public"
 
+          # index.html 파일에 대해 캐시를 최소화하여 최신 상태 유지
+          aws s3 cp ./dist/index.html s3://$S3_BUCKET_NAME/index.html \
+            --cache-control "no-cache, no-store, must-revalidate"
+
+          # 프로젝트 루트에서 robots.txt 파일 업로드
+          aws s3 cp ./robots.txt s3://$S3_BUCKET_NAME/robots.txt \
+            --cache-control "no-cache, no-store, must-revalidate"
+
+          # 프로젝트 루트에서 opensearch.xml 파일 업로드
+          aws s3 cp ./opensearch.xml s3://$S3_BUCKET_NAME/opensearch.xml \
+            --cache-control "no-cache, no-store, must-revalidate"
+
+      # CloudFront 캐시 무효화
       - name: Invalidate CloudFront cache
         if: success()
         env:
