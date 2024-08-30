@@ -51,22 +51,18 @@ const SwiperPreview = React.memo(({ screensMA01 }) => {
     slidesPerView: "auto",
     speed: 1500,
     loop: true,
-    loopAddBlankSlides: false,
     watchSlidesProgress: true,
     allowTouchMove: true,
     grabCursor: true,
     breakpoints: {
       577: {
         spaceBetween: 12,
-        slidesPerGroup: 2,
       },
       769: {
         spaceBetween: 18,
-        slidesPerGroup: 3,
       },
       1281: {
         spaceBetween: 24,
-        slidesPerGroup: 4,
       },
     },
     onTouchMove: () => {
