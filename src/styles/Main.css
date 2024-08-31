@@ -3040,7 +3040,7 @@ em {
   left: 0;
   width: 100%;
   height: calc(50% + 60px);
-  background: linear-gradient(180deg, rgba(5, 21, 30, 0) 0%, #05151e 85%);
+  background: linear-gradient(to bottom, rgba(5, 21, 30, 0) 0%, #05151e 85%);
   margin-bottom: -60px;
   pointer-events: none;
 }
