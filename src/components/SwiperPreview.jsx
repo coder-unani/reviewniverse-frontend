@@ -113,7 +113,7 @@ const SwiperPreview = React.memo(({ screensMA01 }) => {
                 className="preview-background"
                 style={{
                   backgroundImage: `url(${
-                    isMobile ? fThumbnail(video.thumbnail) : fPreviewThumbnail(video.thumbnail)
+                    isMobile ? fThumbnail(video.thumbnail, false) : fPreviewThumbnail(video.thumbnail)
                   })`,
                 }}
               />
