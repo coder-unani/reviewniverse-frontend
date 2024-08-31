@@ -3924,6 +3924,9 @@ em {
   .detail-sub-content {
     font-size: 24px;
   }
+  .detail-sub-button {
+    right: 8px;
+  }
   .detail-main-wrapper {
     padding-top: 70px;
   }
@@ -4010,11 +4013,14 @@ em {
     left: 12px;
     font-size: 12px;
   }
+  .detail-sub-content-wrapper {
+    padding: 12px 36px;
+  }
   .detail-sub-content {
     font-size: 18px;
   }
-  .detail-sub-content-wrapper {
-    padding: 12px 36px;
+  .detail-sub-button {
+    right: 6px;
   }
   .detail-main-wrapper {
     padding-top: 57px;
