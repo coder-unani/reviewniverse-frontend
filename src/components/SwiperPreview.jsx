@@ -5,7 +5,7 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import { Thumbs, Autoplay, Parallax, EffectFade } from "swiper/modules";
 import { EndpointManager, ENDPOINTS } from "/src/config/endpoints";
 import { fDate } from "/src/utils/format";
-import { fPreviewThumbnail, fBackgroundImage, fReleaseText } from "/src/utils/formatContent";
+import { fThumbnail, fPreviewThumbnail, fBackgroundImage, fReleaseText } from "/src/utils/formatContent";
 import { isEmpty } from "lodash";
 
 // TODO: 페이지네이션 표시?
@@ -111,7 +111,11 @@ const SwiperPreview = React.memo(({ screensMA01 }) => {
             <picture className="preview-background-wrapper">
               <div
                 className="preview-background"
-                style={{ backgroundImage: `url(${fPreviewThumbnail(video.thumbnail, isMobile)})` }}
+                style={{
+                  backgroundImage: `url(${
+                    isMobile ? fThumbnail(video.thumbnail) : fPreviewThumbnail(video.thumbnail)
+                  })`,
+                }}
               />
             </picture>
 
