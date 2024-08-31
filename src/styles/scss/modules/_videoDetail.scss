@@ -24,9 +24,9 @@
     bottom: 0;
     left: 0;
     width: 100%;
-    height: calc(50% + (130px / 2));
+    height: calc(50% + (120px / 2));
     background: linear-gradient(180deg, rgba($color-background, 0) 0%, rgba($color-background, 1) 85%);
-    margin-bottom: calc(-130px / 2);
+    margin-bottom: calc(-120px / 2);
     pointer-events: none;
   }
 }
@@ -47,7 +47,7 @@
   bottom: 0;
   width: 100%;
   padding-bottom: 20px;
-  margin-bottom: calc(130px / 2);
+  margin-bottom: calc(120px / 2);
 }
 
 .detail-main-info-wrapper {
@@ -187,7 +187,7 @@
   justify-content: center;
   min-width: 210px;
   width: auto;
-  height: 130px;
+  height: 120px;
   border-radius: 24px;
   background-color: rgba($color-white-02, 0.1);
   backdrop-filter: blur(8px);
@@ -239,21 +239,21 @@
 
     &[data-index]:not([data-index="0"], [data-index="1"]) {
       .detail-sub-content {
-        font-size: 20px;
+        font-size: 18px;
       }
     }
   }
 
   &.production {
     .detail-sub-content-wrapper {
-      gap: 24px;
+      gap: 28px;
     }
 
     &[data-index]:not([data-index="0"]) {
       .detail-sub-content {
         display: block;
         width: 100%;
-        font-size: 20px;
+        font-size: 18px;
         line-height: 1.2;
       }
     }
@@ -284,7 +284,7 @@
 }
 
 .detail-sub-content {
-  font-size: 32px;
+  font-size: 24px;
   font-weight: 800;
   color: $color-white-01;
   text-align: center;
@@ -292,10 +292,21 @@
   word-break: break-word;
 }
 
+.detail-sub-button {
+  position: absolute;
+  top: 50%;
+  right: 10px;
+  transform: translateY(-50%);
+
+  path {
+    stroke: $color-white-06;
+  }
+}
+
 .detail-main-wrapper {
   width: 100%;
   max-width: 1440px;
-  padding-top: 85px;
+  padding-top: calc((120px / 2) + 20px);
   margin: 0 auto;
 }
 
@@ -1026,7 +1037,7 @@
 
       &[data-index]:not([data-index="0"], [data-index="1"]) {
         .detail-sub-content {
-          font-size: 17px;
+          font-size: 16px;
         }
       }
     }
@@ -1038,7 +1049,7 @@
 
       &[data-index]:not([data-index="0"]) {
         .detail-sub-content {
-          font-size: 17px;
+          font-size: 16px;
         }
       }
 

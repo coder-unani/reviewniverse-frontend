@@ -10,7 +10,9 @@
   isolation: isolate;
 
   &.transparent {
-    background-color: transparent;
+    background: transparent;
+    background: -webkit-linear-gradient(to bottom, rgba($color-background, 0.6), rgba($color-background, 0));
+    background: linear-gradient(to bottom, rgba($color-background, 0.6), rgba($color-background, 0));
     transition: all 0.2s ease-in-out;
 
     .search-form {
