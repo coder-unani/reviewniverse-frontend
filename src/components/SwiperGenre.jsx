@@ -24,7 +24,8 @@ const SwiperGenre = ({ children, content }) => {
     allowTouchMove: true,
     breakpoints: {
       577: {
-        slidesPerView: 3,
+        slidesPerView: 4,
+        slidesPerGroup: 4,
         allowTouchMove: false,
       },
       769: {
