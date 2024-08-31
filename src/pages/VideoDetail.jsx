@@ -23,6 +23,7 @@ import {
   fRuntimeText,
 } from "/src/utils/formatContent";
 import { isEmpty } from "lodash";
+import MoreIcon from "/src/assets/button/fill-more.svg?react";
 
 /**
  * TODO:
@@ -196,6 +197,9 @@ const VideoDetail = () => {
                       <p className="detail-sub-content">-</p>
                     )}
                   </div>
+                  {content.data.country && content.data.country.length > 1 && (
+                    <MoreIcon className="detail-sub-button" />
+                  )}
                 </SwiperSlide>
 
                 <SwiperSlide
@@ -219,6 +223,9 @@ const VideoDetail = () => {
                       <p className="detail-sub-content">-</p>
                     )}
                   </div>
+                  {content.data.production && content.data.production.length > 1 && (
+                    <MoreIcon className="detail-sub-button" />
+                  )}
                 </SwiperSlide>
 
                 <SwiperSlide className="detail-sub-info-item runtime">
