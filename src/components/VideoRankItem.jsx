@@ -1,6 +1,5 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { LazyLoadImage } from "react-lazy-load-image-component";
 import { EndpointManager, ENDPOINTS } from "/src/config/endpoints";
 import { fYear } from "/src/utils/format";
 import { fThumbnail, fCountry, fRatingColor, fRatingText } from "/src/utils/formatContent";
@@ -22,7 +21,13 @@ const VideoRankItem = React.memo(({ video, index }) => {
     <Link to={path} className="rank-video-item" aria-label={video.title}>
       <div className="rank-thumbnail-container">
         <picture className="rank-thumbnail-wrapper">
-          <LazyLoadImage className="rank-thumbnail" src={fThumbnail(video.thumbnail)} alt="썸네일" effect="blur" />
+          <img
+            className="swiper-lazy rank-thumbnail"
+            src={fThumbnail(video.thumbnail)}
+            srcSet={fThumbnail(video.thumbnail)}
+            alt={video.title}
+            loading="lazy"
+          />
         </picture>
         <div className="rank-code-wrapper">
           <div className="rank-code">{video.code_string}</div>

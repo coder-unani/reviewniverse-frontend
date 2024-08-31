@@ -3,7 +3,6 @@ import { useNavigate, Link } from "react-router-dom";
 import { useThemeContext } from "/src/context/ThemeContext";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Thumbs, Autoplay, Parallax, EffectFade } from "swiper/modules";
-import { LazyLoadImage } from "react-lazy-load-image-component";
 import { EndpointManager, ENDPOINTS } from "/src/config/endpoints";
 import { fDate } from "/src/utils/format";
 import { fPreviewThumbnail, fBackgroundImage, fReleaseText } from "/src/utils/formatContent";
@@ -112,7 +111,7 @@ const SwiperPreview = React.memo(({ screensMA01 }) => {
             <picture className="preview-background-wrapper">
               <div
                 className="preview-background"
-                style={{ backgroundImage: `url(${fPreviewThumbnail(video.thumbnail)})` }}
+                style={{ backgroundImage: `url(${fPreviewThumbnail(video.thumbnail, isMobile)})` }}
               />
             </picture>
 
@@ -154,12 +153,18 @@ const SwiperPreview = React.memo(({ screensMA01 }) => {
                   onTouchEnd={(e) => handleLinkTouch(e, video.id, index)}
                 >
                   <picture className="preview-thumbnail-wrapper">
-                    <LazyLoadImage
+                    <img
+                      className="preview-thumbnail-image"
+                      src={fBackgroundImage(video.thumbnail, true)}
+                      alt={video.title}
+                      loading="lazy"
+                    />
+                    {/* <LazyLoadImage
                       className="preview-thumbnail-image"
                       src={fBackgroundImage(video.thumbnail, true)}
                       alt={video.title}
                       effect="blur"
-                    />
+                    /> */}
                   </picture>
                 </Link>
               </SwiperSlide>

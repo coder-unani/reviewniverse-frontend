@@ -70,14 +70,21 @@ export const fMakeThumbnailUrl = (image) => {
 };
 
 // 프리뷰 썸네일 포맷
-export const fPreviewThumbnail = (images) => {
-  if (isEmpty(images)) return DEFAULT_IMAGES.noImage;
+export const fPreviewThumbnail = (images, isThumb = false) => {
+  let result = DEFAULT_IMAGES.noImage;
+  if (isEmpty(images)) return result;
   if (Array.isArray(images)) {
-    if (images[2]) return fMakeImageUrl(images[2]);
-    if (images[1]) return fMakeImageUrl(images[1]);
-    return fMakeImageUrl(images[0]);
+    if (images[2]) {
+      result = isThumb ? fMakeThumbnailUrl(images[2]) : fMakeImageUrl(images[2]);
+    } else if (images[1]) {
+      result = isThumb ? fMakeThumbnailUrl(images[1]) : fMakeImageUrl(images[1]);
+    } else {
+      result = isThumb ? fMakeThumbnailUrl(images[0]) : fMakeImageUrl(images[0]);
+    }
+  } else {
+    result = isThumb ? fMakeThumbnailUrl(images) : fMakeImageUrl(images);
   }
-  return fMakeImageUrl(images);
+  return result;
 };
 
 // 썸네일 이미지 포맷
