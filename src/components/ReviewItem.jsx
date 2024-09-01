@@ -42,9 +42,9 @@ const ReviewItem = ({ user, review }) => {
           </div>
           <span className="user-review-date">{fDiffDate(data.created_at)}</span>
         </div>
-        <button className="review-more-button">
+        {/* <button className="review-more-button">
           <MoreIcon />
-        </button>
+        </button> */}
       </div>
       <div className="user-review-video-wrapper">
         <Link to={path} className="user-review-video-link">
