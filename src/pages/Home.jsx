@@ -11,6 +11,7 @@ import { SCREEN_MAIN_ID } from "/src/config/codes";
 import { VIDEO_ORDER_OPTIONS, VIDEO_TERMS_OPTIONS } from "/src/config/constants";
 import { MESSAGES } from "/src/config/messages";
 import { ENDPOINTS } from "/src/config/endpoints";
+import { isEmpty } from "lodash";
 import LayoutIcon from "/src/assets/button/outline-layout.svg?react";
 
 // 코드 스플리팅을 위한 동적 임포트
@@ -25,36 +26,55 @@ const Home = () => {
   const [page, setPage] = useState(1);
   const [hasMore, setHasMore] = useState(true);
   const [videos, setVideos] = useState(null);
+  // 화면 데이터 호출
   const {
     data: screenVideos,
     error: screenVidoesError,
     isLoading: screenVideosIsLoading,
   } = useScreenVideos({ code: SCREEN_MAIN_ID, display: "detail" });
+  // 랭킹 데이터 호출
   const {
     data: rankingVideos,
     error: rankingVideosError,
     isLoading: rankingVideosIsLoading,
   } = useRankingVideos({ code: today, count: 20 });
+  // 장르 데이터 호출
   const {
     data: rankingGenres,
     error: rankingGenresError,
     isLoading: rankingGenresIsLoading,
   } = useRankingGenres({ count: 50 });
+  // 커밍순 데이터 호출
+  const {
+    data: comingSoonVideos,
+    error: comingSoonVideosError,
+    isLoading: comingSoonVideosIsLoading,
+  } = useVideos({
+    page: 1,
+    orderBy: VIDEO_ORDER_OPTIONS[0],
+    terms: VIDEO_TERMS_OPTIONS[1],
+  });
+  // 이달의 비디오 데이터 호출
+  const {
+    data: monthlyVideos,
+    error: monthlyVideosError,
+    isLoading: monthlyVideosIsLoading,
+  } = useVideos({
+    page: 1,
+    orderBy: VIDEO_ORDER_OPTIONS[1],
+    terms: VIDEO_TERMS_OPTIONS[2],
+  });
+  // 비디오 리스트 데이터 호출
   const {
     data: videosData,
     error: videosError,
     isLoading: videosIsLoading,
   } = useVideos({
     page,
-    orderBy: VIDEO_ORDER_OPTIONS,
+    orderBy: VIDEO_ORDER_OPTIONS[1],
     terms: VIDEO_TERMS_OPTIONS[0],
     enabled: hasMore,
   });
-  const [screensMA01, setScreensMA01] = useState(null);
-  const [screensMA02, setScreensMA02] = useState(null);
-  const [screensMA03, setScreensMA03] = useState(null);
-  const [screensMA04, setScreensMA04] = useState(null);
-  const [screensMA05, setScreensMA05] = useState(null);
 
   // 헤더 스타일 변경
   useEffect(() => {
@@ -73,16 +93,6 @@ const Home = () => {
       header.classList.remove("transparent");
     };
   }, []);
-
-  // TODO: 스크린 코드별로 데이터 분리 및 state에 저장, 정리 필요
-  useEffect(() => {
-    if (screenVideosIsLoading || !screenVideos.status) return;
-    setScreensMA01(fScreenCode(screenVideos.data, "MA01"));
-    setScreensMA02(fScreenCode(screenVideos.data, "MA02"));
-    setScreensMA03(fScreenCode(screenVideos.data, "MA03"));
-    setScreensMA04(fScreenCode(screenVideos.data, "MA04"));
-    setScreensMA05(fScreenCode(screenVideos.data, "MA05"));
-  }, [screenVideosIsLoading, screenVideos]);
 
   // 비디오 데이터 무한 스크롤 구현
   // TODO: useInfiniteQuery 사용하여 무한 스크롤 구현해보기
@@ -130,6 +140,7 @@ const Home = () => {
     }
   }, [videosIsLoading, videosData, hasMore, page]);
 
+  // 페이지 변경
   const handlePage = (newPage) => {
     // 5페이지까지만 불러오기
     if (newPage === 6) {
@@ -138,79 +149,152 @@ const Home = () => {
     setPage(newPage);
   };
 
+  // 화면 비디오 리스트 렌더링
+  const renderScreenVideos = (code) => {
+    if (screenVideosIsLoading || screenVidoesError) {
+      return null;
+    }
+    if (!screenVideos.status || isEmpty(screenVideos.data)) {
+      return null;
+    }
+    // 코드에 해당하는 데이터만 필터링
+    const screens = fScreenCode(screenVideos.data, code);
+    if (!screens) {
+      return null;
+    }
+
+    const renderPreviewVideos = () => <SwiperPreview videos={screens} />;
+
+    const renderDefaultVideos = () => (
+      <VideosHorizontal content={screens.content.list} template={screens.content.template}>
+        <div className="horizontal-title-wrapper">
+          <h2 className="horizontal-title">{screens.title}</h2>
+        </div>
+      </VideosHorizontal>
+    );
+
+    return code === "MA01" ? renderPreviewVideos() : renderDefaultVideos();
+  };
+
+  // 랭킹 비디오 리스트 렌더링
+  const renderRankingVideos = () => {
+    if (rankingVideosIsLoading || rankingVideosError) {
+      return null;
+    }
+    if (!rankingVideos.status || isEmpty(rankingVideos.data)) {
+      return null;
+    }
+    const title = "🍿 리뷰니버스 TOP 20";
+    return (
+      <VideosHorizontal content={rankingVideos.data} template="rank">
+        <div className="horizontal-title-wrapper">
+          <h2 className="horizontal-title">{title}</h2>
+        </div>
+      </VideosHorizontal>
+    );
+  };
+
+  // 장르 리스트 렌더링
+  const renderRankingGernes = () => {
+    if (rankingGenresIsLoading || rankingGenresError) {
+      return null;
+    }
+    if (!rankingGenres.status || isEmpty(rankingGenres.data)) {
+      return null;
+    }
+    const title = "장르";
+    return (
+      <SwiperGenre content={rankingGenres.data}>
+        <div className="horizontal-title-wrapper">
+          <h2 className="horizontal-title genre">
+            <LayoutIcon />
+            {title}
+          </h2>
+        </div>
+      </SwiperGenre>
+    );
+  };
+
+  // 커밍순 비디오 리스트 렌더링
+  const renderComingVideos = () => {
+    if (comingSoonVideosIsLoading || comingSoonVideosError) {
+      return null;
+    }
+    if (!comingSoonVideos.status || isEmpty(comingSoonVideos.data) || isEmpty(comingSoonVideos.data.data)) {
+      return null;
+    }
+    const title = "💖 두근두근 기대작";
+    return (
+      <VideosHorizontal content={comingSoonVideos.data.data} template="coming">
+        <div className="horizontal-title-wrapper">
+          <h2 className="horizontal-title">{title}</h2>
+        </div>
+      </VideosHorizontal>
+    );
+  };
+
+  // 이달의 비디오 리스트 렌더링
+  const renderMonthlyVideos = () => {
+    if (monthlyVideosIsLoading || monthlyVideosError) {
+      return null;
+    }
+    if (!monthlyVideos.status || isEmpty(monthlyVideos.data) || isEmpty(monthlyVideos.data.data)) {
+      return null;
+    }
+    const title = "👀 이달의 콘텐츠";
+    return (
+      <VideosHorizontal content={monthlyVideos.data.data} template="monthly">
+        <div className="horizontal-title-wrapper">
+          <h2 className="horizontal-title">{title}</h2>
+        </div>
+      </VideosHorizontal>
+    );
+  };
+
+  // 기본 비디오 리스트 렌더링
+  const renderVideos = () => {
+    if (videosError) {
+      return null;
+    }
+    if (!videos || isEmpty(videos.data)) {
+      return null;
+    }
+    const title = "🍟 이건 어때요?";
+    return (
+      <Videos videos={videos} handlePage={handlePage}>
+        <div className="vertical-title-wrapper">
+          <h2 className="vertical-title">{title}</h2>
+        </div>
+      </Videos>
+    );
+  };
+
   // 스켈리톤 로딩 UI 적용
-  if (screenVideosIsLoading || rankingVideosIsLoading || rankingGenresIsLoading) {
+  // if (screenVideosIsLoading || rankingVideosIsLoading || rankingGenresIsLoading) {
+  if (screenVideosIsLoading) {
     return <SkeletonHome />;
   }
 
   // 에러 발생 시 에러 페이지로 이동
-  if (screenVidoesError || rankingVideosError || rankingGenresError || videosError) {
+  // if (screenVidoesError || rankingVideosError || rankingGenresError) {
+  if (screenVidoesError) {
     return navigate(ENDPOINTS.ERROR);
   }
 
   return (
     <Suspense fallback={<SkeletonHome />}>
       <main className="home-main-container">
-        <section className="home-preview-section">{screensMA01 && <SwiperPreview screensMA01={screensMA01} />}</section>
-
+        <section className="home-preview-section">{renderScreenVideos("MA01")}</section>
         <section className="home-main-section">
-          {rankingVideos.status && (
-            <VideosHorizontal
-              content={rankingVideos.data}
-              template="rank"
-              title="🍿 리뷰니버스 TOP 20"
-            ></VideosHorizontal>
-          )}
-
-          {rankingGenres.status && (
-            <SwiperGenre content={rankingGenres.data}>
-              <div className="horizontal-title-wrapper">
-                <h2 className="horizontal-title genre">
-                  <LayoutIcon />
-                  장르
-                </h2>
-              </div>
-            </SwiperGenre>
-          )}
-
-          {screensMA02 && (
-            <VideosHorizontal
-              content={screensMA02.content.list}
-              template={screensMA02.content.template}
-              title={screensMA02.title}
-            ></VideosHorizontal>
-          )}
-
-          {screensMA03 && (
-            <VideosHorizontal
-              content={screensMA03.content.list}
-              template={screensMA03.content.template}
-              title={screensMA03.title}
-            ></VideosHorizontal>
-          )}
-          {screensMA04 && (
-            <VideosHorizontal
-              content={screensMA04.content.list}
-              template={screensMA04.content.template}
-              title={screensMA04.title}
-            ></VideosHorizontal>
-          )}
-
-          {screensMA05 && (
-            <VideosHorizontal
-              content={screensMA05.content.list}
-              template={screensMA05.content.template}
-              title={screensMA05.title}
-            ></VideosHorizontal>
-          )}
-
-          {videos && (
-            <Videos videos={videos} handlePage={handlePage}>
-              <div className="vertical-title-wrapper">
-                <h2 className="vertical-title">🍟 이건 어때요?</h2>
-              </div>
-            </Videos>
-          )}
+          {renderRankingVideos()}
+          {renderRankingGernes()}
+          {renderComingVideos()}
+          {renderMonthlyVideos()}
+          {renderScreenVideos("MA02")}
+          {renderScreenVideos("MA03")}
+          {renderScreenVideos("MA04")}
+          {renderScreenVideos("MA05")}
+          {renderVideos()}
         </section>
       </main>
     </Suspense>

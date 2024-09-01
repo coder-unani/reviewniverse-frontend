@@ -1,0 +1,48 @@
+.coming-subtitle-release {
+  // color: $color-cyan;
+}
+
+.coming-dday-wrapper {
+  position: absolute;
+  bottom: 6px;
+  right: 6px;
+  border-radius: 8px;
+  background-color: $color-background;
+
+  &::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border-radius: 8px;
+    background: $color-magenta;
+    background: -webkit-linear-gradient(to right, rgba($color-cyan, 0.75), rgba($color-magenta, 0.75));
+    background: linear-gradient(to right, rgba($color-cyan, 0.75), rgba($color-magenta, 0.75));
+  }
+}
+
+.coming-dday {
+  position: relative;
+  font-size: 14px;
+  font-weight: 600;
+  color: $color-white-01;
+  line-height: 25px;
+  padding: 0 8px;
+  z-index: 1;
+}
+
+@media (max-width: 576px) {
+  .coming-dday-wrapper {
+    margin-top: 4px;
+    margin-left: 0;
+  }
+
+  .coming-dday {
+    font-size: 12px;
+    line-height: 22px;
+    border-radius: 6px;
+    padding: 0 7px;
+  }
+}

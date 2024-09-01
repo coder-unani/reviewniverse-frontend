@@ -41,9 +41,9 @@ export const DEFAULT_ICONS = {
 export const SITE_KEYWORDS =
   "리뷰니버스, 리뷰, reviewniverse, flqbslqjtm, 커뮤니티, 영화, 드라마, 인기, 추천, 검색, 통합검색, OTT, 평점";
 
-export const VIDEO_ORDER_OPTIONS = "release_desc";
-/*
 export const VIDEO_ORDER_OPTIONS = [
+  "release_asc",
+  "release_desc",
   "view_asc",
   "view_desc",
   "rating_asc",
@@ -52,10 +52,8 @@ export const VIDEO_ORDER_OPTIONS = [
   "like_desc",
   "review_asc",
   "review_desc",
-  "release_asc",
-  "release_desc",
 ];
-*/
+
 export const VIDEO_TERMS_OPTIONS = ["already", "coming_soon", "current"];
 
 // TODO: 문구 정리 필요

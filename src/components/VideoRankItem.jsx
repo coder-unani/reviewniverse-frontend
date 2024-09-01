@@ -18,26 +18,26 @@ const VideoRankItem = React.memo(({ video, index }) => {
   };
 
   return (
-    <Link to={path} className="rank-video-item" aria-label={video.title}>
-      <div className="rank-thumbnail-container">
+    <Link to={path} className="default-video-item" aria-label={video.title}>
+      <div className="default-thumbnail-container">
         <picture className="rank-thumbnail-wrapper">
           <img
-            className="swiper-lazy rank-thumbnail"
+            className="swiper-lazy default-thumbnail"
             src={fThumbnail(video.thumbnail)}
             srcSet={fThumbnail(video.thumbnail)}
             alt={video.title}
             loading="lazy"
           />
         </picture>
-        <div className="rank-code-wrapper">
-          <div className="rank-code">{video.code_string}</div>
+        <div className="default-code-wrapper">
+          <div className="default-code">{video.code_string}</div>
         </div>
         <div className="rank-number-wrapper">{fRankingNumber(index + 1)}</div>
       </div>
       <div className="rank-info-container">
-        <p className="rank-title">{video.title}</p>
-        <div className="rank-subtitle-wrapper">
-          <div className="rank-subtitle">
+        <p className="default-title">{video.title}</p>
+        <div className="default-subtitle-wrapper">
+          <div className="default-subtitle">
             <span>{fYear(video.release)}</span>
             {video.country && (
               <>
@@ -46,9 +46,9 @@ const VideoRankItem = React.memo(({ video, index }) => {
               </>
             )}
           </div>
-          <div className="rank-rating-wrapper" data-color={fRatingColor(video.rating)}>
-            <div className="rank-rating-square"></div>
-            <span className="rank-rating">{fRatingText(video.rating)}</span>
+          <div className="default-rating-wrapper" data-color={fRatingColor(video.rating)}>
+            <div className="default-rating-square"></div>
+            <span className="default-rating">{fRatingText(video.rating)}</span>
           </div>
         </div>
       </div>

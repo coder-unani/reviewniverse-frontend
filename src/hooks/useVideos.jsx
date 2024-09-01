@@ -71,11 +71,7 @@ export const useVideos = ({
           data: [],
         };
       } else {
-        return {
-          status: false,
-          code: "비디오 리스트를 가져오는데 실패했습니다.",
-          data: [],
-        };
+        throw new Error("C999");
       }
     },
     /**
