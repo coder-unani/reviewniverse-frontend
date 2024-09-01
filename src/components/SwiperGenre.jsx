@@ -41,6 +41,12 @@ const SwiperGenre = ({ children, content }) => {
         slidesPerGroup: 6,
         allowTouchMove: false,
       },
+      1281: {
+        spaceBetween: 12,
+        slidesPerView: 7,
+        slidesPerGroup: 7,
+        allowTouchMove: false,
+      },
     },
     onSwiper: (swiper) => {
       swiperRef.current = swiper;
@@ -50,6 +56,9 @@ const SwiperGenre = ({ children, content }) => {
     onSlideChange: (swiper) => {
       setIsBeginning(swiper.isBeginning);
       setIsEnd(swiper.isEnd);
+    },
+    onInit: (swiper) => {
+      swiper.update(); // 초기화 시 업데이트
     },
   };
 
