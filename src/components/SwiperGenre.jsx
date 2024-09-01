@@ -14,11 +14,12 @@ const SwiperGenre = ({ children, content }) => {
   const [isBeginning, setIsBeginning] = useState(true);
   const [isEnd, setIsEnd] = useState(false);
   const swiperRef = useRef(null);
+  // 장르 스와이퍼 설정
   const swiperConfig = {
     modules: [Navigation, Virtual],
     virtual: true,
     spaceBetween: 8,
-    slidesPerView: 3,
+    slidesPerView: 3.5,
     slidesPerGroup: 3,
     speed: 1000,
     allowTouchMove: true,
@@ -30,14 +31,14 @@ const SwiperGenre = ({ children, content }) => {
       },
       769: {
         spaceBetween: 10,
-        slidesPerView: 4,
-        slidesPerGroup: 4,
+        slidesPerView: 5,
+        slidesPerGroup: 5,
         allowTouchMove: false,
       },
       1025: {
         spaceBetween: 12,
-        slidesPerView: 5,
-        slidesPerGroup: 5,
+        slidesPerView: 6,
+        slidesPerGroup: 6,
         allowTouchMove: false,
       },
     },
@@ -52,6 +53,7 @@ const SwiperGenre = ({ children, content }) => {
     },
   };
 
+  // 장르 데이터 설정
   useEffect(() => {
     if (!content) return;
     setGenres(content);

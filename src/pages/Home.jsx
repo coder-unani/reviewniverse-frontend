@@ -154,7 +154,7 @@ const Home = () => {
     if (screenVideosIsLoading || screenVidoesError) {
       return null;
     }
-    if (!screenVideos.status || isEmpty(screenVideos.data)) {
+    if (isEmpty(screenVideos) || !screenVideos.status || isEmpty(screenVideos.data)) {
       return null;
     }
     // 코드에 해당하는 데이터만 필터링
@@ -181,7 +181,7 @@ const Home = () => {
     if (rankingVideosIsLoading || rankingVideosError) {
       return null;
     }
-    if (!rankingVideos.status || isEmpty(rankingVideos.data)) {
+    if (isEmpty(rankingVideos) || !rankingVideos.status || isEmpty(rankingVideos.data)) {
       return null;
     }
     const title = "🍿 리뷰니버스 TOP 20";
@@ -199,7 +199,7 @@ const Home = () => {
     if (rankingGenresIsLoading || rankingGenresError) {
       return null;
     }
-    if (!rankingGenres.status || isEmpty(rankingGenres.data)) {
+    if (isEmpty(rankingGenres) || !rankingGenres.status || isEmpty(rankingGenres.data)) {
       return null;
     }
     const title = "장르";
@@ -220,7 +220,12 @@ const Home = () => {
     if (comingSoonVideosIsLoading || comingSoonVideosError) {
       return null;
     }
-    if (!comingSoonVideos.status || isEmpty(comingSoonVideos.data) || isEmpty(comingSoonVideos.data.data)) {
+    if (
+      isEmpty(comingSoonVideos) ||
+      !comingSoonVideos.status ||
+      isEmpty(comingSoonVideos.data) ||
+      isEmpty(comingSoonVideos.data.data)
+    ) {
       return null;
     }
     const title = "💖 두근두근 기대작";
@@ -238,7 +243,12 @@ const Home = () => {
     if (monthlyVideosIsLoading || monthlyVideosError) {
       return null;
     }
-    if (!monthlyVideos.status || isEmpty(monthlyVideos.data) || isEmpty(monthlyVideos.data.data)) {
+    if (
+      isEmpty(monthlyVideos) ||
+      !monthlyVideos.status ||
+      isEmpty(monthlyVideos.data) ||
+      isEmpty(monthlyVideos.data.data)
+    ) {
       return null;
     }
     const title = "👀 이달의 콘텐츠";
@@ -256,7 +266,7 @@ const Home = () => {
     if (videosError) {
       return null;
     }
-    if (!videos || isEmpty(videos.data)) {
+    if (isEmpty(videos) || isEmpty(videos.data)) {
       return null;
     }
     const title = "🍟 이건 어때요?";
@@ -270,14 +280,18 @@ const Home = () => {
   };
 
   // 스켈리톤 로딩 UI 적용
-  // if (screenVideosIsLoading || rankingVideosIsLoading || rankingGenresIsLoading) {
-  if (screenVideosIsLoading) {
+  if (
+    screenVideosIsLoading ||
+    rankingVideosIsLoading ||
+    rankingGenresIsLoading ||
+    comingSoonVideosIsLoading ||
+    monthlyVideosIsLoading
+  ) {
     return <SkeletonHome />;
   }
 
   // 에러 발생 시 에러 페이지로 이동
-  // if (screenVidoesError || rankingVideosError || rankingGenresError) {
-  if (screenVidoesError) {
+  if (screenVidoesError || rankingVideosError || rankingGenresError || comingSoonVideosError || monthlyVideosError) {
     return navigate(ENDPOINTS.ERROR);
   }
 

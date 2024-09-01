@@ -239,6 +239,7 @@
     background-color: rgba($color-black, 0.5);
     backdrop-filter: blur(2px);
     z-index: 10;
+    pointer-events: none;
   }
 
   &::after {
@@ -251,6 +252,7 @@
     border-radius: 14px;
     border: 1px solid $border-color-01;
     z-index: 11;
+    pointer-events: none;
   }
 }
 
@@ -280,6 +282,10 @@
 @media (max-width: 1280px) {
   .preview-video-item {
     min-width: calc(33.3333% - 12px);
+  }
+
+  .genre-video-title {
+    font-size: 20px;
   }
 }
 
@@ -394,7 +400,20 @@
     }
   }
 
+  .genre-thumbnail-wrapper {
+    &::before {
+      border-radius: 12px;
+    }
+    &::after {
+      border-radius: 12px;
+    }
+  }
+
+  .genre-thumbnail-image {
+    border-radius: 12px;
+  }
+
   .genre-video-title {
-    font-size: 17px;
+    font-size: 14px;
   }
 }
