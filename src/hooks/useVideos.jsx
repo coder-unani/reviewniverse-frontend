@@ -9,11 +9,11 @@ export const useVideos = ({
   mode = null,
   target = null,
   orderBy = null,
+  terms = null,
   enabled = true,
 }) => {
   const STALE_TIME = 1000 * 60 * 5;
-  // 캐시 시간 30분
-  const CACHE_TIME = 1000 * 60 * 30;
+  const CACHE_TIME = 1000 * 60 * 30; // 캐시 시간 30분
   const RETRY = 0;
   const queryKey = [
     "videos",
@@ -25,6 +25,7 @@ export const useVideos = ({
       ...(mode !== null && { mode }),
       ...(target !== null && { target }),
       ...(orderBy !== null && { orderBy }),
+      ...(terms !== null && { terms }),
     },
   ];
 
@@ -46,6 +47,7 @@ export const useVideos = ({
         mode,
         target,
         orderBy,
+        terms,
       });
       /**
        * API를 통해 넘겨받은 데이터 가공이 필요하면 여기서 처리

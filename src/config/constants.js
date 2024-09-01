@@ -44,12 +44,19 @@ export const SITE_KEYWORDS =
 export const VIDEO_ORDER_OPTIONS = "release_desc";
 /*
 export const VIDEO_ORDER_OPTIONS = [
+  "view_asc",
   "view_desc",
-  "like_desc",
+  "rating_asc",
   "rating_desc",
+  "like_asc",
+  "like_desc",
+  "review_asc",
+  "review_desc",
+  "release_asc",
   "release_desc",
 ];
 */
+export const VIDEO_TERMS_OPTIONS = ["already", "coming_soon", "current"];
 
 // TODO: 문구 정리 필요
 export const VIDEO_RATING_TEXT = [

@@ -22,6 +22,7 @@ const endpoints = {
  * - mode: 검색 모드
  * - target: 검색 타겟
  * - orderBy: 정렬
+ * - terms: release 상태
  */
 export const fetchVideos = async ({
   query = null,
@@ -31,6 +32,7 @@ export const fetchVideos = async ({
   mode = null,
   target = null,
   orderBy = null,
+  terms = null,
 }) => {
   try {
     const client = new HttpClient();
@@ -42,6 +44,7 @@ export const fetchVideos = async ({
       ...(mode && { m: mode }),
       ...(target && { tg: target }),
       ...(orderBy && { ob: orderBy }),
+      ...(terms && { tm: terms }),
     });
     return res;
   } catch (error) {

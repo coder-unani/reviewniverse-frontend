@@ -8,7 +8,7 @@ import { useVideos } from "/src/hooks/useVideos";
 import { showErrorToast } from "/src/components/Toast";
 import { fScreenCode } from "/src/utils/formatContent";
 import { SCREEN_MAIN_ID } from "/src/config/codes";
-import { VIDEO_ORDER_OPTIONS } from "/src/config/constants";
+import { VIDEO_ORDER_OPTIONS, VIDEO_TERMS_OPTIONS } from "/src/config/constants";
 import { MESSAGES } from "/src/config/messages";
 import { ENDPOINTS } from "/src/config/endpoints";
 import LayoutIcon from "/src/assets/button/outline-layout.svg?react";
@@ -47,6 +47,7 @@ const Home = () => {
   } = useVideos({
     page,
     orderBy: VIDEO_ORDER_OPTIONS,
+    terms: VIDEO_TERMS_OPTIONS[0],
     enabled: hasMore,
   });
   const [screensMA01, setScreensMA01] = useState(null);
