@@ -988,7 +988,7 @@ em {
 .coming-dday {
   position: relative;
   font-size: 14px;
-  font-weight: 600;
+  font-weight: 700;
   color: #eef7fc;
   line-height: 25px;
   padding: 0 8px;
@@ -999,11 +999,13 @@ em {
   .coming-dday-wrapper {
     bottom: 4px;
     right: 4px;
+    border-radius: 6px;
+  }
+  .coming-dday-wrapper::before {
+    border-radius: 6px;
   }
   .coming-dday {
-    font-size: 12px;
-    line-height: 22px;
-    border-radius: 6px;
+    line-height: 24px;
     padding: 0 7px;
   }
 }
