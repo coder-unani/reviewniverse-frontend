@@ -249,10 +249,8 @@
       gap: 28px;
     }
 
-    &[data-index]:not([data-index="0"]) {
+    &[data-index]:not([data-index="0"], [data-index="1"]) {
       .detail-sub-content {
-        display: block;
-        width: 100%;
         font-size: 18px;
         line-height: 1.2;
       }
@@ -284,13 +282,15 @@
 }
 
 .detail-sub-content {
+  display: block;
+  width: 100%;
   font-size: 26px;
   font-weight: 800;
   color: $color-white-01;
   text-align: center;
   white-space: wrap;
-  // word-break: break-word;
-  word-break: normal;
+  word-break: keep-all;
+  overflow-wrap: break-word;
 }
 
 .detail-sub-button {
@@ -907,16 +907,6 @@
   .detail-sub-content-wrapper {
     padding: 20px 54px;
   }
-
-  .detail-sub-info-item {
-    &.production {
-      &[data-index="1"] {
-        .detail-sub-content {
-          font-size: 26px !important;
-        }
-      }
-    }
-  }
 }
 
 @media (max-width: 1280px) {
@@ -1048,15 +1038,9 @@
         gap: 16px;
       }
 
-      &[data-index]:not([data-index="0"]) {
+      &[data-index]:not([data-index="0"], [data-index="1"]) {
         .detail-sub-content {
           font-size: 16px;
-        }
-      }
-
-      &[data-index="1"] {
-        .detail-sub-content {
-          font-size: 24px !important;
         }
       }
     }
@@ -1189,15 +1173,9 @@
         gap: 10px;
       }
 
-      &[data-index]:not([data-index="0"]) {
+      &[data-index]:not([data-index="0"], [data-index="1"]) {
         .detail-sub-content {
           font-size: 14px;
-        }
-      }
-
-      &[data-index="1"] {
-        .detail-sub-content {
-          font-size: 18px !important;
         }
       }
     }
