@@ -1,6 +1,5 @@
 import React from "react";
 import { useModalContext } from "/src/context/ModalContext";
-import { DEFAULT_IMAGES } from "/src/config/constants";
 
 const Footer = () => {
   const year = new Date().getFullYear();
@@ -27,9 +26,6 @@ const Footer = () => {
         </div>
         <div className="footer-item-container">
           <ul className="footer-copyright-wrapper">
-            {/* <li className="footer-logo">
-              <img src={DEFAULT_IMAGES.logoWhite} alt="logo" />
-            </li> */}
             <li className="footer-copyright">© {year}. Orbitcode Co. All rights reserved.</li>
           </ul>
         </div>

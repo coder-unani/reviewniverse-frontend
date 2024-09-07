@@ -10,3 +10,5 @@ User-agent: kakaotalk-scrap
 User-agent: Daumoa
 Allow: /
 Disallow: /users
+
+Sitemap: https://www.reviewniverse.net/sitemap/sitemap.xml

@@ -251,7 +251,7 @@ const Home = () => {
     ) {
       return null;
     }
-    const title = "👀 이달의 콘텐츠";
+    const title = "🌰 따끈~따끈한 신작";
     return (
       <VideosHorizontal content={monthlyVideos.data.data} template="monthly">
         <div className="horizontal-title-wrapper">

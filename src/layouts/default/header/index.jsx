@@ -5,7 +5,6 @@ import { useThemeContext } from "/src/context/ThemeContext";
 import MenuModal from "/src/components/Modal/Menu";
 import SearchForm from "/src/components/SearchForm";
 import ProfileImage from "/src/components/Button/Profile/Image";
-import { DEFAULT_IMAGES } from "/src/config/constants";
 import { EndpointManager, ENDPOINTS } from "/src/config/endpoints";
 import LogoIcon from "/src/assets/logo-w.svg?react";
 import SearchIcon from "/src/assets/button/outline-search.svg?react";
@@ -30,7 +29,6 @@ const Header = () => {
   const Logo = () => (
     <Link to={ENDPOINTS.HOME} className="header-logo-link">
       <LogoIcon className="logo" />
-      {/* <img src={DEFAULT_IMAGES.logoWhite} className="logo" alt="logo" /> */}
     </Link>
   );
 
